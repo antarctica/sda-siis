@@ -1,2 +1,3 @@
 /provisioning/terraform/.terraform
 __pycache__
+/app/dist

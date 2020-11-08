@@ -47,3 +47,23 @@ services:
       - "9002:9002"
     depends_on:
       - db
+
+  app:
+    image: docker-registry.data.bas.ac.uk/magic/siis-x/app:latest
+    build: ./app
+    command: "yarn dev"
+    volumes:
+      - ./app/assets/:/usr/src/app/assets/
+      - ./app/components/:/usr/src/app/components/
+      - ./app/dist/:/usr/src/app/dist/
+      - ./app/index.js/:/usr/src/app/index.js
+      - ./app/index.html/:/usr/src/app/index.html
+    environment:
+      HOST: 0.0.0.0
+      PORT: 9000
+    ports:
+      - "9000:9000"
+    depends_on:
+      - api
+      - api-kv
+      - geoserver

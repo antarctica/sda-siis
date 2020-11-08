@@ -1,0 +1,15 @@
+:root {
+  --color: #333;
+  --bg: #eee;
+}
+
+.dark-mode {
+  --color: #eee;
+  --bg: #333;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--color);
+  transition: background-color 0.3s;
+}
