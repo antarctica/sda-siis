@@ -19,3 +19,15 @@ services:
       POSTGRES_PASSWORD: siis
     ports:
       - "5432:5432"
+
+  geoserver:
+    image: docker-registry.data.bas.ac.uk/magic/siis-x/geoserver:latest
+    build: ./geoserver
+    volumes:
+      - "./data/geoserver_extensions:/var/local/geoserver-exts/"
+      - "./data/geoserver:/var/local/geoserver"
+      - "./data/raw:/data"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
