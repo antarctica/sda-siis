@@ -21,7 +21,7 @@ services:
       - "5432:5432"
 
   geoserver:
-    image: docker-registry.data.bas.ac.uk/magic/siis-x/geoserver:latest
+    image: docker-registry.data.bas.ac.uk/magic/siis/geoserver:latest
     build: ./geoserver
     volumes:
       - "./data/geoserver_extensions:/var/local/geoserver-exts/"
@@ -33,14 +33,14 @@ services:
       - db
 
   api:
-    image: docker-registry.data.bas.ac.uk/magic/siis-x/api:latest
+    image: docker-registry.data.bas.ac.uk/magic/siis/api:latest
     build: ./api
     command: flask run --host 0.0.0.0 --port 9001
     ports:
       - "9001:9001"
 
   api-kv:
-    image: docker-registry.data.bas.ac.uk/magic/siis-x/api-kv:latest
+    image: docker-registry.data.bas.ac.uk/magic/siis/api-kv:latest
     build: ./api-kv
     command: flask run --host 0.0.0.0 --port 9002
     ports:
@@ -49,7 +49,7 @@ services:
       - db
 
   app:
-    image: docker-registry.data.bas.ac.uk/magic/siis-x/app:latest
+    image: docker-registry.data.bas.ac.uk/magic/siis/app:latest
     build: ./app
     command: "yarn dev"
     volumes:

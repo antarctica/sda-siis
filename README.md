@@ -67,8 +67,8 @@ $ brew install git
 $ brew cask install docker
 
 # clone project
-$ git clone https://gitlab.data.bas.ac.uk/MAGIC/SIIS-X.git
-$ cd ./SIIS-X
+$ git clone https://gitlab.data.bas.ac.uk/MAGIC/SIIS.git
+$ cd ./SIIS
 
 # download product samples, database scripts and GeoServer data directory
 $ docker-compose run aws-cli
@@ -92,7 +92,7 @@ email addressed to [magic@bas.ac.uk](mailto:magic@bas.ac.uk).
 
 ## Issues
 
-This project uses issue tracking, see the [Issue tracker](https://gitlab.data.bas.ac.uk/MAGIC/SIIS-X/-/issues) for more
+This project uses issue tracking, see the [Issue tracker](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues) for more
 information.
 
 **Note:** Read & write access to this issue tracker is restricted. Contact the project maintainer to request access.
