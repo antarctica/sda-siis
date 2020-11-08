@@ -1,0 +1,11 @@
+---
+version: "2"
+
+services:
+  aws-cli:
+    image: governmentpaas/awscli:latest
+    volumes:
+      - ./data/:/data/
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
