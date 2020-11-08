@@ -1,0 +1,407 @@
+swagger: "2.0"
+info:
+  description: Swagger file for SIIS API
+  version: "0.4"
+  title: Swagger SIIS API
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /layerdef:
+    get:
+      operationId: layerdef.read_all
+      tags:
+        - Layerdef
+      summary: Read the entire set of layer definitions, sorted by SIIS layer code
+      description: Read the entire set of layer definitions, sorted by SIIS layer code
+      responses:
+        200:
+          description: Successfully read layerdef set operation
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: string
+                  description: Id of the layer
+                code:
+                  type: string
+                  description: SIIS layer code
+                label:
+                  type: string
+                  description: Layer label
+                attribution:
+                  type: string
+                  description: Layer attribution
+                formats:
+                  type: string
+                  description: GeoServer delivery formats
+                srss:
+                  type: string
+                  description: GeoServer delivery SRS
+                gs_layername:
+                  type: string
+                  description: Geoserver layer name
+                gs_tempWMSendpoint:
+                  type: string
+                  description: Geoserver WMS endpoint - temporary for testing
+                gs_tempWFSendpoint:
+                  type: string
+                  description: Geoserver WFS endpoint - temporary for testing
+                gs_tempWMTSendpoint:
+                  type: string
+                  description: Geoserver WMTS endpoint - temporary for testing
+                types:
+                  type: string
+                  description: Array of WxS types available
+                timestamps:
+                  type: string
+                  description: Array of timestamps available
+                haslegend:
+                  type: string
+                  description: Does layer has legend
+                hemisphere:
+                  type: string
+                  description: Hemisphere of layer ('N'/'S'/'')
+                geom_extent:
+                  type: string
+                  description: Layer footprint
+
+  /layerdef/{code}:
+    get:
+      operationId: layerdef.read_one
+      tags:
+        - Layerdef
+      summary: Read one layer definition
+      description: Read one layer definition
+      parameters:
+        - name: code
+          in: path
+          description: SIIS layer code of the layer to get
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read layerdef from layerdef data operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Id of the layer
+              code:
+                type: string
+                description: SIIS layer code
+              label:
+                type: string
+                description: Layer label
+              attribution:
+                type: string
+                description: Layer attribution
+              formats:
+                type: string
+                description: GeoServer delivery formats
+              srss:
+                type: string
+                description: GeoServer delivery SRS
+              gs_layername:
+                type: string
+                description: Geoserver layer name
+              gs_tempWMSendpoint:
+                type: string
+                description: Geoserver WMS endpoint - temporary for testing
+              gs_tempWFSendpoint:
+                type: string
+                description: Geoserver WFS endpoint - temporary for testing
+              gs_tempWMTSendpoint:
+                type: string
+                description: Geoserver WMTS endpoint - temporary for testing
+              types:
+                type: string
+                description: Array of WxS types available
+              timestamps:
+                type: string
+                description: Array of timestamps available
+              haslegend:
+                type: string
+                description: Does layer has legend
+              hemisphere:
+                type: string
+                description: Hemisphere of layer ('N'/'S'/'')
+              geom_extent:
+                type: string
+                description: Layer footprint
+
+  /granule:
+    get:
+      operationId: granule.read_all
+      tags:
+        - Granule
+      summary: Read the entire set of granules, sorted by timestamp
+      description: Read the entire set of granules, sorted by timestamp
+      responses:
+        200:
+          description: Successfully read granule set operation
+          schema:
+            type: array
+            items:
+              properties:
+                uuid:
+                  type: string
+                  description: Granule UUID
+                layercode:
+                  type: string
+                  description: SIIS layer code
+                timestamp:
+                  type: string
+                  description: Timestamp of granule
+                downloadable:
+                  type: integer
+                  description: Downloadable
+                downloaded:
+                  type: string
+                  description: Downloaded to local
+                filename_dl:
+                  type: string
+                  description: Filename of product for download package
+                size_dl:
+                  type: integer
+                  description: Download file size
+                zipped:
+                  type: integer
+                  description: Zipped product for download
+                productname:
+                  type: string
+                  description: Filename of product after extraction
+                ts_catingest:
+                  type: string
+                  description: Timestamp of ingestion into shore-side catalogue
+                ts_dlrequest:
+                  type: string
+                  description: Timestamp of download request to shore-side
+                ts_downloaded:
+                  type: string
+                  description: Timestamp of finished download ship-side
+                ts_gsingest:
+                  type: string
+                  description: Timestamp of successful ship-side GeoServer ingest
+                geom_extent:
+                  type: string
+                  description: Layer footprint                  
+
+  /granule/{uuid}:
+    get:
+      operationId: granule.read_one
+      tags:
+        - Granule
+      summary: Read one granule record
+      description: Read one granule record
+      parameters:
+        - name: uuid
+          in: path
+          description: Granule UUID
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read granule from granule set opertion
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                description: Granule UUID
+              layercode:
+                type: string
+                description: SIIS layer code
+              timestamp:
+                type: string
+                description: Timestamp of granule
+              downloadable:
+                type: integer
+                description: Downloadable
+              downloaded:
+                type: string
+                description: Downloaded to local
+              filename_dl:
+                type: string
+                description: Filename of product for download package
+              size_dl:
+                type: integer
+                description: Download file size
+              zipped:
+                type: integer
+                description: Zipped product for download
+              productname:
+                type: string
+                description: Filename of product after extraction
+              ts_catingest:
+                type: string
+                description: Timestamp of ingestion into shore-side catalogue
+              ts_dlrequest:
+                type: string
+                description: Timestamp of download request to shore-side
+              ts_downloaded:
+                type: string
+                description: Timestamp of finished download ship-side
+              ts_gsingest:
+                type: string
+                description: Timestamp of successful ship-side GeoServer ingest
+              geom_extent:
+                type: string
+                description: Layer footprint
+
+  /kv:
+    get:
+      operationId: keyvalue.read_all
+      tags:
+        - KeyValue
+      summary: Read the entire set of Key/Value pairs, sorted by key
+      description: Read the entire set of Key/Value pairs, sorted by key
+      responses:
+        200:
+          description: Successfully read KV set operation
+          schema:
+            type: array
+            items:
+              properties:
+                key:
+                  type: string
+                  description: Key identifier of KV pair
+                value:
+                  type: string
+                  description: Value of KV pair       
+    delete:
+      operationId: keyvalue.delete_all
+      tags:
+        - KeyValue
+      summary: Delete all Key/Value pairs
+      description: Delete all Key/Value pairs
+      responses:
+        204:
+          description: Successfully deleted all Key-Value pairs
+
+
+  /kv/{key}:
+    get:
+      operationId: keyvalue.read_one
+      tags:
+        - KeyValue
+      summary: Read one Key/Value pair
+      description: Read one Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the KV pair to get
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read Key/Value pair
+          schema:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Key identifier of KV pair
+              value:
+                type: string
+                description: Value of KV pair
+        404:
+          description: Not found 
+    delete:
+      operationId: keyvalue.delete_one
+      tags:
+        - KeyValue
+      summary: Delete one Key/Value pair
+      description: Delete one Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the KV pair to delete
+          type: string
+          required: True
+      responses:
+        204:
+          description: Successfully deleted the Key-Value pair
+    put:
+      operationId: keyvalue.update_one
+      tags:
+        - KeyValue
+      summary: Update a Key/Value pair
+      description: Update a Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Key/Value pair to update
+          type: string
+          required: True
+        - name: kvdata
+          in: body
+          schema:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Key identifier of KV pair
+              value:
+                type: string
+                description: Value of KV pair  
+      responses:
+        200:
+          description: Successfully updated Key/Value pair
+          schema:
+            properties:
+              key:
+                type: string
+                description: Key identifier of KV pair
+              value:
+                type: string
+                description: Value of KV pair
+        400:
+          description: Request error
+        404:
+          description: Not found
+    post:
+      operationId: keyvalue.create_one
+      tags:
+        - KeyValue
+      summary: Create a Key/Value pair
+      description: Create a Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Key/Value pair to create
+          type: string
+          required: True
+        - name: kvdata
+          in: body
+          schema:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Key identifier of KV pair
+              value:
+                type: string
+                description: Value of KV pair  
+      responses:
+        201:
+          description: Successfully created Key/Value pair
+          schema:
+            properties:
+              key:
+                type: string
+                description: Key identifier of KV pair
+              value:
+                type: string
+                description: Value of KV pair
+        400:
+          description: Request error
+
+
