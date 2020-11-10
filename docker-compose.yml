@@ -36,6 +36,8 @@ services:
     image: docker-registry.data.bas.ac.uk/magic/siis/api:latest
     build: ./api
     command: python api/api.py
+    volumes:
+      - ./api/api:/usr/src/app/api/
     ports:
       - "9001:5000"
 
