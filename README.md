@@ -61,6 +61,8 @@ the project maintainer to request access.
 
 ### Development environment
 
+A local development environment is available using Docker containers, coordinated using Docker Compose:
+
 ```shell
 # required local tools
 $ brew install git
@@ -75,11 +77,20 @@ $ docker-compose run aws-cli
 $ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v0/ /data/
 $ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v1/ /data/
 
-# start stack (visit http://localhost:9000 when up)
+# start stack
+$ docker-compose pull
 $ docker-compose up
+# (visit http://localhost:9000 when up)
+
+# when finished
+# (press [ctrl] + c to stop containers)
+$ docker-compose down
 ```
 
 You will need access to the [BAS GitLab](https://gitlab.data.bas.ac.uk) instance to clone the project Git repository.
+
+You will need access to the BAS Private Docker Registry (provided by the BAS GitLab instance) to pull containers for
+this project.
 
 You will need access credentials for the [BAS AWS](https://gitlab.data.bas.ac.uk/WSF/bas-aws) account to download the
 product samples. Specifically you will need IAM credentials exposed as environment variables (`AWS_ACCESS_KEY_ID`,
