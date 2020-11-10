@@ -85,6 +85,21 @@ You will need access credentials for the [BAS AWS](https://gitlab.data.bas.ac.uk
 product samples. Specifically you will need IAM credentials exposed as environment variables (`AWS_ACCESS_KEY_ID`,
 `AWS_SECRET_ACCESS_KEY`).
 
+## Deployment
+
+### Deployment containers
+
+Self-contained deployment containers are built by Continuous Delivery for the frontend application and backend API
+containers. Images for these containers are tagged under the `/deploy` namespace (e.g.
+`docker-registry.data.bas.ac.uk/magic/siis/deploy/app:latest`).
+
+Other containers (e.g. GeoServer) use the same images the [Development environment](#development-environment) does,
+including the use of volumes to mount required data.
+
+### Continuous Deployment
+
+All commits will trigger a Continuous Deployment process using GitLab's CI/CD platform, configured in `.gitlab-ci.yml`.
+
 ## Feedback
 
 The maintainer of this project is the BAS Mapping and Geographic Information Centre (MAGIC). We welcome feedback by

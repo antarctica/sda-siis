@@ -1,0 +1,88 @@
+---
+
+# == Notes ==
+
+# This CI definition uses a GitLab provided include template
+
+# GitLab automatically passes artifacts from previous stages by default
+
+# == Includes ==
+
+include:
+- template: 'Workflows/MergeRequest-Pipelines.gitlab-ci.yml'
+
+# == Global settings ==
+
+stages:
+  - 🏗 build
+  - 📦 package
+
+variables:
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_CERT_PATH: /certs/client
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_VERIFY: 1
+  GITLAB_REGISTRY: docker-registry.data.bas.ac.uk
+
+build-app:
+  stage: 🏗 build
+  image:
+    name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
+    entrypoint: [""]
+  before_script:
+    - 'cd app'
+    - 'yarn install'
+  script:
+    - "yarn build"
+  needs: []
+  artifacts:
+    paths:
+      - app/dist
+    expire_in: 1 month
+  rules:
+    - changes:
+      - 'app/**/*.*'
+
+package-app:
+  stage: 📦 package
+  image:
+    name: docker:19.03-dind
+    entrypoint: [""]
+  before_script:
+    - 'echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin'
+    - 'cp -r ./app/dist/ ./app/support/docker-packaging/'
+    - 'cd app/support/docker-packaging/'
+  script:
+    - 'docker build . -t $CI_REGISTRY_IMAGE/deploy/app:latest'
+    - 'docker push $CI_REGISTRY_IMAGE/deploy/app:latest'
+  services:
+    - docker:dind
+  tags:
+    - dnd
+  needs:
+    - job: build-app
+      artifacts: true
+  rules:
+    - changes:
+      - 'app/**/*.*'
+
+package-api:
+  stage: 📦 package
+  image:
+    name: docker:19.03-dind
+    entrypoint: [""]
+  before_script:
+    - 'echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin'
+    - 'cp -r ./api/api/ ./api/support/docker-packaging/'
+    - 'cd api/support/docker-packaging/'
+  script:
+    - 'docker build . -t $CI_REGISTRY_IMAGE/deploy/api:latest'
+    - 'docker push $CI_REGISTRY_IMAGE/deploy/api:latest'
+  services:
+    - docker:dind
+  tags:
+    - dnd
+  needs: []
+  rules:
+    - changes:
+      - 'api/**/*.*'
