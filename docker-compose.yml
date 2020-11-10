@@ -35,9 +35,9 @@ services:
   api:
     image: docker-registry.data.bas.ac.uk/magic/siis/api:latest
     build: ./api
-    command: flask run --host 0.0.0.0 --port 9001
+    command: python api/api.py
     ports:
-      - "9001:9001"
+      - "9001:5000"
 
   api-kv:
     image: docker-registry.data.bas.ac.uk/magic/siis/api-kv:latest
