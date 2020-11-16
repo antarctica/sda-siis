@@ -32,7 +32,6 @@ Vue.use(VueLayers)
 export default {
   data: function () {
     return {
-      wms_endpoint: "http://localhost:8080/geoserver/ows?version=1.3.0",
       wms_layers: [
         "siis:ic_nor_s"
       ],
@@ -47,7 +46,7 @@ export default {
     }
   },
 
-  props: ['initial_centre', 'zoom', 'initial_rotation_radians'],
+  props: ['initial_centre', 'zoom', 'initial_rotation_radians', 'ogc_endpoint'],
 
   computed: {
     rotation_degrees: {
@@ -57,6 +56,9 @@ export default {
       set (value) {
         this.rotation_radians = value * Math.PI / 180
       }
+    },
+    wms_endpoint: function () {
+      return this.ogc_endpoint + "?version=1.3.0"
     }
   },
 
