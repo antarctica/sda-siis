@@ -30,8 +30,8 @@ build-app:
     name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
     entrypoint: [""]
   variables:
-    SERVICE_API_ENDPOINT: http://10.70.1.145:32002
-    SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003
+    SERVICE_API_ENDPOINT: http://10.70.1.145:32002/api
+    SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
     SERVICE_API_OGC_ENDPOINT: http://10.70.1.145:32001/geoserver/ows
   before_script:
     - 'cd app'
