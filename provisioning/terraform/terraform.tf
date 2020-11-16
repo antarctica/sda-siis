@@ -45,6 +45,10 @@ provider "aws" {
 resource "aws_s3_bucket" "siis-data-product-samples" {
   bucket = "siis-data-product-samples.data.bas.ac.uk"
 
+  versioning {
+    enabled = true
+  }
+
   tags = {
     Name         = "siis-data-product-samples.data.bas.ac.uk"
     X-Project    = "Sea Ice Information Service"
