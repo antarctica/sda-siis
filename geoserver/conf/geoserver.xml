@@ -1,1 +1,20 @@
-<Context path="/geoserver" docBase="/usr/local/geoserver"></Context>
+<Context path="/geoserver" docBase="/usr/local/geoserver">
+  <Resource name="siis"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.postgresql.Driver"
+    url="jdbc:postgresql://${service_pg_host}:${service_pg_port}/${service_pg_db}"
+    username="${service_pg_user}" password="${service_pg_pass}"
+    maxActive="20"
+    initialSize="0"
+    minIdle="0"
+    maxIdle="8"
+    maxWait="10000"
+    timeBetweenEvictionRunsMillis="30000"
+    minEvictableIdleTimeMillis="60000"
+    testWhileIdle="true"
+    validationQuery="SELECT 1"
+    maxAge="600000"
+    rollbackOnReturn="true"
+  />
+</Context>

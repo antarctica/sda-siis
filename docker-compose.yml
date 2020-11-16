@@ -27,6 +27,8 @@ services:
       - "./data/geoserver_extensions:/var/local/geoserver-exts/"
       - "./data/geoserver:/var/local/geoserver"
       - "./data/raw:/data"
+    environment:
+      JAVA_OPTS: -Dservice_pg_user=siis -Dservice_pg_pass=siis -Dservice_pg_host=db -Dservice_pg_port=5432 -Dservice_pg_db=siis
     ports:
       - "8080:8080"
     depends_on:
