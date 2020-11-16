@@ -40,6 +40,8 @@ services:
     command: python api/api.py
     volumes:
       - ./api/api:/usr/src/app/api/
+    environment:
+      SERVICE_PG_CONN: "postgresql://siis:siis@db:5432/siis"
     ports:
       - "9001:5000"
 
