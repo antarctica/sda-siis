@@ -31,13 +31,19 @@ SIIS is comprised of a number of components, represented by top-level directorie
 Terraform is used for:
 
 * resources required for storing product samples and other data files
+* generating a Nomad job definition based on a template during [Continuous Deployment](#continuous-deployment)
 
-You will need access credentials for the [BAS AWS](https://gitlab.data.bas.ac.uk/WSF/bas-aws) account and a
-[Development environment](#development-environment) to provision these resources.
+To provision these resources, you will need:
 
-**Note:** These resources only need to be provisioned once.
+* access to the [BAS AWS](https://gitlab.data.bas.ac.uk/WSF/bas-aws) account
+* access to the [MAGIC 1Password](https://gitlab.data.bas.ac.uk/MAGIC/general/-/wikis/1password) account
+* a [Development environment](#development-environment)
+
+**Note:** Most resources only need to be provisioned once and Terraform will simply confirm they exist.
 
 ```shell
+# set per-user sensitive environment variables listed in `provisioning/terraform/docker-compose.yml`
+# download the *SIIS Terraform environment variables* 1Password secret and save as (`provisioning/terraform/.env`)
 $ cd provisioning/terraform
 $ docker-compose run terraform
 $ terraform init

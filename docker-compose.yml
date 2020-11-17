@@ -27,6 +27,8 @@ services:
       - "./data/geoserver_extensions:/var/local/geoserver-exts/"
       - "./data/geoserver:/var/local/geoserver"
       - "./data/raw:/data"
+    environment:
+      JAVA_OPTS: -Dservice_pg_user=siis -Dservice_pg_pass=siis -Dservice_pg_host=db -Dservice_pg_port=5432 -Dservice_pg_db=siis
     ports:
       - "8080:8080"
     depends_on:
@@ -38,6 +40,8 @@ services:
     command: python api/api.py
     volumes:
       - ./api/api:/usr/src/app/api/
+    environment:
+      SERVICE_PG_CONN: "postgresql://siis:siis@db:5432/siis"
     ports:
       - "9001:5000"
 
@@ -61,6 +65,9 @@ services:
       - ./app/index.js/:/usr/src/app/index.js
       - ./app/index.html/:/usr/src/app/index.html
     environment:
+      SERVICE_API_ENDPOINT: http://localhost:9001/api
+      SERVICE_API_KV_ENDPOINT: http://localhost:9002/kv
+      SERVICE_API_OGC_ENDPOINT: http://localhost:8080/geoserver/ows
       HOST: 0.0.0.0
       PORT: 9000
     ports:

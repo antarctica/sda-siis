@@ -106,6 +106,7 @@
         :zoom=map.zoom
         :initial_centre=map.centre
         :initial_rotation_radians=map.rotation_radians
+        :ogc_endpoint=siis_ogc_endpoint
         v-on:updateAppMapExtent="onMapExtentUpdated"
         v-on:updateAppMapCentre="onMapCentreUpdated"
         v-on:updateAppMapZoom="onMapZoomUpdated"
@@ -145,6 +146,18 @@ export default Vue.extend({
     }
   },
 
+  computed: {
+    siis_api_endpoint: function () {
+      return process.env.SERVICE_API_ENDPOINT;
+    },
+    siis_api_kv_endpoint: function () {
+      return process.env.SERVICE_API_KV_ENDPOINT;
+    },
+    siis_ogc_endpoint: function () {
+      return process.env.SERVICE_API_OGC_ENDPOINT;
+    }
+  },
+
   components: {
     AppColourScheme,
     AppMap
@@ -159,7 +172,7 @@ export default Vue.extend({
         if (typeof(this.settings?.season) !== 'undefined') {
           _state.settings.season = this.settings.season;
         }
-        await axios.put('http://localhost:9002/kv', {data: _state});
+        await axios.put(this.siis_api_kv_endpoint, {data: _state});
         alert('State persisted');
       } catch (error) {
         console.error(error);
@@ -168,7 +181,7 @@ export default Vue.extend({
     },
     async retrieveState (context) {
       try {
-        const response = await axios.get('http://localhost:9002/kv');
+        const response = await axios.get(this.siis_api_kv_endpoint);
         const data = response.data.data;
         if (typeof(data.settings?.season) !== 'undefined') {
           this.settings.season = data.settings.season;
