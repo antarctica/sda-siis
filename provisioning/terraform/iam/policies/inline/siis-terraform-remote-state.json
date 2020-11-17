@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "MinimalAccessPermissions",
+          "Effect": "Allow",
+          "Action": [
+              "s3:GetObject"
+          ],
+          "Resource": [
+              "arn:aws:s3:::bas-terraform-remote-state-prod/v2/BAS-SEA-ICE-INFORMATION-SERVICE/terraform.tfstate"
+          ]
+      }
+  ]
+}

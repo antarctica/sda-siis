@@ -6,6 +6,26 @@
 
 # GitLab automatically passes artifacts from previous stages by default
 
+# Secret variables
+# - Set required secret variables at: https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/settings/ci_cd
+# - Variables are grouped by section in KEY: "value" format (e.g. FOO: "bar")
+#   Sensitive values are represented by "[Sensitive]"
+#
+# - AWS IAM user for use within GitLab CI
+#   > AWS_ACCESS_KEY_ID
+#   > AWS_SECRET_ACCESS_KEY
+#
+# - AWS IAM user for use within Nomad job
+#   > NOMAD_AWS_ACCESS_KEY_ID: "[Sensitive]"
+#   > NOMAD_AWS_SECRET_ACCESS_KEY: "[Sensitive]"
+#
+# - GitLab deploy token for deploying to Nomad
+#   create a deploy token at https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/settings/repository
+#   - name: 'Nomad'
+#   - scopes: 'read_registry'
+#   > NOMAD_DOCKER_REGISTRY_USERNAME: "nomad"
+#   > NOMAD_DOCKER_REGISTRY_PASSWORD: "[Sensitive]"
+
 # == Includes ==
 
 include:
@@ -16,6 +36,7 @@ include:
 stages:
   - 🏗 build
   - 📦 package
+  - 🚀 deploy
 
 variables:
   DOCKER_HOST: tcp://docker:2376
@@ -90,3 +111,27 @@ package-api:
   rules:
     - changes:
       - 'api/**/*.*'
+
+deploy:
+  stage: 🚀 deploy
+  image:
+    name: hashicorp/terraform:0.13.4
+    entrypoint: [""]
+  before_script:
+    - "cd provisioning/terraform"
+    - "export TF_VAR_nomad_update_key=$CI_JOB_ID"
+    - "export TF_VAR_nomad_aws_access_key_id=$NOMAD_AWS_ACCESS_KEY_ID"
+    - "export TF_VAR_nomad_aws_secret_access_key=$NOMAD_AWS_SECRET_ACCESS_KEY"
+    - "export TF_VAR_nomad_bas_docker_registry_username=$NOMAD_DOCKER_REGISTRY_USERNAME"
+    - "export TF_VAR_nomad_bas_docker_registry_password=$NOMAD_DOCKER_REGISTRY_PASSWORD"
+  script:
+    - 'terraform init'
+    - 'terraform validate'
+    - 'terraform apply -auto-approve -target nomad_job.integration'
+  rules:
+    - changes:
+      - 'app/**/*.*'
+      - 'api/**/*.*'
+  environment:
+    name: Integration
+    url: http://10.70.1.145:32004/
