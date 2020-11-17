@@ -8,6 +8,9 @@ consumes:
 produces:
   - application/json
 
+schemes:
+  - "http"
+host: "10.70.1.145:32002"
 basePath: /api
 
 # Paths supported by the server application

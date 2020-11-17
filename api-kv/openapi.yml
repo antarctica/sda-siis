@@ -13,6 +13,8 @@ info:
     json-api:
       version: 1
 openapi: "3.0.0"
+servers:
+  - url: 'http://10.70.1.145:32003'
 paths:
   /kv:
     delete:
@@ -302,9 +304,6 @@ paths:
       tags:
         - kv
     summary: "Key Value"
-servers:
-  -
-    url: "http://localhost:9001"
 tags:
   -
     description: "Key Value"
