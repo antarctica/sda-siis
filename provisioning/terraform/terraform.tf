@@ -103,6 +103,37 @@ resource "aws_s3_bucket" "siis-data-product-samples" {
   }
 }
 
+# SIIS GitLab IAM user
+#
+# Used to allow GitLab CI to access remote state from the BAS Terraform Remote State project
+#
+# AWS source: https://aws.amazon.com/iam/
+# Terraform source: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user
+resource "aws_iam_user" "bas_gitlab_ci_siis" {
+  name = "bas-gitlab-ci-siis"
+
+  tags = {
+    X-Project    = "Sea Ice Information Service"
+    X-Managed-By = "Terraform"
+  }
+}
+
+# SIIS Terraform remote state read-only access policy
+#
+# Policy to allow GitLab CI to read SIIS remote state information from the BAS Terraform Remote State project
+#
+# Inline policy
+#
+# AWS source: http://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#customer-managed-policies
+# Terraform source: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy
+#
+# Tags are not supported by this resource
+resource "aws_iam_user_policy" "bas_gitlab_ci_siis_terraform_remote_state" {
+  name   = "bas-gitlab-ci-siis-terraform-remote-state"
+  user   = aws_iam_user.bas_gitlab_ci_siis.name
+  policy = file("iam/policies/inline/siis-terraform-remote-state.json")
+}
+
 # SIIS Nomad IAM user
 #
 # Used to allow Nomad to download data from the SIIS Data product samples storage bucket
@@ -129,7 +160,7 @@ resource "aws_iam_user" "bas_nomad_siis" {
 # Terraform source: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy
 #
 # Tags are not supported by this resource
-resource "aws_iam_user_policy" "bas-add-integration-management-policy" {
+resource "aws_iam_user_policy" "bas_nomad_siis_siis_product_samples" {
   name   = "bas-nomad-siis-siis-product-samples"
   user   = aws_iam_user.bas_nomad_siis.name
   policy = file("iam/policies/inline/siis-project-samples-bucket.json")
