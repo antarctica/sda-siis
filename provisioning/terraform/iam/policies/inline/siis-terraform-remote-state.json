@@ -5,7 +5,8 @@
           "Sid": "MinimalAccessPermissions",
           "Effect": "Allow",
           "Action": [
-              "s3:GetObject"
+              "s3:GetObject",
+              "s3:PutObject"
           ],
           "Resource": [
               "arn:aws:s3:::bas-terraform-remote-state-prod/v2/BAS-SEA-ICE-INFORMATION-SERVICE/terraform.tfstate"
