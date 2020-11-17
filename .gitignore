@@ -1,3 +1,4 @@
 /provisioning/terraform/.terraform
+/provisioning/terraform/.env
 __pycache__
 /app/dist
