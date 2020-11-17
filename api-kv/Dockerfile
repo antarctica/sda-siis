@@ -35,5 +35,6 @@ ENV FLASK_ENV=development
 ENV PYTHONUNBUFFERED=1
 
 COPY --from=build $APPVENV/ $APPVENV/
+COPY siis_key_value_store/ $APPPATH/siis_key_value_store/
 
 ENTRYPOINT []
