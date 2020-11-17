@@ -28,7 +28,7 @@ SIIS is comprised of a number of components, represented by top-level directorie
 
 * [Frontend application (Internal, BAS network required)](http://10.70.1.145:32004/)
 * [Backend API (Interactive API reference)](api/api/swagger.yml)
-* [GeoServer instance (Internal, BAS network required)](10.70.1.145:32001/geoserver)
+* [GeoServer instance (Internal, BAS network required)](http://10.70.1.145:32001/geoserver)
 
 ## Setup
 
@@ -135,6 +135,14 @@ An integration environment is managed by [Continuous Deployment](#continuous-dep
 ### Continuous Deployment
 
 All commits will trigger a Continuous Deployment process using GitLab's CI/CD platform, configured in `.gitlab-ci.yml`.
+
+## Release procedure
+
+For all releases:
+
+1. create a release branch
+2. close release in `CHANGELOG.md`
+3. push changes, merge the release branch into `main` and tag with version
 
 ## Feedback
 
