@@ -24,7 +24,19 @@ SIIS is comprised of a number of components, represented by top-level directorie
 * GeoServer: Used to provide OGC services for sea ice, and more general, data products
 * PostGIS: Used to provide data persistence for the application/API and storage for vector data products
 
+## Usage
+
+* [Frontend application (Internal, BAS network required)](http://10.70.1.145:32004/)
+* [Backend API (Interactive API reference)](api/api/swagger.yml)
+* [GeoServer instance (Internal, BAS network required)](10.70.1.145:32001/geoserver)
+
 ## Setup
+
+[Continuous Deployment](#continuous-deployment) will configure this application to run in the experimental
+[MAGIC Nomad cluster](https://gitlab.data.bas.ac.uk/MAGIC/infrastructure/nomad) using an automatically generated job
+definition.
+
+See the [Usage](#usage) section for how to use the application.
 
 ### Terraform
 
@@ -112,6 +124,13 @@ containers. Images for these containers are tagged under the `/deploy` namespace
 
 Other containers (e.g. GeoServer) use the same images the [Development environment](#development-environment) does,
 including the use of volumes to mount required data.
+
+### Integration environment
+
+An integration environment is managed by [Continuous Deployment](#continuous-deployment) using the
+[MAGIC Nomad cluster](https://gitlab.data.bas.ac.uk/MAGIC/infrastructure/nomad).
+
+* [Nomad job](http://bsl-nomad-magic-dev-s3.nerc-bas.ac.uk:4646/ui/jobs/siis-integration)
 
 ### Continuous Deployment
 
