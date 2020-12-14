@@ -24,9 +24,9 @@ services:
     image: docker-registry.data.bas.ac.uk/magic/siis/geoserver:latest
     build: ./geoserver
     volumes:
-      - "./data/geoserver_extensions:/var/local/geoserver-exts/"
-      - "./data/geoserver:/var/local/geoserver"
-      - "./data/raw:/data"
+      - "./data/geoserver_extensions/:/var/local/geoserver-exts/"
+      - "./data/geoserver/:/var/local/geoserver/"
+      - "./data/raw/:/data/"
       - "./runtime/gwc/blobstore/:/var/local/gwc/blobstore/"
     environment:
       JAVA_OPTS: -Dservice_pg_user=siis -Dservice_pg_pass=siis -Dservice_pg_host=db -Dservice_pg_port=5432 -Dservice_pg_db=siis

@@ -166,8 +166,8 @@ job "siis-integration" {
         image = "docker-registry.data.bas.ac.uk/magic/siis/geoserver:latest"
         volumes = [
           "../alloc/data/geoserver_extensions/:/var/local/geoserver-exts/",
-          "../alloc/data/geoserver:/var/local/geoserver",
-          "../alloc/data/raw:/data"
+          "../alloc/data/geoserver/:/var/local/geoserver/",
+          "../alloc/data/raw/:/data/"
         ]
         ports = ["tomcat"]
       }
