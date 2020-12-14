@@ -53,6 +53,12 @@ job "siis-integration" {
       }
     }
 
+    volume "gcw_default_blobstore" {
+      type      = "host"
+      source    = "siis_gcw_default_blobstore"
+      read_only = false
+    }
+
     # AWS CLI
     #
     # Prestart task
@@ -143,6 +149,11 @@ job "siis-integration" {
 
       env {
         JAVA_OPTS="-Dservice_pg_user=siis -Dservice_pg_pass=siis -Dservice_pg_host=$${NOMAD_HOST_IP_postgres} -Dservice_pg_port=$${NOMAD_HOST_PORT_postgres} -Dservice_pg_db=siis"
+      }
+
+      volume_mount = {
+        volume = "gcw_default_blobstore"
+        destination = "/var/local/gwc/blobstore/"
       }
 
       config {

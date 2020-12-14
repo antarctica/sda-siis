@@ -28,7 +28,33 @@ SIIS is comprised of a number of components, represented by top-level directorie
 
 * [Frontend application (Internal, BAS network required)](http://10.70.1.145:32004/)
 * [Backend API (Interactive API reference)](api/api/swagger.yml)
-* [GeoServer instance (Internal, BAS network required)](http://10.70.1.145:32001/geoserver)
+* [GeoServer instance (Internal, BAS network required)](http://admin:geoserver@10.70.1.145:32001/geoserver)
+
+## Implementation
+
+### GeoWebCache
+
+#### Configuration
+
+Changes to configuration files will need to captured within the product samples S3 bucket, these include:
+
+* `./data/geoserver/gwc-gs.xml` (`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc-gs.xml`)
+* `./data/geoserver/gwc/geowebcache.xml` (`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc/geowebcache.xml`)
+* `./data/geoserver/gwc-layers/*` (`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc-gwc-layers/*`)
+
+**Note:** You do not need to capture dated backups to these files generated automatically by GeoServer because files in
+the S3 bucket are versioned automatically.
+
+**Note:** The update sequence property in `./data/geoserver/global.xml` will be updated when any configuration change
+is made, these changes do not need to be captured.
+
+#### Tile storage
+
+A FileBlobStore is used for storing generated tiles. This blob store should be used by default and will ensure tiles
+are stored in an appropriate, persisted, location within development and deployment environments.
+
+For example locally a directory in the `runtime/` directory will be used, whereas in Nomad, a persisted host volume is
+used.
 
 ## Setup
 

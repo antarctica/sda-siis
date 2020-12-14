@@ -22,3 +22,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [PostGIS] PostgreSQL 12.x and PostGIS 3.x
   [#1](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/1)
 * [Infra] Initial integration environment based on Terraform and experimental MAGIC Nomad cluster
+* [GeoServer] Volume for GCW file blobstore
+  [#18](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/18)
