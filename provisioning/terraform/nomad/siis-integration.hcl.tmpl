@@ -53,6 +53,12 @@ job "siis-integration" {
       }
     }
 
+    volume "gcw_default_blobstore" {
+      type      = "host"
+      source    = "siis_gcw_default_blobstore"
+      read_only = false
+    }
+
     # AWS CLI
     #
     # Prestart task
@@ -145,6 +151,11 @@ job "siis-integration" {
         JAVA_OPTS="-Dservice_pg_user=siis -Dservice_pg_pass=siis -Dservice_pg_host=$${NOMAD_HOST_IP_postgres} -Dservice_pg_port=$${NOMAD_HOST_PORT_postgres} -Dservice_pg_db=siis"
       }
 
+      volume_mount = {
+        volume = "gcw_default_blobstore"
+        destination = "/var/local/gwc/blobstore/"
+      }
+
       config {
         auth {
           username = "$${NOMAD_META_BAS_DOCKER_REGISTRY_USERNAME}",
@@ -155,8 +166,8 @@ job "siis-integration" {
         image = "docker-registry.data.bas.ac.uk/magic/siis/geoserver:latest"
         volumes = [
           "../alloc/data/geoserver_extensions/:/var/local/geoserver-exts/",
-          "../alloc/data/geoserver:/var/local/geoserver",
-          "../alloc/data/raw:/data"
+          "../alloc/data/geoserver/:/var/local/geoserver/",
+          "../alloc/data/raw/:/data/"
         ]
         ports = ["tomcat"]
       }
