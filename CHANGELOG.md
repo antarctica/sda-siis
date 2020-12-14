@@ -25,3 +25,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#2](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/2)
 * [GeoServer] Volume for GCW file blobstore
   [#18](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/18)
+
+### Fixed
+
+* [API] CORS support
+  [#17](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/17)
