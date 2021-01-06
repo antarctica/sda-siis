@@ -10,20 +10,20 @@ This application is an early alpha. Significant refactoring is ongoing and so sh
 
 ### Purpose
 
-The Sea-Ice Information Service (SIIS) provides up-to-date sea-ice information products for decision making and route
-planning when the RRS SDA is in, near or close to, sea-ice in Antarctica and the Arctic.
+The Sea Ice Information Service (SIIS) provides up-to-date sea ice information products for decision making and route
+planning when the RRS SDA is in, near or close to, sea ice in Antarctica and the Arctic.
 
 ### Components
 
 SIIS is comprised of a number of components, represented by top-level directories:
 
-* API [`api/`](./api/): Provides information about available layers/granules and key-value storage for the app component, in
-  future will manage shore -> ship data syncing and other tasks as needed
-* Key-Value API (Temp) [`api-kv/`](./api-kv/): Provides key-value storage for the app component temporarily until
+* **API** [`api/`](./api/): Provides information about available layers/granules and key-value storage for the app
+  component, in future will manage shore -> ship data syncing and other tasks as needed
+* **Key-Value API (Temp)** [`api-kv/`](./api-kv/): Provides key-value storage for the app component temporarily until
   available from the main API
-* App [`app/`](./app/): Frontend application used by users to visualise sea-ice information
-* GeoServer [`geoserver/`](./api/): Used to provide OGC services for sea-ice, and more general, data products
-* PostGIS: Persists settings and information in the App/API and provides storage for vector data products
+* **App** [`app/`](./app/): Frontend application used by users to visualise sea ice information
+* **GeoServer** [`geoserver/`](./api/): Used to provide OGC services for sea-ice, and more general, data products
+* **PostGIS**: Persists settings and information in the App/API and provides storage for vector data products
 
 ## Usage
 
