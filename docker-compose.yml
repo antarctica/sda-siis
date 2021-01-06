@@ -66,11 +66,16 @@ services:
       - ./app/index.js/:/usr/src/app/index.js
       - ./app/index.html/:/usr/src/app/index.html
     environment:
+      HOST: 0.0.0.0
+      PORT: 9000
+      # # uncomment to use local components
       SERVICE_API_ENDPOINT: http://localhost:9001/api
       SERVICE_API_KV_ENDPOINT: http://localhost:9002/kv
       SERVICE_API_OGC_ENDPOINT: http://localhost:8080/geoserver/ows
-      HOST: 0.0.0.0
-      PORT: 9000
+      # # uncomment to use integration environment components
+      # SERVICE_API_ENDPOINT: http://10.70.1.145:32002/api
+      # SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
+      # SERVICE_API_OGC_ENDPOINT: http://10.70.1.145:32001/geoserver/ows
     ports:
       - "9000:9000"
     depends_on:
