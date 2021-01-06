@@ -32,29 +32,185 @@ SIIS is comprised of a number of components, represented by top-level directorie
 
 ## Implementation
 
+### Project data directory
+
+A common data directory `./data/` is used for storing configuration and data for:
+
+* the [GeoServer Data Directory](#geoserver-data-directory)
+* [GeoServer Extensions](#geoserver-extensions)
+* [PostGIS SQL Scripts](#postGIS-sql-scripts)
+* [Product samples](#product-samples)
+
+This data is stored separately from the Project Git repository (hosted in GitLab) because it contains artefacts rather
+than source code.
+
+The authoritative data directory is a S3 bucket:
+[`s3://siis-data-product-samples.data.bas.ac.uk`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&tab=objects).
+
+This bucket has [object versioning](https://docs.aws.amazon.com/console/s3/enable-bucket-versioning) enabled to track
+revisions to files and allow regressions to be rolled-back.
+
+**Note:** You will need suitable AWS IAM permissions as part of the
+[BAS AWS](https://gitlab.data.bas.ac.uk/WSF/bas-aws) account to access this bucket.
+
+**Note:** The authoritative copy of the project data directory may change in the future as the production deployment
+is developed.
+
+#### Product data directory areas
+
+There are two areas (versions) within the product data directory implemented using directories (S3 prefixes):
+
+* `v0/` ([`s3://siis-data-product-samples.data.bas.ac.uk/v0/`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/&showversions=false))
+* `v1/` ([`s3://siis-data-product-samples.data.bas.ac.uk/v1/`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v1/&showversions=false))
+
+Objects in the `v0/` area are intended to replaced and not exist in the longer term. Their removal is tracked in
+[#25](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/25).
+
+Objects in the `v1/` area are considered legitimate and will exist in the longer term. They are namespaced in case a
+different directory (prefix) layout is used in the future (i.e. as `v2/`).
+
+#### Updating the product data directory
+
+This section applies if you have changed files in a local copy of the project data directory (i.e. in a development
+environment). The AWS S3 client can be used to first preview and then perform updates to the remote, authoritative, S3
+bucket.
+
+**WARNING:** Be aware that the remote bucket uses different [Areas](#product-data-directory-areas) that need to be taken
+into account when uploading files.
+
+In general terms:
+
+```shell
+$ docker-compose run aws-cli
+
+# to preview changes
+$ aws s3 sync --dryrun /data/[directory] s3://siis-data-product-samples.data.bas.ac.uk/[area]/[directory]
+
+# to perform changes
+$ aws s3 sync /data/[directory] s3://siis-data-product-samples.data.bas.ac.uk/[area]/[directory]
+```
+
+For example to upload changes in `/data/psql/` directory (part of the `v0` area):
+
+```shell
+$ docker-compose run aws-cli
+
+# preview changes (1 file to upload)
+$ aws s3 sync --dryrun /data/psql/ s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/
+(dryrun) upload: data/psql/foo.sql to s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/foo.sql
+
+# perform changes (1 file uploaded)
+$ aws s3 sync /data/psql/ s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/
+upload: data/psql/foo.sql to s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/foo.sql
+```
+
+### GeoServer
+
+#### GeoServer data directory
+
+The GeoServer [data directory](https://docs.geoserver.org/stable/en/user/datadirectory/index.html) is part of
+the [Project Data Directory](#project-data-directory):
+
+* location (locally): `./data/geoserver/`
+* location (S3): [`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/geoserver/&showversions=false)
+
+This directly contains all layer definitions, styles and other configuration settings. It **does not** include datasets
+(the inner `data/` directory), see the [Product Samples](#product-samples) section for more information.
+
+**Note:** This directory is part of the `v0/` part of the project data directory because, in the long term, it's
+intended that GeoServer will be provisioned programmatically, rather than relying on a static configuration directory.
+See [#26](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/26) for more information.
+
+#### GeoServer extensions
+
+The GeoServer instance requires these extensions to access data products:
+
+* GDAL extension
+* JPEG 2000 extension
+
+These extensions are distributed as files within the [Project Data Directory](#project-data-directory):
+
+* location (locally): `./data/geoserver_extensions/`
+* location (S3): [`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver_extensions/`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/geoserver_extensions/&showversions=false)
+
+Changes to extensions need to captured by [Updating The Product Data Directory](#updating-the-product-data-directory).
+
+These files will be mapped to `/var/local/geoserver-exts/` within the container to be automatically loaded by GeoServer.
+
+**Note:** This directory is part of the `v0/` part of the project data directory because, in the long term, it's
+intended that the GeoServer container will include required extensions by default. See
+[#9](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/9) for more information.
+
 ### GeoWebCache
 
-#### Configuration
+#### GeoWebCache Configuration
 
-Changes to configuration files will need to captured within the product samples S3 bucket, these include:
+The GeoWebCache configuration is tracked as files within the [Project Data Directory](#project-data-directory):
 
-* `./data/geoserver/gwc-gs.xml` (`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc-gs.xml`)
-* `./data/geoserver/gwc/geowebcache.xml` (`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc/geowebcache.xml`)
-* `./data/geoserver/gwc-layers/*` (`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc-gwc-layers/*`)
+* `./data/geoserver/gwc-gs.xml` /
+  [`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc-gs.xml`](https://s3.console.aws.amazon.com/s3/object/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/geoserver/gwc-gs.xml)
+* `./data/geoserver/gwc/geowebcache.xml` /
+  [`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc/geowebcache.xml`](https://s3.console.aws.amazon.com/s3/object/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/geoserver/gwc/geowebcache.xml)
+* `./data/geoserver/gwc-layers/*`] /
+  [`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/gwc-gwc-layers/*`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/geoserver/gwc-gwc-layers/)
+* `./data/geoserver/global.xml` (for the updated `updateSequence` property)
+  [`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver/global.xml`](https://s3.console.aws.amazon.com/s3/object/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/geoserver/global.xml)
 
-**Note:** You do not need to capture dated backups to these files generated automatically by GeoServer because files in
-the S3 bucket are versioned automatically.
+Changes to these configuration files need to captured by
+[Updating The Product Data Directory](#updating-the-product-data-directory):
 
-**Note:** The update sequence property in `./data/geoserver/global.xml` will be updated when any configuration change
-is made, these changes do not need to be captured.
+**Note:** You do not need to capture dated backups to these files that GeoServer generates automatically, because files
+in Project data directory are versioned automatically using the S3 bucket.
 
-#### Tile storage
+#### GeoWebCache Tile storage
 
-A FileBlobStore is used for storing generated tiles. This blob store should be used by default and will ensure tiles
-are stored in an appropriate, persisted, location within development and deployment environments.
+A FileBlobStore is used for storing generated tiles. This blob store should be used by default.
 
-For example locally a directory in the `runtime/` directory will be used, whereas in Nomad, a persisted host volume is
-used.
+Within containers, the base directory for the blob store is: `/var/local/gwc/blobstore/`. This path is mapped to a
+applicable location depending on the environment:
+
+* local development: `runtime/gwc/`
+* integration (Nomad): [`siis_gcw_default_blobstore` Nomad host volume](https://gitlab.data.bas.ac.uk/MAGIC/infrastructure/nomad/-/blob/master/provisioning/ansible/group_vars/magic_nomad.yml#L7)
+
+**Note:** The blob store is part of the [Project Runtime Directory](#project-runtime-directory) **not** in the
+[Project Data Directory](#project-data-directory).
+
+### PostGIS
+
+#### PostGIS SQL scripts
+
+The PostGIS instance requires a set of SQL scripts to initialise the database structure used by the API and for storing
+[Product Samples](#product-samples).
+
+These scripts are stored as files within the [Project Data Directory](#project-data-directory):
+
+* location (locally): `./data/psql/`
+* location (S3): [`s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/psql/&showversions=false)
+
+Changes to these scripts need to captured by [Updating The Product Data Directory](#updating-the-product-data-directory).
+
+These scripts will be mapped to `/docker-entrypoint-initdb.d/` within the container to be automatically ran by Postgres
+on start up.
+
+**Note:** This directory is part of the `v0/` part of the project data directory because, in the long term, it's
+intended that database migrations will be used to setup the structure of tables and other database objects. See
+[#10](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/10) for more information.
+
+### Product samples
+
+A sample of each product this project should support is available to simulate the data that will exist in a real
+deployment. This sample is:
+
+* representative of the the *breadth* of products that need to be supported
+* not representative of the *depth* (volume) of product series that have a large, or variable, spatial/temporal extent
+* a static and stable set of data, to enable reproducible results if (automated) tests are added in the future
+
+Product samples are distributed as files within the [Project Data Directory](#project-data-directory):
+
+* location (locally): `./data/raw/`
+* location (S3): [`s3://siis-data-product-samples.data.bas.ac.uk/v1/raw/`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v1/raw/&showversions=false)
+
+Changes to extensions need to captured by [Updating The Product Data Directory](#updating-the-product-data-directory).
 
 ## Setup
 
