@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [Infra] Documentation on how to update the S3 data directory
   [#24](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/24)
 
+### Fixed
+
+* [Meta] Inconsistencies between `sea-ice` and `sea ice` resolved to `sea ice`
+  [#23](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/23)
+
 ## [0.1.0] - 2020-11-17
 
 ### Added

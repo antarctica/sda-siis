@@ -1,6 +1,6 @@
 # SDA Sea Ice Information Service (SIIS) API
 
-SDA Sea-Ice Information - Backend services: GeoServer / Catalogue / Subscription / Replication
+SDA Sea Ice Information - Backend services: GeoServer / Catalogue / Subscription / Replication
 
 ## Python API Environment
 

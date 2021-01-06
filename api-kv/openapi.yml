@@ -7,7 +7,7 @@ info:
   license:
     name: "Open Government Licence 3.0"
     url: "http://www.nationalarchives.gov.uk/doc/open-government-licence"
-  title: "BAS Sea-Ice Information System - Frontend Value-Key API"
+  title: "BAS Sea Ice Information System - Frontend Value-Key API"
   version: "0.1.0"
   x-standards:
     json-api:
