@@ -122,6 +122,13 @@ This directly contains all layer definitions, styles and other configuration set
 intended that GeoServer will be provisioned programmatically, rather than relying on a static configuration directory.
 See [#26](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/26) for more information.
 
+#### GeoServer logs
+
+The GeoServer container writes logs to:
+
+* stdout
+* `/usr/local/tomcat/logs/geoserver.log`
+
 #### GeoServer extensions
 
 The GeoServer instance requires these extensions to access data products:

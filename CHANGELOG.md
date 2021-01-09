@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [Meta] Inconsistencies between `sea-ice` and `sea ice` resolved to `sea ice`
   [#23](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/23)
+* [GeoServer] Moving GeoServer log file out of the GeoServer data directory
+  [#33](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/33)
 
 ## [0.1.0] - 2020-11-17
 
