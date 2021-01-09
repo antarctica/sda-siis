@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [GeoServer] Moving GeoServer log file out of the GeoServer data directory
   [#33](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/33)
 
+### Changed
+
+* [GeoServer] Creation and modified timestamps now displayed in GeoServer UI
+  [#35](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/35)
+
 ## [0.1.0] - 2020-11-17
 
 ### Added
