@@ -29,7 +29,8 @@ SIIS is comprised of a number of components, represented by top-level directorie
 
 * [Frontend application (Internal, BAS network required)](http://10.70.1.145:32004/)
 * [Backend API (Interactive API reference)](api/api/swagger.yml)
-* [GeoServer instance (Internal, BAS network required)](http://admin:geoserver@10.70.1.145:32001/geoserver)
+* [GeoServer instance (Internal, BAS network required)](http://10.70.1.145:32001/geoserver)
+  * Credentials available from MAGIC 1Password as entry *SIIS GeoServer [Integration]*
 
 ## Implementation
 
@@ -69,6 +70,9 @@ Objects in the `v0/` area are intended to replaced and not exist in the longer t
 
 Objects in the `v1/` area are considered legitimate and will exist in the longer term. They are namespaced in case a
 different directory (prefix) layout is used in the future (i.e. as `v2/`).
+
+Further background on this concept is available in
+[#1](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/1#why-is-the-s3-bucket-split-into-v0-and-v1).
 
 #### Updating the product data directory
 
@@ -121,6 +125,13 @@ This directly contains all layer definitions, styles and other configuration set
 **Note:** This directory is part of the `v0/` part of the project data directory because, in the long term, it's
 intended that GeoServer will be provisioned programmatically, rather than relying on a static configuration directory.
 See [#26](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/26) for more information.
+
+#### GeoServer logs
+
+The GeoServer container writes logs to:
+
+* stdout
+* `/usr/local/tomcat/logs/geoserver.log`
 
 #### GeoServer extensions
 
@@ -341,7 +352,7 @@ information.
 
 ## Licence
 
-© UK Research and Innovation (UKRI), 2019 - 2020, British Antarctic Survey.
+© UK Research and Innovation (UKRI), 2019 - 2021, British Antarctic Survey.
 
 You may use and re-use this software and associated documentation files free of charge in any format or medium, under
 the terms of the Open Government Licence v3.0.
