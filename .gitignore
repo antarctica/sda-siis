@@ -2,3 +2,4 @@
 /provisioning/terraform/.env
 __pycache__
 /app/dist
+/mvp-maps/dist
