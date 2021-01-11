@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: Swagger file for SIIS API
-  version: "0.4"
+  version: "0.5"
   title: Swagger SIIS API
 consumes:
   - application/json
@@ -15,11 +15,11 @@ basePath: /api
 
 # Paths supported by the server application
 paths:
-  /layerdef:
+  /layerdefs:
     get:
       operationId: layerdef.read_all
       tags:
-        - Layerdef
+        - Layerdefs
       summary: Read the entire set of layer definitions, sorted by SIIS layer code
       description: Read the entire set of layer definitions, sorted by SIIS layer code
       responses:
@@ -75,11 +75,11 @@ paths:
                   type: string
                   description: Layer footprint
 
-  /layerdef/{code}:
+  /layerdefs/{code}:
     get:
       operationId: layerdef.read_one
       tags:
-        - Layerdef
+        - Layerdefs
       summary: Read one layer definition
       description: Read one layer definition
       parameters:
@@ -140,11 +140,46 @@ paths:
                 type: string
                 description: Layer footprint
 
-  /granule:
+
+
+  /layerdefs/{code}/granules:
+    get:
+      operationId: layerdef.read_one_granules
+      tags:
+        - Layerdefs
+        - Granules
+      summary: Read all granules belonging to same layerdef
+      description: Read all granules belonging to same layerdef
+      parameters:
+        - name: code
+          in: path
+          description: SIIS layerdef code of the granlues to get
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read granules from granule data operation
+          schema:
+            type: array
+            items:
+              properties:
+                uuid:
+                  type: string
+                  description: Granule UUID
+                layercode:
+                  type: string
+                  description: SIIS layer code
+                timestamp:
+                  type: string
+                  description: Timestamp of granule
+
+
+
+  /granules:
     get:
       operationId: granule.read_all
       tags:
-        - Granule
+        - Granules
       summary: Read the entire set of granules, sorted by timestamp
       description: Read the entire set of granules, sorted by timestamp
       responses:
@@ -197,11 +232,11 @@ paths:
                   type: string
                   description: Layer footprint                  
 
-  /granule/{uuid}:
+  /granules/{uuid}:
     get:
       operationId: granule.read_one
       tags:
-        - Granule
+        - Granules
       summary: Read one granule record
       description: Read one granule record
       parameters:
@@ -259,11 +294,11 @@ paths:
                 type: string
                 description: Layer footprint
 
-  /kv:
+  /kvs:
     get:
       operationId: keyvalue.read_all
       tags:
-        - KeyValue
+        - KeyValues
       summary: Read the entire set of Key/Value pairs, sorted by key
       description: Read the entire set of Key/Value pairs, sorted by key
       responses:
@@ -282,7 +317,7 @@ paths:
     delete:
       operationId: keyvalue.delete_all
       tags:
-        - KeyValue
+        - KeyValues
       summary: Delete all Key/Value pairs
       description: Delete all Key/Value pairs
       responses:
@@ -290,11 +325,11 @@ paths:
           description: Successfully deleted all Key-Value pairs
 
 
-  /kv/{key}:
+  /kvs/{key}:
     get:
       operationId: keyvalue.read_one
       tags:
-        - KeyValue
+        - KeyValues
       summary: Read one Key/Value pair
       description: Read one Key/Value pair
       parameters:
@@ -320,7 +355,7 @@ paths:
     delete:
       operationId: keyvalue.delete_one
       tags:
-        - KeyValue
+        - KeyValues
       summary: Delete one Key/Value pair
       description: Delete one Key/Value pair
       parameters:
@@ -335,7 +370,7 @@ paths:
     put:
       operationId: keyvalue.update_one
       tags:
-        - KeyValue
+        - KeyValues
       summary: Update a Key/Value pair
       description: Update a Key/Value pair
       parameters:
@@ -373,7 +408,7 @@ paths:
     post:
       operationId: keyvalue.create_one
       tags:
-        - KeyValue
+        - KeyValues
       summary: Create a Key/Value pair
       description: Create a Key/Value pair
       parameters:
