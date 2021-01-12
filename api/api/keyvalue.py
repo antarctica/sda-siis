@@ -16,7 +16,7 @@ def read_all():
     :return:        json string of list of all key/values
     """
     # Create the list of KVs from our data
-    
+
     keyvalue = KeyValue.query.order_by(KeyValue.k).all()
 
     # Serialize the data for the response
@@ -24,11 +24,12 @@ def read_all():
     data = keyvalue_schema.dump(keyvalue)
     return data
 
+
 def delete_all():
     """
     This function responds to a DELETE request for /api/kv
 
-    :return:        204 - all KV pairs deleted  
+    :return:        204 - all KV pairs deleted
     """
     db.session.query(KeyValue).delete()
     db.session.commit()
@@ -61,6 +62,7 @@ def read_one(key):
             "KV pair not found for Key: {key}".format(key=key),
         )
 
+
 def delete_one(key):
     """
     This function responds to a DELETE request for /api/kv/{key}
@@ -75,9 +77,7 @@ def delete_one(key):
     if keyvalue is not None:
         db.session.delete(keyvalue)
         db.session.commit()
-        return make_response(
-            "KV pair for key {key} deleted".format(key=key), 204
-        )
+        return make_response("KV pair for key {key} deleted".format(key=key), 204)
 
     # Otherwise, nope, didn't find that key
     else:
@@ -85,6 +85,7 @@ def delete_one(key):
             404,
             "KV pair not found for Key: {key}".format(key=key),
         )
+
 
 def update_one(key, kvdata):
     """
@@ -96,9 +97,7 @@ def update_one(key, kvdata):
 
     """
     # Get the KVpair requested from the db into session
-    update_kv = KeyValue.query.filter(
-        KeyValue.k == key
-    ).one_or_none()
+    update_kv = KeyValue.query.filter(KeyValue.k == key).one_or_none()
 
     # Try to find an existing person with the same name as the update
     # fname = person.get("fname")
@@ -122,8 +121,8 @@ def update_one(key, kvdata):
 
         # turn the passed in person into a db object
         schema = KeyValueSchema()
-        kvdata2 = {"k": kvdata['key'], "v": kvdata['value']}
-        print (kvdata, kvdata2)
+        kvdata2 = {"k": kvdata["key"], "v": kvdata["value"]}
+        print(kvdata, kvdata2)
         update = schema.load(kvdata2, session=db.session)
 
         # Set the id to the person we want to update
@@ -139,8 +138,6 @@ def update_one(key, kvdata):
         return data, 200
 
 
-
-
 def create_one(key, kvdata):
     """
     This function responds to a POST request for /api/kv/{key}
@@ -151,34 +148,29 @@ def create_one(key, kvdata):
 
     """
 
-    data_key = kvdata['key']
-    data_value = kvdata['value']    
+    data_key = kvdata["key"]
+    data_value = kvdata["value"]
 
     # Check if key and data object's key are identical
     if key != data_key:
         abort(
             400,
             "Key {keydata} does not match key: {key}".format(keydata=data_key, key=key),
-
         )
-    
+
     # Check if key exists
-    existing_keyvalue = (
-        KeyValue.query.filter(KeyValue.k == data_key)
-        .one_or_none()
-    )
+    existing_keyvalue = KeyValue.query.filter(KeyValue.k == data_key).one_or_none()
 
     # Can we insert this kv pair?
     if existing_keyvalue is None:
         schema = KeyValueSchema()
-        kvdata2 = {"k": kvdata['key'], "v": kvdata['value']}
+        kvdata2 = {"k": kvdata["key"], "v": kvdata["value"]}
         update = schema.load(kvdata2, session=db.session)
 
         db.session.add(update)
         db.session.commit()
 
-        return kvdata, 201        
-
+        return kvdata, 201
 
     # Otherwise, nope, kv already exists
     else:
@@ -186,4 +178,3 @@ def create_one(key, kvdata):
             400,
             "Key {key} already exists".format(key=key),
         )
-

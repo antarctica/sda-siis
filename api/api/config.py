@@ -16,13 +16,13 @@ app = connex_app.app
 # Choose between local postgres instance and local SQLite DB
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://siis:siis@127.0.0.1/siis'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://siis:siis@db/siis'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SERVICE_PG_CONN']
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'siis.db')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["SERVICE_PG_CONN"]
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'siis.db')
 
 
 #
-app.config['SQLALCHEMY_ECHO'] = True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_ECHO"] = True
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Create the SQLAlchemy db instance
 db = SQLAlchemy(app)

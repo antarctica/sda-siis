@@ -17,7 +17,7 @@ def read_all():
     :return:        json string of list of layerdefs
     """
     # Create the list of layerdefs from our data
-    
+
     layerdef = Layerdef.query.order_by(Layerdef.code).all()
 
     # Serialize the data for the response
@@ -25,6 +25,7 @@ def read_all():
     data = layerdef_schema.dump(layerdef)
 
     return data
+
 
 def read_one(code):
     """
@@ -52,6 +53,7 @@ def read_one(code):
             "Layer not found for Code: {code}".format(code=code),
         )
 
+
 def read_one_granules(code):
     """
     This function responds to a request for /api/layerdef/{code}/granules
@@ -63,10 +65,13 @@ def read_one_granules(code):
 
     # Get the granules requested
 
-    granule = Granule.query.filter(Granule.layercode == code).order_by(Granule.timestamp).all()
+    granule = (
+        Granule.query.filter(Granule.layercode == code)
+        .order_by(Granule.timestamp)
+        .all()
+    )
 
     # Serialize the data for the response
     granule_schema = GranuleSchema(many=True)
     data = granule_schema.dump(granule)
     return data
-

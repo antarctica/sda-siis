@@ -16,13 +16,14 @@ def read_all():
     :return:        json string of list of granules
     """
     # Create the list of granules from our data
-    
+
     granule = Granule.query.order_by(Granule.timestamp).all()
 
     # Serialize the data for the response
     granule_schema = GranuleSchema(many=True)
     data = granule_schema.dump(granule)
     return data
+
 
 def read_one(uuid):
     """
