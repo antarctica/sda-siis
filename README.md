@@ -76,7 +76,7 @@ Further background on this concept is available in
 
 #### Updating the product data directory
 
-This section applies if you have changed files in a local copy of the project data directory (i.e. in a development
+This section applies if *you* have changed files in a local copy of the project data directory (i.e. in a development
 environment). The AWS S3 client can be used to first preview and then perform updates to the remote, authoritative, S3
 bucket.
 
@@ -108,6 +108,9 @@ $ aws s3 sync --dryrun /data/psql/ s3://siis-data-product-samples.data.bas.ac.uk
 $ aws s3 sync /data/psql/ s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/
 upload: data/psql/foo.sql to s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/foo.sql
 ```
+
+After making updates, ensure to communicate with other developers, currently via the
+[MAGIC Slack](https://gitlab.data.bas.ac.uk/MAGIC/general/-/wikis/Slack) workspace (internal).
 
 #### Pulling updates from the product data directory
 
