@@ -109,6 +109,29 @@ $ aws s3 sync /data/psql/ s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/
 upload: data/psql/foo.sql to s3://siis-data-product-samples.data.bas.ac.uk/v0/psql/foo.sql
 ```
 
+#### Pulling updates from the product data directory
+
+This section applies if *someone else* has [Updated The Product Data Directory](#updating-the-product-data-directory)
+and you have a local copy of the project data directory (i.e. in a development environment).
+
+It is import to pull outstanding changes down to avoid conflicts between files and other unintended side effects of an
+out of sync directory.
+
+The AWS S3 client can be used to first preview and then perform updates to a local `./data/` directory, from the
+remote, authoritative, S3 bucket.
+
+```shell
+$ docker-compose run aws-cli
+
+# to preview changes
+$ aws s3 sync --dryrun s3://siis-data-product-samples.data.bas.ac.uk/v0/ /data/
+$ aws s3 sync --dryrun s3://siis-data-product-samples.data.bas.ac.uk/v1/ /data/
+
+# to perform changes
+$ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v0/ /data/
+$ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v1/ /data/
+```
+
 ### GeoServer
 
 #### GeoServer data directory
@@ -283,12 +306,11 @@ $ brew cask install docker
 # clone project
 $ git clone https://gitlab.data.bas.ac.uk/MAGIC/SIIS.git
 $ cd ./SIIS
+```
 
-# download product samples, database scripts and GeoServer data directory
-$ docker-compose run aws-cli
-$ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v0/ /data/
-$ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v1/ /data/
+[Populate your local data directory](#pulling-updates-from-the-product-data-directory).
 
+```shell
 # start stack
 $ docker-compose pull
 $ docker-compose up
