@@ -4,7 +4,7 @@ from sqlalchemy import true
 
 
 class Granule(db.Model):
-    __tablename__ = 'granule'
+    __tablename__ = "granule"
     uuid = db.Column(db.String(), primary_key=True)
     layercode = db.Column(db.String())
     timestamp = db.Column(db.DateTime())
@@ -24,14 +24,14 @@ class Granule(db.Model):
 class GranuleSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Granule
-        sqla_session = db.session    
+        sqla_session = db.session
         load_instance = True
 
 
 class Layerdef(db.Model):
-    __tablename__ = 'layerdef'
+    __tablename__ = "layerdef"
     id = db.Column(db.Integer, primary_key=True)
-#    code = db.Column(db.String(), db.ForeignKey('granule.layercode'))
+    #    code = db.Column(db.String(), db.ForeignKey('granule.layercode'))
     code = db.Column(db.String())
     label = db.Column(db.String())
     attribution = db.Column(db.String())
@@ -43,7 +43,7 @@ class Layerdef(db.Model):
     gs_tempwmtsendpoint = db.Column(db.String())
     types = db.Column(db.String())
     timestamps = db.Column(db.String())
-#    timestamps = db.Column(db.DateTime())
+    #    timestamps = db.Column(db.DateTime())
     haslegend = db.Column(db.String())
     hemisphere = db.Column(db.String(1))
     geom_extent = db.Column(db.String())
@@ -59,12 +59,12 @@ class Layerdef(db.Model):
 class LayerdefSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Layerdef
-        sqla_session = db.session    
+        sqla_session = db.session
         load_instance = True
 
 
 class KeyValue(db.Model):
-    __tablename__ = 'keyvalue'
+    __tablename__ = "keyvalue"
     k = db.Column(db.String(), primary_key=True)
     v = db.Column(db.String())
 
@@ -72,5 +72,5 @@ class KeyValue(db.Model):
 class KeyValueSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = KeyValue
-        sqla_session = db.session    
+        sqla_session = db.session
         load_instance = True
