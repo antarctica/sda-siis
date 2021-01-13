@@ -34,6 +34,7 @@ include:
 # == Global settings ==
 
 stages:
+  - 🧪 test
   - 🏗 build
   - 📦 package
   - 🚀 deploy
@@ -44,6 +45,18 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_VERIFY: 1
   GITLAB_REGISTRY: docker-registry.data.bas.ac.uk
+
+black:
+  stage: 🧪 test
+  image:
+    name: docker-registry.data.bas.ac.uk/magic/siis/api:latest
+    entrypoint: [""]
+  script:
+    - "black --check api/"
+  needs: []
+  rules:
+    - changes:
+      - 'api/**/*.*'
 
 build-app:
   stage: 🏗 build

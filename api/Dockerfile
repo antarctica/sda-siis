@@ -8,9 +8,10 @@ ENV FLASK_ENV=development
 ENV PYTHONPATH=/usr/src/app
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt /usr/src/app/requirements.txt
+COPY requirements.txt requirements-dev.txt /usr/src/app/
 RUN apk add --no-cache postgresql-libs libffi-dev libressl-dev python3-dev py-pip && \
     apk add --no-cache --virtual .build-deps build-base linux-headers postgresql-dev && \
     pip install --upgrade pip && \
-    pip install -r requirements.txt --no-cache-dir && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r requirements-dev.txt && \
     apk --purge del .build-deps

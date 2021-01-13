@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [Infra] Documentation on how to update the S3 data directory
   [#24](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/24)
+* [Infra] Black Python code formatting
+  [#38](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/38)
 
 ### Fixed
 

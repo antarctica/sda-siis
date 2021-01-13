@@ -333,6 +333,30 @@ You will need access credentials for the [BAS AWS](https://gitlab.data.bas.ac.uk
 product samples. Specifically you will need IAM credentials exposed as environment variables (`AWS_ACCESS_KEY_ID`,
 `AWS_SECRET_ACCESS_KEY`).
 
+
+#### Code Style (Python)
+
+PEP-8 style and formatting guidelines must be used for this project, with the exception of the 80 character line limit.
+
+[Black](https://github.com/psf/black) is used to ensure compliance.
+
+Black can be [integrated](https://black.readthedocs.io/en/stable/editor_integration.html) with a range of editors, such
+as PyCharm, to perform formatting automatically.
+
+To apply formatting manually:
+
+```shell
+$ docker-compose run api black api/
+```
+
+To check compliance manually:
+
+```shell
+$ docker-compose run api black --check api/
+```
+
+Checks are ran automatically in [Continuous Integration](#continuous-integration).
+
 ## Deployment
 
 ### Deployment containers
