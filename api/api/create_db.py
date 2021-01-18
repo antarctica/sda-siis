@@ -6,10 +6,10 @@
 
 import os
 from config import db
-from models import Layerdef, KeyValue
+from models import Product, KeyValue
 
 # Data to initialize database with
-LAYERDEF = [{"code": "siis.sic.s"}, {"code": "siis.s1.s"}, {"code": "siis.ic-nor.s"}]
+PRODUCT = [{"code": "siis.sic.s"}, {"code": "siis.s1.s"}, {"code": "siis.ic-nor.s"}]
 
 KEYVALUE = [{"key": "key1", "value": "value1"}, {"key": "key2", "value": "value2"}]
 
@@ -20,10 +20,10 @@ if os.path.exists("siis.db"):
 # Create the database
 db.create_all()
 
-# Iterate over the LAYERDEF structure and populate the database
-for layerdef in LAYERDEF:
-    # l = Layerdef(code=layerdef['code'])
-    rec = Layerdef(code=layerdef["code"])
+# Iterate over the PRODUCT structure and populate the database
+for product in PRODUCT:
+    # l = Product(code=product['code'])
+    rec = Product(code=product["code"])
     db.session.add(rec)
 
 # # Iterate over the KEYVALUE structure and populate the database
