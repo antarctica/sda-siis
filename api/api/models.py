@@ -6,7 +6,7 @@ from sqlalchemy import true
 class Granule(db.Model):
     __tablename__ = "granule"
     uuid = db.Column(db.String(), primary_key=True)
-    layercode = db.Column(db.String())
+    productcode = db.Column(db.String())
     timestamp = db.Column(db.DateTime())
     downloadable = db.Column(db.Integer())
     downloaded = db.Column(db.Integer())
@@ -28,10 +28,10 @@ class GranuleSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
 
 
-class Layerdef(db.Model):
-    __tablename__ = "layerdef"
+class Product(db.Model):
+    __tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True)
-    #    code = db.Column(db.String(), db.ForeignKey('granule.layercode'))
+    #    code = db.Column(db.String(), db.ForeignKey('granule.productcode'))
     code = db.Column(db.String())
     label = db.Column(db.String())
     attribution = db.Column(db.String())
@@ -50,15 +50,15 @@ class Layerdef(db.Model):
 
     # granules = db.relationship(
     #     'Granule',
-    #     backref = 'layerdef',
+    #     backref = 'product',
     #     cascade = 'all, delete',
     #     order_by='desc(Granule.timestamp)'
     # )
 
 
-class LayerdefSchema(ma.SQLAlchemyAutoSchema):
+class ProductSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Layerdef
+        model = Product
         sqla_session = db.session
         load_instance = True
 

@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: Swagger file for SIIS API
-  version: "0.5"
+  version: "0.6"
   title: Swagger SIIS API
 consumes:
   - application/json
@@ -15,32 +15,32 @@ basePath: /api
 
 # Paths supported by the server application
 paths:
-  /layerdefs:
+  /products:
     get:
-      operationId: layerdef.read_all
+      operationId: product.read_all
       tags:
-        - Layerdefs
-      summary: Read the entire set of layer definitions, sorted by SIIS layer code
-      description: Read the entire set of layer definitions, sorted by SIIS layer code
+        - Products
+      summary: Read the entire set of product definitions, sorted by SIIS product code
+      description: Read the entire set of product definitions, sorted by SIIS product code
       responses:
         200:
-          description: Successfully read layerdef set operation
+          description: Successfully read product set operation
           schema:
             type: array
             items:
               properties:
                 id:
                   type: string
-                  description: Id of the layer
+                  description: Id of the product
                 code:
                   type: string
-                  description: SIIS layer code
+                  description: SIIS product code
                 label:
                   type: string
-                  description: Layer label
+                  description: Product label
                 attribution:
                   type: string
-                  description: Layer attribution
+                  description: Product attribution
                 formats:
                   type: string
                   description: GeoServer delivery formats
@@ -67,45 +67,45 @@ paths:
                   description: Array of timestamps available
                 haslegend:
                   type: string
-                  description: Does layer has legend
+                  description: Does product has legend
                 hemisphere:
                   type: string
-                  description: Hemisphere of layer ('N'/'S'/'')
+                  description: Hemisphere of product ('N'/'S'/'')
                 geom_extent:
                   type: string
-                  description: Layer footprint
+                  description: product footprint
 
-  /layerdefs/{code}:
+  /products/{code}:
     get:
-      operationId: layerdef.read_one
+      operationId: product.read_one
       tags:
-        - Layerdefs
-      summary: Read one layer definition
-      description: Read one layer definition
+        - Products
+      summary: Read one product definition
+      description: Read one product definition
       parameters:
         - name: code
           in: path
-          description: SIIS layer code of the layer to get
+          description: SIIS product code of the product to get
           type: string
           required: True
       responses:
         200:
-          description: Successfully read layerdef from layerdef data operation
+          description: Successfully read product from product data operation
           schema:
             type: object
             properties:
               id:
                 type: string
-                description: Id of the layer
+                description: Id of the product
               code:
                 type: string
-                description: SIIS layer code
+                description: SIIS product code
               label:
                 type: string
-                description: Layer label
+                description: product label
               attribution:
                 type: string
-                description: Layer attribution
+                description: product attribution
               formats:
                 type: string
                 description: GeoServer delivery formats
@@ -132,28 +132,28 @@ paths:
                 description: Array of timestamps available
               haslegend:
                 type: string
-                description: Does layer has legend
+                description: Does product has legend
               hemisphere:
                 type: string
-                description: Hemisphere of layer ('N'/'S'/'')
+                description: Hemisphere of product ('N'/'S'/'')
               geom_extent:
                 type: string
-                description: Layer footprint
+                description: product footprint
 
 
 
-  /layerdefs/{code}/granules:
+  /products/{code}/granules:
     get:
-      operationId: layerdef.read_one_granules
+      operationId: product.read_one_granules
       tags:
-        - Layerdefs
+        - Products
         - Granules
-      summary: Read all granules belonging to same layerdef
-      description: Read all granules belonging to same layerdef
+      summary: Read all granules belonging to same product
+      description: Read all granules belonging to same product
       parameters:
         - name: code
           in: path
-          description: SIIS layerdef code of the granlues to get
+          description: SIIS product code of the granlues to get
           type: string
           required: True
       responses:
@@ -166,9 +166,9 @@ paths:
                 uuid:
                   type: string
                   description: Granule UUID
-                layercode:
+                productcode:
                   type: string
-                  description: SIIS layer code
+                  description: SIIS product code
                 timestamp:
                   type: string
                   description: Timestamp of granule
@@ -192,9 +192,9 @@ paths:
                 uuid:
                   type: string
                   description: Granule UUID
-                layercode:
+                productcode:
                   type: string
-                  description: SIIS layer code
+                  description: SIIS product code
                 timestamp:
                   type: string
                   description: Timestamp of granule
@@ -230,7 +230,7 @@ paths:
                   description: Timestamp of successful ship-side GeoServer ingest
                 geom_extent:
                   type: string
-                  description: Layer footprint                  
+                  description: product footprint                  
 
   /granules/{uuid}:
     get:
@@ -254,9 +254,9 @@ paths:
               uuid:
                 type: string
                 description: Granule UUID
-              layercode:
+              productcode:
                 type: string
-                description: SIIS layer code
+                description: SIIS product code
               timestamp:
                 type: string
                 description: Timestamp of granule
@@ -292,7 +292,7 @@ paths:
                 description: Timestamp of successful ship-side GeoServer ingest
               geom_extent:
                 type: string
-                description: Layer footprint
+                description: product footprint
 
   /kvs:
     get:

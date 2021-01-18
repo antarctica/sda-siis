@@ -1,6 +1,6 @@
 """
-This is the layerdef module and supports all the REST actions for the
-layerdef data
+This is the keyvalue module and supports all the REST actions for the
+keyvalue data
 """
 
 from flask import make_response, abort
