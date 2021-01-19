@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Initial projection support
+  [#40](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/40)
 * [Infra] Documentation on how to update the S3 data directory
   [#24](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/24)
 * [Infra] Black Python code formatting

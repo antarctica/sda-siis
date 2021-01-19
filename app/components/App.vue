@@ -93,6 +93,19 @@
             <td>False</td>
             <td><em>N/A</em></td>
           </tr>
+          <tr>
+            <td><code>map.crs</code></td>
+            <td><output>EPSG:3413</output></td>
+            <td><output>{{ map.crs }}</output></td>
+            <td>False</td>
+            <td>
+              <select v-model="map.crs" @change="setMapBaselayer($event)">
+                <option value="EPSG:3031">WGS84 Antarctic Polar Stereographic</option>
+                <option value="EPSG:3413">WGS84 NSIDC Sea Ice Polar Stereographic North</option>
+                <option value="EPSG:3857">WGS84 Pseudo-Mercator</option>
+              </select>
+            </td>
+          </tr>
         </tbody>
       </table>
       <hr />
@@ -103,6 +116,7 @@
 
       <app-map
         ref="AppMap"
+        :projection=map.crs
         :zoom=map.zoom
         :initial_centre=map.centre
         :initial_rotation_radians=map.rotation_radians
@@ -137,12 +151,13 @@ export default Vue.extend({
         colour_scheme: 'system'
       },
       map: {
-        centre: [2705644, -7843636],
+        centre: [0,0],
         zoom: 3,
         extent: [0,0,0,0],
         rotation_radians: 0,
-        rotation_degrees: 0
-      }
+        rotation_degrees: 0,
+        crs: "EPSG:3413"
+      },
     }
   },
 
