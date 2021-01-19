@@ -2,7 +2,7 @@
   "name": "@antarctica/sda-sea-ice-information-system",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://gitlab.data.bas.ac.uk/MAGIC/SIIS/siis-web-app",
+  "homepage": "https://gitlab.data.bas.ac.uk/MAGIC/SIIS",
   "author": "Felix Fennell <felnne@bas.ac.uk>",
   "license": "OGL-UK-3.0",
   "main": "index.js",
@@ -18,12 +18,12 @@
     "Firefox ESR"
   ],
   "dependencies": {
-    "axios": "^0.20.0",
-    "ol": "^6.4.3",
+    "axios": "^0.21.1",
+    "ol": "^6.5.0",
     "proj4": "^2.6.3",
     "vue": "^2.6.12",
     "vue-hot-reload-api": "^2.3.4",
-    "vuelayers": "^0.12.0-rc.14"
+    "vuelayers": "^0.12.0-rc.20"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#40](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/40)
 * [App] Initial projection support
   [#40](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/40)
+* [Infra] Documentation on how to update JS dependencies
+  [#24](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/24)
 * [Infra] Documentation on how to update the S3 data directory
   [#24](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/24)
 * [Infra] Black Python code formatting
@@ -24,13 +26,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#23](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/23)
 * [GeoServer] Moving GeoServer log file out of the GeoServer data directory
   [#33](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/33)
+* [Infra] Homepage link in App `package.json`
+  [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 
 ### Changed
 
+* [App] Updating App JS dependencies
+  [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 * [GeoServer] Creation and modified timestamps now displayed in GeoServer UI
   [#35](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/35)
 * [API] Rename layerdefs resource to products
   [#42](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/42)
+* [Infra] Tracking Yarn lockfile in repository
+  [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 
 ## [0.1.0] - 2020-11-17
 
