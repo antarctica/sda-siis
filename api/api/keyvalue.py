@@ -87,7 +87,7 @@ def delete_one(key):
         )
 
 
-def update_one(key, kvdata):
+def update_one(key, body):
     """
     This function responds to a PUT request for /api/kv/{key}
     updating a KV pair
@@ -121,8 +121,7 @@ def update_one(key, kvdata):
 
         # turn the passed in person into a db object
         schema = KeyValueSchema()
-        kvdata2 = {"k": kvdata["key"], "v": kvdata["value"]}
-        print(kvdata, kvdata2)
+        kvdata2 = {"k": body["key"], "v": body["value"]}
         update = schema.load(kvdata2, session=db.session)
 
         # Set the id to the person we want to update
@@ -138,18 +137,17 @@ def update_one(key, kvdata):
         return data, 200
 
 
-def create_one(key, kvdata):
+def create_one(key, body):
     """
     This function responds to a POST request for /api/kv/{key}
     creating a new KV pair
 
     :return:        201 - KV pair created
                     400 - Request error - Key already exists
-
     """
 
-    data_key = kvdata["key"]
-    data_value = kvdata["value"]
+    data_key = body["key"]
+    data_value = body["value"]
 
     # Check if key and data object's key are identical
     if key != data_key:
@@ -164,13 +162,13 @@ def create_one(key, kvdata):
     # Can we insert this kv pair?
     if existing_keyvalue is None:
         schema = KeyValueSchema()
-        kvdata2 = {"k": kvdata["key"], "v": kvdata["value"]}
+        kvdata2 = {"k": body["key"], "v": body["value"]}
         update = schema.load(kvdata2, session=db.session)
 
         db.session.add(update)
         db.session.commit()
 
-        return kvdata, 201
+        return body, 201
 
     # Otherwise, nope, kv already exists
     else:
