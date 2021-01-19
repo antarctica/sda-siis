@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#23](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/23)
 * [GeoServer] Moving GeoServer log file out of the GeoServer data directory
   [#33](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/33)
+* [Infra] Homepage link in App `package.json`
+  [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 
 ### Changed
 

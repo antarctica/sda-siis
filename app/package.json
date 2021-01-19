@@ -2,7 +2,7 @@
   "name": "@antarctica/sda-sea-ice-information-system",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://gitlab.data.bas.ac.uk/MAGIC/SIIS/siis-web-app",
+  "homepage": "https://gitlab.data.bas.ac.uk/MAGIC/SIIS",
   "author": "Felix Fennell <felnne@bas.ac.uk>",
   "license": "OGL-UK-3.0",
   "main": "index.js",
