@@ -68,6 +68,7 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: 9000
+      VUELAYERS_DEBUG: 1
       # # uncomment to use local components
       SERVICE_API_ENDPOINT: http://localhost:9001/api
       SERVICE_API_KV_ENDPOINT: http://localhost:9002/kv
