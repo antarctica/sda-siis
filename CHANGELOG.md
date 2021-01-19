@@ -41,6 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 * [API] Refactor to Open API v3 spec
   [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
+* [API] Remove /api prefix for API URLs
+  [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
 
 ## [0.1.0] - 2020-11-17
 
