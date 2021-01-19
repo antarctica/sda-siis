@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#35](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/35)
 * [API] Rename layerdefs resource to products
   [#42](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/42)
+* [Infra] Updating App JS dependencies
+  [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 
 ## [0.1.0] - 2020-11-17
 
