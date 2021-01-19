@@ -1,0 +1,346 @@
+openapi: "3.0.0"
+
+info:
+  description: Open API v3 file for SIIS API
+  version: "0.7"
+  title: SIIS API
+
+servers:
+  - url: http://10.70.1.145:32002
+
+# Paths supported by the server application
+paths:
+
+  /products:
+    get:
+      summary: Read the entire set of product definitions, sorted by SIIS product code
+      operationId: product.read_all
+      tags:
+        - Products
+      description: Read the entire set of product definitions, sorted by SIIS product code
+      responses:
+        '200':
+          description: Successfully read product set operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+
+  /products/{code}:
+    get:
+      summary: Read one product definition
+      operationId: product.read_one
+      tags:
+        - Products
+      description: Read one product definition
+      parameters:
+        - name: code
+          in: path
+          description: SIIS product code of the product to get
+          schema:
+            type: string
+          required: True
+      responses:
+        '200':
+          description: Successfully read product from product data operation
+          content:
+            application/json:          
+              schema:
+                $ref: "#/components/schemas/product"
+
+  /products/{code}/granules:
+    get:
+      summary: Read all granules belonging to same product
+      operationId: product.read_one_granules
+      tags:
+        - Products
+        - Granules
+      description: Read all granules belonging to same product
+      parameters:
+        - name: code
+          in: path
+          description: SIIS product code of the granlues to get
+          schema:
+            type: string
+          required: True
+      responses:
+        '200':
+          description: Successfully read granules from granule data operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/granules"
+
+  /granules:
+    get:
+      summary: Read the entire set of granules, sorted by timestamp
+      operationId: granule.read_all
+      tags:
+        - Granules
+      description: Read the entire set of granules, sorted by timestamp
+      responses:
+        '200':
+          description: Successfully read granule set operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/granules"
+
+  /granules/{uuid}:
+    get:
+      summary: Read one granule record
+      operationId: granule.read_one
+      tags:
+        - Granules
+      description: Read one granule record
+      parameters:
+        - name: uuid
+          in: path
+          description: Granule UUID
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successfully read granule from granule set opertion
+          content:
+            application/json:          
+              schema:
+                $ref: "#/components/schemas/granule"
+
+
+  /kvs:
+    get:
+      summary: Read the entire set of Key/Value pairs, sorted by key     
+      operationId: keyvalue.read_all
+      tags:
+        - KeyValues
+      description: Read the entire set of Key/Value pairs, sorted by key
+      responses:
+        '200':
+          description: Read the entire set of Key/Value pairs, sorted by key
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/kvs"
+    delete:
+      summary: Delete all Key/Value pairs
+      operationId: keyvalue.delete_all
+      tags:
+        - KeyValues
+      description: Delete all Key/Value pairs
+      responses:
+        '204':
+          description: Successfully deleted all Key-Value pairs
+
+  /kvs/{key}:
+    get:
+      summary: Read one Key/Value pair
+      operationId: keyvalue.read_one
+      tags:
+        - KeyValues
+      description: Read one Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the KV pair to get
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successfully read Key/Value pair
+          content:
+            application/json:          
+              schema:
+                $ref: "#/components/schemas/kv"
+
+        '404':
+          description: Not found 
+    delete:
+      summary: Delete one Key/Value pair
+      operationId: keyvalue.delete_one
+      tags:
+        - KeyValues
+      description: Delete one Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the KV pair to delete
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: Successfully deleted the Key-Value pair
+    put:
+      summary: Update a Key/Value pair
+      operationId: keyvalue.update_one
+      tags:
+        - KeyValues
+      description: Update a Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Key/Value pair to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successfully updated Key/Value pair
+          content:
+            application/json:          
+              schema:
+                $ref: "#/components/schemas/kv"
+        '400':
+          description: Request error
+        '404':
+          description: Not found
+    post:
+      summary: Create a Key/Value pair
+      operationId: keyvalue.create_one
+      tags:
+        - KeyValues
+      description: Create a Key/Value pair
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Key/Value pair to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Successfully created Key/Value pair
+        '400':
+          description: Request error
+      requestBody:
+        content:
+          application/json:          
+            schema:
+              $ref: "#/components/schemas/kv"
+
+components:
+  schemas:
+
+    product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the product
+        code:
+          type: string
+          description: SIIS product code
+        label:
+          type: string
+          description: product label
+        attribution:
+          type: string
+          description: product attribution
+        formats:
+          type: string
+          description: GeoServer delivery formats
+        srss:
+          type: string
+          description: GeoServer delivery SRS
+        gs_layername:
+          type: string
+          description: Geoserver layer name
+        gs_tempWMSendpoint:
+          type: string
+          description: Geoserver WMS endpoint - temporary for testing
+        gs_tempWFSendpoint:
+          type: string
+          description: Geoserver WFS endpoint - temporary for testing
+        gs_tempWMTSendpoint:
+          type: string
+          description: Geoserver WMTS endpoint - temporary for testing
+        types:
+          type: string
+          description: Array of WxS types available
+        timestamps:
+          type: string
+          description: Array of timestamps available
+        haslegend:
+          type: string
+          description: Does product has legend
+        hemisphere:
+          type: string
+          description: Hemisphere of product ('N'/'S'/'')
+        geom_extent:
+          type: string
+          description: product footprint
+
+    products:
+      type: array
+      items:
+        $ref: "#/components/schemas/product"
+
+    granule:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: Granule UUID
+        productcode:
+          type: string
+          description: SIIS product code
+        timestamp:
+          type: string
+          description: Timestamp of granule
+        downloadable:
+          type: integer
+          description: Downloadable
+        downloaded:
+          type: string
+          description: Downloaded to local
+        filename_dl:
+          type: string
+          description: Filename of product for download package
+        size_dl:
+          type: integer
+          description: Download file size
+        zipped:
+          type: integer
+          description: Zipped product for download
+        productname:
+          type: string
+          description: Filename of product after extraction
+        ts_catingest:
+          type: string
+          description: Timestamp of ingestion into shore-side catalogue
+        ts_dlrequest:
+          type: string
+          description: Timestamp of download request to shore-side
+        ts_downloaded:
+          type: string
+          description: Timestamp of finished download ship-side
+        ts_gsingest:
+          type: string
+          description: Timestamp of successful ship-side GeoServer ingest
+        geom_extent:
+          type: string
+          description: product footprint   
+
+    granules:
+      type: array
+      items:
+        $ref: "#/components/schemas/granule"
+
+    kv:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Key identifier of KV pair
+        value:
+          type: string
+          description: Value of KV pair
+    kvs:
+      type: array
+      items:
+        $ref: "#/components/schemas/kv"
+
+
