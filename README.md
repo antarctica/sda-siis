@@ -315,6 +315,7 @@ $ cd ./SIIS
 
 ```shell
 # start stack
+# (note: the *app* service may display startup errors [1] which can be safely ignored)
 $ docker-compose pull
 $ docker-compose up
 # (visit http://localhost:9000 when up)
@@ -332,6 +333,13 @@ this project.
 You will need access credentials for the [BAS AWS](https://gitlab.data.bas.ac.uk/WSF/bas-aws) account to download the
 product samples. Specifically you will need IAM credentials exposed as environment variables (`AWS_ACCESS_KEY_ID`,
 `AWS_SECRET_ACCESS_KEY`).
+
+[1]
+
+```
+app_1        | Server running at http://0.0.0.0:9000 - configured port 9000 could not be used.
+app_1        | /bin/sh: lscpu: not found
+```
 
 
 #### Code Style (Python)
