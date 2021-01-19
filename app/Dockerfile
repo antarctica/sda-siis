@@ -6,5 +6,5 @@ LABEL maintainer = "Felix Fennell <felnne@bas.ac.uk>"
 WORKDIR /usr/src/app
 
 # Setup project dependencies
-COPY package.json .babelrc /usr/src/app/
+COPY package.json yarn.lock .babelrc /usr/src/app/
 RUN yarn install
