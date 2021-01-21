@@ -64,6 +64,8 @@ export default {
       rotation_radians: 0,
       centre: [0,0],
       extent: [0,0,0,0],
+      zoom: 0,
+      projection: "EPSG:3857",
       controls: {
         attribution: false,
         rotate: true,
@@ -72,7 +74,7 @@ export default {
     }
   },
 
-  props: ['projection', 'initial_centre', 'zoom', 'initial_rotation_radians', 'ogc_endpoint'],
+  props: ['initial_projection', 'initial_centre', 'initial_zoom', 'initial_rotation_radians'],
 
   computed: {
     rotation_degrees: {
@@ -100,6 +102,9 @@ export default {
     },
     rotation_degrees () {
       this.rotationUpdated()
+    },
+    projection () {
+      this.projectionUpdated()
     }
   },
 
@@ -121,6 +126,9 @@ export default {
       this.$emit('updateAppMapRotationRadians', this.rotation_radians);
       this.$emit('updateAppMapRotationDegrees', this.rotation_degrees);
     },
+    projectionUpdated: function () {
+      this.$emit('updateAppMapProjection', this.projection);
+    },
     setRotationRadians: function(event) {
       this.rotation_radians = event;
     },
@@ -129,10 +137,21 @@ export default {
     },
     setCentre: function(event) {
       this.centre = transform(event, 'EPSG:4326', this.projection);
+    },
+    setZoom: function(event) {
+      this.zoom = event;
+    },
+    setProjection: function(event) {
+      this.projection = event;
     }
   },
 
   mounted () {
+    this.centre = this.initial_centre;
+    this.projection = this.initial_projection;
+    this.zoom = this.initial_zoom;
+    this.rotation_radians = this.initial_rotation_radians;
+
     const attribution = new Attribution({
       collapsible: true,
     });
@@ -147,8 +166,6 @@ export default {
       this.$refs.AppMap.$map.addControl(scaleLine);
       this.$refs.AppMap.$map.addControl(attribution);
     });
-
-    this.centre = this.initial_centre
   }
 }
 </script>

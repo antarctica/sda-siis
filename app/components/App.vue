@@ -18,14 +18,14 @@
         <tbody>
           <tr>
             <td><code>environment</code></td>
-            <td><output>development</output></td>
+            <td>development</td>
             <td><output>{{ environment }}</output></td>
             <td>False</td>
             <td><em>N/A</em></td>
           </tr>
           <tr>
             <td><code>preferences.colour_scheme</code></td>
-            <td><output>system</output></td>
+            <td>system</td>
             <td><output>{{ preferences.colour_scheme }}</output></td>
             <td>False</td>
             <td>
@@ -46,9 +46,9 @@
             </td>
           </tr>
           <tr>
-            <td><code>map.zoom</code></td>
-            <td>2</td>
-            <td><output>{{ map.zoom }}</output></td>
+            <td>Zoom</td>
+            <td><output>{{ map_defaults.zoom }}</output></td>
+            <td><output>{{ map_instant.zoom }}</output></td>
             <td>False</td>
             <td>
               <button v-on:click="setMapZoomIn">+</button>
@@ -56,50 +56,50 @@
               </td>
           </tr>
           <tr>
-            <td><code>map.rotation_radians</code></td>
-            <td>0</td>
-            <td><output>{{ map.rotation_radians }}</output></td>
+            <td>Map rotation (radians)</td>
+            <td><output>{{ map_defaults.rotation_radians }}</output></td>
+            <td><output>{{ map_instant.rotation_radians }}</output></td>
             <td>False</td>
             <td>
-              <input type="number" step="any" v-model.number="map.rotation_radians">
+              <input type="number" step="any" v-model.number="map_update.rotation_radians">
               <button v-on:click="setRotationRadians">Set</button>
             </td>
           </tr>
           <tr>
-            <td><code>map.rotation_degrees</code></td>
-            <td>0</td>
-            <td><output>{{ map.rotation_degrees }}</output></td>
+            <td>Map rotation (degrees)</td>
+            <td><output>{{ map_defaults.rotation_degrees }}</output></td>
+            <td><output>{{ map_instant.rotation_degrees }}</output></td>
             <td>False</td>
             <td>
-              <input type="number" min="0" max="360" v-model.number="map.rotation_degrees">
+              <input type="number" min="-180" max="180" v-model.number="map_update.rotation_degrees">
               <button v-on:click="setRotationDegrees">Set</button>
             </td>
           </tr>
           <tr>
-            <td><code>map.centre</code></td>
-            <td>[0, 0]</td>
-            <td><output>{{ map.centre }}</output></td>
+            <td>Map centre</td>
+            <td><output>{{ map_defaults.centre }}</output></td>
+            <td><output>{{ map_instant.centre }}</output></td>
             <td>False</td>
             <td>
-              Lon (X) <input type="number" min="-180" max="180" step="any" v-model.number="map.centre[0]" style="width:80px">
-              Lat (Y) <input type="number" min="-90" max="90" step="any" v-model.number="map.centre[1]" style="width:80px">
+              Lon (X) <input type="number" min="-180" max="180" step="any" v-model.number="map_update.centre[0]" style="width:80px">
+              Lat (Y) <input type="number" min="-90" max="90" step="any" v-model.number="map_update.centre[1]" style="width:80px">
               <button v-on:click="setMapCentre">Set</button>
             </td>
           </tr>
           <tr>
-            <td><code>map.extent</code></td>
-            <td>[-180, -45, 180, 45]</td>
-            <td><output>{{ map.extent }}</output></td>
+            <td><code>Extent</code></td>
+            <td><output>{{ map_defaults.extent }}</output></td>
+            <td><output>{{ map_instant.extent }}</output></td>
             <td>False</td>
             <td><em>N/A</em></td>
           </tr>
           <tr>
-            <td><code>map.crs</code></td>
-            <td><output>EPSG:3413</output></td>
-            <td><output>{{ map.crs }}</output></td>
+            <td>Map CRS</td>
+            <td><output>{{ map_defaults.crs }}</output></td>
+            <td><output>{{ map_instant.crs }}</output></td>
             <td>False</td>
             <td>
-              <select v-model="map.crs" @change="setMapBaselayer($event)">
+              <select v-model="map_update.crs" @change="setMapBaselayer($event)">
                 <option value="EPSG:3031">WGS84 Antarctic Polar Stereographic</option>
                 <option value="EPSG:3413">WGS84 NSIDC Sea Ice Polar Stereographic North</option>
                 <option value="EPSG:3857">WGS84 Pseudo-Mercator</option>
@@ -116,16 +116,17 @@
 
       <app-map
         ref="AppMap"
-        :projection=map.crs
-        :zoom=map.zoom
-        :initial_centre=map.centre
-        :initial_rotation_radians=map.rotation_radians
-        :ogc_endpoint=siis_ogc_endpoint
+        :initial_projection=map_defaults.crs
+        :initial_zoom=map_defaults.zoom
+        :initial_centre=map_defaults.centre
+        :initial_rotation_radians=map_defaults.rotation_radians
+        :layers=active_layers
         v-on:updateAppMapExtent="onMapExtentUpdated"
         v-on:updateAppMapCentre="onMapCentreUpdated"
         v-on:updateAppMapZoom="onMapZoomUpdated"
         v-on:updateAppMapRotationRadians="onMapRotationRadiansUpdated"
         v-on:updateAppMapRotationDegrees="onMapRotationDegreesUpdated"
+        v-on:updateAppMapProjection="onMapProjectionChange"
       ></app-map>
     </main>
   </div>
@@ -150,10 +151,24 @@ export default Vue.extend({
       preferences: {
         colour_scheme: 'system'
       },
-      map: {
+      map_defaults: {
         centre: [0,0],
         zoom: 3,
         extent: [0,0,0,0],
+        rotation_radians: 0,
+        rotation_degrees: 0,
+        crs: "EPSG:3413"
+      },
+      map_instant: {
+        centre: [0,0],
+        zoom: 0,
+        extent: [0,0,0,0],
+        rotation_radians: 0,
+        rotation_degrees: 0,
+        crs: "EPSG:3413"
+      },
+      map_update: {
+        centre: [0,0],
         rotation_radians: 0,
         rotation_degrees: 0,
         crs: "EPSG:3413"
@@ -207,34 +222,37 @@ export default Vue.extend({
       }
     },
     setMapZoomIn (context) {
-      this.map.zoom += 1;
+      this.$refs.AppMap.setZoom(this.map_instant.zoom += 1);
     },
     setMapZoomOut (context) {
-      this.map.zoom -= 1;
+      this.$refs.AppMap.setZoom(this.map_instant.zoom -= 1);
     },
     setMapCentre (context) {
-      this.$refs.AppMap.setCentre(this.map.centre);
+      this.$refs.AppMap.setCentre(this.map_update.centre);
     },
     setRotationRadians (context) {
-      this.$refs.AppMap.setRotationRadians(this.map.rotation_radians)
+      this.$refs.AppMap.setRotationRadians(this.map_update.rotation_radians)
     },
     setRotationDegrees (context) {
-      this.$refs.AppMap.setRotationDegrees(this.map.rotation_degrees)
+      this.$refs.AppMap.setRotationDegrees(this.map_update.rotation_degrees)
     },
     onMapExtentUpdated: function (event) {
-    	this.map.extent = event;
+    	this.map_instant.extent = event;
     },
     onMapCentreUpdated: function (event) {
-    	this.map.centre = event;
+      this.map_instant.centre = event;
     },
     onMapZoomUpdated: function (event) {
-    	this.map.zoom = event;
+    	this.map_instant.zoom = event;
     },
     onMapRotationRadiansUpdated: function (event) {
-      this.map.rotation_radians = event;
+      this.map_instant.rotation_radians = event;
     },
     onMapRotationDegreesUpdated: function (event) {
-      this.map.rotation_degrees = event;
+      this.map_instant.rotation_degrees = event;
+    onMapProjectionChange: function (event) {
+      this.map_instant.projection = event;
+    },
     }
   },
 
