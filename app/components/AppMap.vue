@@ -13,11 +13,8 @@
       :zoom.sync=zoom
       :rotation.sync="rotation_radians"
     ></vl-view>
-    <vl-layer-tile id="osm">
-      <vl-source-osm></vl-source-osm>
-    </vl-layer-tile>
-    <vl-layer-tile id="ice">
-      <vl-source-tile-wms :url=wms_endpoint :layers=wms_layers[0]></vl-source-tile-wms>
+    <vl-layer-tile v-for="layer in layers">
+      <vl-source-tile-wms :url=layer.endpoint :layers=layer.layer :time=layer.time></vl-source-tile-wms>
     </vl-layer-tile>
   </vl-map>
 </template>
@@ -58,9 +55,6 @@ addProjection(projection3031);
 export default {
   data: function () {
     return {
-      wms_layers: [
-        "siis:ic_nor_s"
-      ],
       rotation_radians: 0,
       centre: [0,0],
       extent: [0,0,0,0],
@@ -74,7 +68,7 @@ export default {
     }
   },
 
-  props: ['initial_projection', 'initial_centre', 'initial_zoom', 'initial_rotation_radians'],
+  props: ['initial_projection', 'initial_centre', 'initial_zoom', 'initial_rotation_radians', 'layers'],
 
   computed: {
     rotation_degrees: {
@@ -84,9 +78,6 @@ export default {
       set (value) {
         this.rotation_radians = value * Math.PI / 180
       }
-    },
-    wms_endpoint: function () {
-      return this.ogc_endpoint + "?version=1.3.0"
     }
   },
 
