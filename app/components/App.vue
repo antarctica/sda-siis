@@ -252,10 +252,10 @@ export default Vue.extend({
     },
     onMapRotationDegreesUpdated: function (event) {
       this.map_instant.rotation_degrees = event;
+    },
     onMapProjectionChange: function (event) {
       this.map_instant.projection = event;
     },
-    }
   },
 
   mounted() {
