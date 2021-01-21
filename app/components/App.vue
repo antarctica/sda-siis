@@ -350,12 +350,14 @@ export default Vue.extend({
         this.active_layers.push({
           'protocol': 'wms',
           'endpoint': this.siis_ogc_endpoint,
+          'attribution': 'BAS',
           'layer': 'base_n'
         });
       } else if (this.map_update.crs == 'EPSG:3031') {
         this.active_layers.push({
           'protocol': 'wms',
           'endpoint': this.siis_ogc_endpoint,
+          'attribution': 'BAS',
           'layer': 'base_s'
         });
       }
@@ -386,6 +388,7 @@ export default Vue.extend({
         'endpoint': this.siis_ogc_endpoint,
         //'endpoint': this.layers[layer].gs_tempwmsendpoint,  // disabled due to #45
         'layer': this.layers[layer].gs_layername,
+        'attribution': this.layers[layer].attribution,
         'time': this.layers[layer].granules[granule].timestamp.split('T')[0]
       });
     },

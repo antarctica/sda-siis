@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] May layers attribution
+  [50](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/50)
 * [App] Minimal base map support
   [#49](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/49)
 * [App] Minimal support for selecting layers and granules to display on a map
