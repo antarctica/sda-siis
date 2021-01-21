@@ -110,8 +110,52 @@
       </table>
       <hr />
 
-      <button v-on:click="persistState">Persist State</button>
-      <button v-on:click="retrieveState">Retrieve State</button>
+      <button v-on:click="persistState" :disabled=controls.persistState.disabled>Persist State</button>
+      <button v-on:click="retrieveState" :disabled=controls.retrieveState.disabled>Retrieve State</button>
+      <button v-on:click="retrieveLayers" :disabled=controls.retrieveLayers.disabled>Retrieve Layers</button>
+      <button v-on:click="retrieveGranules" :disabled=controls.retrieveGranules.disabled>Retrieve Granules</button>
+      <hr />
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layer (Label)</th>
+            <th>Granules</th>
+            <th>Controls</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="layer_granule in layers_granules" :key="layer_granule.granule.uuid">
+            <td>{{ layer_granule.layer.label }}</td>
+            <td>{{ layer_granule.granule.uuid }} - {{ layer_granule.granule.timestamp }}</td>
+            <td><button v-on:click="displayGranule(layer_granule.layer.code, layer_granule.granule.uuid)">Display</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Raw output (temporary, enable as needed) -->
+      <!-- <table>
+        <thead>
+          <tr>
+            <th>Layer (Label)</th>
+            <th>Granules</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="layer_granule in layers_granules" :key="layer_granule.granule.uuid">
+            <td>{{ layer_granule.layer }}</td>
+            <td>{{ layer_granule.granule }}</td>
+          </tr>
+        </tbody>
+      </table> -->
+      <hr />
+
+      <p>Active layers</p>
+      <ul>
+        <li v-for="layer in active_layers">
+          {{ layer }}
+        </li>
+      </ul>
       <hr />
 
       <app-map
@@ -153,6 +197,20 @@ export default Vue.extend({
       preferences: {
         colour_scheme: 'system'
       },
+      controls: {
+        persistState: {
+          disabled: false
+        },
+        retrieveState: {
+          disabled: false
+        },
+        retrieveLayers: {
+          disabled: false
+        },
+        retrieveGranules: {
+          disabled: true
+        }
+      },
       map_defaults: {
         centre: [0,0],
         zoom: 3,
@@ -175,6 +233,8 @@ export default Vue.extend({
         rotation_degrees: 0,
         crs: "EPSG:3413"
       },
+      layers: {},
+      active_layers: []
     }
   },
 
@@ -187,6 +247,15 @@ export default Vue.extend({
     },
     siis_ogc_endpoint: function () {
       return process.env.SERVICE_API_OGC_ENDPOINT;
+    },
+    layers_granules: function () {
+      const _layers_granules = [];
+      for (const layer of Object.values(this.layers)) {
+        for (const granule of Object.values(layer.granules)) {
+          _layers_granules.push({'layer': layer, 'granule': granule})
+        }
+      }
+      return _layers_granules;
     }
   },
 
@@ -223,6 +292,41 @@ export default Vue.extend({
         console.error(error);
       }
     },
+    async retrieveLayers (context) {
+      try {
+        const response = await axios.get(this.siis_api_endpoint + '/products');
+        const data = response.data;
+        const layers = {};
+        data.forEach((layer) => {
+          layer.granules = {};
+          layers[layer.code] = layer;
+        });
+        this.layers = layers;
+        this.controls.retrieveGranules.disabled = false;
+      } catch (error) {
+        console.error('Layers could not be retrieved');
+        console.error(error);
+      }
+    },
+    async retrieveGranules (context) {
+      try {
+        const response = await axios.get(this.siis_api_endpoint + '/granules');
+        const data = response.data;
+        const _layers = this.layers;
+        data.forEach((granule) => {
+          if (!(granule.productcode in _layers)) {
+            console.warn("Layer [" + granule.productcode + "] used in Granule [" + granule.uuid + "] does not exist, skipping granule");
+            console.info("Available layers:");
+            console.info(_layers);
+            return;
+          }
+          this.$set(_layers[granule.productcode]['granules'], granule.uuid, granule);
+        });
+      } catch (error) {
+        console.error('Granules could not be retrieved');
+        console.error(error);
+      }
+    },
     setMapZoomIn (context) {
       this.$refs.AppMap.setZoom(this.map_instant.zoom += 1);
     },
@@ -256,10 +360,21 @@ export default Vue.extend({
     onMapProjectionChange: function (event) {
       this.map_instant.projection = event;
     },
+    displayGranule: function (layer, granule) {
+      this.active_layers.push({
+        'protocol': 'wms',
+        'endpoint': this.siis_ogc_endpoint,
+        //'endpoint': this.layers[layer].gs_tempwmsendpoint,  // disabled due to #45
+        'layer': this.layers[layer].gs_layername,
+        'time': this.layers[layer].granules[granule].timestamp.split('T')[0]
+      });
+    },
   },
 
-  mounted() {
-    this.retrieveState();
+  async mounted() {
+    await this.retrieveState();
+    await this.retrieveLayers();
+    await this.retrieveGranules();
   }
 });
 </script>
