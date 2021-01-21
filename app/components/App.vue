@@ -53,7 +53,7 @@
             <td>
               <button v-on:click="setMapZoomIn">+</button>
               <button v-on:click="setMapZoomOut">-</button>
-              </td>
+            </td>
           </tr>
           <tr>
             <td>Map rotation (radians)</td>
@@ -141,6 +141,8 @@ import AppColourScheme from './AppColourScheme.vue';
 import '../assets/main.css'
 
 export default Vue.extend({
+  name: "App",
+
   data() {
     return {
       environment: 'development',

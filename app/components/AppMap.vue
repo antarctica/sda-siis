@@ -32,7 +32,7 @@ import Projection from 'ol/proj/Projection';
 import VueLayers from 'vuelayers';
 import 'vuelayers/dist/vuelayers.css';
 
-Vue.use(VueLayers)
+Vue.use(VueLayers);
 
 proj4.defs(
   'EPSG:3413',
