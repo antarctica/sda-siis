@@ -14,7 +14,12 @@
       :rotation.sync="rotation_radians"
     ></vl-view>
     <vl-layer-tile v-for="layer in layers">
-      <vl-source-tile-wms :url=layer.endpoint :layers=layer.layer :time=layer.time></vl-source-tile-wms>
+      <vl-source-tile-wms
+        :url=layer.endpoint
+        :layers=layer.layer
+        :time=layer.time
+        :attributions=layer.attribution
+      ></vl-source-tile-wms>
     </vl-layer-tile>
   </vl-map>
 </template>

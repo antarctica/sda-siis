@@ -70,11 +70,11 @@ services:
       PORT: 9000
       VUELAYERS_DEBUG: 1
       # # uncomment to use local components
-      SERVICE_API_ENDPOINT: http://localhost:9001/api
+      SERVICE_API_ENDPOINT: http://localhost:9001
       SERVICE_API_KV_ENDPOINT: http://localhost:9002/kv
       SERVICE_API_OGC_ENDPOINT: http://localhost:8080/geoserver/ows
       # # uncomment to use integration environment components
-      # SERVICE_API_ENDPOINT: http://10.70.1.145:32002/api
+      # SERVICE_API_ENDPOINT: http://10.70.1.145:32002
       # SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
       # SERVICE_API_OGC_ENDPOINT: http://10.70.1.145:32001/geoserver/ows
     ports:

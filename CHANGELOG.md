@@ -7,8 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed [BREAKING!]
+
+* [API] Rename layerdefs resource to products
+  [#42](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/42)
+* [API] Remove `/api` prefix for API URLs
+  [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
+
 ### Added
 
+* [App] May layers attribution
+  [50](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/50)
 * [App] Minimal base map support
   [#49](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/49)
 * [App] Minimal support for selecting layers and granules to display on a map
@@ -41,13 +50,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 * [GeoServer] Creation and modified timestamps now displayed in GeoServer UI
   [#35](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/35)
-* [API] Rename layerdefs resource to products
-  [#42](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/42)
 * [Infra] Tracking Yarn lockfile in repository
   [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 * [API] Refactor to Open API v3 spec
-  [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
-* [API] Remove /api prefix for API URLs
   [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
 
 ## [0.1.0] - 2020-11-17
