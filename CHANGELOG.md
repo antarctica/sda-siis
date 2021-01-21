@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Minimal base map support
+  [#49](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/49)
 * [App] Minimal support for selecting layers and granules to display on a map
   [#48](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/48)
 * [App] Enabling VueLayers debug mode

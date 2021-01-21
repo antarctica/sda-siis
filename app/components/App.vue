@@ -342,6 +342,26 @@ export default Vue.extend({
     setRotationDegrees (context) {
       this.$refs.AppMap.setRotationDegrees(this.map_update.rotation_degrees)
     },
+    setMapBaselayer (context) {
+      // reset layers as we assume they will only apply to one hemisphere
+      this.active_layers.length = 0;
+
+      if (this.map_update.crs == 'EPSG:3413') {
+        this.active_layers.push({
+          'protocol': 'wms',
+          'endpoint': this.siis_ogc_endpoint,
+          'layer': 'base_n'
+        });
+      } else if (this.map_update.crs == 'EPSG:3031') {
+        this.active_layers.push({
+          'protocol': 'wms',
+          'endpoint': this.siis_ogc_endpoint,
+          'layer': 'base_s'
+        });
+      }
+
+      this.$refs.AppMap.setProjection(this.map_update.crs);
+    },
     onMapExtentUpdated: function (event) {
     	this.map_instant.extent = event;
     },
@@ -375,6 +395,8 @@ export default Vue.extend({
     await this.retrieveState();
     await this.retrieveLayers();
     await this.retrieveGranules();
+
+    this.setMapBaselayer();
   }
 });
 </script>
