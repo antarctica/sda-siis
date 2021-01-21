@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Refactoring references to properties between Vue components
+  [#47](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/47)
 * [Meta] Inconsistencies between `sea-ice` and `sea ice` resolved to `sea ice`
   [#23](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/23)
 * [GeoServer] Moving GeoServer log file out of the GeoServer data directory
