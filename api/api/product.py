@@ -7,18 +7,39 @@ from flask import make_response, abort, jsonify
 from config import db
 from models import Product, ProductSchema
 from models import Granule, GranuleSchema
+from datetime import datetime, timedelta
 
 
-def read_all():
+def read_all(limit=None, hemi=None):
     """
     This function responds to a request for /api/products
     with the complete lists of products
 
     :return:        json string of list of products
     """
+
     # Create the list of products from our data
 
-    product = Product.query.order_by(Product.code).all()
+    # Note: code is ugly with nested ifs. rectify
+    if isinstance(limit, int):
+        if isinstance(hemi, str):
+            product = (
+                Product.query.filter(Product.hemisphere == hemi.upper())
+                .order_by(Product.code)
+                .limit(int(limit))
+                .all()
+            )
+        else:
+            product = Product.query.order_by(Product.code).limit(int(limit)).all()
+    else:
+        if isinstance(hemi, str):
+            product = (
+                Product.query.filter(Product.hemisphere == hemi.upper())
+                .order_by(Product.code)
+                .all()
+            )
+        else:
+            product = Product.query.order_by(Product.code).all()
 
     # Serialize the data for the response
     product_schema = ProductSchema(many=True)
@@ -35,6 +56,7 @@ def read_one(code):
     :param code:   SIIS product code of product
     :return:            product matching code
     """
+
     # Get the product requested
     product = Product.query.filter(Product.code == code).one_or_none()
 
@@ -54,7 +76,7 @@ def read_one(code):
         )
 
 
-def read_one_granules(code):
+def read_one_granules(code, limit=None, maxage=None):
     """
     This function responds to a request for /api/products/{code}/granules
     with one matching product returning all granules for this product
@@ -63,13 +85,30 @@ def read_one_granules(code):
     :return:            granules matching product code
     """
 
-    # Get the granules requested
+    # Calculate earliest timestamp if maxage is supplied
+    if isinstance(maxage, float):
+        pass
+        d = datetime.utcnow() - timedelta(hours=maxage)
+        aged_timestamp = d.isoformat()
+    else:
+        aged_timestamp = "2000-01-01T00:00:00"
 
-    granule = (
-        Granule.query.filter(Granule.productcode == code)
-        .order_by(Granule.timestamp)
-        .all()
-    )
+    # Get the granules requested
+    if isinstance(limit, int):
+        granule = (
+            Granule.query.filter(Granule.productcode == code)
+            .filter(Granule.timestamp > aged_timestamp)
+            .order_by(Granule.timestamp)
+            .limit(int(limit))
+            .all()
+        )
+    else:
+        granule = (
+            Granule.query.filter(Granule.productcode == code)
+            .filter(Granule.timestamp > aged_timestamp)
+            .order_by(Granule.timestamp)
+            .all()
+        )
 
     # Serialize the data for the response
     granule_schema = GranuleSchema(many=True)
