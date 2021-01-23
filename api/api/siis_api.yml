@@ -18,6 +18,21 @@ paths:
       tags:
         - Products
       description: Read the entire set of product definitions, sorted by SIIS product code
+      parameters:
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: hemi
+          in: query
+          description: request hemisphere (N/S) specific products only
+          required: false
+          schema:
+            type: string
+            enum: [N, n, S, s]
       responses:
         '200':
           description: Successfully read product set operation
@@ -63,6 +78,19 @@ paths:
           schema:
             type: string
           required: True
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: maxage
+          in: query
+          description: maximum age of granule since generation/acquiisiton in hours
+          required: false
+          schema:
+            type: number
       responses:
         '200':
           description: Successfully read granules from granule data operation
@@ -78,6 +106,20 @@ paths:
       tags:
         - Granules
       description: Read the entire set of granules, sorted by timestamp
+      parameters:
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: maxage
+          in: query
+          description: maximum age of granule since generation/acquiisiton in hours
+          required: false
+          schema:
+            type: number
       responses:
         '200':
           description: Successfully read granule set operation
@@ -107,7 +149,6 @@ paths:
             application/json:          
               schema:
                 $ref: "#/components/schemas/granule"
-
 
   /kvs:
     get:
@@ -154,7 +195,6 @@ paths:
             application/json:          
               schema:
                 $ref: "#/components/schemas/kv"
-
         '404':
           description: Not found 
     delete:
