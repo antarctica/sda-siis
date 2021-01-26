@@ -139,6 +139,12 @@ export default {
     },
     setProjection: function(event) {
       this.projection = event;
+
+      if (this.projection == 'EPSG:3031') {
+        this.extent = projection3031.extent;
+      } else if (this.projection == 'EPSG:3413') {
+        this.extent = projection3413.extent;
+      }
     }
   },
 
