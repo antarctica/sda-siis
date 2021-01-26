@@ -13,6 +13,9 @@
       :zoom.sync=zoom
       :rotation.sync="rotation_radians"
     ></vl-view>
+    <VlLayerTile>
+      <VlSourceOsm />
+    </VlLayerTile>
     <vl-layer-tile v-for="layer in layers">
       <vl-source-tile-wms
         :url=layer.endpoint
