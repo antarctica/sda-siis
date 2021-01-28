@@ -362,6 +362,19 @@ export default Vue.extend({
           'attribution': 'BAS',
           'layer': 'base_s'
         });
+      } else if (this.map_update.crs == 'EPSG:3857') {
+        this.active_layers.push({
+          'protocol': 'wms',
+          'endpoint': this.siis_ogc_endpoint,
+          'attribution': 'BAS',
+          'layer': 'base_n'
+        });
+        this.active_layers.push({
+          'protocol': 'wms',
+          'endpoint': this.siis_ogc_endpoint,
+          'attribution': 'BAS',
+          'layer': 'base_s'
+        });
       }
     },
     onMapExtentUpdated: function (event) {
