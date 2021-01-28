@@ -50,6 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Disabling hot module reload in app
+  [#54]((https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/54)
 * [App] Updating App JS dependencies
   [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 * [GeoServer] Creation and modified timestamps now displayed in GeoServer UI
