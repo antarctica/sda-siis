@@ -13,6 +13,9 @@
       :zoom.sync=zoom
       :rotation.sync="rotation_radians"
     ></vl-view>
+    <VlLayerTile>
+      <VlSourceOsm />
+    </VlLayerTile>
     <vl-layer-tile v-for="layer in layers">
       <vl-source-tile-wms
         :url=layer.endpoint
@@ -139,6 +142,12 @@ export default {
     },
     setProjection: function(event) {
       this.projection = event;
+
+      if (this.projection == 'EPSG:3031') {
+        this.extent = projection3031.extent;
+      } else if (this.projection == 'EPSG:3413') {
+        this.extent = projection3413.extent;
+      }
     }
   },
 
