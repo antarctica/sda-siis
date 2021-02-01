@@ -151,7 +151,6 @@
           </tr>
         </tbody>
       </table> -->
-      <hr />
 
       <p>Active layers</p>
       <ul>
@@ -319,8 +318,8 @@ export default Vue.extend({
         data.forEach((granule) => {
           if (!(granule.productcode in _layers)) {
             console.warn("Layer [" + granule.productcode + "] used in Granule [" + granule.uuid + "] does not exist, skipping granule");
-            console.info("Available layers:");
-            console.info(_layers);
+            console.info("Available layers IDs:");
+            console.info(Object.keys(_layers));
             return;
           }
           this.$set(_layers[granule.productcode]['granules'], granule.uuid, granule);
