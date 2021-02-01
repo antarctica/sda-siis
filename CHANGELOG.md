@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Ability to hide layers/granules once added to the map
+  [#56](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/56)
 * [API] Add resource filtering
   [31](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/31)
 * [App] May layers attribution

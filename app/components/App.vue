@@ -128,7 +128,10 @@
           <tr v-for="layer_granule in layers_granules" :key="layer_granule.granule.uuid">
             <td>{{ layer_granule.layer.label }}</td>
             <td>{{ layer_granule.granule.uuid }} - {{ layer_granule.granule.timestamp }}</td>
-            <td><button v-on:click="displayGranule(layer_granule.layer.code, layer_granule.granule.uuid)">Display</button></td>
+            <td>
+              <button v-on:click="displayGranule(layer_granule.layer.code, layer_granule.granule.uuid)">Display</button>
+              <button v-on:click="hideGranule(layer_granule.layer.code, layer_granule.granule.uuid)">Hide</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -395,16 +398,32 @@ export default Vue.extend({
     onMapProjectionChange: function (event) {
       this.map_instant.projection = event;
     },
-    displayGranule: function (layer, granule) {
+    displayGranule: function (layer_id, granule_id) {
+      const layer = this.layers[layer_id];
+      const granule = layer.granules[granule_id];
+
       this.active_layers.push({
         'protocol': 'wms',
-        'endpoint': this.siis_ogc_endpoint,
+        'layer_id': layer_id,
+        'granule_id': granule_id,
         //'endpoint': this.layers[layer].gs_tempwmsendpoint,  // disabled due to #45
-        'layer': this.layers[layer].gs_layername,
-        'attribution': this.layers[layer].attribution,
-        'time': this.layers[layer].granules[granule].timestamp.split('T')[0]
+        'endpoint': this.siis_ogc_endpoint,
+        'layer': layer.gs_layername,
+        'attribution': layer.attribution,
+        'time': granule.timestamp.split('T')[0]
       });
     },
+    hideGranule: function (layer_id, granule_id) {
+      let granule_index = this._determineIfLayerIsActive(layer_id, granule_id);
+      if (granule_index > -1) {
+        this.active_layers.splice(granule_index, 1);
+      }
+    },
+    _determineIfLayerIsActive(layer_id, granule_id) {
+      return this.active_layers.findIndex(function(active_layer) {
+        return active_layer.layer_id === layer_id && active_layer.granule_id === granule_id;
+      });
+    }
   },
 
   async mounted() {
