@@ -295,8 +295,17 @@ export default Vue.extend({
       }
     },
     async retrieveLayers (context) {
+      let request_endpoint = this.siis_api_endpoint + '/products';
+      let request_config = {'params': {}};
+
+      if (this.map_update.crs == 'EPSG:3413') {
+        request_config['params']['hemi'] = 'n';
+      } else if (this.map_update.crs == 'EPSG:3031') {
+        request_config['params']['hemi'] = 's';
+      }
+
       try {
-        const response = await axios.get(this.siis_api_endpoint + '/products');
+        const response = await axios.get(request_endpoint, request_config);
         const data = response.data;
         const layers = {};
         data.forEach((layer) => {
@@ -378,6 +387,9 @@ export default Vue.extend({
           'layer': 'base_s'
         });
       }
+
+      await this.retrieveLayers();
+      await this.retrieveGranules();
     },
     onMapExtentUpdated: function (event) {
     	this.map_instant.extent = event;
@@ -427,8 +439,6 @@ export default Vue.extend({
 
   async mounted() {
     await this.retrieveState();
-    await this.retrieveLayers();
-    await this.retrieveGranules();
 
     this.setMapBaselayer();
   }
