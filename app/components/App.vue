@@ -132,6 +132,7 @@
         <thead>
           <tr>
             <th>Product (Label)</th>
+            <th>Product (Legend)</th>
             <th>Granule (ID)</th>
             <th>Granule (Timestamp)</th>
             <th>Controls</th>
@@ -140,6 +141,7 @@
         <tbody>
           <tr v-for="product_granule in products_granules" :key="product_granule.granule.uuid">
             <td>{{ product_granule.product.label }}</td>
+            <td><img v-bind:src="product_granule.product.legend_url"></td>
             <td>{{ product_granule.granule.uuid }}</td>
             <td>{{ product_granule.granule.timestamp }}</td>
             <td>
@@ -326,6 +328,7 @@ export default Vue.extend({
         const products = {};
         data.forEach((product) => {
           product.granules = {};
+          product.legend_url = this.siis_ogc_endpoint + "/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=" + product.gs_layername;
           products[product.code] = product;
         });
         this.products = products;

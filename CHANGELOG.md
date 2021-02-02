@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Minimal implementation of product legends (PNG)
+  [#58](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/58)
 * [App] Minimal implementation of filtering granules by datetime (e.g. within 24 hours)
   [#31](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/31)
 * [App] Minimal implementation of filtering products by location (e.g. North/South)
