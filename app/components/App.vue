@@ -106,6 +106,27 @@
               </select>
             </td>
           </tr>
+          <tr>
+            <td>Granules max age (hours)</td>
+            <td>0</td>
+            <td>{{ preferences.granule_max_age_hours }}</td>
+            <td>False</td>
+            <td>
+              <select v-model="preferences.granule_max_age_hours">
+                <option value=0>0 (No Limit)</option>
+                <option value=72>Last 72 hours</option>
+                <option value=48>Last 48 hours</option>
+                <option value=24>Last 24 hours</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Granules max age (datetime)</td>
+            <td><em>N/A</em></td>
+            <td>{{ granule_max_age_datetime }}</td>
+            <td>False</td>
+            <td><em>N/A</em></td>
+          </tr>
         </tbody>
       </table>
       <hr />
@@ -197,7 +218,8 @@ export default Vue.extend({
         cruise: null
       },
       preferences: {
-        colour_scheme: 'system'
+        colour_scheme: 'system',
+        granule_max_age_hours: 0
       },
       controls: {
         persistState: {
@@ -258,12 +280,23 @@ export default Vue.extend({
         }
       }
       return _layers_granules;
+    },
+    granule_max_age_datetime: function () {
+      const date = new Date();
+      date.setHours(date.getHours() - this.preferences.granule_max_age_hours)
+      return date.toISOString();
     }
   },
 
   components: {
     AppColourScheme,
     AppMap
+  },
+
+  watch: {
+  	'preferences.granule_max_age_hours': function () {
+      this.retrieveGranules();
+    }
   },
 
   methods: {
@@ -320,10 +353,23 @@ export default Vue.extend({
       }
     },
     async retrieveGranules (context) {
+      let request_endpoint = this.siis_api_endpoint + '/granules';
+      let request_config = {'params': {}};
+
+      if (this.preferences.granule_max_age_hours != 0) {
+        request_config['params']['maxage'] = this.preferences.granule_max_age_hours;
+      }
+
       try {
-        const response = await axios.get(this.siis_api_endpoint + '/granules');
+        const response = await axios.get(request_endpoint, request_config);
         const data = response.data;
         const _layers = this.layers;
+
+        // reset granules in products
+        for (const _product in _products) {
+          this.$set(_products[_product], 'granules', {});
+        }
+
         data.forEach((granule) => {
           if (!(granule.productcode in _layers)) {
             console.warn("Layer [" + granule.productcode + "] used in Granule [" + granule.uuid + "] does not exist, skipping granule");
