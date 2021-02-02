@@ -413,7 +413,7 @@ export default Vue.extend({
 
       if (this.map_update.crs == 'EPSG:3413') {
         this.active_layers.push({
-          'protocol': 'wms',
+          'protocol': 'WMTS',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
           'layer': 'base_n',
@@ -421,7 +421,7 @@ export default Vue.extend({
         });
       } else if (this.map_update.crs == 'EPSG:3031') {
         this.active_layers.push({
-          'protocol': 'wms',
+          'protocol': 'WMTS',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
           'layer': 'base_s',
@@ -429,14 +429,14 @@ export default Vue.extend({
         });
       } else if (this.map_update.crs == 'EPSG:3857') {
         this.active_layers.push({
-          'protocol': 'wms',
+          'protocol': 'WMTS',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
           'layer': 'base_n',
           'opacity': 1
         });
         this.active_layers.push({
-          'protocol': 'wms',
+          'protocol': 'WMTS',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
           'layer': 'base_s',
@@ -470,9 +470,9 @@ export default Vue.extend({
       const granule = product.granules[granule_id];
 
       this.active_layers.push({
-        'protocol': 'wms',
         'product_id': product_id,
         'granule_id': granule_id,
+        'protocol': this._determinePreferableOGCProtocol(product.types),
         //'endpoint': this.products[product].gs_tempwmsendpoint,  // disabled due to #45
         'endpoint': this.siis_ogc_endpoint,
         'layer': product.gs_layername,
@@ -485,6 +485,13 @@ export default Vue.extend({
       let granule_index = this._determineIfProductGranuleIsActive(product_id, granule_id);
       if (granule_index > -1) {
         this.active_layers.splice(granule_index, 1);
+      }
+    },
+    _determinePreferableOGCProtocol: function (protocols) {
+      if (protocols.includes('WMTS')) {
+        return 'WMTS';
+      } else if (protocols.includes('WMS')) {
+        return 'WMS';
       }
     },
     _determineIfProductGranuleIsActive(product_id, granule_id) {
