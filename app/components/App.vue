@@ -37,15 +37,6 @@
             </td>
           </tr>
           <tr>
-            <td><code>settings.season</code></td>
-            <td><em>N/A</em></td>
-            <td><output>{{ settings.season }}</output></td>
-            <td>True</td>
-            <td>
-              <input v-model="settings.season">
-            </td>
-          </tr>
-          <tr>
             <td>Zoom</td>
             <td><output>{{ map_defaults.zoom }}</output></td>
             <td><output>{{ map_instant.zoom }}</output></td>
@@ -215,10 +206,6 @@ export default Vue.extend({
   data() {
     return {
       environment: 'development',
-      settings: {
-        season: null,
-        cruise: null
-      },
       preferences: {
         colour_scheme: 'system',
         granule_max_age_hours: 0
@@ -307,9 +294,6 @@ export default Vue.extend({
         const _state = {
           settings: {}
         }
-        if (typeof(this.settings?.season) !== 'undefined') {
-          _state.settings.season = this.settings.season;
-        }
         await axios.put(this.siis_api_kv_endpoint, {data: _state});
         alert('State persisted');
       } catch (error) {
@@ -321,9 +305,6 @@ export default Vue.extend({
       try {
         const response = await axios.get(this.siis_api_kv_endpoint);
         const data = response.data.data;
-        if (typeof(data.settings?.season) !== 'undefined') {
-          this.settings.season = data.settings.season;
-        }
       } catch (error) {
         console.error('State could not be retrieved');
         console.error(error);
