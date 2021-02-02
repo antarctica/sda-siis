@@ -67,6 +67,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [API] Refactor to Open API v3 spec
   [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
 
+### Removed
+
+* [App] Unused cruise and season settings
+  [#16](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/16)
+
 ## [0.1.0] - 2020-11-17
 
 ### Added
