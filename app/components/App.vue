@@ -169,11 +169,29 @@
       </table> -->
 
       <p>Active layers</p>
-      <ul>
-        <li v-for="layer in active_layers">
-          {{ layer }}
-        </li>
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Layer (object)</th>
+            <th>Layer (controls)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="layer in active_layers">
+            <td>{{ layer }}</td>
+            <td>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                :name="'opacity-' + layer.product_id + '-' + layer.granule_id"
+                v-model.number="layer.opacity"
+              >
+              <label :for="'opacity-' + layer.product_id + '-' + layer.granule_id">Opacity</label></td>
+          </tr>
+        </tbody>
+      </table>
       <hr />
 
       <app-map
@@ -396,27 +414,31 @@ export default Vue.extend({
           'protocol': 'wms',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
-          'layer': 'base_n'
+          'layer': 'base_n',
+          'opacity': 1
         });
       } else if (this.map_update.crs == 'EPSG:3031') {
         this.active_layers.push({
           'protocol': 'wms',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
-          'layer': 'base_s'
+          'layer': 'base_s',
+          'opacity': 1
         });
       } else if (this.map_update.crs == 'EPSG:3857') {
         this.active_layers.push({
           'protocol': 'wms',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
-          'layer': 'base_n'
+          'layer': 'base_n',
+          'opacity': 1
         });
         this.active_layers.push({
           'protocol': 'wms',
           'endpoint': this.siis_ogc_endpoint,
           'attribution': 'BAS',
-          'layer': 'base_s'
+          'layer': 'base_s',
+          'opacity': 1
         });
       }
 
@@ -453,7 +475,8 @@ export default Vue.extend({
         'endpoint': this.siis_ogc_endpoint,
         'layer': product.gs_layername,
         'attribution': product.attribution,
-        'time': granule.timestamp.split('T')[0]
+        'time': granule.timestamp.split('T')[0],
+        'opacity': 1
       });
     },
     hideGranule: function (product_id, granule_id) {
