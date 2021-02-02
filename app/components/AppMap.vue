@@ -16,7 +16,7 @@
     <VlLayerTile>
       <VlSourceOsm />
     </VlLayerTile>
-    <vl-layer-tile v-for="layer in layers">
+    <vl-layer-tile v-for="layer in layers" :opacity=layer.opacity>
       <vl-source-tile-wms
         :url=layer.endpoint
         :layers=layer.layer
