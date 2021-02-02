@@ -5,6 +5,7 @@
         <h1>SIIS</h1>
     </header>
     <main>
+      <p>Properties</p>
       <table>
         <thead>
           <tr>
@@ -128,6 +129,7 @@
       <button v-on:click="retrieveGranules" :disabled=controls.retrieveGranules.disabled>Retrieve Granules</button>
       <hr />
 
+      <p>Available layers</p>
       <table>
         <thead>
           <tr>
