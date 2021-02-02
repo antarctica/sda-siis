@@ -106,31 +106,54 @@
               </select>
             </td>
           </tr>
+          <tr>
+            <td>Granules max age (hours)</td>
+            <td>0</td>
+            <td>{{ preferences.granule_max_age_hours }}</td>
+            <td>False</td>
+            <td>
+              <select v-model="preferences.granule_max_age_hours">
+                <option value=0>0 (No Limit)</option>
+                <option value=72>Last 72 hours</option>
+                <option value=48>Last 48 hours</option>
+                <option value=24>Last 24 hours</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Granules max age (datetime)</td>
+            <td><em>N/A</em></td>
+            <td>{{ granule_max_age_datetime }}</td>
+            <td>False</td>
+            <td><em>N/A</em></td>
+          </tr>
         </tbody>
       </table>
       <hr />
 
       <button v-on:click="persistState" :disabled=controls.persistState.disabled>Persist State</button>
       <button v-on:click="retrieveState" :disabled=controls.retrieveState.disabled>Retrieve State</button>
-      <button v-on:click="retrieveLayers" :disabled=controls.retrieveLayers.disabled>Retrieve Layers</button>
+      <button v-on:click="retrieveProducts" :disabled=controls.retrieveProducts.disabled>Retrieve Products</button>
       <button v-on:click="retrieveGranules" :disabled=controls.retrieveGranules.disabled>Retrieve Granules</button>
       <hr />
 
       <table>
         <thead>
           <tr>
-            <th>Layer (Label)</th>
-            <th>Granules</th>
+            <th>Product (Label)</th>
+            <th>Granule (ID)</th>
+            <th>Granule (Timestamp)</th>
             <th>Controls</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="layer_granule in layers_granules" :key="layer_granule.granule.uuid">
-            <td>{{ layer_granule.layer.label }}</td>
-            <td>{{ layer_granule.granule.uuid }} - {{ layer_granule.granule.timestamp }}</td>
+          <tr v-for="product_granule in products_granules" :key="product_granule.granule.uuid">
+            <td>{{ product_granule.product.label }}</td>
+            <td>{{ product_granule.granule.uuid }}</td>
+            <td>{{ product_granule.granule.timestamp }}</td>
             <td>
-              <button v-on:click="displayGranule(layer_granule.layer.code, layer_granule.granule.uuid)">Display</button>
-              <button v-on:click="hideGranule(layer_granule.layer.code, layer_granule.granule.uuid)">Hide</button>
+              <button v-on:click="displayGranule(product_granule.product.code, product_granule.granule.uuid)">Display</button>
+              <button v-on:click="hideGranule(product_granule.product.code, product_granule.granule.uuid)">Hide</button>
             </td>
           </tr>
         </tbody>
@@ -140,14 +163,14 @@
       <!-- <table>
         <thead>
           <tr>
-            <th>Layer (Label)</th>
+            <th>Product (Label)</th>
             <th>Granules</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="layer_granule in layers_granules" :key="layer_granule.granule.uuid">
-            <td>{{ layer_granule.layer }}</td>
-            <td>{{ layer_granule.granule }}</td>
+          <tr v-for="product_granule in products_granules" :key="product_granule.granule.uuid">
+            <td>{{ product_granule.product }}</td>
+            <td>{{ product_granule.granule }}</td>
           </tr>
         </tbody>
       </table> -->
@@ -197,7 +220,8 @@ export default Vue.extend({
         cruise: null
       },
       preferences: {
-        colour_scheme: 'system'
+        colour_scheme: 'system',
+        granule_max_age_hours: 0
       },
       controls: {
         persistState: {
@@ -206,7 +230,7 @@ export default Vue.extend({
         retrieveState: {
           disabled: false
         },
-        retrieveLayers: {
+        retrieveProducts: {
           disabled: false
         },
         retrieveGranules: {
@@ -235,7 +259,7 @@ export default Vue.extend({
         rotation_degrees: 0,
         crs: "EPSG:3413"
       },
-      layers: {},
+      products: {},
       active_layers: []
     }
   },
@@ -250,20 +274,31 @@ export default Vue.extend({
     siis_ogc_endpoint: function () {
       return process.env.SERVICE_API_OGC_ENDPOINT;
     },
-    layers_granules: function () {
-      const _layers_granules = [];
-      for (const layer of Object.values(this.layers)) {
-        for (const granule of Object.values(layer.granules)) {
-          _layers_granules.push({'layer': layer, 'granule': granule})
+    products_granules: function () {
+      const _products_granules = [];
+      for (const product of Object.values(this.products)) {
+        for (const granule of Object.values(product.granules)) {
+          _products_granules.push({'product': product, 'granule': granule})
         }
       }
-      return _layers_granules;
+      return _products_granules;
+    },
+    granule_max_age_datetime: function () {
+      const date = new Date();
+      date.setHours(date.getHours() - this.preferences.granule_max_age_hours)
+      return date.toISOString();
     }
   },
 
   components: {
     AppColourScheme,
     AppMap
+  },
+
+  watch: {
+  	'preferences.granule_max_age_hours': function () {
+      this.retrieveGranules();
+    }
   },
 
   methods: {
@@ -294,35 +329,57 @@ export default Vue.extend({
         console.error(error);
       }
     },
-    async retrieveLayers (context) {
+    async retrieveProducts (context) {
+      let request_endpoint = this.siis_api_endpoint + '/products';
+      let request_config = {'params': {}};
+
+      if (this.map_update.crs == 'EPSG:3413') {
+        request_config['params']['hemi'] = 'n';
+      } else if (this.map_update.crs == 'EPSG:3031') {
+        request_config['params']['hemi'] = 's';
+      }
+
       try {
-        const response = await axios.get(this.siis_api_endpoint + '/products');
+        const response = await axios.get(request_endpoint, request_config);
         const data = response.data;
-        const layers = {};
-        data.forEach((layer) => {
-          layer.granules = {};
-          layers[layer.code] = layer;
+        const products = {};
+        data.forEach((product) => {
+          product.granules = {};
+          products[product.code] = product;
         });
-        this.layers = layers;
+        this.products = products;
         this.controls.retrieveGranules.disabled = false;
       } catch (error) {
-        console.error('Layers could not be retrieved');
+        console.error('Products could not be retrieved');
         console.error(error);
       }
     },
     async retrieveGranules (context) {
+      let request_endpoint = this.siis_api_endpoint + '/granules';
+      let request_config = {'params': {}};
+
+      if (this.preferences.granule_max_age_hours != 0) {
+        request_config['params']['maxage'] = this.preferences.granule_max_age_hours;
+      }
+
       try {
-        const response = await axios.get(this.siis_api_endpoint + '/granules');
+        const response = await axios.get(request_endpoint, request_config);
         const data = response.data;
-        const _layers = this.layers;
+        const _products = this.products;
+
+        // reset granules in products
+        for (const _product in _products) {
+          this.$set(_products[_product], 'granules', {});
+        }
+
         data.forEach((granule) => {
-          if (!(granule.productcode in _layers)) {
-            console.warn("Layer [" + granule.productcode + "] used in Granule [" + granule.uuid + "] does not exist, skipping granule");
-            console.info("Available layers IDs:");
-            console.info(Object.keys(_layers));
+          if (!(granule.productcode in _products)) {
+            console.warn("Product [" + granule.productcode + "] used in Granule [" + granule.uuid + "] does not exist, skipping granule");
+            console.info("Available product IDs:");
+            console.info(Object.keys(_products));
             return;
           }
-          this.$set(_layers[granule.productcode]['granules'], granule.uuid, granule);
+          this.$set(_products[granule.productcode]['granules'], granule.uuid, granule);
         });
       } catch (error) {
         console.error('Granules could not be retrieved');
@@ -378,6 +435,9 @@ export default Vue.extend({
           'layer': 'base_s'
         });
       }
+
+      await this.retrieveProducts();
+      await this.retrieveGranules();
     },
     onMapExtentUpdated: function (event) {
     	this.map_instant.extent = event;
@@ -397,38 +457,36 @@ export default Vue.extend({
     onMapProjectionChange: function (event) {
       this.map_instant.projection = event;
     },
-    displayGranule: function (layer_id, granule_id) {
-      const layer = this.layers[layer_id];
-      const granule = layer.granules[granule_id];
+    displayGranule: function (product_id, granule_id) {
+      const product = this.products[product_id];
+      const granule = product.granules[granule_id];
 
       this.active_layers.push({
         'protocol': 'wms',
-        'layer_id': layer_id,
+        'product_id': product_id,
         'granule_id': granule_id,
-        //'endpoint': this.layers[layer].gs_tempwmsendpoint,  // disabled due to #45
+        //'endpoint': this.products[product].gs_tempwmsendpoint,  // disabled due to #45
         'endpoint': this.siis_ogc_endpoint,
-        'layer': layer.gs_layername,
-        'attribution': layer.attribution,
+        'layer': product.gs_layername,
+        'attribution': product.attribution,
         'time': granule.timestamp.split('T')[0]
       });
     },
-    hideGranule: function (layer_id, granule_id) {
-      let granule_index = this._determineIfLayerIsActive(layer_id, granule_id);
+    hideGranule: function (product_id, granule_id) {
+      let granule_index = this._determineIfProductGranuleIsActive(product_id, granule_id);
       if (granule_index > -1) {
         this.active_layers.splice(granule_index, 1);
       }
     },
-    _determineIfLayerIsActive(layer_id, granule_id) {
+    _determineIfProductGranuleIsActive(product_id, granule_id) {
       return this.active_layers.findIndex(function(active_layer) {
-        return active_layer.layer_id === layer_id && active_layer.granule_id === granule_id;
+        return active_layer.product_id === product_id && active_layer.granule_id === granule_id;
       });
     }
   },
 
   async mounted() {
     await this.retrieveState();
-    await this.retrieveLayers();
-    await this.retrieveGranules();
 
     this.setMapBaselayer();
   }
