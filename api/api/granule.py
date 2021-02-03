@@ -7,6 +7,7 @@ from flask import make_response, abort
 from config import db
 from models import Granule, GranuleSchema
 from datetime import datetime, timedelta
+from sqlalchemy import desc
 
 
 def read_all(limit=None, maxage=None):
@@ -29,14 +30,14 @@ def read_all(limit=None, maxage=None):
     if isinstance(limit, int):
         granule = (
             Granule.query.filter(Granule.timestamp > aged_timestamp)
-            .order_by(Granule.timestamp)
+            .order_by(desc(Granule.timestamp))
             .limit(int(limit))
             .all()
         )
     else:
         granule = (
             Granule.query.filter(Granule.timestamp > aged_timestamp)
-            .order_by(Granule.timestamp)
+            .order_by(desc(Granule.timestamp))
             .all()
         )
 
