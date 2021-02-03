@@ -8,6 +8,7 @@ from config import db
 from models import Product, ProductSchema
 from models import Granule, GranuleSchema
 from datetime import datetime, timedelta
+from sqlalchemy import desc
 
 
 def read_all(limit=None, hemi=None):
@@ -98,7 +99,7 @@ def read_one_granules(code, limit=None, maxage=None):
         granule = (
             Granule.query.filter(Granule.productcode == code)
             .filter(Granule.timestamp > aged_timestamp)
-            .order_by(Granule.timestamp)
+            .order_by(desc(Granule.timestamp))
             .limit(int(limit))
             .all()
         )
@@ -106,7 +107,7 @@ def read_one_granules(code, limit=None, maxage=None):
         granule = (
             Granule.query.filter(Granule.productcode == code)
             .filter(Granule.timestamp > aged_timestamp)
-            .order_by(Granule.timestamp)
+            .order_by(desc(Granule.timestamp))
             .all()
         )
 

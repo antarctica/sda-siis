@@ -62,6 +62,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [API] Ensure default granule sorting is descending by 'timestamp'
+  [#61](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/61)
 * [App] Disabling hot module reload in app
   [#54]((https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/54)
 * [App] Updating App JS dependencies
