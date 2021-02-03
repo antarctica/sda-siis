@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
 * [API] Remove host name from GeoServer URLs stored in pg products table
   [#45](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/45)
+* [API] Unify id attribute for API resources
+  [#46](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/46)
 
 ### Added
 
