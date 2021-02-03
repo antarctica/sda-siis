@@ -1,11 +1,13 @@
 from datetime import datetime
 from config import db, ma
 from sqlalchemy import true
+from marshmallow import fields
 
 
 class Granule(db.Model):
     __tablename__ = "granule"
     uuid = db.Column(db.String(), primary_key=True)
+    # id = db.Column(db.String(), primary_key=True)
     productcode = db.Column(db.String())
     timestamp = db.Column(db.DateTime())
     downloadable = db.Column(db.Integer())
@@ -21,11 +23,28 @@ class Granule(db.Model):
     geom_extent = db.Column(db.String())
 
 
-class GranuleSchema(ma.SQLAlchemyAutoSchema):
+class GranuleSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Granule
         sqla_session = db.session
         load_instance = True
+
+    id = fields.String(attribute="uuid")  # For aliasing db uuid field to id
+    # as required by frontend
+    # See issue #46
+    productcode = ma.auto_field()
+    timestamp = ma.auto_field()
+    downloadable = ma.auto_field()
+    downloaded = ma.auto_field()
+    filename_dl = ma.auto_field()
+    size_dl = fields.Integer()
+    zipped = ma.auto_field()
+    productname = ma.auto_field()
+    ts_catingest = ma.auto_field()
+    ts_dlrequest = ma.auto_field()
+    ts_downloaded = ma.auto_field()
+    ts_gsingest = ma.auto_field()
+    geom_extent = ma.auto_field()
 
 
 class Product(db.Model):
