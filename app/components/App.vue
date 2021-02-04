@@ -348,7 +348,7 @@ export default Vue.extend({
         const products = {};
         data.forEach((product) => {
           product.granules = {};
-          product.legend_url = this.siis_ogc_endpoint + "/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=" + product.gs_layername;
+          product.legend_url = this.siis_ogc_endpoint + product.gs_tempwmsendpoint + "/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=" + product.gs_layername;
           products[product.code] = product;
         });
         this.products = products;
@@ -411,10 +411,13 @@ export default Vue.extend({
 
       await this.$refs.AppMap.setProjection(this.map_update.crs);
 
+      // set this from a product definition in future #64
+      const endpoint = this.siis_ogc_endpoint + '/geoserver/ows';
+
       if (this.map_update.crs == 'EPSG:3413') {
         this.active_layers.push({
           'protocol': 'WMTS',
-          'endpoint': this.siis_ogc_endpoint,
+          'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_n',
           'opacity': 1
@@ -422,7 +425,7 @@ export default Vue.extend({
       } else if (this.map_update.crs == 'EPSG:3031') {
         this.active_layers.push({
           'protocol': 'WMTS',
-          'endpoint': this.siis_ogc_endpoint,
+          'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_s',
           'opacity': 1
@@ -430,14 +433,14 @@ export default Vue.extend({
       } else if (this.map_update.crs == 'EPSG:3857') {
         this.active_layers.push({
           'protocol': 'WMTS',
-          'endpoint': this.siis_ogc_endpoint,
+          'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_n',
           'opacity': 1
         });
         this.active_layers.push({
           'protocol': 'WMTS',
-          'endpoint': this.siis_ogc_endpoint,
+          'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_s',
           'opacity': 1
@@ -473,8 +476,7 @@ export default Vue.extend({
         'product_id': product_id,
         'granule_id': granule_id,
         'protocol': this._determinePreferableOGCProtocol(product.types),
-        //'endpoint': this.products[product].gs_tempwmsendpoint,  // disabled due to #45
-        'endpoint': this.siis_ogc_endpoint,
+        'endpoint': this.siis_ogc_endpoint + this.products[product].gs_tempwmsendpoint,
         'layer': product.gs_layername,
         'attribution': product.attribution,
         'time': granule.timestamp.split('T')[0],
