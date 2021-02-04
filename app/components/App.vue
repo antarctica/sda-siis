@@ -141,14 +141,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product_granule in products_granules" :key="product_granule.granule.uuid">
+          <tr v-for="product_granule in products_granules" :key="product_granule.granule.id">
             <td>{{ product_granule.product.label }}</td>
             <td><img v-bind:src="product_granule.product.legend_url"></td>
-            <td>{{ product_granule.granule.uuid }}</td>
+            <td>{{ product_granule.granule.id }}</td>
             <td>{{ product_granule.granule.timestamp }}</td>
             <td>
-              <button v-on:click="displayGranule(product_granule.product.code, product_granule.granule.uuid)">Display</button>
-              <button v-on:click="hideGranule(product_granule.product.code, product_granule.granule.uuid)">Hide</button>
+              <button v-on:click="displayGranule(product_granule.product.code, product_granule.granule.id)">Display</button>
+              <button v-on:click="hideGranule(product_granule.product.code, product_granule.granule.id)">Hide</button>
             </td>
           </tr>
         </tbody>
@@ -163,7 +163,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product_granule in products_granules" :key="product_granule.granule.uuid">
+          <tr v-for="product_granule in products_granules" :key="product_granule.granule.id">
             <td>{{ product_granule.product }}</td>
             <td>{{ product_granule.granule }}</td>
           </tr>
@@ -179,7 +179,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="layer in active_layers">
+          <tr v-for="layer in active_layers" :key="layer.granule_id">
             <td>{{ layer }}</td>
             <td>
               <input
@@ -378,12 +378,12 @@ export default Vue.extend({
 
         data.forEach((granule) => {
           if (!(granule.productcode in _products)) {
-            console.warn("Product [" + granule.productcode + "] used in Granule [" + granule.uuid + "] does not exist, skipping granule");
+            console.warn("Product [" + granule.productcode + "] used in Granule [" + granule.id + "] does not exist, skipping granule");
             console.info("Available product IDs:");
             console.info(Object.keys(_products));
             return;
           }
-          this.$set(_products[granule.productcode]['granules'], granule.uuid, granule);
+          this.$set(_products[granule.productcode]['granules'], granule.id, granule);
         });
       } catch (error) {
         console.error('Granules could not be retrieved');
@@ -420,6 +420,7 @@ export default Vue.extend({
           'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_n',
+          'granule_id': '0',
           'opacity': 1
         });
       } else if (this.map_update.crs == 'EPSG:3031') {
@@ -428,6 +429,7 @@ export default Vue.extend({
           'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_s',
+          'granule_id': '0',
           'opacity': 1
         });
       } else if (this.map_update.crs == 'EPSG:3857') {
@@ -436,6 +438,7 @@ export default Vue.extend({
           'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_n',
+          'granule_id': '0',
           'opacity': 1
         });
         this.active_layers.push({
@@ -443,6 +446,7 @@ export default Vue.extend({
           'endpoint': endpoint,
           'attribution': 'BAS',
           'layer': 'base_s',
+          'granule_id': '0',
           'opacity': 1
         });
       }
@@ -476,7 +480,7 @@ export default Vue.extend({
         'product_id': product_id,
         'granule_id': granule_id,
         'protocol': this._determinePreferableOGCProtocol(product.types),
-        'endpoint': this.siis_ogc_endpoint + this.products[product].gs_tempwmsendpoint,
+        'endpoint': `${this.siis_ogc_endpoint}${product.gs_tempwmsendpoint}`,
         'layer': product.gs_layername,
         'attribution': product.attribution,
         'time': granule.timestamp.split('T')[0],
