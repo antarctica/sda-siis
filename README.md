@@ -135,6 +135,28 @@ $ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v0/ /data/
 $ aws s3 sync s3://siis-data-product-samples.data.bas.ac.uk/v1/ /data/
 ```
 
+#### Refreshing the product data directory in the integration environment
+
+This section applies if someone has [Updated The Product Data Directory](#updating-the-product-data-directory) and you
+wish to update the data directory within the integration environment.
+
+In this environment, Nomad will automatically download a copy of the data directory into each allocation (deployment)
+of the project using pre-start tasks. Deployments are created automatically when either the API or Application
+components are updated (through [Continuous Deployment (CD)](#continuous-deployment)).
+
+Where these components are not updated, a CD run can triggered manually:
+
+1. view the list of project [Pipeline](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/pipelines) runs in GitLab (internal)
+2. select the latest pipeline with a deploy job and inspect the job
+3. choose to *Retry* the job (even though it succeeded)
+
+This will trigger a new Nomad deployment, which will create a new allocation, which will download a fresh copy of the
+data directory from the remote, authoritative, S3 bucket.
+
+**Note:** This process is not intended for long term use and will be reviewed in future.
+
+**Note:** This process assumes the CD process is working correctly (is green), if not raise an incident to resolve it.
+
 ### GeoServer
 
 #### GeoServer data directory
