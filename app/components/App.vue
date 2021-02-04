@@ -5,7 +5,7 @@
         <h1>SIIS</h1>
     </header>
     <main>
-      <p>Properties</p>
+      <h2>Properties</h2>
       <table>
         <thead>
           <tr>
@@ -129,7 +129,7 @@
       <button v-on:click="retrieveGranules" :disabled=controls.retrieveGranules.disabled>Retrieve Granules</button>
       <hr />
 
-      <p>Available layers</p>
+      <h2>Available layers</h2>
       <table>
         <thead>
           <tr>
@@ -170,7 +170,7 @@
         </tbody>
       </table> -->
 
-      <p>Active layers</p>
+      <h2>Active layers</h2>
       <table>
         <thead>
           <tr>
@@ -190,8 +190,31 @@
                 :name="'opacity-' + layer.product_id + '-' + layer.granule_id"
                 v-model.number="layer.opacity"
               >
-              <label :for="'opacity-' + layer.product_id + '-' + layer.granule_id">Opacity</label></td>
+              <label :for="'opacity-' + layer.product_id + '-' + layer.granule_id">Opacity</label>
+            </td>
           </tr>
+        </tbody>
+      </table>
+      <hr />
+
+      <h2>Active granules</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Granule (ID)</th>
+            <th>Granule (Product Name)</th>
+            <th>Granule (Name)</th>
+            <th>Granule (Timestamp)</th>
+            <th>Granule (Legend)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="granule in active_granules" :key="granule.granule_id">
+            <td>{{ granule.granule_id }}</td>
+            <td>{{ granule.product_label }}</td>
+            <td>{{ granule.granule_label }}</td>
+            <td>{{ granule.datetime }}</td>
+           <td><img v-bind:src="granule.legend_url"></td>
         </tbody>
       </table>
       <hr />
@@ -296,7 +319,10 @@ export default Vue.extend({
       const date = new Date();
       date.setHours(date.getHours() - this.preferences.granule_max_age_hours)
       return date.toISOString();
-    }
+    },
+    active_granules: function () {
+      return this.active_layers.filter(layer => layer.granule_id !== '0');
+    },
   },
 
   components: {
@@ -479,10 +505,14 @@ export default Vue.extend({
       this.active_layers.push({
         'product_id': product_id,
         'granule_id': granule_id,
+        'product_label': product.label,
+        'granule_label': granule.productname,
         'protocol': this._determinePreferableOGCProtocol(product.types),
         'endpoint': `${this.siis_ogc_endpoint}${product.gs_tempwmsendpoint}`,
         'layer': product.gs_layername,
+        'legend_url': product.legend_url,
         'attribution': product.attribution,
+        'datetime': granule.timestamp,
         'time': granule.timestamp.split('T')[0],
         'opacity': 1
       });
