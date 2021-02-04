@@ -2,7 +2,7 @@ openapi: "3.0.0"
 
 info:
   description: Open API v3 file for SIIS API
-  version: "0.7"
+  version: "0.8"
   title: SIIS API
 
 servers:
@@ -282,6 +282,9 @@ components:
         formats:
           type: string
           description: GeoServer delivery formats
+        style:
+          type: string
+          description: GeoServer layer style
         srss:
           type: string
           description: GeoServer delivery SRS

@@ -55,6 +55,7 @@ class Product(db.Model):
     label = db.Column(db.String())
     attribution = db.Column(db.String())
     formats = db.Column(db.String())
+    style = db.Column(db.String())
     srss = db.Column(db.String())
     gs_layername = db.Column(db.String())
     gs_tempwmsendpoint = db.Column(db.String())
