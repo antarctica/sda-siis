@@ -66,7 +66,7 @@ build-app:
   variables:
     SERVICE_API_ENDPOINT: http://10.70.1.145:32002
     SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
-    SERVICE_API_OGC_ENDPOINT: http://10.70.1.145:32001/geoserver/ows
+    SERVICE_API_OGC_ENDPOINT: http://10.70.1.145:32001
   before_script:
     - 'cd app'
     - 'yarn install'

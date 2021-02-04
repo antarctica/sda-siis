@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#42](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/42)
 * [API] Remove `/api` prefix for API URLs
   [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
-* [API] Remove host name from GeoServer URLs stored in pg products table
+* [API] Protocol, host and port parameters from GeoServer endpoints in Product API resource
   [#45](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/45)
 * [API] Unify id attribute for API resources
   [#46](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/46)
