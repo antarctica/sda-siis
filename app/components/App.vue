@@ -476,7 +476,7 @@ export default Vue.extend({
         'product_id': product_id,
         'granule_id': granule_id,
         'protocol': this._determinePreferableOGCProtocol(product.types),
-        'endpoint': this.siis_ogc_endpoint + this.products[product].gs_tempwmsendpoint,
+        'endpoint': `${this.siis_ogc_endpoint}${product.gs_tempwmsendpoint}`,
         'layer': product.gs_layername,
         'attribution': product.attribution,
         'time': granule.timestamp.split('T')[0],
