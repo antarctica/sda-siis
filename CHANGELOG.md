@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* [API] Add layer style attribute to product resource 
+* [API] Add layer style attribute to product resource
   [#55](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/55)
 * [App] Minimal implementation of layer transparency
   [#59](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/59)
@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [App] Initial projection support
   [#40](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/40)
 * [Infra] Documentation on how to update JS dependencies
-  [#24](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/24)
+  [#44](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/44)
 * [Infra] Documentation on how to update the S3 data directory
   [#24](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/24)
 * [Infra] Black Python code formatting

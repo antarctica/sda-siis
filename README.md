@@ -117,8 +117,8 @@ After making updates, ensure to communicate with other developers, currently via
 This section applies if *someone else* has [Updated The Product Data Directory](#updating-the-product-data-directory)
 and you have a local copy of the project data directory (i.e. in a development environment).
 
-It is import to pull outstanding changes down to avoid conflicts between files and other unintended side effects of an
-out of sync directory.
+It is important to pull outstanding changes down to avoid conflicts between files and other unintended side effects of
+an out of sync directory.
 
 The AWS S3 client can be used to first preview and then perform updates to a local `./data/` directory, from the
 remote, authoritative, S3 bucket.
