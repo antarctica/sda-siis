@@ -5,7 +5,7 @@
         <h1>SIIS</h1>
     </header>
     <main>
-      <p>Properties</p>
+      <h2>Properties</h2>
       <table>
         <thead>
           <tr>
@@ -129,7 +129,7 @@
       <button v-on:click="retrieveGranules" :disabled=controls.retrieveGranules.disabled>Retrieve Granules</button>
       <hr />
 
-      <p>Available layers</p>
+      <h2>Available layers</h2>
       <table>
         <thead>
           <tr>
@@ -170,7 +170,7 @@
         </tbody>
       </table> -->
 
-      <p>Active layers</p>
+      <h2>Active layers</h2>
       <table>
         <thead>
           <tr>
@@ -190,7 +190,8 @@
                 :name="'opacity-' + layer.product_id + '-' + layer.granule_id"
                 v-model.number="layer.opacity"
               >
-              <label :for="'opacity-' + layer.product_id + '-' + layer.granule_id">Opacity</label></td>
+              <label :for="'opacity-' + layer.product_id + '-' + layer.granule_id">Opacity</label>
+            </td>
           </tr>
         </tbody>
       </table>
