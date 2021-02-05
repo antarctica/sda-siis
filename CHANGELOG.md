@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [API] Initial implementation of map controls
+  [#67](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/67)
 * [API] Initial WMTS support
   [#51](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51)
 * [API] Minimal implementation of granule metadata
