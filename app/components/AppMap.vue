@@ -42,9 +42,10 @@
 <script>
 import Vue from 'vue'
 import proj4 from 'proj4';
-import {Attribution, ScaleLine, FullScreen} from 'ol/control';
+import {Attribution, ScaleLine, FullScreen, MousePosition} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
+import {createStringXY} from 'ol/coordinate';
 import Projection from 'ol/proj/Projection';
 import VueLayers from 'vuelayers';
 import 'vuelayers/dist/vuelayers.css';
@@ -77,6 +78,11 @@ const fullscreen = new FullScreen();
 const attribution = new Attribution({
   collapsible: true,
 });
+const mouseposition = new MousePosition({
+  coordinateFormat: createStringXY(4),
+  undefinedHTML: '&nbsp;',
+});
+
 export default {
   data: function () {
     return {
@@ -93,7 +99,14 @@ export default {
     }
   },
 
-  props: ['initial_projection', 'initial_centre', 'initial_zoom', 'initial_rotation_radians', 'layers'],
+  props: [
+    'initial_projection',
+    'initial_centre',
+    'initial_zoom',
+    'initial_rotation_radians',
+    'layers',
+    'mouse_position_format'
+  ],
 
   computed: {
     rotation_degrees: {
@@ -103,6 +116,12 @@ export default {
       set (value) {
         this.rotation_radians = value * Math.PI / 180
       }
+    },
+    mouse_position_format_projection: function () {
+      if (this.mouse_position_format == 'latlon') {
+        return 'EPSG:4326';
+      }
+      return this.projection;
     }
   },
 
@@ -121,6 +140,9 @@ export default {
     },
     projection () {
       this.projectionUpdated()
+    },
+    mouse_position_format_projection () {
+      mouseposition.setProjection(this.mouse_position_format_projection);
     }
   },
 
@@ -183,6 +205,9 @@ export default {
       this.$refs.AppMap.$map.addControl(scaleLine);
       this.$refs.AppMap.$map.addControl(attribution);
       this.$refs.AppMap.$map.addControl(fullscreen);
+      this.$refs.AppMap.$map.addControl(mouseposition);
+
+      mouseposition.setProjection(this.mouse_position_format_projection);
     });
   }
 }

@@ -119,6 +119,18 @@
             <td>False</td>
             <td><em>N/A</em></td>
           </tr>
+          <tr>
+            <td>Map position format</td>
+            <td><output>{{ map_defaults.position_format }}</output></td>
+            <td><output>{{ map_instant.position_format }}</output></td>
+            <td>False</td>
+            <td>
+              <select v-model="map_update.position_format">
+                <option value=latlon>Lat Lon</option>
+                <option value=xy>XY (Projected)</option>
+              </select>
+            </td>
+          </tr>
         </tbody>
       </table>
       <hr />
@@ -226,6 +238,7 @@
         :initial_centre=map_defaults.centre
         :initial_rotation_radians=map_defaults.rotation_radians
         :layers=active_layers
+        :mouse_position_format=map_update.position_format
         v-on:updateAppMapExtent="onMapExtentUpdated"
         v-on:updateAppMapCentre="onMapCentreUpdated"
         v-on:updateAppMapZoom="onMapZoomUpdated"
@@ -275,7 +288,8 @@ export default Vue.extend({
         extent: [0,0,0,0],
         rotation_radians: 0,
         rotation_degrees: 0,
-        crs: "EPSG:3413"
+        crs: "EPSG:3413",
+        position_format: "latlon"
       },
       map_instant: {
         centre: [0,0],
@@ -283,13 +297,15 @@ export default Vue.extend({
         extent: [0,0,0,0],
         rotation_radians: 0,
         rotation_degrees: 0,
-        crs: "EPSG:3413"
+        crs: "EPSG:3413",
+        position_format: "latlon"
       },
       map_update: {
         centre: [0,0],
         rotation_radians: 0,
         rotation_degrees: 0,
-        crs: "EPSG:3413"
+        crs: "EPSG:3413",
+        position_format: "latlon"
       },
       products: {},
       active_layers: []
