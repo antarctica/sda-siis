@@ -17,12 +17,24 @@
       <VlSourceOsm />
     </VlLayerTile>
     <vl-layer-tile v-for="layer in layers" :key="layer.granule_id" :opacity=layer.opacity>
-      <vl-source-tile-wms
-        :url=layer.endpoint
-        :layers=layer.layer
-        :time=layer.time
-        :attributions=layer.attribution
-      ></vl-source-tile-wms>
+      <template v-if="layer.protocol === 'wmts'">
+        <vl-source-wmts
+          :url=layer.endpoint
+          :layerName=layer.layer
+          :styleName=layer.style
+          format='image/png'
+          :matrixSet=projection
+          :attributions=layer.attribution
+        ></vl-source-wmts>
+      </template>
+      <template v-else-if="layer.protocol === 'wms'">
+        <vl-source-tile-wms
+          :url=layer.endpoint
+          :layers=layer.layer
+          :time=layer.time
+          :attributions=layer.attribution
+        ></vl-source-tile-wms>
+      </template>
     </vl-layer-tile>
   </vl-map>
 </template>

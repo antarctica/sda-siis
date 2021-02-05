@@ -438,43 +438,22 @@ export default Vue.extend({
       await this.$refs.AppMap.setProjection(this.map_update.crs);
 
       // set this from a product definition in future #64
-      const endpoint = this.siis_ogc_endpoint + '/geoserver/ows';
+      const _common = {
+        'protocol': 'wmts',
+        'endpoint': this.siis_ogc_endpoint + '/geoserver/gwc/service/wmts',
+        'attribution': 'BAS',
+        'granule_id': '0',
+        'style': 'line',
+        'opacity': 1
+      }
 
       if (this.map_update.crs == 'EPSG:3413') {
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_n',
-          'granule_id': '0',
-          'opacity': 1
-        });
+        this.active_layers.push({...{'layer': 'siis:base_n'}, ..._common});
       } else if (this.map_update.crs == 'EPSG:3031') {
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_s',
-          'granule_id': '0',
-          'opacity': 1
-        });
+        this.active_layers.push({...{'layer': 'siis:base_s'}, ..._common});
       } else if (this.map_update.crs == 'EPSG:3857') {
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_n',
-          'granule_id': '0',
-          'opacity': 1
-        });
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_s',
-          'granule_id': '0',
-          'opacity': 1
-        });
+        this.active_layers.push({...{'layer': 'siis:base_n'}, ..._common});
+        this.active_layers.push({...{'layer': 'siis:base_s'}, ..._common});
       }
 
       await this.retrieveProducts();
@@ -501,16 +480,29 @@ export default Vue.extend({
     displayGranule: function (product_id, granule_id) {
       const product = this.products[product_id];
       const granule = product.granules[granule_id];
+      let protocol = this._determinePreferableOGCProtocol(product.types);
+     let endpoint = false;
+
+      // overriding result due to mismatches between WMS and WMTS (see #51 for details)
+      protocol = 'wms';
+
+      if (protocol === 'wmts') {
+        endpoint = `${this.siis_ogc_endpoint}${product.gs_tempwmtsendpoint}`;
+      }
+      else if (protocol === 'wms') {
+        endpoint = `${this.siis_ogc_endpoint}${product.gs_tempwmsendpoint}`;
+      }
 
       this.active_layers.push({
         'product_id': product_id,
         'granule_id': granule_id,
         'product_label': product.label,
         'granule_label': granule.productname,
-        'protocol': this._determinePreferableOGCProtocol(product.types),
-        'endpoint': `${this.siis_ogc_endpoint}${product.gs_tempwmsendpoint}`,
+        'protocol': protocol,
+        'endpoint': endpoint,
         'layer': product.gs_layername,
         'legend_url': product.legend_url,
+        'style': product.style,
         'attribution': product.attribution,
         'datetime': granule.timestamp,
         'time': granule.timestamp.split('T')[0],
@@ -525,9 +517,9 @@ export default Vue.extend({
     },
     _determinePreferableOGCProtocol: function (protocols) {
       if (protocols.includes('WMTS')) {
-        return 'WMTS';
+        return 'wmts';
       } else if (protocols.includes('WMS')) {
-        return 'WMS';
+        return 'wms';
       }
     },
     _determineIfProductGranuleIsActive(product_id, granule_id) {
