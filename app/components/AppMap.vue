@@ -42,7 +42,7 @@
 <script>
 import Vue from 'vue'
 import proj4 from 'proj4';
-import {Attribution, ScaleLine, defaults as defaultControls} from 'ol/control';
+import {Attribution, ScaleLine, FullScreen} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
 import Projection from 'ol/proj/Projection';
@@ -72,6 +72,11 @@ const projection3031 = new Projection({
 addProjection(projection3413);
 addProjection(projection3031);
 
+const scaleLine = new ScaleLine();
+const fullscreen = new FullScreen();
+const attribution = new Attribution({
+  collapsible: true,
+});
 export default {
   data: function () {
     return {
@@ -169,11 +174,6 @@ export default {
     this.zoom = this.initial_zoom;
     this.rotation_radians = this.initial_rotation_radians;
 
-    const attribution = new Attribution({
-      collapsible: true,
-    });
-    const scaleLine = new ScaleLine();
-
     this.$refs.AppMapView.$createPromise.then(() => {
       this.centreUpdated();
       this.extentUpdated();
@@ -182,6 +182,7 @@ export default {
     this.$refs.AppMap.$createPromise.then(() => {
       this.$refs.AppMap.$map.addControl(scaleLine);
       this.$refs.AppMap.$map.addControl(attribution);
+      this.$refs.AppMap.$map.addControl(fullscreen);
     });
   }
 }
