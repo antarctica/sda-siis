@@ -481,11 +481,11 @@ export default Vue.extend({
       const product = this.products[product_id];
       const granule = product.granules[granule_id];
       let protocol = this._determinePreferableOGCProtocol(product.types);
+     let endpoint = false;
 
       // overriding result due to mismatches between WMS and WMTS (see #51 for details)
-      let protocol = 'wms';
+      protocol = 'wms';
 
-      let endpoint = false;
       if (protocol === 'wmts') {
         endpoint = `${this.siis_ogc_endpoint}${product.gs_tempwmtsendpoint}`;
       }
