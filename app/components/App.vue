@@ -504,9 +504,9 @@ export default Vue.extend({
     },
     _determinePreferableOGCProtocol: function (protocols) {
       if (protocols.includes('WMTS')) {
-        return 'WMTS';
+        return 'wmts';
       } else if (protocols.includes('WMS')) {
-        return 'WMS';
+        return 'wms';
       }
     },
     _determineIfProductGranuleIsActive(product_id, granule_id) {
