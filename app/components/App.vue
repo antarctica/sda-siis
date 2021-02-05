@@ -438,43 +438,22 @@ export default Vue.extend({
       await this.$refs.AppMap.setProjection(this.map_update.crs);
 
       // set this from a product definition in future #64
-      const endpoint = this.siis_ogc_endpoint + '/geoserver/ows';
+      const _common = {
+        'protocol': 'wmts',
+        'endpoint': this.siis_ogc_endpoint + '/geoserver/gwc/service/wmts',
+        'attribution': 'BAS',
+        'granule_id': '0',
+        'style': 'line',
+        'opacity': 1
+      }
 
       if (this.map_update.crs == 'EPSG:3413') {
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_n',
-          'granule_id': '0',
-          'opacity': 1
-        });
+        this.active_layers.push({...{'layer': 'siis:base_n'}, ..._common});
       } else if (this.map_update.crs == 'EPSG:3031') {
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_s',
-          'granule_id': '0',
-          'opacity': 1
-        });
+        this.active_layers.push({...{'layer': 'siis:base_s'}, ..._common});
       } else if (this.map_update.crs == 'EPSG:3857') {
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_n',
-          'granule_id': '0',
-          'opacity': 1
-        });
-        this.active_layers.push({
-          'protocol': 'WMTS',
-          'endpoint': endpoint,
-          'attribution': 'BAS',
-          'layer': 'base_s',
-          'granule_id': '0',
-          'opacity': 1
-        });
+        this.active_layers.push({...{'layer': 'siis:base_n'}, ..._common});
+        this.active_layers.push({...{'layer': 'siis:base_s'}, ..._common});
       }
 
       await this.retrieveProducts();
