@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [API] Initial WMTS support
+  [#51](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51)
 * [API] Minimal implementation of granule metadata
   [#65](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/65)
 * [API] Add layer style attribute to product resource

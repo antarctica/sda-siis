@@ -480,16 +480,29 @@ export default Vue.extend({
     displayGranule: function (product_id, granule_id) {
       const product = this.products[product_id];
       const granule = product.granules[granule_id];
+      let protocol = this._determinePreferableOGCProtocol(product.types);
+
+      // overriding result due to mismatches between WMS and WMTS (see #51 for details)
+      let protocol = 'wms';
+
+      let endpoint = false;
+      if (protocol === 'wmts') {
+        endpoint = `${this.siis_ogc_endpoint}${product.gs_tempwmtsendpoint}`;
+      }
+      else if (protocol === 'wms') {
+        endpoint = `${this.siis_ogc_endpoint}${product.gs_tempwmsendpoint}`;
+      }
 
       this.active_layers.push({
         'product_id': product_id,
         'granule_id': granule_id,
         'product_label': product.label,
         'granule_label': granule.productname,
-        'protocol': this._determinePreferableOGCProtocol(product.types),
-        'endpoint': `${this.siis_ogc_endpoint}${product.gs_tempwmsendpoint}`,
+        'protocol': protocol,
+        'endpoint': endpoint,
         'layer': product.gs_layername,
         'legend_url': product.legend_url,
+        'style': product.style,
         'attribution': product.attribution,
         'datetime': granule.timestamp,
         'time': granule.timestamp.split('T')[0],
