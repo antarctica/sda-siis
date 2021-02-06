@@ -43,7 +43,6 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_VERIFY: 1
   GITLAB_REGISTRY: docker-registry.data.bas.ac.uk
-  APP_APP_PACKAGE_NAME: app-$CI_JOB_ID
 
 black:
   stage: 🧪 test
@@ -90,8 +89,8 @@ package-app:
     - "mkdir -p ./app/dist-pkgs/"
     - "cd ./app/dist/"
   script:
-    - "zip ../dist-pkgs/app-$CI_JOB_ID.zip *"
-    - "zip ../dist-pkgs/app-min-$CI_JOB_ID.zip * -x '*.map*'"
+    - "zip ../dist-pkgs/app-$CI_PIPELINE_ID.zip *"
+    - "zip ../dist-pkgs/app-min-$CI_PIPELINE_ID.zip * -x '*.map*'"
   artifacts:
     paths:
       - app/dist-pkgs
@@ -113,8 +112,8 @@ distribute-app:
     - "ls"
     - "ls ./app"
     - "ls ./app/dist-pkgs/"
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_JOB_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_JOB_ID/app-$CI_JOB_ID.zip'
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-min-$CI_JOB_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_JOB_ID/app-min-$CI_JOB_ID.zip'
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-$CI_PIPELINE_ID.zip'
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-min-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-min-$CI_PIPELINE_ID.zip'
   needs:
     - job: package-app
       artifacts: true
