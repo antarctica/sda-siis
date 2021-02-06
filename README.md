@@ -431,14 +431,21 @@ Checks are ran automatically in [Continuous Integration](#continuous-integration
 
 ## Deployment
 
+### Deployment packages
+
+Application packages are automatically created by [Continuous Deployment](#continuous-deployment) for the frontend
+application and backend API components when new releases (tags) are created. Packages are held in the per-project
+[GitLab Package Registry](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/packages):
+
+* frontend application: compressed distribution bundle for deployment into a web root:
+  * `app-{version}.zip`: default bundle including source maps
+  * `app-no-src-maps-{version}.zip`: default bundle without source maps, to reduce file size
+
 ### Deployment containers
 
-Self-contained deployment containers are built by Continuous Delivery for the frontend application and backend API
-containers. Images for these containers are tagged under the `/deploy` namespace (e.g.
-`docker-registry.data.bas.ac.uk/magic/siis/deploy/app:latest`).
-
-Other containers (e.g. GeoServer) use the same images the [Development environment](#development-environment) does,
-including the use of volumes to mount required data.
+Self-contained deployment containers are built by [Continuous Deployment](#continuous-deployment) for the frontend
+application and backend API components. Images for these containers are tagged under the `/deploy` namespace in the
+[BAS Docker Registry](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/container_registry).
 
 ### Integration environment
 

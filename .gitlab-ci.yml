@@ -22,6 +22,11 @@
 #   > NOMAD_DOCKER_REGISTRY_USERNAME: "nomad"
 #   > NOMAD_DOCKER_REGISTRY_PASSWORD: "[Sensitive]"
 
+# Changes and tags
+# - most jobs in this pipeline use 'changes' rules to run jobs only when certain components have been updated
+# - when a pipeline is created for a new tag (as part of a release), changes rules will always evaluate to true and run
+# - see https://docs.gitlab.com/ee/ci/yaml/README.html#ruleschanges for further details
+
 # == Includes ==
 
 include:
@@ -75,9 +80,9 @@ build-app:
     paths:
       - app/dist
     expire_in: 1 month
-  # rules:
-  #   - changes:
-  #     - 'app/**/*.*'
+  rules:
+    - changes:
+      - 'app/**/*.*'
 
 package-app:
   stage: 📦 package
@@ -89,8 +94,8 @@ package-app:
     - "mkdir -p ./app/dist-pkgs/"
     - "cd ./app/dist/"
   script:
-    - "zip ../dist-pkgs/app-$CI_PIPELINE_ID.zip *"
-    - "zip ../dist-pkgs/app-no-src-maps-$CI_PIPELINE_ID.zip * -x '*.map*'"
+    - "zip ../dist-pkgs/app.zip *"
+    - "zip ../dist-pkgs/app-no-src-maps.zip * -x '*.map*'"
   artifacts:
     paths:
       - app/dist-pkgs
@@ -98,30 +103,28 @@ package-app:
   needs:
     - job: build-app
       artifacts: true
-  # rules:
-  #   - changes:
-  #     - 'app/**/*.*'
+  rules:
+    - changes:
+      - 'app/**/*.*'
 
 distribute-app:
   stage: 🚚 distribute
   image:
     name: curlimages/curl:latest
     entrypoint: [""]
+  before_script:
+    # we need to remove the `v` prefix for the tag because GitLab only allows package versions in the form `1.2.3`
+    # see https://gitlab.com/gitlab-org/gitlab/-/issues/273034 for details
+    - "export PACKAGE_VERSION = $(echo $CI_COMMIT_TAG | sed 's/^v//')"
   script:
-    - "pwd"
-    - "ls"
-    - "ls ./app"
-    - "ls ./app/dist-pkgs/"
-    - "echo $CI_PIPELINE_ID"
     # if these commands fail, remove the `--fail` flag to re-enable response output, this flag is normally on to fail this job on a non-200 status code, annoyingly you can't have both behaviours
-    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/0.0.$CI_PIPELINE_ID/app-$CI_PIPELINE_ID.zip'
-    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-no-src-maps-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/0.0.$CI_PIPELINE_ID/app-no-src-maps-$CI_PIPELINE_ID.zip'
+    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION.zip'
+    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-no-src-maps.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-no-src-maps-$PACKAGE_VERSION.zip'
   needs:
     - job: package-app
       artifacts: true
-  # rules:
-  #   - changes:
-  #     - 'app/**/*.*'
+  rules:
+    - if: $CI_COMMIT_TAG
 
 containerise-app:
   stage: 🐳 containerise
