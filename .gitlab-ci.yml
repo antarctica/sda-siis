@@ -90,7 +90,7 @@ package-app:
     - "cd ./app/dist/"
   script:
     - "zip ../dist-pkgs/app-$CI_PIPELINE_ID.zip *"
-    - "zip ../dist-pkgs/app-min-$CI_PIPELINE_ID.zip * -x '*.map*'"
+    - "zip ../dist-pkgs/app-no-src-maps-$CI_PIPELINE_ID.zip * -x '*.map*'"
   artifacts:
     paths:
       - app/dist-pkgs
@@ -113,8 +113,9 @@ distribute-app:
     - "ls ./app"
     - "ls ./app/dist-pkgs/"
     - "echo $CI_PIPELINE_ID"
-    - 'curl --fail --show-error --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-$CI_PIPELINE_ID.zip'
-    - 'curl --fail --show-error --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-min-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-min-$CI_PIPELINE_ID.zip'
+    # if these commands fail, remove the `--fail` flag to re-enable response output, this flag is normally on to fail this job on a non-200 status code, annoyingly you can't have both behaviours
+    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/0.0.$CI_PIPELINE_ID/app-$CI_PIPELINE_ID.zip'
+    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-no-src-maps-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/0.0.$CI_PIPELINE_ID/app-no-src-maps-$CI_PIPELINE_ID.zip'
   needs:
     - job: package-app
       artifacts: true
