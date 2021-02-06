@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [Infra] Automatic packages for frontend application
+  [#21](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/21)
 * [App] Initial implementation of map metadata
   [#69](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/69)
 * [App] Initial implementation of map controls
