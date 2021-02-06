@@ -145,9 +145,9 @@ containerise-app:
   needs:
     - job: build-app
       artifacts: true
-  # rules:
-  #   - changes:
-  #     - 'app/**/*.*'
+  rules:
+    - changes:
+      - 'app/**/*.*'
 
 containerise-api:
   stage: 🐳 containerise
