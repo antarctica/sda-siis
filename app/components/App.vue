@@ -131,6 +131,18 @@
               </select>
             </td>
           </tr>
+          <tr>
+            <td>Scale bar units</td>
+            <td><output>{{ map_defaults.scale_bar_unit }}</output></td>
+            <td><output>{{ map_instant.scale_bar_unit }}</output></td>
+            <td>False</td>
+            <td>
+              <select v-model="map_update.scale_bar_unit">
+                <option value=nautical>Nautical miles (nm)</option>
+                <option value=metric>Metric (m, km)</option>
+              </select>
+            </td>
+          </tr>
         </tbody>
       </table>
       <hr />
@@ -239,6 +251,7 @@
         :initial_rotation_radians=map_defaults.rotation_radians
         :layers=active_layers
         :mouse_position_format=map_update.position_format
+        :scale_bar_unit=map_update.scale_bar_unit
         v-on:updateAppMapExtent="onMapExtentUpdated"
         v-on:updateAppMapCentre="onMapCentreUpdated"
         v-on:updateAppMapZoom="onMapZoomUpdated"
@@ -289,7 +302,8 @@ export default Vue.extend({
         rotation_radians: 0,
         rotation_degrees: 0,
         crs: "EPSG:3413",
-        position_format: "latlon"
+        position_format: "latlon",
+        scale_bar_unit: "nautical"
       },
       map_instant: {
         centre: [0,0],
@@ -298,14 +312,16 @@ export default Vue.extend({
         rotation_radians: 0,
         rotation_degrees: 0,
         crs: "EPSG:3413",
-        position_format: "latlon"
+        position_format: "latlon",
+        scale_bar_unit: "nautical"
       },
       map_update: {
         centre: [0,0],
         rotation_radians: 0,
         rotation_degrees: 0,
         crs: "EPSG:3413",
-        position_format: "latlon"
+        position_format: "latlon",
+        scale_bar_unit: "nautical"
       },
       products: {},
       active_layers: []

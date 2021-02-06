@@ -105,7 +105,8 @@ export default {
     'initial_zoom',
     'initial_rotation_radians',
     'layers',
-    'mouse_position_format'
+    'mouse_position_format',
+    'scale_bar_unit'
   ],
 
   computed: {
@@ -143,6 +144,9 @@ export default {
     },
     mouse_position_format_projection () {
       mouseposition.setProjection(this.mouse_position_format_projection);
+    },
+    scale_bar_unit () {
+      scaleLine.setUnits(this.scale_bar_unit);
     }
   },
 
@@ -208,6 +212,7 @@ export default {
       this.$refs.AppMap.$map.addControl(mouseposition);
 
       mouseposition.setProjection(this.mouse_position_format_projection);
+      scaleLine.setUnits(this.scale_bar_unit);
     });
   }
 }
