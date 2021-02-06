@@ -115,7 +115,7 @@ distribute-app:
   before_script:
     # we need to remove the `v` prefix for the tag because GitLab only allows package versions in the form `1.2.3`
     # see https://gitlab.com/gitlab-org/gitlab/-/issues/273034 for details
-    - "export PACKAGE_VERSION = $(echo $CI_COMMIT_TAG | sed 's/^v//')"
+    - "export PACKAGE_VERSION=$(echo $CI_COMMIT_TAG | sed 's/^v//')"
   script:
     # if these commands fail, remove the `--fail` flag to re-enable response output, this flag is normally on to fail this job on a non-200 status code, annoyingly you can't have both behaviours
     - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION.zip'
