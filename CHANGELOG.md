@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed [BREAKING!]
 
-* [API] Rename layerdefs resource to products
+* [API] Rename `/layerdefs` resource to `/products`
   [#42](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/42)
 * [API] Remove `/api` prefix for API URLs
   [#43](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/43)
@@ -20,11 +20,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* [API] Initial implementation of map controls
+* [App] Initial implementation of map metadata
+  [#69](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/69)
+* [App] Initial implementation of map controls
   [#67](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/67)
-* [API] Initial WMTS support
+* [App] Initial WMTS support
   [#51](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51)
-* [API] Minimal implementation of granule metadata
+* [App] Minimal implementation of granule metadata
   [#65](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/65)
 * [API] Add layer style attribute to product resource
   [#55](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/55)
