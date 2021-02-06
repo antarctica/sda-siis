@@ -353,7 +353,7 @@ export default Vue.extend({
       return date.toISOString();
     },
     active_granules: function () {
-      return this.active_layers.filter(layer => layer.granule_id !== '0');
+      return this.active_layers.filter(layer => layer.granule_id.includes('base'));
     },
   },
 
@@ -474,18 +474,29 @@ export default Vue.extend({
         'protocol': 'wmts',
         'endpoint': this.siis_ogc_endpoint + '/geoserver/gwc/service/wmts',
         'attribution': 'BAS',
-        'granule_id': '0',
         'style': 'line',
         'opacity': 1
       }
 
       if (this.map_update.crs == 'EPSG:3413') {
-        this.active_layers.push({...{'layer': 'siis:base_n'}, ..._common});
+        this.active_layers.push({...{
+          'layer': 'siis:base_n',
+          'granule_id': 'base-n',
+        }, ..._common});
       } else if (this.map_update.crs == 'EPSG:3031') {
-        this.active_layers.push({...{'layer': 'siis:base_s'}, ..._common});
+        this.active_layers.push({...{
+          'layer': 'siis:base_s',
+          'granule_id': 'base-s',
+        }, ..._common});
       } else if (this.map_update.crs == 'EPSG:3857') {
-        this.active_layers.push({...{'layer': 'siis:base_n'}, ..._common});
-        this.active_layers.push({...{'layer': 'siis:base_s'}, ..._common});
+        this.active_layers.push({...{
+          'layer': 'siis:base_n',
+          'granule_id': 'base-n',
+        }, ..._common});
+        this.active_layers.push({...{
+          'layer': 'siis:base_s',
+          'granule_id': 'base-s',
+        }, ..._common});
       }
 
       await this.retrieveProducts();

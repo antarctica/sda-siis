@@ -78,7 +78,7 @@ const fullscreen = new FullScreen();
 const attribution = new Attribution({
   collapsible: true,
 });
-const mouseposition = new MousePosition({
+const mousePosition = new MousePosition({
   coordinateFormat: createStringXY(4),
   undefinedHTML: '&nbsp;',
 });
@@ -143,7 +143,7 @@ export default {
       this.projectionUpdated()
     },
     mouse_position_format_projection () {
-      mouseposition.setProjection(this.mouse_position_format_projection);
+      mousePosition.setProjection(this.mouse_position_format_projection);
     },
     scale_bar_unit () {
       scaleLine.setUnits(this.scale_bar_unit);
@@ -209,9 +209,9 @@ export default {
       this.$refs.AppMap.$map.addControl(scaleLine);
       this.$refs.AppMap.$map.addControl(attribution);
       this.$refs.AppMap.$map.addControl(fullscreen);
-      this.$refs.AppMap.$map.addControl(mouseposition);
+      this.$refs.AppMap.$map.addControl(mousePosition);
 
-      mouseposition.setProjection(this.mouse_position_format_projection);
+      mousePosition.setProjection(this.mouse_position_format_projection);
       scaleLine.setUnits(this.scale_bar_unit);
     });
   }
