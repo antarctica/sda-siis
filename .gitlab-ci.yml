@@ -109,6 +109,10 @@ distribute-app:
     name: curlimages/curl:latest
     entrypoint: [""]
   script:
+    - "pwd"
+    - "ls"
+    - "ls ./app"
+    - "ls ./app/dist-pkgs/"
     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_JOB_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_JOB_ID/app-$CI_JOB_ID.zip'
     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-min-$CI_JOB_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_JOB_ID/app-min-$CI_JOB_ID.zip'
   needs:
