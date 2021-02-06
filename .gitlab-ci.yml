@@ -112,8 +112,9 @@ distribute-app:
     - "ls"
     - "ls ./app"
     - "ls ./app/dist-pkgs/"
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-$CI_PIPELINE_ID.zip'
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-min-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-min-$CI_PIPELINE_ID.zip'
+    - "echo $CI_PIPELINE_ID"
+    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-$CI_PIPELINE_ID.zip'
+    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-min-$CI_PIPELINE_ID.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$CI_PIPELINE_ID/app-min-$CI_PIPELINE_ID.zip'
   needs:
     - job: package-app
       artifacts: true
