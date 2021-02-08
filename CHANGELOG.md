@@ -63,6 +63,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Incorrect logic for selecting active granules vs. base layers
+  [#73](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/73)
 * [App] Refactoring references to properties between Vue components
   [#47](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/47)
 * [Meta] Inconsistencies between `sea-ice` and `sea ice` resolved to `sea ice`

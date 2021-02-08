@@ -353,7 +353,7 @@ export default Vue.extend({
       return date.toISOString();
     },
     active_granules: function () {
-      return this.active_layers.filter(layer => layer.granule_id.includes('base'));
+      return this.active_layers.filter(layer => !layer.granule_id.includes('base'));
     },
   },
 
