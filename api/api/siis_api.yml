@@ -268,7 +268,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           description: Id of the product
         code:
           type: string
@@ -280,14 +280,16 @@ components:
           type: string
           description: product attribution
         formats:
-          type: string
-          description: GeoServer delivery formats
+          type: array
+          items:
+            $ref: "#/components/schemas/format"
         style:
           type: string
           description: GeoServer layer style
         srss:
-          type: string
-          description: GeoServer delivery SRS
+          type: array
+          items:
+            $ref: "#/components/schemas/srs"
         gs_layername:
           type: string
           description: Geoserver layer name
@@ -301,8 +303,9 @@ components:
           type: string
           description: Geoserver WMTS endpoint - temporary for testing
         types:
-          type: string
-          description: Array of WxS types available
+          type: array
+          items:
+            $ref: "#/components/schemas/type"
         timestamps:
           type: string
           description: Array of timestamps available
@@ -316,6 +319,18 @@ components:
           type: string
           description: product footprint
 
+    format:
+      type: string
+      description: Array of WxS types available
+
+    srs:
+      type: integer
+      description: GeoServer delivery SRS
+    
+    type:
+      type: string
+      description: Array of WxS types available
+
     products:
       type: array
       items:
@@ -324,8 +339,8 @@ components:
     granule:
       type: object
       properties:
-        uuid:
-          type: string
+        id:
+          type: integer
           description: Granule UUID
         productcode:
           type: string
