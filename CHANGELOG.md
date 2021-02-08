@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed [BREAKING!]
 
+* [API] Encode `/products` array products as lists
+  [#53](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/53)
 * [API] Rename `/layerdefs` resource to `/products`
   [#42](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/42)
 * [API] Remove `/api` prefix for API URLs
