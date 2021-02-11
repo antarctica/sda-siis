@@ -13,16 +13,16 @@
       :zoom.sync=zoom
       :rotation.sync="rotation_radians"
     ></vl-view>
-    <VlLayerTile>
-      <VlSourceOsm />
-    </VlLayerTile>
+    <vl-layer-tile>
+      <vl-source-osm></vl-source-osm>
+    </vl-layer-tile>
     <vl-layer-tile v-for="layer in layers" :key="layer.granule_id" :opacity=layer.opacity>
       <template v-if="layer.protocol === 'wmts'">
         <vl-source-wmts
           :url=layer.endpoint
           :layerName=layer.layer
           :styleName=layer.style
-          format='image/png'
+          :format=layer.format
           :matrixSet=projection
           :attributions=layer.attribution
         ></vl-source-wmts>
