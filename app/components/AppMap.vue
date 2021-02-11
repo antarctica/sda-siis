@@ -22,7 +22,7 @@
           :url=layer.endpoint
           :layerName=layer.layer
           :styleName=layer.style
-          format='image/png'
+          :format=layer.format
           :matrixSet=projection
           :attributions=layer.attribution
         ></vl-source-wmts>

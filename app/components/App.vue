@@ -474,6 +474,7 @@ export default Vue.extend({
         'protocol': 'wmts',
         'endpoint': this.siis_ogc_endpoint + '/geoserver/gwc/service/wmts',
         'attribution': 'BAS',
+        'format': 'image/png',
         'style': 'line',
         'opacity': 1
       }
@@ -524,10 +525,8 @@ export default Vue.extend({
       const product = this.products[product_id];
       const granule = product.granules[granule_id];
       let protocol = this._determinePreferableOGCProtocol(product.types);
-     let endpoint = false;
-
-      // overriding result due to mismatches between WMS and WMTS (see #51 for details)
-      protocol = 'wms';
+      let format = this._determinePreferableImageFormat(product.formats);
+      let endpoint = false;
 
       if (protocol === 'wmts') {
         endpoint = `${this.siis_ogc_endpoint}${product.gs_tempwmtsendpoint}`;
@@ -545,6 +544,7 @@ export default Vue.extend({
         'endpoint': endpoint,
         'layer': product.gs_layername,
         'legend_url': product.legend_url,
+        'format': format,
         'style': product.style,
         'attribution': product.attribution,
         'datetime': granule.timestamp,
@@ -563,6 +563,13 @@ export default Vue.extend({
         return 'wmts';
       } else if (protocols.includes('WMS')) {
         return 'wms';
+      }
+    },
+    _determinePreferableImageFormat: function (formats) {
+      if (formats.includes('image/png')) {
+        return 'image/png';
+      } else if (formats.includes('image/jpeg')) {
+        return 'image/jpeg';
       }
     },
     _determineIfProductGranuleIsActive(product_id, granule_id) {
