@@ -6,6 +6,9 @@ Sea Ice Information System (SIIS) for the Sir David Attenborough (SDA).
 
 This application is an early alpha. Significant refactoring is ongoing and so should be considered unstable.
 
+The frontend application UI is being rebuilt in [#72](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/72), this can
+only be accessed locally, by toggling the `command` parameter for the `app` service in the `docker-compose.yml` file.
+
 ## Overview
 
 ### Purpose
