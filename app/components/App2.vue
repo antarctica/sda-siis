@@ -4,6 +4,7 @@
     <div id="panels-wrapper">
       <div class="panel" id="layer-wrapper">
         <app-product-switcher
+          :api_endpoint="api_endpoint"
           :crs="control_crs"
           v-on:update:selected_product_granule="whenSelectedProductGranuleChange"
         ></app-product-switcher>
@@ -33,6 +34,7 @@
 
 <script>
 import Vue from 'vue';
+
 import AppColourScheme from './AppColourScheme.vue';
 import AppProductSwitcher from './AppProductSwitcher.vue';
 import AppMapControls from './AppMapControls.vue';
@@ -52,6 +54,12 @@ export default Vue.extend({
       },
       control_crs: 'EPSG:3413',
       selected_product_granule: {}
+    }
+  },
+
+  computed: {
+    api_endpoint: function () {
+      return process.env.SERVICE_API_ENDPOINT;
     }
   },
 

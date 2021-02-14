@@ -1,8 +1,13 @@
 <template>
   <section>
     <header><h4>Granule Metadata</h4></header>
-    <p v-if="product">Product: <output>{{ product.id }}</output></p>
-    <p v-if="granule">Granule: <output>{{ granule.id }}</output></p>
+    <div v-if="Object.keys(selected_product_granule).length">
+      <p v-if="product">Product: <output>{{ product.id }}</output></p>
+      <p v-if="granule">Granule: <output>{{ granule.id }}</output></p>
+    </div>
+    <div v-else>
+      <p>Select a product to view granule metadata</p>
+    </div>
   </section>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
   <section>
-    <input type="radio" name="product-selection" :id="'product-selection-' + product.id" :value="product.id" v-model="selected">
-    <input type="checkbox" name="active-products" :id="'active-products-' + product.id" v-model="active">
-    {{ product.id }}
+    <input type="radio" name="product-selection" :id="'product-selection-' + id" :value="id" v-model="selected">
+    <input type="checkbox" name="active-products" :id="'active-products-' + id" v-model="active">
+    {{ id }} {{ code }}
     <div class="debug">
       <p>Selected: {{ is_selected }}</p>
       <p>Active: {{ is_active }}</p>
@@ -14,23 +14,25 @@
 export default {
   data() {
     return {
+      'id': '',
+      'code': '',
       'is_active': false
     }
   },
 
   props: [
-    'product',
-    'selected_product',
-    "initial_active_products"
+    'initial_product',
+    'selected_product_id',
+    "initial_active_product_ids"
   ],
 
   computed: {
     selected: {
       get: function() {
-        return this.selected_product;
+        return this.selected_product_id;
       },
       set: function() {
-        this.$emit("update:selected_product", this.product.id);
+        this.$emit("update:selected_product", this.$data);
       }
     },
     active: {
@@ -39,20 +41,29 @@ export default {
       },
       set: function() {
         this.is_active = !this.is_active;
-        this.$emit("update:active_product", {'product_id': this.product.id, 'is_active': this.is_active});
+        this.$emit("update:active_product", this.$data);
       }
     },
     is_selected: function () {
-      if (this.selected_product == this.product.id) {
+      if (this.selected_product_id == this.id) {
         return true;
       }
       return false;
     },
   },
 
+  methods: {
+    init: function() {
+      this.id = String(this.initial_product.id),
+      this.code = this.initial_product.code
+    },
+  },
+
   mounted() {
-    if (this.initial_active_products.includes(this.product.id)) {
+    this.init();
+    if (this.initial_active_product_ids.includes(this.id)) {
       this.is_active = true;
+      this.$emit("update:active_product", this.$data);
     }
   }
 }
