@@ -8,6 +8,7 @@
           :ogc_endpoint="ogc_endpoint"
           :crs="control_crs"
           v-on:update:selected_product_granule="whenSelectedProductGranuleChange"
+          v-on:update:active_product_granules="whenActiveProductGranulesChange"
         ></app-product-switcher>
       </div>
       <div class="panel" id="map-controls-wrapper">
@@ -28,6 +29,7 @@
     <div class="map" id="map-wrapper">
       <app-map2
         :crs="control_crs"
+        :product_granules="active_product_granules"
       ></app-map2>
     </div>
   </div>
@@ -54,7 +56,8 @@ export default Vue.extend({
         colour_scheme: 'system'
       },
       control_crs: 'EPSG:3413',
-      selected_product_granule: {}
+      selected_product_granule: {},
+      active_product_granules: []
     }
   },
 
@@ -82,6 +85,9 @@ export default Vue.extend({
     },
     whenSelectedProductGranuleChange: function ($event) {
       this.selected_product_granule = $event;
+    },
+    whenActiveProductGranulesChange: function ($event) {
+      this.active_product_granules = $event;
     }
   }
 });

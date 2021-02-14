@@ -127,6 +127,7 @@ export default {
         let _index = this.active_products.findIndex(product => product.id === $event.id);
         this.active_products.splice(_index, 1);
       }
+      this.$emit("update:active_product_granules", this.active_products);
     }
   },
 
