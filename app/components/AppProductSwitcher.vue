@@ -40,10 +40,11 @@ import AppProduct from './AppProduct.vue';
 export default {
   data() {
     return {
+      'arctic_default_product_ids': ['4'],
+      'antarctic_default_product_ids': ['5'],
       'raw_products': [],
       'selected_product': {},
       'active_products': [],
-      'initial_active_product_ids': ['4'],
       'time_filter': 0
     }
   },
@@ -54,10 +55,8 @@ export default {
   ],
 
   computed: {
-    selected_product_id: {
-      get: function() {
-        return this.selected_product.id;
-      }
+    selected_product_id: function() {
+      return this.selected_product.id;
     },
     selected_product_granule: function () {
       return {
@@ -67,6 +66,14 @@ export default {
         }
       }
     },
+    initial_active_product_ids: function() {
+      if (this.crs == 'EPSG:3413') {
+        return this.arctic_default_product_ids;
+      } else if (this.crs == 'EPSG:3031') {
+        return this.antarctic_default_product_ids;
+      }
+      return this.arctic_default_product_ids.concat(this.antarctic_default_product_ids);
+    },
     hemisphere: function () {
       if (this.crs == 'EPSG:3413') {
         return 'n';
@@ -74,6 +81,13 @@ export default {
         return 's';
       }
       return false;
+    }
+  },
+
+  watch: {
+    crs: async function () {
+      this.active_products = [];
+      await this.getProducts();
     }
   },
 

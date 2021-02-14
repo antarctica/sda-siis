@@ -52,19 +52,28 @@ export default {
     },
   },
 
+  watch: {
+    initial_active_product_ids: function () {
+      this.checkIfActiveProduct();
+    }
+  },
+
   methods: {
     init: function() {
       this.id = String(this.initial_product.id),
       this.code = this.initial_product.code
     },
+    checkIfActiveProduct: function() {
+      if (this.initial_active_product_ids.includes(this.id)) {
+        this.is_active = true;
+        this.$emit("update:active_product", this.$data);
+      }
+    }
   },
 
   mounted() {
     this.init();
-    if (this.initial_active_product_ids.includes(this.id)) {
-      this.is_active = true;
-      this.$emit("update:active_product", this.$data);
-    }
+    this.checkIfActiveProduct();
   }
 }
 </script>
