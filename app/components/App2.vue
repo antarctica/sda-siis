@@ -5,6 +5,7 @@
       <div class="panel" id="layer-wrapper">
         <app-product-switcher
           :api_endpoint="api_endpoint"
+          :ogc_endpoint="ogc_endpoint"
           :crs="control_crs"
           v-on:update:selected_product_granule="whenSelectedProductGranuleChange"
         ></app-product-switcher>
@@ -60,7 +61,10 @@ export default Vue.extend({
   computed: {
     api_endpoint: function () {
       return process.env.SERVICE_API_ENDPOINT;
-    }
+    },
+    ogc_endpoint: function () {
+      return process.env.SERVICE_API_OGC_ENDPOINT;
+    },
   },
 
   components: {

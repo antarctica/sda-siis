@@ -4,6 +4,7 @@
     <app-product
       v-for="product in raw_products"
       :key="product.id"
+      :ogc_endpoint="ogc_endpoint"
       :initial_product="product"
       :initial_active_product_ids="initial_active_product_ids"
       :selected_product_id="selected_product_id"
@@ -51,6 +52,7 @@ export default {
 
   props: [
     'api_endpoint',
+    'ogc_endpoint',
     'crs'
   ],
 
