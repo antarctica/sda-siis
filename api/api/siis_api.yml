@@ -315,6 +315,15 @@ components:
         hemisphere:
           type: string
           description: Hemisphere of product ('N'/'S'/'')
+        static:
+          type: boolean
+          description: Static background product/layer without granules?
+        default_timeframe:
+          type: integer
+          description: Default time filter in hours applied on granules for app rendering
+        status:
+          type: string
+          description: Status of product feed, based on status of granules {offline|pending|processing|online}
         geom_extent:
           type: string
           description: product footprint
@@ -378,6 +387,9 @@ components:
         ts_gsingest:
           type: string
           description: Timestamp of successful ship-side GeoServer ingest
+        status:
+          type: string
+          description: Status of granule availability on vessel {offline|pending|processing|online}
         geom_extent:
           type: string
           description: product footprint   

@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [API] Add status, default_timeframe etc to API
+  [#75](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/75)
 * [Infra] Automatic packages for frontend application
   [#21](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/21)
 * [App] Initial implementation of map metadata

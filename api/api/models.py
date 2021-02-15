@@ -20,6 +20,7 @@ class Granule(db.Model):
     ts_dlrequest = db.Column(db.DateTime())
     ts_downloaded = db.Column(db.DateTime())
     ts_gsingest = db.Column(db.DateTime())
+    status = db.Column(db.String())
     geom_extent = db.Column(db.String())
 
 
@@ -44,6 +45,7 @@ class GranuleSchema(ma.SQLAlchemySchema):
     ts_dlrequest = ma.auto_field()
     ts_downloaded = ma.auto_field()
     ts_gsingest = ma.auto_field()
+    status = ma.auto_field()
     geom_extent = ma.auto_field()
 
 
@@ -65,6 +67,9 @@ class Product(db.Model):
     timestamps = db.Column(db.ARRAY(db.DateTime()))
     haslegend = db.Column(db.String())
     hemisphere = db.Column(db.String(1))
+    static = db.Column(db.Boolean())
+    default_timeframe = db.Column(db.Integer())
+    status = db.Column(db.String())
     geom_extent = db.Column(db.String())
 
     # granules = db.relationship(

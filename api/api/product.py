@@ -86,13 +86,19 @@ def read_one_granules(code, limit=None, maxage=None):
     :return:            granules matching product code
     """
 
+    # Retrieve default_timeframe to filter last x hrs worth of products,
+    #   if maxage not provided
+    product = Product.query.filter(Product.code == code).one_or_none()
+
     # Calculate earliest timestamp if maxage is supplied
+    #   else use product.default_timeframe
     if isinstance(maxage, float):
-        pass
         d = datetime.utcnow() - timedelta(hours=maxage)
         aged_timestamp = d.isoformat()
     else:
-        aged_timestamp = "2000-01-01T00:00:00"
+        d = datetime.utcnow() - timedelta(hours=product.default_timeframe)
+        aged_timestamp = d.isoformat()
+    #        aged_timestamp = "2000-01-01T00:00:00"
 
     # Get the granules requested
     if isinstance(limit, int):
