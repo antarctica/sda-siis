@@ -324,6 +324,9 @@ components:
         status:
           type: string
           description: Status of product feed, based on status of granules {offline|pending|processing|online}
+        render_exclusive:
+          type: boolean
+          description: Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
         geom_extent:
           type: string
           description: product footprint

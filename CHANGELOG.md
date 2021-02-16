@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [API] Add render_exclusive to API /products
+  [#75](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/75)
 * [API] Add status, default_timeframe etc to API
   [#75](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/75)
 * [Infra] Automatic packages for frontend application
