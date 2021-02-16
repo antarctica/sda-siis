@@ -70,6 +70,7 @@ class Product(db.Model):
     static = db.Column(db.Boolean())
     default_timeframe = db.Column(db.Integer())
     status = db.Column(db.String())
+    render_exclusive = db.Column(db.Boolean())
     geom_extent = db.Column(db.String())
 
     # granules = db.relationship(
