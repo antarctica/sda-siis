@@ -4,11 +4,14 @@
     <app-product
       v-for="product in raw_products"
       :key="product.id"
+      :api_endpoint="api_endpoint"
       :ogc_endpoint="ogc_endpoint"
+      :time_filter="time_filter"
       :initial_product="product"
       :initial_active_product_ids="initial_active_product_ids"
       :selected_product_id="selected_product_id"
-      v-on:update:selected_product="whenSelectedProductChange"
+      v-on:update:selected_product="whenSelectedProductGranuleChange"
+      v-on:update:selected_granule="whenSelectedProductGranuleChange"
       v-on:update:active_product="whenActiveProductChange"
     ></app-product>
     <div class="debug">
@@ -61,11 +64,13 @@ export default {
       return this.selected_product.id;
     },
     selected_product_granule: function () {
+      let selected_granule = {};
+      if (this.selected_product.has_granules) {
+        selected_granule = this.selected_product.granules[this.selected_product.selected_granule_index];
+      }
       return {
         'product': this.selected_product,
-        'granule': {
-          'id': false
-        }
+        'granule': selected_granule
       }
     },
     initial_active_product_ids: function() {
@@ -114,7 +119,7 @@ export default {
         console.error(error);
       }
     },
-    whenSelectedProductChange: function ($event) {
+    whenSelectedProductGranuleChange: function ($event) {
       this.selected_product = $event;
       this.$emit("update:selected_product_granule", this.selected_product_granule);
     },
