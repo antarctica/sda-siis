@@ -3,7 +3,13 @@
     <header><h4>Granule Metadata</h4></header>
     <div v-if="Object.keys(selected_product_granule).length">
       <p v-if="product">Product: <output>{{ product.label }}</output></p>
-      <p v-if="granule">Granule: <output>{{ granule.id }}</output></p>
+      <div v-if="granule">
+        <p>Granule:</p>
+        <ul>
+          <li>Name: <output>{{ granule.label }}</output></li>
+          <li>Time: <output>{{ granule.timestamp }}</output></li>
+        </ul>
+      </div>
       <img :src="product.legend_url">
     </div>
     <div v-else>
