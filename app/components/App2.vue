@@ -1,6 +1,9 @@
 <template>
   <div id="app-wrapper">
-    <app-colour-scheme :colour_scheme=preferences.colour_scheme></app-colour-scheme>
+    <app-colour-scheme
+      :colour_scheme=colour_scheme
+      v-on:update:system_colour_scheme="whenSystemColourSchemeChange"
+    ></app-colour-scheme>
     <div id="panels-wrapper">
       <div class="panel" id="layer-wrapper">
         <app-product-switcher
@@ -14,7 +17,9 @@
       <div class="panel" id="map-controls-wrapper">
         <app-map-controls
           :initial_crs="control_crs"
+          initial_day_night_mode="system"
           v-on:update:crs="whenCRSChange"
+          v-on:update:day_night="whenColourSchemeChange"
         ></app-map-controls>
       </div>
       <div class="panel" id="granule-metadata-wrapper">
@@ -28,6 +33,7 @@
     </div>
     <div class="map" id="map-wrapper">
       <app-map2
+        :colour_scheme=resolved_colour_scheme
         :crs="control_crs"
         :product_granules="active_product_granules"
       ></app-map2>
@@ -52,9 +58,8 @@ export default Vue.extend({
   data() {
     return {
       environment: 'development',
-      preferences: {
-        colour_scheme: 'system'
-      },
+      colour_scheme: 'system',
+      system_colour_scheme: '',
       control_crs: 'EPSG:3413',
       selected_product_granule: {},
       active_product_granules: []
@@ -68,6 +73,12 @@ export default Vue.extend({
     ogc_endpoint: function () {
       return process.env.SERVICE_API_OGC_ENDPOINT;
     },
+    resolved_colour_scheme: function () {
+      if (this.colour_scheme == 'system') {
+        return this.system_colour_scheme;
+      }
+      return this.colour_scheme;
+    }
   },
 
   components: {
@@ -80,6 +91,21 @@ export default Vue.extend({
   },
 
   methods: {
+    whenDayNightChange: function ($event) {
+      if ($event == 'system') {
+        this.colour_scheme = 'system';
+      } else if ($event == 'day') {
+        this.colour_scheme = 'light';
+      } else if ($event == 'night') {
+        this.colour_scheme = 'dark';
+      }
+    },
+    whenSystemColourSchemeChange: function ($event) {
+      this.system_colour_scheme = $event;
+    },
+    whenColourSchemeChange: function ($event) {
+      this.colour_scheme = $event;
+    },
     whenCRSChange: function ($event) {
       this.control_crs = $event;
     },

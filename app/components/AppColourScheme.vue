@@ -37,11 +37,26 @@ export default {
 
   mounted() {
     this.setColourScheme(this.colour_scheme);
+
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      this.$emit('update:system_colour_scheme', 'light');
+    }
+    let _this = this;
     window.matchMedia("(prefers-color-scheme: light)").addListener(
-      e => e.matches && document.body.classList.remove('dark-mode')
+      e => {
+        if (e.matches) {
+          _this.$emit('update:system_colour_scheme', 'light');
+          _this.setColourScheme('system');
+        }
+      }
     );
     window.matchMedia("(prefers-color-scheme: dark)").addListener(
-      e => e.matches && document.body.classList.add('dark-mode')
+      e => {
+        if (e.matches) {
+          _this.$emit('update:system_colour_scheme', 'dark');
+          _this.setColourScheme('system');
+        }
+      }
     );
   }
 }
