@@ -15,11 +15,25 @@ export default {
   },
 
   props: [
+    'colour_scheme',
     'crs',
     'product_granules'
   ],
 
+  computed: {
+    style_modifier: function () {
+      if (this.colour_scheme == 'light') {
+        return 'day';
+      } else if (this.colour_scheme == 'dark') {
+        return 'night';
+      }
+    }
+  },
+
   watch: {
+    colour_scheme: function () {
+      this.initLayers();
+    },
     product_granules: function () {
       this.initLayers();
     }
@@ -35,7 +49,7 @@ export default {
           'endpoint': product_granule.ogc_protocol_url,
           'name': product_granule.ogc_layer_name,
           'format': product_granule.ogc_format,
-          'style': product_granule.ogc_style,
+          'style': `${product_granule.ogc_style}-${this.style_modifier}`,
           'attribution': product_granule.attribution
         }
         if (product_granule.has_granules) {
