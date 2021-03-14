@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Map rotation based on manual, GPS heading or GPS longitude source
+  [#79](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/79)
+* [App] Initial implementation of sensor metadata
+  [#62](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/62)
 * [API] Add render_exclusive to API /products
   [#75](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/75)
 * [API] Add status, default_timeframe etc to API
