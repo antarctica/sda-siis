@@ -107,12 +107,18 @@ export default {
           this.latitude_value = sensorData.geometry.coordinates[1];
         }
         if (sensorData.geometry.coordinates[0] !== null) {
+          if (this.longitude_value != sensorData.geometry.coordinates[0]) {
+            this.$emit("update:sensor_rotation_longitude", sensorData.geometry.coordinates[0]);
+          }
           this.longitude_value = sensorData.geometry.coordinates[0];
         }
         if (sensorData.properties.speed !== null) {
           this.velocity_value = sensorData.properties.speed;
         }
         if (sensorData.properties.heading !== null) {
+          if (this.heading_degrees_value != sensorData.properties.heading) {
+            this.$emit("update:sensor_rotation_heading", sensorData.properties.heading);
+          }
           this.heading_degrees_value = sensorData.properties.heading;
         }
         if (sensorData.properties.depth !== null) {

@@ -18,8 +18,11 @@
         <app-map-controls
           :initial_crs="control_crs"
           initial_day_night_mode="system"
+          :rotation_heading="rotation_heading"
+          :rotation_longitude="rotation_longitude"
           v-on:update:crs="whenCRSChange"
           v-on:update:day_night="whenColourSchemeChange"
+          v-on:update:rotation_radians="whenRotationRadiansChange"
         ></app-map-controls>
       </div>
       <div class="panel" id="granule-metadata-wrapper">
@@ -30,6 +33,8 @@
       <div class="panel" id="sensor-wrapper">
         <app-sensor-metadata
           :ogc_endpoint="ogc_endpoint"
+          v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
+          v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
         ></app-sensor-metadata>
       </div>
     </div>
@@ -37,6 +42,7 @@
       <app-map2
         :colour_scheme=resolved_colour_scheme
         :crs="control_crs"
+        :rotation="rotation_radians"
         :product_granules="active_product_granules"
       ></app-map2>
     </div>
@@ -64,7 +70,10 @@ export default Vue.extend({
       system_colour_scheme: '',
       control_crs: 'EPSG:3413',
       selected_product_granule: {},
-      active_product_granules: []
+      active_product_granules: [],
+      rotation_heading: 0,
+      rotation_longitude: 0,
+      rotation_radians: 0
     }
   },
 
@@ -116,6 +125,15 @@ export default Vue.extend({
     },
     whenActiveProductGranulesChange: function ($event) {
       this.active_product_granules = $event;
+    },
+    whenRotationHeadingChange: function ($event) {
+      this.rotation_heading = $event;
+    },
+    whenRotationLongitudeChange: function ($event) {
+      this.rotation_longitude = $event;
+    },
+    whenRotationRadiansChange: function ($event) {
+      this.rotation_radians = $event;
     }
   }
 });

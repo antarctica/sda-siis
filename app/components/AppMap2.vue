@@ -1,7 +1,8 @@
 <template>
   <section>
     <header><h4>Map</h4></header>
-    <p>CRS: <output>{{ crs }}</output><p>
+    <p>CRS: <output>{{ crs }}</output></p>
+    <p>Rotation (radians): <output>{{ rotation }}</output></p>
     <pre v-for="layer in layers" :key="layer.name">{{ JSON.stringify(layer) }}</pre>
   </section>
 </template>
@@ -17,6 +18,7 @@ export default {
   props: [
     'colour_scheme',
     'crs',
+    'rotation',
     'product_granules'
   ],
 
