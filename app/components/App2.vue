@@ -28,7 +28,9 @@
         ></app-granule-metadata>
       </div>
       <div class="panel" id="sensor-wrapper">
-        <app-sensor-metadata></app-sensor-metadata>
+        <app-sensor-metadata
+          :ogc_endpoint="ogc_endpoint"
+        ></app-sensor-metadata>
       </div>
     </div>
     <div class="map" id="map-wrapper">
