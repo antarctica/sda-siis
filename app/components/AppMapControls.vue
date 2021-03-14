@@ -97,7 +97,7 @@ export default {
         this.rotation_source = 'manual';
       }
     },
-    onDayNightChange: function (event) {
+    onDayNightChange: function ($event) {
       this.$emit('update:day_night', this.day_night_mode);
     },
     onRotationSourceChange: function ($event) {
