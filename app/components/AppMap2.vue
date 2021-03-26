@@ -4,6 +4,8 @@
     <p>CRS: <output>{{ crs }}</output></p>
     <p>Rotation (radians): <output>{{ rotation }}</output></p>
     <pre v-for="layer in layers" :key="layer.name">{{ JSON.stringify(layer) }}</pre>
+      <p>Position format: <output>{{ position_format }}</output></p>
+      <p>Scale bar units: <output>{{ scale_bar_unit }}</output></p>
   </section>
 </template>
 
@@ -19,7 +21,9 @@ export default {
     'colour_scheme',
     'crs',
     'rotation',
-    'product_granules'
+    'product_granules',
+    'position_format',
+    'scale_bar_unit',
   ],
 
   computed: {
