@@ -98,7 +98,7 @@ export default {
       }
     },
     rotation_longitude: function () {
-      if (this.rotation_source == 'heading') {
+      if (this.rotation_source == 'longitude') {
         this.rotation_degrees = this.rotation_longitude;
       }
     },
