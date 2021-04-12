@@ -1,24 +1,42 @@
 <template>
   <section>
     <header><h4>Map</h4></header>
-      <vl-map
-        ref="AppMap"
-        :data-projection="crs"
-        :defaultControls="controls"
-        load-tiles-while-animating="true"
-        load-tiles-while-interacting="true"
-      >
-        <vl-view
-          ref="AppMapView"
-          :projection="crs"
-          :zoom.sync="zoom"
-          :rotation.sync="rotation"
-          :center.sync="centre_crs"
-        ></vl-view>
-        <vl-layer-tile>
-          <vl-source-osm></vl-source-osm>
-        </vl-layer-tile>
-      </vl-map>
+    <div class="app-map-controls">
+      <div>
+        Zoom:
+        <div id="app-map-control-zoom"></div>
+      </div>
+      <div>
+        Fullscreen:
+        <div id="app-map-control-fullscreen"></div>
+      </div>
+      <div>
+        Current position:
+        <div id="app-map-control-position"></div>
+      </div>
+      <div>
+        Rotation reset:
+        <div id="app-map-control-rotation"></div>
+      </div>
+    </div>
+    <vl-map
+      ref="AppMap"
+      :data-projection="crs"
+      :defaultControls="controls"
+      load-tiles-while-animating="true"
+      load-tiles-while-interacting="true"
+    >
+      <vl-view
+        ref="AppMapView"
+        :projection="crs"
+        :zoom.sync="zoom"
+        :rotation.sync="rotation"
+        :center.sync="centre_crs"
+      ></vl-view>
+      <vl-layer-tile>
+        <vl-source-osm></vl-source-osm>
+      </vl-layer-tile>
+    </vl-map>
     <div class="debug">
       <p>CRS: <output>{{ crs }}</output></p>
       <p>Rotation (radians): <output>{{ rotation }}</output></p>
@@ -36,7 +54,7 @@
 <script>
 import Vue from 'vue'
 import proj4 from 'proj4';
-import {Attribution, ScaleLine, FullScreen, MousePosition} from 'ol/control';
+import {Attribution, FullScreen, MousePosition, Rotate, ScaleLine, Zoom} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
 import {createStringXY} from 'ol/coordinate';
@@ -67,15 +85,17 @@ const projection3031 = new Projection({
 addProjection(projection3413);
 addProjection(projection3031);
 
-const scaleLine = new ScaleLine();
-const fullscreen = new FullScreen();
-const attribution = new Attribution({
+const attributionControl = new Attribution({
   collapsible: true,
 });
-const mousePosition = new MousePosition({
+const fullscreenControl = new FullScreen();
+const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
   undefinedHTML: '&nbsp;',
 });
+const rotationControl = new Rotate();
+const scaleLineControl = new ScaleLine();
+const zoomControl = new Zoom();
 
 export default {
   data() {
@@ -84,11 +104,7 @@ export default {
       'zoom': 2,
       'centre_crs': [0,0],
       'extent_4326': [0,0,0,0],
-      'controls': {
-        'attribution': false,
-        'rotate': true,
-        'zoom': true
-      },
+      'controls': false,
     }
   },
 
@@ -134,10 +150,10 @@ export default {
       this.updateExtent();
     },
     position_format () {
-      mousePosition.setProjection(this.mouse_position_format_projection);
+      mousePositionControl.setProjection(this.mouse_position_format_projection);
     },
     scale_bar_unit () {
-      scaleLine.setUnits(this.scale_bar_unit);
+      scaleLineControl.setUnits(this.scale_bar_unit);
     },
   },
 
@@ -177,19 +193,33 @@ export default {
     });
 
     this.$refs.AppMap.$createPromise.then(() => {
-      this.$refs.AppMap.$map.addControl(scaleLine);
-      this.$refs.AppMap.$map.addControl(attribution);
-      this.$refs.AppMap.$map.addControl(fullscreen);
-      this.$refs.AppMap.$map.addControl(mousePosition);
+      this.$refs.AppMap.$map.addControl(attributionControl);
 
-      mousePosition.setProjection(this.mouse_position_format_projection);
-      scaleLine.setUnits(this.scale_bar_unit);
+      fullscreenControl.setTarget(document.getElementById('app-map-control-fullscreen'));
+      this.$refs.AppMap.$map.addControl(fullscreenControl);
+
+      mousePositionControl.setTarget(document.getElementById('app-map-control-position'));
+      mousePositionControl.setProjection(this.mouse_position_format_projection);
+      this.$refs.AppMap.$map.addControl(mousePositionControl);
+
+      rotationControl.setTarget(document.getElementById('app-map-control-rotation'));
+      this.$refs.AppMap.$map.addControl(rotationControl);
+
+      scaleLineControl.setUnits(this.scale_bar_unit);
+      this.$refs.AppMap.$map.addControl(scaleLineControl);
+
+      zoomControl.setTarget(document.getElementById('app-map-control-zoom'));
+      this.$refs.AppMap.$map.addControl(zoomControl);
     });
   }
 }
 </script>
 
 <style scoped>
+  .app-map-controls {
+    border: 1px solid blue;
+  }
+
   .vl-map {
     width: 100%;
     height: 500px;
@@ -201,5 +231,12 @@ export default {
   .debug {
     border: 1px solid red;
     padding: 4px;
+  }
+</style>
+
+<style>
+  .app-map-controls .ol-control,
+  .app-map-controls .ol-mouse-position {
+    position: static;
   }
 </style>
