@@ -23,6 +23,8 @@
           v-on:update:crs="whenCRSChange"
           v-on:update:day_night="whenColourSchemeChange"
           v-on:update:rotation_radians="whenRotationRadiansChange"
+          v-on:update:position_format="whenPositionFormatChange"
+          v-on:update:scale_bar_unit="whenScaleBarUnitChange"
         ></app-map-controls>
       </div>
       <div class="panel" id="granule-metadata-wrapper">
@@ -44,6 +46,8 @@
         :crs="control_crs"
         :rotation="rotation_radians"
         :product_granules="active_product_granules"
+        :position_format="position_format"
+        :scale_bar_unit="scale_bar_unit"
       ></app-map2>
     </div>
   </div>
@@ -73,7 +77,9 @@ export default Vue.extend({
       active_product_granules: [],
       rotation_heading: 0,
       rotation_longitude: 0,
-      rotation_radians: 0
+      rotation_radians: 0,
+      position_format: 'latlon',
+      scale_bar_unit: 'nautical'
     }
   },
 
@@ -134,6 +140,12 @@ export default Vue.extend({
     },
     whenRotationRadiansChange: function ($event) {
       this.rotation_radians = $event;
+    },
+    whenPositionFormatChange: function ($event) {
+      this.position_format = $event;
+    },
+    whenScaleBarUnitChange: function ($event) {
+      this.scale_bar_unit = $event;
     }
   }
 });

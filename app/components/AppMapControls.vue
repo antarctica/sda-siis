@@ -33,12 +33,28 @@
         :disabled="rotation_control_disabled"
       >
     </fieldset>
+    <fieldset>
+      <label for="map-position-format">Position format</label>
+      <select id="map-position-format" v-model="position_format" @change="onPositionFormatChange($event)">
+        <option value=latlon>Lat Lon</option>
+        <option value=xy>XY (Projected)</option>
+      </select>
+    </fieldset>
+    <fieldset>
+      <label for="scale-bar-unit">Scale bar unit</label>
+      <select id="scale-bar-unit" v-model="scale_bar_unit" @change="onScaleBarUnitChange($event)">
+        <option value=nautical>Nautical miles (nm)</option>
+        <option value=metric>Metric (m, km)</option>
+      </select>
+    </fieldset>
     <div class="debug">
       <p>Day/Night mode: <output>{{ day_night_mode }}</output></p>
       <p>CRS: <output>{{ crs }}</output><p>
       <p>Rotation source: <output>{{ rotation_source }}</output></p>
       <p>Rotation value (degrees): <output>{{ rotation_degrees }}</output></p>
       <p>Rotation value (radians): <output>{{ rotation_radians }}</output></p>
+      <p>Position format: <output>{{ position_format }}</output></p>
+      <p>Scale bar units: <output>{{ scale_bar_unit }}</output></p>
     </div>
   </section>
 </template>
@@ -50,7 +66,9 @@ export default {
       'crs': 'EPSG:3413',
       'day_night_mode': 'system',
       'rotation_source': 'manual',
-      'rotation_degrees': 0
+      'rotation_degrees': 0,
+      'position_format': 'latlon',
+      'scale_bar_unit': 'nautical'
     }
   },
 
@@ -109,6 +127,12 @@ export default {
       } else if (this.rotation_source === 'longitude') {
         this.rotation_degrees = this.rotation_longitude;
       }
+    },
+    onPositionFormatChange: function ($event) {
+      this.$emit('update:position_format', this.position_format);
+    },
+    onScaleBarUnitChange: function ($event) {
+      this.$emit('update:scale_bar_unit', this.scale_bar_unit);
     }
   },
 
