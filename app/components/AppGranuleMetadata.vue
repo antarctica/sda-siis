@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="app-granule-metadata">
     <header><h4>Granule Metadata</h4></header>
     <div v-if="Object.keys(selected_product_granule).length">
       <p v-if="product">Product: <output>{{ product.label }}</output></p>
@@ -38,3 +38,12 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+  .app-granule-metadata {
+    grid-area: granule-metadata;
+    border-left: 1px solid orange;
+    border-bottom: 1px solid orange;
+    z-index: 10;
+  }
+</style>

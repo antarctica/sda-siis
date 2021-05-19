@@ -1,24 +1,5 @@
 <template>
-  <section>
-    <header><h4>Map</h4></header>
-    <div class="app-map-controls">
-      <div>
-        Zoom:
-        <div id="app-map-control-zoom"></div>
-      </div>
-      <div>
-        Fullscreen:
-        <div id="app-map-control-fullscreen"></div>
-      </div>
-      <div>
-        Current position:
-        <div id="app-map-control-position"></div>
-      </div>
-      <div>
-        Rotation reset:
-        <div id="app-map-control-rotation"></div>
-      </div>
-    </div>
+  <section class="app-map-container">
     <vl-map
       ref="AppMap"
       :data-projection="crs"
@@ -37,6 +18,24 @@
         <vl-source-osm></vl-source-osm>
       </vl-layer-tile>
     </vl-map>
+    <div class="app-map-controls">
+      <div>
+        Zoom:
+        <div id="app-map-control-zoom"></div>
+      </div>
+      <div>
+        Fullscreen:
+        <div id="app-map-control-fullscreen"></div>
+      </div>
+      <div>
+        Current position:
+        <div id="app-map-control-position"></div>
+      </div>
+      <div>
+        Rotation reset:
+        <div id="app-map-control-rotation"></div>
+      </div>
+    </div>
     <div class="debug">
       <p>CRS: <output>{{ crs }}</output></p>
       <p>Rotation (radians): <output>{{ rotation }}</output></p>
@@ -216,21 +215,39 @@ export default {
 </script>
 
 <style scoped>
+  .app-map-container {
+    display: contents;
+  }
+
   .app-map-controls {
-    border: 1px solid blue;
+    grid-area: map-controls;
+    border-right: 1px solid orchid;
+    border-bottom: 1px solid orchid;
+    z-index: 10;
   }
 
   .vl-map {
+    grid-row-start: map-controls;
+    grid-column-start: map-controls;
+    grid-row-end: x-bottom-right;
+    grid-column-end: x-bottom-right;
     width: 100%;
-    height: 500px;
+    height: 100vh;
+    z-index: 1;
   }
   .vl-map .ol-rotate {
     top: 3em;
   }
 
   .debug {
+    grid-row-start: x-bottom-left;
+    grid-column-start: x-bottom-left;
+    grid-row-end: x-bottom-right;
+    grid-column-end: x-bottom-right;
     border: 1px solid red;
     padding: 4px;
+    z-index: 10;
+    overflow-x: scroll;
   }
 </style>
 

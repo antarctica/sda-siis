@@ -1,6 +1,5 @@
 <template>
-  <section>
-    <header><h4>Map Controls</h4></header>
+  <section class="app-map-controls">
     <fieldset>
       <label for="day-night-mode">Day/Night mode</label>
       <select id="day-night-mode" v-model="day_night_mode" @change="onDayNightChange($event)">
@@ -144,6 +143,14 @@ export default {
 </script>
 
 <style scoped>
+  .app-map-controls {
+    grid-area: map-controls2;
+    border-left: 1px solid lime;
+    border-bottom: 1px solid lime;
+    z-index: 10;
+    overflow-x: scroll;
+  }
+
   .debug {
     border: 1px solid red;
     padding: 4px;
