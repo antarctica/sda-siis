@@ -4,17 +4,27 @@
       :colour_scheme=colour_scheme
       v-on:update:system_colour_scheme="whenSystemColourSchemeChange"
     ></app-colour-scheme>
-    <div id="panels-wrapper">
-      <div class="panel" id="layer-wrapper">
-        <app-product-switcher
-          :api_endpoint="api_endpoint"
-          :ogc_endpoint="ogc_endpoint"
-          :crs="control_crs"
-          v-on:update:selected_product_granule="whenSelectedProductGranuleChange"
-          v-on:update:active_product_granules="whenActiveProductGranulesChange"
-        ></app-product-switcher>
+    <div class="grid-container">
+      <div class="one-third">
+          <app-product-switcher
+            :api_endpoint="api_endpoint"
+            :ogc_endpoint="ogc_endpoint"
+            :crs="control_crs"
+            v-on:update:selected_product_granule="whenSelectedProductGranuleChange"
+            v-on:update:active_product_granules="whenActiveProductGranulesChange"
+          ></app-product-switcher>
       </div>
-      <div class="panel" id="map-controls-wrapper">
+      <div class="two-thirds">
+        <app-map2
+          :colour_scheme=resolved_colour_scheme
+          :crs="control_crs"
+          :rotation="rotation_radians"
+          :product_granules="active_product_granules"
+          :position_format="position_format"
+          :scale_bar_unit="scale_bar_unit"
+        ></app-map2>
+      </div>
+      <div class="two-thirds">
         <app-map-controls
           :initial_crs="control_crs"
           initial_day_night_mode="system"
@@ -26,29 +36,15 @@
           v-on:update:position_format="whenPositionFormatChange"
           v-on:update:scale_bar_unit="whenScaleBarUnitChange"
         ></app-map-controls>
-      </div>
-      <div class="panel" id="granule-metadata-wrapper">
         <app-granule-metadata
           :selected_product_granule="selected_product_granule"
         ></app-granule-metadata>
-      </div>
-      <div class="panel" id="sensor-wrapper">
         <app-sensor-metadata
           :ogc_endpoint="ogc_endpoint"
           v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
           v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
         ></app-sensor-metadata>
       </div>
-    </div>
-    <div class="map" id="map-wrapper">
-      <app-map2
-        :colour_scheme=resolved_colour_scheme
-        :crs="control_crs"
-        :rotation="rotation_radians"
-        :product_granules="active_product_granules"
-        :position_format="position_format"
-        :scale_bar_unit="scale_bar_unit"
-      ></app-map2>
     </div>
   </div>
 </template>
@@ -152,20 +148,29 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-  #panels-wrapper {
-    display: flex;
-  }
-  .panel {
-    flex-grow: 1;
-    border: 1px solid green;
-    border-right: none;
-    padding: 4px;
-  }
-  .panel:last-of-type {
-    border-right: 1px solid green;
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "one-third two-thirds";
   }
 
-  .map {
-    width: 100%;
+  .one-third { grid-area: one-third; }
+
+  .two-thirds {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "map-controls map-controls2 granule-metadata"
+      ". map-controls2 granule-metadata"
+      ". . ."
+      ". . sensor-metadata"
+      "x-bottom-left . x-bottom-right";
+    grid-area: two-thirds;
+    height: 100vh;
   }
 </style>

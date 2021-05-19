@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="app-product-switcher">
     <header><h4>Products</h4></header>
     <app-product
       v-for="product in raw_products"
@@ -143,6 +143,12 @@ export default {
 </script>
 
 <style scoped>
+  .app-product-switcher {
+    border-right: 1px solid red;
+    height: 100vh;
+    overflow-x: scroll;
+  }
+
   .debug {
     border: 1px solid red;
     padding: 4px;

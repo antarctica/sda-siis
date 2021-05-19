@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="app-sensor-metadata">
     <header><h4>Sensor Metadata</h4></header>
     <p>Lat: {{ lat.value }} <span :class="'status-indicator status-' + lat.available"></span></p>
     <p>Lon: {{ lon.value }} <span :class="'status-indicator status-' + lon.available"></span></p>
@@ -208,22 +208,30 @@ export default {
 </script>
 
 <style scoped>
-.debug {
-  border: 2px solid red;
-  padding: 4px;
-}
+  .app-sensor-metadata {
+    grid-area: sensor-metadata;
+    border-top: 1px solid green;
+    border-left: 1px solid green;
+    border-bottom: 1px solid green;
+    z-index: 10;
+  }
 
-.status-indicator {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-}
+  .debug {
+    border: 2px solid red;
+    padding: 4px;
+  }
 
-.status-true {
-  background-color: green;
-}
-.status-false {
-  background-color: red;
-}
+  .status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+  }
+
+  .status-true {
+    background-color: green;
+  }
+  .status-false {
+    background-color: red;
+  }
 </style>
