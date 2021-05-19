@@ -58,18 +58,13 @@ services:
   app:
     image: docker-registry.data.bas.ac.uk/magic/siis/app:latest
     build: ./app
-    # # uncomment to use 'app' components
-    # command: "yarn dev"
-    # # uncomment to use 'app2' components for [7#2]
-    command: "yarn dev2"
+    command: "yarn dev"
     volumes:
       - ./app/assets/:/usr/src/app/assets/
       - ./app/components/:/usr/src/app/components/
       - ./app/dist/:/usr/src/app/dist/
       - ./app/index.js/:/usr/src/app/index.js
       - ./app/index.html/:/usr/src/app/index.html
-      - ./app/index2.js/:/usr/src/app/index2.js
-      - ./app/index2.html/:/usr/src/app/index2.html
     environment:
       HOST: 0.0.0.0
       PORT: 9000
