@@ -10,7 +10,7 @@
             :api_endpoint="api_endpoint"
             :ogc_endpoint="ogc_endpoint"
             :crs="control_crs"
-            v-on:update:selected_product_granule="whenSelectedProductGranuleChange"
+            v-on:update:selected_product_granules="whenSelectedProductGranulesChange"
             v-on:update:active_product_granules="whenActiveProductGranulesChange"
           ></app-product-switcher>
       </div>
@@ -37,7 +37,7 @@
           v-on:update:scale_bar_unit="whenScaleBarUnitChange"
         ></app-map-controls>
         <app-granule-metadata
-          :selected_product_granule="selected_product_granule"
+          :selected_product_granules="selected_product_granules"
         ></app-granule-metadata>
         <app-sensor-metadata
           :ogc_endpoint="ogc_endpoint"
@@ -69,7 +69,7 @@ export default Vue.extend({
       colour_scheme: 'system',
       system_colour_scheme: '',
       control_crs: 'EPSG:3413',
-      selected_product_granule: {},
+      selected_product_granules: {},
       active_product_granules: [],
       rotation_heading: 0,
       rotation_longitude: 0,
@@ -122,8 +122,8 @@ export default Vue.extend({
     whenCRSChange: function ($event) {
       this.control_crs = $event;
     },
-    whenSelectedProductGranuleChange: function ($event) {
-      this.selected_product_granule = $event;
+    whenSelectedProductGranulesChange: function ($event) {
+      this.selected_product_granules = $event;
     },
     whenActiveProductGranulesChange: function ($event) {
       this.active_product_granules = $event;

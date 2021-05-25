@@ -169,10 +169,16 @@ export default {
           'style': `${product_granule.ogc_style}-${this.style_modifier}`,
           'attribution': product_granule.attribution
         }
+
         if (product_granule.has_granules) {
-          layer['time'] = product_granule.granules[product_granule.selected_granule_index].timestamp;
+          product_granule.selected_granule_indexes.forEach((granule_index) => {
+            let _granule_layer = JSON.parse(JSON.stringify(layer));  // clone base layer properties
+            _granule_layer['time'] = product_granule.granules[granule_index].timestamp;
+            this.layers.push(_granule_layer);
+          });
+        } else {
+          this.layers.push(layer);
         }
-        this.layers.push(layer);
       });
     },
     calcCentre4326: function () {

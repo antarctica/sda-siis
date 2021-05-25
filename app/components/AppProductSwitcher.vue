@@ -10,8 +10,8 @@
       :initial_product="product"
       :initial_active_product_ids="initial_active_product_ids"
       :selected_product_id="selected_product_id"
-      v-on:update:selected_product="whenSelectedProductGranuleChange"
-      v-on:update:selected_granule="whenSelectedProductGranuleChange"
+      v-on:update:selected_product="whenSelectedProductGranulesChange"
+      v-on:update:selected_granule="whenSelectedProductGranulesChange"
       v-on:update:active_product="whenActiveProductChange"
     ></app-product>
     <div class="debug">
@@ -63,14 +63,16 @@ export default {
     selected_product_id: function() {
       return this.selected_product.id;
     },
-    selected_product_granule: function () {
-      let selected_granule = {};
+    selected_product_granules: function () {
+      let selected_granules = [];
       if (this.selected_product.has_granules) {
-        selected_granule = this.selected_product.granules[this.selected_product.selected_granule_index];
+        this.selected_product.selected_granule_indexes.forEach((selected_granule_index) => {
+          selected_granules.push(this.selected_product.granules[selected_granule_index]);
+        });
       }
       return {
         'product': this.selected_product,
-        'granule': selected_granule
+        'granules': selected_granules
       }
     },
     initial_active_product_ids: function() {
@@ -119,9 +121,9 @@ export default {
         console.error(error);
       }
     },
-    whenSelectedProductGranuleChange: function ($event) {
+    whenSelectedProductGranulesChange: function ($event) {
       this.selected_product = $event;
-      this.$emit("update:selected_product_granule", this.selected_product_granule);
+      this.$emit("update:selected_product_granules", this.selected_product_granules);
     },
     whenActiveProductChange: function ($event) {
       if ($event.is_active && !this.active_products.includes($event.id)) {

@@ -26,13 +26,13 @@
         <p>Granule selection mode: {{ granules_selection_mode }}</p>
         <p>Enable prev granule control {{ can_select_previous_granule }}</p>
         <p>Enable next granule control {{ can_select_next_granule }}</p>
-        <p>Selected granule (index: {{ selected_granule_index }}):</p>
-        <pre>{{ selected_granule }}</pre>
+        <p>Selected granules (indexes: {{ selected_granule_indexes }}):</p>
+        <pre v-for="selected_granule in selected_granules" :key="selected_granule.id">{{ selected_granule }}</pre>
         <p>Granules:</p>
         <pre>{{ granules }}</pre>
       </div>
     </div>
-    </section>
+  </section>
 </template>
 
 <script>
@@ -55,7 +55,7 @@ export default {
       'opacity': 0,
       'is_active': false,
       'granules': [],
-      'selected_granule_index': 0,
+      'selected_granule_indexes': [],
       'has_granules': false,
       'granules_selection_mode': ''
     }
@@ -94,17 +94,33 @@ export default {
       }
       return false;
     },
-    selected_granule: function () {
-      return this.granules[this.selected_granule_index];
+    selected_granules: function () {
+      let _selected_granules = [];
+      this.selected_granule_indexes.forEach((selected_granule_index) => {
+        _selected_granules.push(this.granules[selected_granule_index]);
+      });
+      return _selected_granules;
     },
     can_select_previous_granule: function() {
-      if (this.selected_granule_index > 0) {
+      if (!this.has_granules) {
+        return false;
+      }
+      if (this.granules_selection_mode === 'multiple') {
+        return false;
+      }
+      if (this.selected_granule_indexes[0] > 0) {
         return false;
       }
       return true;
     },
     can_select_next_granule: function() {
-      if ((this.selected_granule_index + 1) < this.granules.length) {
+      if (!this.has_granules) {
+        return false;
+      }
+      if (this.granules_selection_mode === 'multiple') {
+        return false;
+      }
+      if ((this.selected_granule_indexes[0] + 1) < this.granules.length) {
         return false;
       }
       return true;
@@ -113,18 +129,18 @@ export default {
 
   watch: {
     time_filter: async function () {
-      if (this.has_granules) {
+      if (this.has_granules && this.granules_selection_mode === 'single') {
         // as we don't know how many granules there will be the current selected index may be out of range,
         // we therefore set the index to 0 first and then update it the new array length after getting granules.
-        this.selected_granule_index = 0
+        this.selected_granule_indexes = [0];
         this.granules = await this.getGranules();
-        this.selected_granule_index = this.granules.length - 1;
+        this.selected_granule_indexes = [this.granules.length - 1];
       }
     },
     initial_active_product_ids: function () {
       this.checkIfActiveProduct();
     },
-    selected_granule: function () {
+    selected_granules: function () {
       if (this.is_selected) {
         this.$emit("update:selected_granule", this.$data);
       }
@@ -150,7 +166,9 @@ export default {
       if (this.has_granules) {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
         this.granules = await this.getGranules();
-        this.selected_granule_index = this.granules.length - 1;
+        if (this.granules_selection_mode === 'single') {
+          this.selected_granule_indexes = [this.granules.length - 1];
+        }
       }
     },
     determinePreferredOGCProtocol: function(protocols) {
@@ -219,10 +237,14 @@ export default {
       }
     },
     selectPreviousGranule: function() {
-      this.selected_granule_index -= 1;
+      if (this.granules_selection_mode === 'single') {
+        this.selected_granule_indexes = [this.selected_granule_indexes[0] -1];
+      }
     },
     selectNextGranule: function() {
-      this.selected_granule_index += 1;
+      if (this.granules_selection_mode === 'single') {
+        this.selected_granule_indexes = [this.selected_granule_indexes[0] +1];
+      }
     }
   },
 
