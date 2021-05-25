@@ -17,6 +17,13 @@
       <vl-layer-tile>
         <vl-source-osm></vl-source-osm>
       </vl-layer-tile>
+      <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
+        <template v-if="layer.protocol === 'wfs'">
+          <vl-layer-vector>
+            <vl-source-vector :url=layer.url></vl-source-vector>
+          </vl-layer-vector>
+        </template>
+      </vl-layer-tile>
     </vl-map>
     <div class="app-map-controls">
       <div>
@@ -114,6 +121,7 @@ export default {
     'product_granules',
     'position_format',
     'scale_bar_unit',
+    'ogc_endpoint'
   ],
 
   computed: {
@@ -162,6 +170,7 @@ export default {
 
       this.product_granules.forEach((product_granule) => {
         let layer = {
+          'id': product_granule.id,
           'protocol': product_granule.ogc_protocol,
           'endpoint': product_granule.ogc_protocol_url,
           'name': product_granule.ogc_layer_name,
@@ -173,9 +182,21 @@ export default {
         if (product_granule.has_granules) {
           product_granule.selected_granule_indexes.forEach((granule_index) => {
             let _granule_layer = JSON.parse(JSON.stringify(layer));  // clone base layer properties
-            _granule_layer['time'] = product_granule.granules[granule_index].timestamp;
+            let _granule = product_granule.granules[granule_index];
+            // replace product ID with granule ID for layer ID
+            _granule_layer['id'] = _granule.id;
+            _granule_layer['time'] = _granule.timestamp;
             this.layers.push(_granule_layer);
           });
+
+          if (product_granule.granules_selection_mode === 'multiple') {
+            const footprints_layer_name = 'siis:footprints';
+            let footprints_layer = {
+              'protocol': 'wfs',
+              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=siis:footprints&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
+            };
+            this.layers.push(footprints_layer);
+          }
         } else {
           this.layers.push(layer);
         }

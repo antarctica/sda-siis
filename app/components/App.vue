@@ -22,6 +22,7 @@
           :product_granules="active_product_granules"
           :position_format="position_format"
           :scale_bar_unit="scale_bar_unit"
+          :ogc_endpoint="ogc_endpoint"
         ></app-map>
       </div>
       <div class="two-thirds">
