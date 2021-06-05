@@ -66,8 +66,9 @@ export default {
     'ogc_endpoint',
     'time_filter',
     'initial_product',
+    "initial_active_product_ids",
     'selected_product_id',
-    "initial_active_product_ids"
+    "selected_footprints"
   ],
 
   computed: {
@@ -143,6 +144,11 @@ export default {
     selected_granules: function () {
       if (this.is_selected) {
         this.$emit("update:selected_granule", this.$data);
+      }
+    },
+    selected_footprints: function () {
+      if (this.has_granules && this.granules_selection_mode === 'multiple') {
+        this.selectGranulesFromFootprints();
       }
     }
   },

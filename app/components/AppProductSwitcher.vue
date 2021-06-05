@@ -10,6 +10,7 @@
       :initial_product="product"
       :initial_active_product_ids="initial_active_product_ids"
       :selected_product_id="selected_product_id"
+      :selected_footprints="selected_footprints"
       v-on:update:selected_product="whenSelectedProductGranulesChange"
       v-on:update:selected_granule="whenSelectedProductGranulesChange"
       v-on:update:active_product="whenActiveProductChange"
@@ -32,6 +33,8 @@
     <div class="debug">
       <p>Hemisphere: <output>{{ hemisphere }}</output></p>
       <p>Time filter: <output>{{ time_filter }}</output><p>
+      <p>Selected footprints:</p>
+      <pre>{{ selected_footprints }}</pre>
     </div>
   </section>
 </template>
@@ -56,7 +59,8 @@ export default {
   props: [
     'api_endpoint',
     'ogc_endpoint',
-    'crs'
+    'crs',
+    'selected_footprints'
   ],
 
   computed: {

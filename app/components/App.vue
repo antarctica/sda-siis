@@ -10,6 +10,7 @@
             :api_endpoint="api_endpoint"
             :ogc_endpoint="ogc_endpoint"
             :crs="control_crs"
+            :selected_footprints="selected_footprints"
             v-on:update:selected_product_granules="whenSelectedProductGranulesChange"
             v-on:update:active_product_granules="whenActiveProductGranulesChange"
           ></app-product-switcher>
@@ -23,6 +24,7 @@
           :position_format="position_format"
           :scale_bar_unit="scale_bar_unit"
           :ogc_endpoint="ogc_endpoint"
+          v-on:update:selected_footprints="whenSelectedFootprintsChange"
         ></app-map>
       </div>
       <div class="two-thirds">
@@ -72,6 +74,7 @@ export default Vue.extend({
       control_crs: 'EPSG:3413',
       selected_product_granules: {},
       active_product_granules: [],
+      selected_footprints: [],
       rotation_heading: 0,
       rotation_longitude: 0,
       rotation_radians: 0,
@@ -143,6 +146,9 @@ export default Vue.extend({
     },
     whenScaleBarUnitChange: function ($event) {
       this.scale_bar_unit = $event;
+    },
+    whenSelectedFootprintsChange: function ($event) {
+      this.selected_footprints = $event;
     }
   }
 });

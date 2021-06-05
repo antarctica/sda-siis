@@ -18,12 +18,20 @@
         <vl-source-osm></vl-source-osm>
       </vl-layer-tile>
       <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
+      <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wfs'">
           <vl-layer-vector>
             <vl-source-vector :url=layer.url></vl-source-vector>
           </vl-layer-vector>
         </template>
       </vl-layer-tile>
+      </div>
+      <vl-interaction-select
+        ref="footprintsInteraction"
+        :features.sync="selected_features"
+        :condition="select_condition"
+      ></vl-interaction-select>
+
     </vl-map>
     <div class="app-map-controls">
       <div>
@@ -52,6 +60,11 @@
       <p>Extent (EPSG:4326): <output>{{ extent_4326 }}</output></p>
       <p>Position format: <output>{{ position_format }}</output></p>
       <p>Scale bar units: <output>{{ scale_bar_unit }}</output></p>
+      <p>Selected features:</p>
+      <pre>{{ selected_features }}</pre>
+      <p>Selected footprints:</p>
+      <pre>{{ selected_footprints }}</pre>
+      <p>Layers:</p>
       <pre v-for="layer in layers" :key="layer.name">{{ JSON.stringify(layer) }}</pre>
     </div>
   </section>
@@ -60,6 +73,7 @@
 <script>
 import Vue from 'vue'
 import proj4 from 'proj4';
+import {click} from 'ol/events/condition';
 import {Attribution, FullScreen, MousePosition, Rotate, ScaleLine, Zoom} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
@@ -111,6 +125,7 @@ export default {
       'centre_crs': [0,0],
       'extent_4326': [0,0,0,0],
       'controls': false,
+      'selected_features': []
     }
   },
 
@@ -140,6 +155,22 @@ export default {
         return 'EPSG:4326';
       }
       return this.crs;
+    },
+    select_condition: function () {
+    	return click;
+    },
+    selected_footprints: function () {
+      let granule_features = []
+      this.selected_features.forEach((feature) => {
+        if (feature.id.startsWith('footprints')) {
+          granule_features.push({
+            'product_id': feature.properties.code,
+            'granule_id': feature.properties.uuid
+          })
+        }
+      });
+
+      return granule_features;
     }
   },
 
@@ -162,6 +193,9 @@ export default {
     scale_bar_unit () {
       scaleLineControl.setUnits(this.scale_bar_unit);
     },
+    selected_footprints () {
+      this.$emit("update:selected_footprints", this.selected_footprints);
+    }
   },
 
   methods: {
