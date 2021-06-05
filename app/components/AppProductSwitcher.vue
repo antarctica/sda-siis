@@ -12,8 +12,8 @@
       :selected_product_id="selected_product_id"
       :selected_footprints="selected_footprints"
       v-on:update:selected_product="whenSelectedProductGranulesChange"
-      v-on:update:selected_granule="whenSelectedProductGranulesChange"
-      v-on:update:active_product="whenActiveProductChange"
+      v-on:update:selected_granules="whenSelectedProductGranulesChange"
+      v-on:update:active_product="whenActiveProductsChange"
     ></app-product>
     <div class="debug">
       <p>Selected product: {{ selected_product.id }} - {{ selected_product.code }}<p>
@@ -129,7 +129,7 @@ export default {
       this.selected_product = $event;
       this.$emit("update:selected_product_granules", this.selected_product_granules);
     },
-    whenActiveProductChange: function ($event) {
+    whenActiveProductsChange: function ($event) {
       if ($event.is_active && !this.active_products.includes($event.id)) {
         this.active_products.push($event);
       }

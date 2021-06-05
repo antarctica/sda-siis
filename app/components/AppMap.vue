@@ -178,8 +178,12 @@ export default {
     colour_scheme: function () {
       this.initLayers();
     },
-    product_granules: function () {
-      this.initLayers();
+    product_granules: {
+      deep: true,
+
+      handler() {
+        this.initLayers();
+      }
     },
     zoom () {
       this.updateExtent();

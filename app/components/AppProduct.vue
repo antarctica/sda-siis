@@ -143,7 +143,7 @@ export default {
     },
     selected_granules: function () {
       if (this.is_selected) {
-        this.$emit("update:selected_granule", this.$data);
+        this.$emit("update:selected_granules", this.$data);
       }
     },
     selected_footprints: function () {
@@ -251,6 +251,15 @@ export default {
       if (this.granules_selection_mode === 'single') {
         this.selected_granule_indexes = [this.selected_granule_indexes[0] +1];
       }
+    },
+    selectGranulesFromFootprints: function() {
+      let _selected_granule_indexes = [];
+      this.selected_footprints.forEach((footprint) => {
+        if (footprint.product_id === this.code) {
+          _selected_granule_indexes.push(this.granules.findIndex(granule => granule.id === footprint.granule_id));
+        }
+      });
+      this.selected_granule_indexes = _selected_granule_indexes;
     }
   },
 
