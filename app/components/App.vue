@@ -5,49 +5,43 @@
       v-on:update:system_colour_scheme="whenSystemColourSchemeChange"
     ></app-colour-scheme>
     <div class="grid-container">
-      <div class="one-third">
-          <app-product-switcher
-            :api_endpoint="api_endpoint"
-            :ogc_endpoint="ogc_endpoint"
-            :crs="control_crs"
-            :selected_footprints="selected_footprints"
-            v-on:update:selected_product_granules="whenSelectedProductGranulesChange"
-            v-on:update:active_product_granules="whenActiveProductGranulesChange"
-          ></app-product-switcher>
-      </div>
-      <div class="two-thirds">
-        <app-map
-          :colour_scheme=resolved_colour_scheme
-          :crs="control_crs"
-          :rotation="rotation_radians"
-          :product_granules="active_product_granules"
-          :position_format="position_format"
-          :scale_bar_unit="scale_bar_unit"
-          :ogc_endpoint="ogc_endpoint"
-          v-on:update:selected_footprints="whenSelectedFootprintsChange"
-        ></app-map>
-      </div>
-      <div class="two-thirds">
-        <app-map-controls
-          :initial_crs="control_crs"
-          initial_day_night_mode="system"
-          :rotation_heading="rotation_heading"
-          :rotation_longitude="rotation_longitude"
-          v-on:update:crs="whenCRSChange"
-          v-on:update:day_night="whenColourSchemeChange"
-          v-on:update:rotation_radians="whenRotationRadiansChange"
-          v-on:update:position_format="whenPositionFormatChange"
-          v-on:update:scale_bar_unit="whenScaleBarUnitChange"
-        ></app-map-controls>
-        <app-granule-metadata
-          :selected_product_granules="selected_product_granules"
-        ></app-granule-metadata>
-        <app-sensor-metadata
-          :ogc_endpoint="ogc_endpoint"
-          v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
-          v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
-        ></app-sensor-metadata>
-      </div>
+      <app-map
+        :colour_scheme=resolved_colour_scheme
+        :crs="control_crs"
+        :rotation="rotation_radians"
+        :product_granules="active_product_granules"
+        :position_format="position_format"
+        :scale_bar_unit="scale_bar_unit"
+        :ogc_endpoint="ogc_endpoint"
+        v-on:update:selected_footprints="whenSelectedFootprintsChange"
+      ></app-map>
+      <app-product-switcher
+        :api_endpoint="api_endpoint"
+        :ogc_endpoint="ogc_endpoint"
+        :crs="control_crs"
+        :selected_footprints="selected_footprints"
+        v-on:update:selected_product_granules="whenSelectedProductGranulesChange"
+        v-on:update:active_product_granules="whenActiveProductGranulesChange"
+      ></app-product-switcher>
+      <app-map-controls
+        :initial_crs="control_crs"
+        initial_day_night_mode="system"
+        :rotation_heading="rotation_heading"
+        :rotation_longitude="rotation_longitude"
+        v-on:update:crs="whenCRSChange"
+        v-on:update:day_night="whenColourSchemeChange"
+        v-on:update:rotation_radians="whenRotationRadiansChange"
+        v-on:update:position_format="whenPositionFormatChange"
+        v-on:update:scale_bar_unit="whenScaleBarUnitChange"
+      ></app-map-controls>
+      <app-granule-metadata
+        :selected_product_granules="selected_product_granules"
+      ></app-granule-metadata>
+      <app-sensor-metadata
+        :ogc_endpoint="ogc_endpoint"
+        v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
+        v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
+      ></app-sensor-metadata>
     </div>
   </div>
 </template>
@@ -157,27 +151,15 @@ export default Vue.extend({
 <style scoped>
   .grid-container {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
-    grid-template-areas:
-      "one-third two-thirds";
-  }
-
-  .one-third { grid-area: one-third; }
-
-  .two-thirds {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     gap: 0px 0px;
     grid-template-areas:
-      "map-controls map-controls2 granule-metadata"
-      ". map-controls2 granule-metadata"
-      ". . ."
-      ". . sensor-metadata"
-      "x-bottom-left . x-bottom-right";
-    grid-area: two-thirds;
+      "products-switcher map-controls map-controls2 granule-metadata"
+      "products-switcher . map-controls2 granule-metadata"
+      "products-switcher . . ."
+      "products-switcher . . sensor-metadata"
+      "x-bottom-left . . x-bottom-right";
     height: 100vh;
   }
 </style>

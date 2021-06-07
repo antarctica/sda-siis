@@ -6,6 +6,7 @@
       :defaultControls="controls"
       load-tiles-while-animating="true"
       load-tiles-while-interacting="true"
+      class="app-map"
     >
       <vl-view
         ref="AppMapView"
@@ -284,6 +285,14 @@ export default {
     display: contents;
   }
 
+  .app-map {
+    grid-column: 1/ span 4;
+    grid-row: 1/ span 5;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+  }
+
   .app-map-controls {
     grid-area: map-controls;
     border-right: 1px solid orchid;
@@ -291,15 +300,6 @@ export default {
     z-index: 10;
   }
 
-  .vl-map {
-    grid-row-start: map-controls;
-    grid-column-start: map-controls;
-    grid-row-end: x-bottom-right;
-    grid-column-end: x-bottom-right;
-    width: 100%;
-    height: 100vh;
-    z-index: 1;
-  }
   .vl-map .ol-rotate {
     top: 3em;
   }

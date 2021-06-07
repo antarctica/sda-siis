@@ -150,9 +150,11 @@ export default {
 
 <style scoped>
   .app-product-switcher {
-    border-right: 1px solid red;
-    height: 100vh;
+    grid-area: products-switcher;
+    border: 1px solid aqua;
+    border-left: none;
     overflow-x: scroll;
+    z-index: 10;
   }
 
   .debug {
