@@ -10,7 +10,8 @@
             :api_endpoint="api_endpoint"
             :ogc_endpoint="ogc_endpoint"
             :crs="control_crs"
-            v-on:update:selected_product_granule="whenSelectedProductGranuleChange"
+            :selected_footprints="selected_footprints"
+            v-on:update:selected_product_granules="whenSelectedProductGranulesChange"
             v-on:update:active_product_granules="whenActiveProductGranulesChange"
           ></app-product-switcher>
       </div>
@@ -22,6 +23,8 @@
           :product_granules="active_product_granules"
           :position_format="position_format"
           :scale_bar_unit="scale_bar_unit"
+          :ogc_endpoint="ogc_endpoint"
+          v-on:update:selected_footprints="whenSelectedFootprintsChange"
         ></app-map>
       </div>
       <div class="two-thirds">
@@ -37,7 +40,7 @@
           v-on:update:scale_bar_unit="whenScaleBarUnitChange"
         ></app-map-controls>
         <app-granule-metadata
-          :selected_product_granule="selected_product_granule"
+          :selected_product_granules="selected_product_granules"
         ></app-granule-metadata>
         <app-sensor-metadata
           :ogc_endpoint="ogc_endpoint"
@@ -69,8 +72,9 @@ export default Vue.extend({
       colour_scheme: 'system',
       system_colour_scheme: '',
       control_crs: 'EPSG:3413',
-      selected_product_granule: {},
+      selected_product_granules: {},
       active_product_granules: [],
+      selected_footprints: [],
       rotation_heading: 0,
       rotation_longitude: 0,
       rotation_radians: 0,
@@ -122,8 +126,8 @@ export default Vue.extend({
     whenCRSChange: function ($event) {
       this.control_crs = $event;
     },
-    whenSelectedProductGranuleChange: function ($event) {
-      this.selected_product_granule = $event;
+    whenSelectedProductGranulesChange: function ($event) {
+      this.selected_product_granules = $event;
     },
     whenActiveProductGranulesChange: function ($event) {
       this.active_product_granules = $event;
@@ -142,6 +146,9 @@ export default Vue.extend({
     },
     whenScaleBarUnitChange: function ($event) {
       this.scale_bar_unit = $event;
+    },
+    whenSelectedFootprintsChange: function ($event) {
+      this.selected_footprints = $event;
     }
   }
 });

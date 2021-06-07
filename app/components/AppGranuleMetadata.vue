@@ -1,15 +1,17 @@
 <template>
   <section class="app-granule-metadata">
     <header><h4>Granule Metadata</h4></header>
-    <div v-if="Object.keys(selected_product_granule).length">
+    <div v-if="Object.keys(selected_product_granules).length">
       <p v-if="product">Product: <output>{{ product.label }}</output></p>
-      <div v-if="granule">
-        <p>Granule:</p>
-        <ul>
-          <li>Name: <output>{{ granule.label }}</output></li>
-          <li>Time: <output>{{ granule.timestamp }}</output></li>
-        </ul>
-      </div>
+      <template v-if="granules">
+        <div v-for="granule in granules" :key="granule.id">
+          <p>Granule:</p>
+          <ul>
+            <li>Name: <output>{{ granule.label }}</output></li>
+            <li>Time: <output>{{ granule.timestamp }}</output></li>
+          </ul>
+        </div>
+      </template>
       <img :src="product.legend_url">
     </div>
     <div v-else>
@@ -25,15 +27,15 @@ export default {
   },
 
   props: [
-    'selected_product_granule'
+    'selected_product_granules'
   ],
 
   computed: {
     product: function () {
-      return this.selected_product_granule.product;
+      return this.selected_product_granules.product;
     },
-    granule: function () {
-      return this.selected_product_granule.granule;
+    granules: function () {
+      return this.selected_product_granules.granules;
     },
   },
 }
