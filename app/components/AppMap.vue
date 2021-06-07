@@ -201,8 +201,6 @@ export default {
 
   methods: {
     initLayers: function () {
-      this.layers = [];
-
       this.product_granules.forEach((product_granule) => {
         let layer = {
           'id': product_granule.id,
@@ -233,8 +231,13 @@ export default {
             layer = _footprints_layer;
           }
         }
+
+        let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
+        if (_index === -1) {
+          this.layers.push(layer);
+        } else {
+          this.layers[_index] = layer;
         }
-        this.layers.push(layer);
       });
     },
     calcCentre4326: function () {
