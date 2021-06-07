@@ -17,7 +17,19 @@
       <vl-layer-tile>
         <vl-source-osm></vl-source-osm>
       </vl-layer-tile>
+      <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
+        <template v-if="layer.protocol === 'wfs'">
+          <vl-layer-vector>
+            <vl-source-vector :url=layer.url></vl-source-vector>
+          </vl-layer-vector>
+        </template>
+      </div>
+      <vl-interaction-select
+        :features.sync="selected_features"
+        :condition="select_condition"
+      ></vl-interaction-select>
     </vl-map>
+
     <div class="app-map-controls">
       <div>
         Zoom:
@@ -45,6 +57,11 @@
       <p>Extent (EPSG:4326): <output>{{ extent_4326 }}</output></p>
       <p>Position format: <output>{{ position_format }}</output></p>
       <p>Scale bar units: <output>{{ scale_bar_unit }}</output></p>
+      <p>Selected features:</p>
+      <pre>{{ selected_features }}</pre>
+      <p>Selected footprints:</p>
+      <pre>{{ selected_footprints }}</pre>
+      <p>Layers:</p>
       <pre v-for="layer in layers" :key="layer.name">{{ JSON.stringify(layer) }}</pre>
     </div>
   </section>
@@ -53,6 +70,7 @@
 <script>
 import Vue from 'vue'
 import proj4 from 'proj4';
+import {click} from 'ol/events/condition';
 import {Attribution, FullScreen, MousePosition, Rotate, ScaleLine, Zoom} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
@@ -104,6 +122,7 @@ export default {
       'centre_crs': [0,0],
       'extent_4326': [0,0,0,0],
       'controls': false,
+      'selected_features': []
     }
   },
 
@@ -114,6 +133,7 @@ export default {
     'product_granules',
     'position_format',
     'scale_bar_unit',
+    'ogc_endpoint'
   ],
 
   computed: {
@@ -132,6 +152,22 @@ export default {
         return 'EPSG:4326';
       }
       return this.crs;
+    },
+    select_condition: function () {
+    	return click;
+    },
+    selected_footprints: function () {
+      let granule_features = []
+      this.selected_features.forEach((feature) => {
+        if (feature.id.startsWith('footprints')) {
+          granule_features.push({
+            'product_id': feature.properties.code,
+            'granule_id': feature.properties.uuid
+          })
+        }
+      });
+
+      return granule_features;
     }
   },
 
@@ -139,8 +175,12 @@ export default {
     colour_scheme: function () {
       this.initLayers();
     },
-    product_granules: function () {
-      this.initLayers();
+    product_granules: {
+      deep: true,
+
+      handler() {
+        this.initLayers();
+      }
     },
     zoom () {
       this.updateExtent();
@@ -154,6 +194,9 @@ export default {
     scale_bar_unit () {
       scaleLineControl.setUnits(this.scale_bar_unit);
     },
+    selected_footprints () {
+      this.$emit("update:selected_footprints", this.selected_footprints);
+    }
   },
 
   methods: {
@@ -162,6 +205,7 @@ export default {
 
       this.product_granules.forEach((product_granule) => {
         let layer = {
+          'id': product_granule.id,
           'protocol': product_granule.ogc_protocol,
           'endpoint': product_granule.ogc_protocol_url,
           'name': product_granule.ogc_layer_name,
@@ -169,8 +213,26 @@ export default {
           'style': `${product_granule.ogc_style}-${this.style_modifier}`,
           'attribution': product_granule.attribution
         }
+
         if (product_granule.has_granules) {
-          layer['time'] = product_granule.granules[product_granule.selected_granule_index].timestamp;
+          product_granule.selected_granule_indexes.forEach((granule_index) => {
+            let _granule_layer = JSON.parse(JSON.stringify(layer));  // clone base layer properties
+            let _granule = product_granule.granules[granule_index];
+            // replace product ID with granule ID for layer ID
+            _granule_layer['id'] = _granule.id;
+            _granule_layer['time'] = _granule.timestamp;
+            layer = _granule_layer
+          });
+
+          if (product_granule.granules_selection_mode === 'multiple') {
+            const footprints_layer_name = 'siis:footprints';
+            let _footprints_layer = {
+              'protocol': 'wfs',
+              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
+            };
+            layer = _footprints_layer;
+          }
+        }
         }
         this.layers.push(layer);
       });
