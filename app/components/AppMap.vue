@@ -17,22 +17,19 @@
       <vl-layer-tile>
         <vl-source-osm></vl-source-osm>
       </vl-layer-tile>
-      <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
       <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wfs'">
           <vl-layer-vector>
             <vl-source-vector :url=layer.url></vl-source-vector>
           </vl-layer-vector>
         </template>
-      </vl-layer-tile>
       </div>
       <vl-interaction-select
-        ref="footprintsInteraction"
         :features.sync="selected_features"
         :condition="select_condition"
       ></vl-interaction-select>
-
     </vl-map>
+
     <div class="app-map-controls">
       <div>
         Zoom:
@@ -204,8 +201,6 @@ export default {
 
   methods: {
     initLayers: function () {
-      this.layers = [];
-
       this.product_granules.forEach((product_granule) => {
         let layer = {
           'id': product_granule.id,
@@ -224,19 +219,24 @@ export default {
             // replace product ID with granule ID for layer ID
             _granule_layer['id'] = _granule.id;
             _granule_layer['time'] = _granule.timestamp;
-            this.layers.push(_granule_layer);
+            layer = _granule_layer
           });
 
           if (product_granule.granules_selection_mode === 'multiple') {
             const footprints_layer_name = 'siis:footprints';
-            let footprints_layer = {
+            let _footprints_layer = {
               'protocol': 'wfs',
-              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=siis:footprints&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
+              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
             };
-            this.layers.push(footprints_layer);
+            layer = _footprints_layer;
           }
-        } else {
+        }
+
+        let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
+        if (_index === -1) {
           this.layers.push(layer);
+        } else {
+          this.layers[_index] = layer;
         }
       });
     },
