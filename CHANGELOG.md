@@ -73,6 +73,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Dark mode not enabled by defaul when dark
+  [#83](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/83)
 * [App] Incorrect logic for selecting active granules vs. base layers
   [#73](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/73)
 * [App] Refactoring references to properties between Vue components
