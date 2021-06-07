@@ -40,6 +40,8 @@ export default {
 
     if (window.matchMedia('(prefers-color-scheme: light)').matches) {
       this.$emit('update:system_colour_scheme', 'light');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.$emit('update:system_colour_scheme', 'dark');
     }
     let _this = this;
     window.matchMedia("(prefers-color-scheme: light)").addListener(
