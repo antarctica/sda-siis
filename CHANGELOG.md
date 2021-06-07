@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Initial multi-granule selection using footprints layer
+  [#78](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/78)
 * [App] Map rotation based on manual, GPS heading or GPS longitude source
   [#79](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/79)
 * [App] Initial implementation of sensor metadata
