@@ -328,6 +328,46 @@ export default {
       if (this.$refs.AppMapView.$view == null) return;
       this.extent_4326 = transformExtent(this.$refs.AppMapView.$view.calculateExtent(), this.crs, 'EPSG:4326');
     },
+    onMapClick: async function (event) {
+      // try to get reference to WMS layer for selected product/granule if it supports value at pixel
+      if (!('product' in this.selected_product_granules)) {
+        return {};
+      }
+      if (! this.selected_product_granules.product.supports_value_at_pixel) {
+        return {};
+      }
+      let _reference = this.generateLayerRef(this.selected_product_granules.product.code);
+      if ('granules' in this.selected_product_granules && this.selected_product_granules.granules.length > 0) {
+       _reference = this.generateLayerRef(this.selected_product_granules.product.code, this.selected_product_granules.granules[0].id);
+      }
+      if (typeof(this.$refs[_reference]) === 'undefined') {
+        return {}
+      }
+
+      try {
+        let request_uri = await this.$refs[_reference][0].getFeatureInfoUrl(
+          event.coordinate,
+          undefined,
+          undefined,
+          {'INFO_FORMAT': 'application/json'}
+        );
+        const response = await axios.get(request_uri);
+        // assume only one feature will be returned
+        this.value_at_pixel_feature = response.data.features[0];
+      } catch (error) {
+        console.error('Value at pixel (WMS test) data could not be retrieved');
+        console.error(error);
+      }
+      return {};
+    },
+    generateLayerRef: function (product_code, granule_id) {
+      let _id = product_code;
+      if (typeof granule_id !== "undefined") {
+        _id = `${_id}_${granule_id}`;
+      }
+
+      return _id.replaceAll('-', '_').replaceAll('.', '_');
+    },
     add_or_update_layer: function (layer) {
         let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
         if (_index === -1) {
