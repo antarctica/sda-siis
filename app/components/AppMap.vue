@@ -272,6 +272,9 @@ export default {
           'style': `${product_granule.ogc_style}-${this.style_modifier}`,
           'attribution': product_granule.attribution
         }
+        if (! product_granule.has_granules) {
+          this.add_or_update_layer(layer);
+        }
 
         if (product_granule.has_granules) {
           product_granule.selected_granule_indexes.forEach((granule_index) => {
@@ -282,23 +285,20 @@ export default {
             _granule_layer['id'] = _granule.id;
             _granule_layer['time'] = _granule.timestamp;
             layer = _granule_layer
+
+            this.add_or_update_layer(layer);
           });
 
           if (product_granule.granules_selection_mode === 'multiple') {
             const footprints_layer_name = 'siis:footprints';
-            let _footprints_layer = {
+            let footprints_layer = {
+              'id': `footprints-${product_granule.id}`,
               'protocol': 'wfs',
               'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
             };
-            layer = _footprints_layer;
+            this.footprint_layer_names.push(footprints_layer.id);
+            this.add_or_update_layer(footprints_layer);
           }
-        }
-
-        let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
-        if (_index === -1) {
-          this.layers.push(layer);
-        } else {
-          this.layers[_index] = layer;
         }
       });
     },
@@ -336,6 +336,15 @@ export default {
 
       zoomControl.setTarget(document.getElementById('app-map-control-zoom'));
       this.$refs.AppMap.$map.addControl(zoomControl);
+    add_or_update_layer: function (layer) {
+        let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
+        if (_index === -1) {
+          this.layers.push(layer);
+        } else {
+          this.layers[_index] = layer;
+        }
+    }
+  },
     });
   }
 }
