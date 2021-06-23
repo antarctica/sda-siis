@@ -302,23 +302,7 @@ export default {
         }
       });
     },
-    calcCentre4326: function () {
-      this.centre_4326 = transform(this.centre_crs, 'EPSG:4326', this.crs);
-    },
-    updateExtent: function () {
-      if (this.$refs.AppMapView.$view == null) return;
-      this.extent_4326 = transformExtent(this.$refs.AppMapView.$view.calculateExtent(), this.crs, 'EPSG:4326');
-    }
-  },
-
-  mounted() {
-    this.initLayers();
-
-    this.$refs.AppMapView.$createPromise.then(() => {
-      this.updateExtent();
-    });
-
-    this.$refs.AppMap.$createPromise.then(() => {
+    initControls: function () {
       this.$refs.AppMap.$map.addControl(attributionControl);
 
       fullscreenControl.setTarget(document.getElementById('app-map-control-fullscreen'));
@@ -336,6 +320,14 @@ export default {
 
       zoomControl.setTarget(document.getElementById('app-map-control-zoom'));
       this.$refs.AppMap.$map.addControl(zoomControl);
+    },
+    calcCentre4326: function () {
+      this.centre_4326 = transform(this.centre_crs, 'EPSG:4326', this.crs);
+    },
+    updateExtent: function () {
+      if (this.$refs.AppMapView.$view == null) return;
+      this.extent_4326 = transformExtent(this.$refs.AppMapView.$view.calculateExtent(), this.crs, 'EPSG:4326');
+    },
     add_or_update_layer: function (layer) {
         let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
         if (_index === -1) {
@@ -345,6 +337,16 @@ export default {
         }
     }
   },
+
+  mounted() {
+    this.initLayers();
+
+    this.$refs.AppMapView.$createPromise.then(() => {
+      this.updateExtent();
+    });
+
+    this.$refs.AppMap.$createPromise.then(() => {
+      this.initControls();
     });
   }
 }
