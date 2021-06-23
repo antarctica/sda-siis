@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Initial value at pixel support
+  [#66](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/66)
 * [App] Initial multi-granule selection using footprints layer
   [#78](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/78)
 * [App] Map rotation based on manual, GPS heading or GPS longitude source
@@ -75,6 +77,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Granule datetime needs to be converted to a date for use in GeoServer requests
+  [#89](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/89)
 * [App] Dark mode not enabled by defaul when dark
   [#83](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/83)
 * [App] Incorrect logic for selecting active granules vs. base layers

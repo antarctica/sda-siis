@@ -182,7 +182,8 @@ export default {
     },
     determinePreferredOGCProtocol: function(protocols) {
       if (protocols.includes('WMTS')) {
-        return 'wmts';
+        // Treat all WMTS layers as WMS until https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51 is resolved
+        return 'wms';
       } else if (protocols.includes('WMS')) {
         return 'wms';
       } else if (protocols.includes('WFS')) {
@@ -243,7 +244,7 @@ export default {
             'id': granule.id,
             'label': granule.productname,
             'status': granule.status,
-            'timestamp': granule.timestamp
+            'timestamp': this.formatGranuleTimestamp(granule.timestamp)
           });
         });
         return granules;
@@ -251,6 +252,11 @@ export default {
         console.error('Granules could not be retrieved');
         console.error(error);
       }
+    },
+    formatGranuleTimestamp: function(timestamp) {
+      // convert `2021-06-14T13:24:51.009896` into `2021-06-14`
+      // see https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/90 for long term fix
+      return timestamp.split('T')[0];
     },
     selectPreviousGranule: function() {
       if (this.granules_selection_mode === 'single') {
