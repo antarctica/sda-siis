@@ -22,6 +22,16 @@
 
       <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wms' || layer.protocol === 'wmts'">
+          <!-- WMTS layers are considereed to use WMS until https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51 is resolved -->
+          <!-- <vl-source-wmts
+            :ref=layer.ref
+            :url=layer.endpoint
+            :layerName=layer.name
+            :styleName=layer.style
+            :format=layer.format
+            :matrixSet=crs
+            :attributions=layer.attribution
+          ></vl-source-wmts> -->
           <vl-source-tile-wms
             :ref=layer.ref
             :url=layer.endpoint
