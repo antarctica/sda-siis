@@ -21,6 +21,7 @@
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
       <p>Active: {{ is_active }}</p>
+      <p>Value at pixel supported: {{ supports_value_at_pixel }}</p>
       <p>Has granules?: {{ has_granules }}</p>
       <div v-if="has_granules">
         <p>Granule selection mode: {{ granules_selection_mode }}</p>
@@ -57,7 +58,8 @@ export default {
       'granules': [],
       'selected_granule_indexes': [],
       'has_granules': false,
-      'granules_selection_mode': ''
+      'granules_selection_mode': '',
+      'supports_value_at_pixel': false
     }
   },
 
@@ -168,6 +170,7 @@ export default {
       this.attribution = this.initial_product.attribution;
       this.opacity = 1;
       this.has_granules = !this.initial_product.static;
+      this.supports_value_at_pixel = this.determineValueAtPixelSupported(this.code);
 
       if (this.has_granules) {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
@@ -210,6 +213,13 @@ export default {
         return 'single';
       }
       return 'multiple';
+    },
+    determineValueAtPixelSupported: function(code) {
+      // Currently determined based on hard-coded layers - see https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/84
+      if (code === 'siis.ic-nor.s' || code === 'siis.sic.n' || code === 'siis.sic.s') {
+        return true;
+      }
+      return false;
     },
     checkIfActiveProduct: function() {
       if (this.initial_active_product_ids.includes(this.id)) {
