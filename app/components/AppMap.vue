@@ -7,6 +7,7 @@
       load-tiles-while-animating="true"
       load-tiles-while-interacting="true"
       class="app-map"
+      @click="onMapClick"
     >
       <vl-view
         ref="AppMapView"
@@ -18,13 +19,26 @@
       <vl-layer-tile>
         <vl-source-osm></vl-source-osm>
       </vl-layer-tile>
+
+      <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
+        <template v-if="layer.protocol === 'wms' || layer.protocol === 'wmts'">
+          <vl-source-tile-wms
+            :ref=layer.ref
+            :url=layer.endpoint
+            :layers=layer.name
+            :time=layer.time
+            :attributions=layer.attribution
+          ></vl-source-tile-wms>
+        </template>
+      </vl-layer-tile>
       <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wfs'">
           <vl-layer-vector>
-            <vl-source-vector :url=layer.url></vl-source-vector>
+            <vl-source-vector :ref=layer.ref :url=layer.url></vl-source-vector>
           </vl-layer-vector>
         </template>
       </div>
+
       <vl-interaction-select
         :features.sync="selected_features"
         :condition="select_condition"
@@ -62,6 +76,10 @@
       <pre>{{ selected_features }}</pre>
       <p>Selected footprints:</p>
       <pre>{{ selected_footprints }}</pre>
+      <p>selected feature (for value at pixel)</p>
+      <pre>{{ selected_value_at_pixel_feature }}</pre>
+      <p>Value at pixel feature</p>
+      <pre>{{ value_at_pixel_feature }}</pre>
       <p>Layers:</p>
       <pre v-for="layer in layers" :key="layer.name">{{ JSON.stringify(layer) }}</pre>
     </div>
@@ -70,6 +88,7 @@
 
 <script>
 import Vue from 'vue'
+import axios from 'axios';
 import proj4 from 'proj4';
 import {click} from 'ol/events/condition';
 import {Attribution, FullScreen, MousePosition, Rotate, ScaleLine, Zoom} from 'ol/control';
@@ -123,7 +142,8 @@ export default {
       'centre_crs': [0,0],
       'extent_4326': [0,0,0,0],
       'controls': false,
-      'selected_features': []
+      'selected_features': [],
+      'value_at_pixel_feature': {}
     }
   },
 
@@ -132,6 +152,7 @@ export default {
     'crs',
     'rotation',
     'product_granules',
+    'selected_product_granules',
     'position_format',
     'scale_bar_unit',
     'ogc_endpoint'
@@ -169,6 +190,28 @@ export default {
       });
 
       return granule_features;
+    },
+    selected_value_at_pixel_feature: function () {
+      if (!('product' in this.selected_product_granules)) {
+        return {};
+      }
+      if (! this.selected_product_granules.product.supports_value_at_pixel) {
+        return {};
+      }
+      if (this.selected_features < 1) {
+        return {};
+      }
+
+      // workaround inconsistencies between product code syntax (e.g. `siis.ic-nor.s` should become `ic_nor_s`)
+      let product_layer_name = this.selected_product_granules.product.code;
+      product_layer_name = product_layer_name.replace('siis.', '').replaceAll('.', '_').replaceAll('-', '_');
+
+      // assume only one feature can be selected at once
+      if (! this.selected_features[0]['id'].startsWith(product_layer_name)) {
+        return {}
+      }
+
+      return this.selected_features[0];
     }
   },
 
@@ -197,6 +240,12 @@ export default {
     },
     selected_footprints () {
       this.$emit("update:selected_footprints", this.selected_footprints);
+    },
+    selected_value_at_pixel_feature () {
+      this.value_at_pixel_feature = this.selected_value_at_pixel_feature;
+    },
+    value_at_pixel_feature () {
+      this.$emit("update:value_at_pixel_feature", this.value_at_pixel_feature.properties);
     }
   },
 
@@ -204,6 +253,7 @@ export default {
     initLayers: function () {
       this.product_granules.forEach((product_granule) => {
         let layer = {
+          'ref': this.generateLayerRef(product_granule.code),
           'id': product_granule.id,
           'protocol': product_granule.ogc_protocol,
           'endpoint': product_granule.ogc_protocol_url,
@@ -218,6 +268,7 @@ export default {
             let _granule_layer = JSON.parse(JSON.stringify(layer));  // clone base layer properties
             let _granule = product_granule.granules[granule_index];
             // replace product ID with granule ID for layer ID
+            _granule_layer['ref'] = this.generateLayerRef(layer.ref, _granule.id);
             _granule_layer['id'] = _granule.id;
             _granule_layer['time'] = _granule.timestamp;
             layer = _granule_layer

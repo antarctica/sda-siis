@@ -17,6 +17,10 @@
     <div v-else>
       <p>Select a product to view granule metadata</p>
     </div>
+    <template v-if="product && product.supports_value_at_pixel">
+      <header><h4>Value at pixel (Selected product/granule)</h4></header>
+      <pre>{{ value_at_pixel_feature }}</pre>
+    </template>
   </section>
 </template>
 
@@ -27,7 +31,8 @@ export default {
   },
 
   props: [
-    'selected_product_granules'
+    'selected_product_granules',
+    'value_at_pixel_feature'
   ],
 
   computed: {

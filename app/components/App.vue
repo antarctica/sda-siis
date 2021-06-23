@@ -10,10 +10,12 @@
         :crs="control_crs"
         :rotation="rotation_radians"
         :product_granules="active_product_granules"
+        :selected_product_granules="selected_product_granules"
         :position_format="position_format"
         :scale_bar_unit="scale_bar_unit"
         :ogc_endpoint="ogc_endpoint"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
+        v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
       ></app-map>
       <app-product-switcher
         :api_endpoint="api_endpoint"
@@ -36,6 +38,7 @@
       ></app-map-controls>
       <app-granule-metadata
         :selected_product_granules="selected_product_granules"
+        :value_at_pixel_feature="value_at_pixel_feature"
       ></app-granule-metadata>
       <app-sensor-metadata
         :ogc_endpoint="ogc_endpoint"
@@ -69,6 +72,7 @@ export default Vue.extend({
       selected_product_granules: {},
       active_product_granules: [],
       selected_footprints: [],
+      value_at_pixel_feature: {},
       rotation_heading: 0,
       rotation_longitude: 0,
       rotation_radians: 0,
@@ -143,6 +147,9 @@ export default Vue.extend({
     },
     whenSelectedFootprintsChange: function ($event) {
       this.selected_footprints = $event;
+    },
+    whenValueAtPixelFeatureChanges: function ($event) {
+      this.value_at_pixel_feature = $event;
     }
   }
 });
