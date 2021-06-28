@@ -296,7 +296,6 @@ export default {
               'protocol': 'wfs',
               'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
             };
-            this.footprint_layer_names.push(footprints_layer.id);
             this.add_or_update_layer(footprints_layer);
           }
         }
