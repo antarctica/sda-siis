@@ -270,6 +270,7 @@ export default {
           'name': product_granule.ogc_layer_name,
           'format': product_granule.ogc_format,
           'style': `${product_granule.ogc_style}-${this.style_modifier}`,
+          'opacity': product_granule.opacity,
           'attribution': product_granule.attribution
         }
         if (! product_granule.has_granules) {
