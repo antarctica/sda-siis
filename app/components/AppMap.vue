@@ -381,8 +381,6 @@ export default {
       }
     },
     cleanup_orphaned_layers: function() {
-      console.log('called');
-
       this.layers.forEach((layer) => {
         let _index = this.product_granules.findIndex(_layer => _layer.id === layer.id);
         if (layer.id.startsWith('footprints-')) {
@@ -390,6 +388,7 @@ export default {
         }
 
         if (_index === -1) {
+          _index = this.layers.findIndex(_layer => _layer.id === layer.id);
           this.layers.splice(_index, 1);
         }
       });
