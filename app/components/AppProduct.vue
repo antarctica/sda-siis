@@ -21,6 +21,7 @@
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
       <p>Active: {{ is_active }}</p>
+      <p>Opacity: {{ opacity }}</p>
       <p>Value at pixel supported: {{ supports_value_at_pixel }}</p>
       <p>Has granules?: {{ has_granules }}</p>
       <div v-if="has_granules">
