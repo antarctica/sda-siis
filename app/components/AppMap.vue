@@ -294,6 +294,7 @@ export default {
             const footprints_layer_name = 'siis:footprints';
             let footprints_layer = {
               'id': `footprints-${product_granule.id}`,
+              '_id': product_granule.id,
               'protocol': 'wfs',
               'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
             };
@@ -302,6 +303,7 @@ export default {
         }
       });
 
+      this.cleanup_orphaned_layers();
       this.$forceUpdate();
     },
     initControls: function () {
@@ -371,12 +373,26 @@ export default {
       return _id.replaceAll('-', '_').replaceAll('.', '_');
     },
     add_or_update_layer: function (layer) {
-        let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
-        if (_index === -1) {
-          this.layers.push(layer);
-        } else {
-          this.layers[_index] = layer;
+      let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
+      if (_index === -1) {
+        this.layers.push(layer);
+      } else {
+        this.layers[_index] = layer;
+      }
+    },
+    cleanup_orphaned_layers: function() {
+      console.log('called');
+
+      this.layers.forEach((layer) => {
+        let _index = this.product_granules.findIndex(_layer => _layer.id === layer.id);
+        if (layer.id.startsWith('footprints-')) {
+          _index = this.product_granules.findIndex(_layer => _layer.id === layer._id);
         }
+
+        if (_index === -1) {
+          this.layers.splice(_index, 1);
+        }
+      });
     }
   },
 

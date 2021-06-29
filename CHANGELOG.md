@@ -77,6 +77,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Deactivated map layers not removed from map
+  [#85](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/85)
 * [App] Missing opacity debug and map layer values
   [#86](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/86)
 * [App] Granule datetime needs to be converted to a date for use in GeoServer requests
