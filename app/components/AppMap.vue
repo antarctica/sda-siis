@@ -301,6 +301,8 @@ export default {
           }
         }
       });
+
+      this.$forceUpdate();
     },
     initControls: function () {
       this.$refs.AppMap.$map.addControl(attributionControl);
