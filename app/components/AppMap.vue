@@ -282,7 +282,7 @@ export default {
             let _granule_layer = JSON.parse(JSON.stringify(layer));  // clone base layer properties
             let _granule = product_granule.granules[granule_index];
             // replace product ID with granule ID for layer ID
-            _granule_layer['ref'] = this.generateLayerRef(layer.ref, _granule.id);
+            _granule_layer['ref'] = this.generateLayerRef(layer.id, _granule.id);
             _granule_layer['id'] = _granule.id;
             _granule_layer['time'] = _granule.timestamp;
             layer = _granule_layer
@@ -364,13 +364,13 @@ export default {
       }
       return {};
     },
-    generateLayerRef: function (product_code, granule_id) {
-      let _id = product_code;
+    generateLayerRef: function (product_id, granule_id) {
+      let _id = product_id;
       if (typeof granule_id !== "undefined") {
-        _id = `${_id}_${granule_id}`;
+        _id = `${_id}___${granule_id}`;
       }
 
-      return _id.replaceAll('-', '_').replaceAll('.', '_');
+      return _id;
     },
     add_or_update_layer: function (layer) {
       let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
@@ -383,6 +383,20 @@ export default {
     cleanup_orphaned_layers: function() {
       this.layers.forEach((layer) => {
         let _index = this.product_granules.findIndex(_layer => _layer.id === layer.id);
+        if (layer.ref.includes('___')) {
+          // assume layer is for a product granule
+          let _product_id = layer.ref.split('___')[0];
+          let _product_index = this.product_granules.findIndex(_product => _product.id === _product_id);
+          if (_product_index !== -1) {
+            let _product = this.product_granules[_product_index];
+            let _granule_index = _product.granules.findIndex(_granule => _granule.id === layer.id);
+            if (_granule_index !== -1) {
+              if (_product.selected_granule_indexes.includes(_granule_index)) {
+                _index = 999;
+              }
+            }
+          }
+        }
         if (layer.id.startsWith('footprints-')) {
           _index = this.product_granules.findIndex(_layer => _layer.id === layer._id);
         }
