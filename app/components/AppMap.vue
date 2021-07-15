@@ -16,11 +16,11 @@
         :rotation.sync="rotation"
         :center.sync="centre_crs"
       ></vl-view>
-      <vl-layer-tile>
+      <vl-layer-tile :zIndex=0>
         <vl-source-osm></vl-source-osm>
       </vl-layer-tile>
 
-      <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
+      <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity :zIndex=1>
         <template v-if="layer.protocol === 'wms' || layer.protocol === 'wmts'">
           <!-- WMTS layers are considereed to use WMS until https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51 is resolved -->
           <!-- <vl-source-wmts
@@ -43,7 +43,7 @@
       </vl-layer-tile>
       <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wfs'">
-          <vl-layer-vector>
+          <vl-layer-vector :zIndex=5>
             <vl-source-vector :ref=layer.ref :url=layer.url></vl-source-vector>
           </vl-layer-vector>
         </template>

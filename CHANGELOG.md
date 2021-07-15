@@ -77,6 +77,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Map layer stacking
+  [#96](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/96)
 * [App] Deactivated map layers not removed from map
   [#85](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/85)
 * [App] Missing opacity debug and map layer values
