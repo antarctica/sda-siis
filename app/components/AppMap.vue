@@ -292,8 +292,10 @@ export default {
 
           if (product_granule.granules_selection_mode === 'multiple') {
             const footprints_layer_name = 'siis:footprints';
+            const id = `footprints-${product_granule.id}`;
             let footprints_layer = {
-              'id': `footprints-${product_granule.id}`,
+              'ref': id,
+              'id': id,
               '_id': product_granule.id,
               'protocol': 'wfs',
               'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
@@ -340,9 +342,9 @@ export default {
       if (! this.selected_product_granules.product.supports_value_at_pixel) {
         return {};
       }
-      let _reference = this.generateLayerRef(this.selected_product_granules.product.code);
+      let _reference = this.generateLayerRef(this.selected_product_granules.product.id);
       if ('granules' in this.selected_product_granules && this.selected_product_granules.granules.length > 0) {
-       _reference = this.generateLayerRef(this.selected_product_granules.product.code, this.selected_product_granules.granules[0].id);
+       _reference = this.generateLayerRef(this.selected_product_granules.product.id, this.selected_product_granules.granules[0].id);
       }
       if (typeof(this.$refs[_reference]) === 'undefined') {
         return {}
