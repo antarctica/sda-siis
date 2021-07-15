@@ -19,7 +19,15 @@
     </div>
     <template v-if="product && product.supports_value_at_pixel">
       <header><h4>Value at pixel (Selected product/granule)</h4></header>
-      <pre>{{ value_at_pixel_feature }}</pre>
+      <template v-if="product.code == 'siis.ic-nor.s'">
+        Ice Class: <output>{{ value_at_pixel_feature.nis_class }}</output>
+      </template>
+      <template v-else-if="product.code == 'siis.sic.s'">
+        Value: <output>{{ value_at_pixel_feature.PALETTE_INDEX }}</output>
+      </template>
+      <template v-else>
+        <pre>{{ value_at_pixel_feature }}</pre>
+      </template>
     </template>
   </section>
 </template>
