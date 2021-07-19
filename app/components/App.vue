@@ -71,7 +71,7 @@ export default Vue.extend({
   data() {
     return {
       environment: 'development',
-      debug_mode: true,
+      debug_mode: false,
       colour_scheme: 'system',
       system_colour_scheme: '',
       control_crs: 'EPSG:3413',
