@@ -169,15 +169,14 @@ export default Vue.extend({
 <style scoped>
   .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    gap: 0px 0px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 4%;
     grid-template-areas:
-      "products-switcher map-controls map-controls2 granule-metadata"
-      "products-switcher . map-controls2 granule-metadata"
-      "products-switcher . . ."
-      "products-switcher . . sensor-metadata"
-      "x-bottom-left . . x-bottom-right";
+      "map-controls map-controls2 granule-metadata"
+      ". . sensor-metadata"
+      ". . products-switcher"
+      ". . .";
+    grid-gap: 15px 15px;
     height: 100vh;
   }
 </style>

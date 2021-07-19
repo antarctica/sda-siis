@@ -60,5 +60,6 @@ export default {
     border-left: 1px solid orange;
     border-bottom: 1px solid orange;
     z-index: 10;
+    overflow-x: scroll;
   }
 </style>
