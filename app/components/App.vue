@@ -6,6 +6,7 @@
     ></app-colour-scheme>
     <div class="grid-container">
       <app-map
+        :debug_mode="debug_mode"
         :colour_scheme=resolved_colour_scheme
         :crs="control_crs"
         :rotation="rotation_radians"
@@ -18,6 +19,7 @@
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
       ></app-map>
       <app-product-switcher
+        :debug_mode="debug_mode"
         :api_endpoint="api_endpoint"
         :ogc_endpoint="ogc_endpoint"
         :crs="control_crs"
@@ -27,10 +29,12 @@
       ></app-product-switcher>
       <app-map-controls
         :initial_crs="control_crs"
+        :debug_mode="debug_mode"
         initial_day_night_mode="system"
         :rotation_heading="rotation_heading"
         :rotation_longitude="rotation_longitude"
         v-on:update:crs="whenCRSChange"
+        v-on:update:debug_mode="whenDebugModeChange"
         v-on:update:day_night="whenColourSchemeChange"
         v-on:update:rotation_radians="whenRotationRadiansChange"
         v-on:update:position_format="whenPositionFormatChange"
@@ -41,6 +45,7 @@
         :value_at_pixel_feature="value_at_pixel_feature"
       ></app-granule-metadata>
       <app-sensor-metadata
+        :debug_mode="debug_mode"
         :ogc_endpoint="ogc_endpoint"
         v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
         v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
@@ -66,6 +71,7 @@ export default Vue.extend({
   data() {
     return {
       environment: 'development',
+      debug_mode: true,
       colour_scheme: 'system',
       system_colour_scheme: '',
       control_crs: 'EPSG:3413',
@@ -106,6 +112,11 @@ export default Vue.extend({
   },
 
   methods: {
+    whenDebugModeChange: function ($event) {
+      this.debug_mode = $event;
+      console.log('bar');
+      console.log($event);
+    },
     whenDayNightChange: function ($event) {
       if ($event == 'system') {
         this.colour_scheme = 'system';
