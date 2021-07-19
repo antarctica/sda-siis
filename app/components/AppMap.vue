@@ -73,7 +73,8 @@
         <div id="app-map-control-rotation"></div>
       </div>
     </div>
-    <div class="debug">
+
+    <div class="debug" v-if="debug_mode">
       <p>CRS: <output>{{ crs }}</output></p>
       <p>Rotation (radians): <output>{{ rotation }}</output></p>
       <p>Zoom: <output>{{ zoom }}</output></p>
@@ -158,6 +159,7 @@ export default {
   },
 
   props: [
+    'debug_mode',
     'colour_scheme',
     'crs',
     'rotation',

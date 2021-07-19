@@ -15,7 +15,7 @@
       v-on:update:selected_granules="whenSelectedProductGranulesChange"
       v-on:update:active_product="whenActiveProductsChange"
     ></app-product>
-    <div class="debug">
+    <div class="debug" v-if="debug_mode">
       <p>Selected product: {{ selected_product.id }} - {{ selected_product.code }}<p>
       <p>Active products:</p>
       <ul>
@@ -30,7 +30,7 @@
       <option value=48>Last 48 hours</option>
       <option value=24>Last 24 hours</option>
     </select>
-    <div class="debug">
+    <div class="debug" v-if="debug_mode">
       <p>Hemisphere: <output>{{ hemisphere }}</output></p>
       <p>Time filter: <output>{{ time_filter }}</output><p>
       <p>Selected footprints:</p>
@@ -57,6 +57,7 @@ export default {
   },
 
   props: [
+    'debug_mode',
     'api_endpoint',
     'ogc_endpoint',
     'crs',

@@ -1,5 +1,6 @@
 <template>
   <section class="app-map-controls">
+    <button v-on:click="debug_control = !debug_control">Toggle Debug Mode</button>
     <fieldset>
       <label for="day-night-mode">Day/Night mode</label>
       <select id="day-night-mode" v-model="day_night_mode" @change="onDayNightChange($event)">
@@ -46,7 +47,8 @@
         <option value=metric>Metric (m, km)</option>
       </select>
     </fieldset>
-    <div class="debug">
+    <div class="debug" v-if="debug_mode">
+      <p>Debug mode: <output>{{ debug_control }}</output></p>
       <p>Day/Night mode: <output>{{ day_night_mode }}</output></p>
       <p>CRS: <output>{{ crs }}</output><p>
       <p>Rotation source: <output>{{ rotation_source }}</output></p>
@@ -63,6 +65,7 @@ export default {
   data() {
     return {
       'crs': 'EPSG:3413',
+      'debug_control': true,
       'day_night_mode': 'system',
       'rotation_source': 'manual',
       'rotation_degrees': 0,
@@ -72,6 +75,7 @@ export default {
   },
 
   props: [
+    'debug_mode',
     'initial_crs',
     'initial_day_night_mode',
     'rotation_heading',
@@ -91,6 +95,9 @@ export default {
   },
 
   watch: {
+    debug_control: function () {
+      this.$emit('update:debug_mode', this.debug_control);
+    },
     rotation_heading: function () {
       if (this.rotation_source == 'heading') {
         this.rotation_degrees = this.rotation_heading;

@@ -7,7 +7,7 @@
     <p>Heading: {{ heading.value }}° <span :class="'status-indicator status-' + heading.available"></span></p>
     <p>Depth: {{ depth.value }} m <span :class="'status-indicator status-' + depth.available"></span></p>
     <p>Time: {{ time }}</p>
-    <div class="debug">
+    <div class="debug" v-if="debug_mode">
       <p>Latitude (dd): <output>{{ latitude_value }}</output></p>
       <p>Longitude (dd): <output>{{ longitude_value }}</output></p>
       <p>Last update: <output>{{ last_update }}</output></p>
@@ -39,6 +39,7 @@ export default {
   },
 
   props: [
+    'debug_mode',
     'ogc_endpoint'
   ],
 
@@ -197,9 +198,9 @@ export default {
     this.setTime();
 
     let _this = this;
-    setInterval(async function () {
-      await _this.getSensorReading();
-    }, 5000);
+    // setInterval(async function () {
+    //   await _this.getSensorReading();
+    // }, 5000);
     setInterval(function () {
       _this.setTime();
     }, 1000);

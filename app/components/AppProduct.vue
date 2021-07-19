@@ -17,7 +17,7 @@
       v-model.number="opacity"
     >
     <label :for="'product-opacity-' + id">Opacity</label>
-    <div class="debug">
+    <div class="debug" v-if="debug_mode">
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
       <p>Active: {{ is_active }}</p>
@@ -65,6 +65,7 @@ export default {
   },
 
   props: [
+    'debug_mode',
     'api_endpoint',
     'ogc_endpoint',
     'time_filter',
