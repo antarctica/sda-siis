@@ -56,22 +56,13 @@
     </vl-map>
 
     <div class="app-map-controls">
-      <div>
-        Zoom:
-        <div id="app-map-control-zoom"></div>
+      <div class="app-map-control" id="app-map-control-zoom"></div>
+      <div class="app-map-control" id="app-map-control-fullscreen"></div>
+      <div class="app-map-control" id="app-map-control-rotation" v-bind:class="{ hidden: rotation === 0 }"></div>
+      <div class="app-map-control" id="app-map-control-rotation-disabled" v-if="rotation === 0">
+        <button class="ol-rotate-reset" type="button" title="Reset rotation" disabled><span class="ol-compass" style="transform: rotate(0rad);">⇧</span></button>
       </div>
-      <div>
-        Fullscreen:
-        <div id="app-map-control-fullscreen"></div>
-      </div>
-      <div>
-        Current position:
-        <div id="app-map-control-position"></div>
-      </div>
-      <div>
-        Rotation reset:
-        <div id="app-map-control-rotation"></div>
-      </div>
+      <div class="app-map-control" id="app-map-control-position"></div>
     </div>
 
     <div class="debug" v-if="debug_mode">
@@ -108,7 +99,7 @@ import {register} from 'ol/proj/proj4';
 import {createStringXY} from 'ol/coordinate';
 import Projection from 'ol/proj/Projection';
 import VueLayers from 'vuelayers';
-import 'vuelayers/dist/vuelayers.css';
+import '../assets/vuelayers.css'
 
 Vue.use(VueLayers);
 
@@ -446,6 +437,9 @@ export default {
     border-bottom: 1px solid orchid;
     z-index: 10;
   }
+  .app-map-controls .hidden {
+    display: none;
+  }
 
   .vl-map .ol-rotate {
     top: 3em;
@@ -461,6 +455,13 @@ export default {
 </style>
 
 <style>
+  .app-map-controls .app-map-control {
+    display: inline-block;
+  }
+  .app-map-controls .app-map-control button {
+    width: 30px;
+    height: 30px;
+  }
   .app-map-controls .ol-control,
   .app-map-controls .ol-mouse-position {
     position: static;
