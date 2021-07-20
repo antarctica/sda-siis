@@ -452,10 +452,7 @@ export default {
   }
 
   .debug {
-    grid-row-start: x-bottom-left;
-    grid-column-start: x-bottom-left;
-    grid-row-end: x-bottom-right;
-    grid-column-end: x-bottom-right;
+    grid-area: x-3-left;
     border: 1px solid red;
     padding: 4px;
     z-index: 10;

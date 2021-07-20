@@ -173,10 +173,10 @@ export default Vue.extend({
     grid-template-rows: 1fr 1fr 1fr 4%;
     grid-template-areas:
       "map-controls map-controls2 granule-metadata"
-      ". . sensor-metadata"
-      ". . products-switcher"
-      ". . .";
-    grid-gap: 15px 15px;
+      "x-2-left x-2-middle sensor-metadata"
+      "x-3-left x-3-middle products-switcher"
+      "x-4-left x-4-middle x-4-right";
+    gap: 15px 15px;
     height: 100vh;
   }
 </style>

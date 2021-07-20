@@ -1,6 +1,5 @@
 <template>
   <section class="app-product-switcher">
-    <header><h4>Products</h4></header>
     <app-product
       v-for="product in raw_products"
       :key="product.id"
@@ -22,7 +21,6 @@
         <li v-for="product in active_products" :key="product.id">{{ product.id }} - {{ product.code }}</li>
       </ul>
     </div>
-    <hr />
     <label for="time-filter">Time filter</label>
     <select id="time-filter" v-model="time_filter">
       <option value=0>0 (No Limit)</option>
@@ -156,6 +154,10 @@ export default {
     border-left: none;
     overflow-x: scroll;
     z-index: 10;
+
+    display: grid;
+    grid-auto-rows: auto;
+    row-gap: 10px;
   }
 
   .debug {

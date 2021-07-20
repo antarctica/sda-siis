@@ -1,11 +1,29 @@
 <template>
-  <section>
-    <input type="radio" name="product-selection" :id="'product-selection-' + id" :value="id" v-model="selected">
-    <input type="checkbox" name="active-products" :id="'active-products-' + id" v-model="active">
-    <p>{{ label }} ({{ status }})</p>
-    <div v-if="has_granules && granules_selection_mode == 'single'">
-      <button v-on:click="selectPreviousGranule" :disabled="can_select_previous_granule">&lt;&lt;</button>
-      <button v-on:click="selectNextGranule" :disabled="can_select_next_granule">&gt;&gt;</button>
+  <section class="product-wrapper">
+    <input
+      type="radio"
+      name="product-selection"
+      :id="'product-selection-' + id"
+      :value="id"
+      v-model="selected"
+      class="selected-control"
+    >
+    <input
+      type="checkbox"
+      name="active-products"
+      :id="'active-products-' + id"
+      v-model="active"
+      class="active-control"
+    >
+    <div class="granule-previous-control">
+      <div v-if="has_granules && granules_selection_mode == 'single'">
+        <button v-on:click="selectPreviousGranule" :disabled="can_select_previous_granule">&lt;&lt;</button>
+      </div>
+    </div>
+    <div class="granule-next-control">
+      <div v-if="has_granules && granules_selection_mode == 'single'">
+        <button v-on:click="selectNextGranule" :disabled="can_select_next_granule">&gt;&gt;</button>
+      </div>
     </div>
     <input
       type="range"
@@ -15,8 +33,9 @@
       :id="'product-opacity-' + id"
       :name="'product-opacity-' + id"
       v-model.number="opacity"
+      class="opacity-control"
     >
-    <label :for="'product-opacity-' + id">Opacity</label>
+    <span class="name-control">{{ label }}</span>
     <div class="debug" v-if="debug_mode">
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
@@ -289,8 +308,37 @@ export default {
 </script>
 
 <style scoped>
+  .product-wrapper {
+    display: grid;
+    grid-template-columns: 5% 5% 5% 5% 20% 44% 10%;
+    grid-template-areas: "selected enabled previous-granule next-granule opacity name availability";
+    column-gap: 1%;
+  }
+  .selected-control {
+    grid-area: selected;
+  }
+  .active-control {
+    grid-area: enabled;
+  }
+  .granule-previous-control {
+    grid-area: previous-granule;
+  }
+  .granule-next-control {
+    grid-area: next-granule;
+  }
+  .opacity-control {
+    grid-area: opacity;
+  }
+  .name-control {
+    grid-area: name;
+  }
+  .status-control {
+    grid-area: availability;
+  }
+
   .debug {
     border: 2px solid red;
     padding: 4px;
+    grid-area: span;
   }
 </style>
