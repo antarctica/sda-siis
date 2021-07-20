@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Tidying up app controls (dark mode, projection, etc.) and collapsing into a toolbar
+  [#101](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/101)
 * [App] Restyling OL controls (zoom, rotation, fullscreen) and collapsing into a toolbar
   [#100](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/100)
 * [App] Moving product switcher to right of map as a panel, and improving per-product controls layout
