@@ -65,7 +65,7 @@ export default {
   data() {
     return {
       'crs': 'EPSG:3413',
-      'debug_control': true,
+      'debug_control': false,
       'day_night_mode': 'system',
       'rotation_source': 'manual',
       'rotation_degrees': 0,
