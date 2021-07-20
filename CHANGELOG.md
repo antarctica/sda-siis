@@ -9,10 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* [App] Moving product switcher to right of map as a panel, and improving per-product controls layout
-  [#99](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/99)
 * [App] Ability to toggle debug output
   [#98](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/98)
+
+### Changed
+
+* [App] Restyling OL controls (zoom, rotation, fullscreen) and collapsing into a toolbar
+  [#100](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/100)
+* [App] Moving product switcher to right of map as a panel, and improving per-product controls layout
+  [#99](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/99)
 
 ## 1.0.0-rc.1 - 2021-07-15
 
