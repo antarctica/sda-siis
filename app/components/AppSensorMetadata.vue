@@ -230,9 +230,9 @@ export default {
   }
 
   .status-true {
-    background-color: green;
+    background-color: #379245;
   }
   .status-false {
-    background-color: red;
+    background-color: #B10E1E;
   }
 </style>

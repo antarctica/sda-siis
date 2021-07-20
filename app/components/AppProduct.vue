@@ -36,6 +36,14 @@
       class="opacity-control"
     >
     <span class="name-control">{{ label }}</span>
+    <div class="status-control">
+      <template v-if="status == 'n/a'"><span class="status-indicator status-na"></span></template>
+      <template v-else-if="status == 'offline'"><span class="status-indicator status-offline"></span></template>
+      <template v-else-if="status == 'pending'"><span class="status-indicator status-pending"></span></template>
+      <template v-else-if="status == 'processing'"><span class="status-indicator status-processing"></span></template>
+      <template v-else-if="status == 'online'"><span class="status-indicator status-online"></span></template>
+      <template v-else-if="status == 'outdated'"><span class="status-indicator status-outdated"></span></template>
+    </div>
     <div class="debug" v-if="debug_mode">
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
@@ -334,6 +342,31 @@ export default {
   }
   .status-control {
     grid-area: availability;
+  }
+
+  .status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+  }
+  .status-na {
+    background-color: #BBDAC0;
+  }
+  .status-offline {
+    background-color: #B10E1E;
+  }
+  .status-pending {
+    background-color: #FFBF47;
+  }
+  .status-processing {
+    background-color: #2B8CC4;
+  }
+  .status-online {
+    background-color: #379245;
+  }
+  .status-outdated {
+    background-color: #F47738;
   }
 
   .debug {
