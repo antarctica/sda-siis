@@ -151,8 +151,7 @@ export default {
   .app-product-switcher {
     grid-area: products-switcher;
     border: 1px solid aqua;
-    border-left: none;
-    overflow-x: scroll;
+    border-right: none;
     z-index: 10;
 
     display: grid;

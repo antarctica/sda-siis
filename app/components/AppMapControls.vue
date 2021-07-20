@@ -147,10 +147,9 @@ export default {
 <style scoped>
   .app-map-controls {
     grid-area: map-controls2;
-    border-left: 1px solid lime;
-    border-bottom: 1px solid lime;
+    border: 1px solid lime;
+    border-top: none;
     z-index: 10;
-    overflow-x: scroll;
   }
 
   fieldset {
