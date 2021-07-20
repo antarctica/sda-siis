@@ -71,7 +71,7 @@ export default Vue.extend({
   data() {
     return {
       environment: 'development',
-      debug_mode: true,
+      debug_mode: false,
       colour_scheme: 'system',
       system_colour_scheme: '',
       control_crs: 'EPSG:3413',
@@ -169,15 +169,14 @@ export default Vue.extend({
 <style scoped>
   .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    gap: 0px 0px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 4%;
     grid-template-areas:
-      "products-switcher map-controls map-controls2 granule-metadata"
-      "products-switcher . map-controls2 granule-metadata"
-      "products-switcher . . ."
-      "products-switcher . . sensor-metadata"
-      "x-bottom-left . . x-bottom-right";
+      "map-controls map-controls2 granule-metadata"
+      "x-2-left x-2-middle sensor-metadata"
+      "x-3-left x-3-middle products-switcher"
+      "x-4-left x-4-middle x-4-right";
+    gap: 15px 15px;
     height: 100vh;
   }
 </style>

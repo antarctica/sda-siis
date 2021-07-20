@@ -149,7 +149,7 @@ export default {
   data() {
     return {
       'layers': [],
-      'zoom': 2,
+      'zoom': 3,
       'centre_crs': [0,0],
       'extent_4326': [0,0,0,0],
       'controls': false,
@@ -433,8 +433,8 @@ export default {
   }
 
   .app-map {
-    grid-column: 1/ span 4;
-    grid-row: 1/ span 5;
+    grid-column: 1/ span 3;
+    grid-row: 1/ span 4;
     width: 100%;
     height: 100vh;
     z-index: 1;
@@ -452,10 +452,7 @@ export default {
   }
 
   .debug {
-    grid-row-start: x-bottom-left;
-    grid-column-start: x-bottom-left;
-    grid-row-end: x-bottom-right;
-    grid-column-end: x-bottom-right;
+    grid-area: x-3-left;
     border: 1px solid red;
     padding: 4px;
     z-index: 10;
