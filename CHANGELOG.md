@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed [BREAKING!]
+
+* GeoServer GDAL extension disabled due to removed OS dependency
+
 ### Added
 
 * [App] Ability to toggle debug output
