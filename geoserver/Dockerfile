@@ -16,8 +16,7 @@ RUN apt-get update &&\
     apt-get install -y \
       binutils \
       libproj-dev \
-      gdal-bin \
-      libgdal-java
+      gdal-bin
 ENV GDAL_DATA /usr/share/gdal
 
 
