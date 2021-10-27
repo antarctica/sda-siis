@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [Infra] Raw data directory changed to fit with BAS SAN path (`/data/` -> `/data/siis/data`)
+  [#142](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/142)
 * [App] Tidying up app controls (dark mode, projection, etc.) and collapsing into a toolbar
   [#101](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/101)
 * [App] Restyling OL controls (zoom, rotation, fullscreen) and collapsing into a toolbar
