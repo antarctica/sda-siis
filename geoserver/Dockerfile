@@ -9,7 +9,7 @@ ENV GEOSERVER_DATA_DIR /var/local/geoserver
 ENV GEOSERVER_INSTALL_DIR /usr/local/geoserver
 ENV GEOSERVER_EXT_DIR /var/local/geoserver-exts
 ENV GEOSERVER_NODE_OPTS 'id:SIIS (Docker);background:purple;color:white'
-ENV RAW_DATA_DIR /data
+ENV RAW_DATA_DIR /data/siis/data
 
 # Add GDAL
 RUN apt-get update &&\
@@ -24,9 +24,9 @@ ENV GDAL_DATA /usr/share/gdal
 # GeoServer
 ADD conf/geoserver.xml /usr/local/tomcat/conf/Catalina/localhost/geoserver.xml
 RUN mkdir ${GEOSERVER_DATA_DIR} \
-    && mkdir ${GEOSERVER_INSTALL_DIR} \
-    && mkdir ${GEOSERVER_EXT_DIR} \
-    && mkdir ${RAW_DATA_DIR} \    
+    && mkdir -p ${GEOSERVER_INSTALL_DIR} \
+    && mkdir -p ${GEOSERVER_EXT_DIR} \
+    && mkdir -p ${RAW_DATA_DIR} \
 	&& cd ${GEOSERVER_INSTALL_DIR} \
 	&& wget http://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-war.zip \
 	&& unzip geoserver-${GEOSERVER_VERSION}-war.zip \
@@ -61,7 +61,7 @@ ENV CATALINA_OPTS "-server -Djava.awt.headless=true \
 	-DGEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}"
 
 
-# Create tomcat user to avoid root access. 
+# Create tomcat user to avoid root access.
 RUN addgroup --gid 1099 tomcat && useradd -m -u 1099 -g tomcat tomcat \
     && chown -R tomcat:tomcat . \
     && chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR} \
@@ -75,4 +75,3 @@ ENTRYPOINT [ "/bin/sh", "/usr/local/bin/start.sh"]
 VOLUME ["${GEOSERVER_DATA_DIR}", "${GEOSERVER_EXT_DIR}", "${RAW_DATA_DIR}"]
 
 EXPOSE 8080
-
