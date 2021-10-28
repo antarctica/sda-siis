@@ -184,26 +184,6 @@ The GeoServer container writes logs to:
 * stdout
 * `/usr/local/tomcat/logs/geoserver.log`
 
-#### GeoServer extensions
-
-The GeoServer instance requires these extensions to access data products:
-
-* GDAL extension
-* JPEG 2000 extension
-
-These extensions are distributed as files within the [Project Data Directory](#project-data-directory):
-
-* location (locally): `./data/geoserver_extensions/`
-* location (S3): [`s3://siis-data-product-samples.data.bas.ac.uk/v0/geoserver_extensions/`](https://s3.console.aws.amazon.com/s3/buckets/siis-data-product-samples.data.bas.ac.uk?region=eu-west-1&prefix=v0/geoserver_extensions/&showversions=false)
-
-Changes to extensions need to captured by [Updating The Product Data Directory](#updating-the-product-data-directory).
-
-These files will be mapped to `/var/local/geoserver-exts/` within the container to be automatically loaded by GeoServer.
-
-**Note:** This directory is part of the `v0/` part of the project data directory because, in the long term, it's
-intended that the GeoServer container will include required extensions by default. See
-[#9](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/9) for more information.
-
 ### GeoWebCache
 
 #### GeoWebCache Configuration

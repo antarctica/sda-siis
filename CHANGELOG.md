@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Changed [BREAKING!]
+### Removed
 
-* GeoServer GDAL extension disabled due to removed OS dependency
+* [Infra] GeoServer Jpeg2000 extension removed
+  [#144](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/144)
+* [Infra] GeoServer GDAL extension removed due to removed OS dependency
+  [#143](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/143)
 
 ### Added
 
