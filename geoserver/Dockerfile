@@ -7,7 +7,6 @@ LABEL maintainer="Andreas Cziferszky <ancz@bas.ac.uk>"
 ENV GEOSERVER_VERSION 2.18.0
 ENV GEOSERVER_DATA_DIR /var/local/geoserver
 ENV GEOSERVER_INSTALL_DIR /usr/local/geoserver
-ENV GEOSERVER_EXT_DIR /var/local/geoserver-exts
 ENV GEOSERVER_NODE_OPTS 'id:SIIS (Docker);background:purple;color:white'
 ENV RAW_DATA_DIR /data/siis/data
 
@@ -24,7 +23,6 @@ ENV GDAL_DATA /usr/share/gdal
 ADD conf/geoserver.xml /usr/local/tomcat/conf/Catalina/localhost/geoserver.xml
 RUN mkdir ${GEOSERVER_DATA_DIR} \
     && mkdir -p ${GEOSERVER_INSTALL_DIR} \
-    && mkdir -p ${GEOSERVER_EXT_DIR} \
     && mkdir -p ${RAW_DATA_DIR} \
 	&& cd ${GEOSERVER_INSTALL_DIR} \
 	&& wget http://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-war.zip \
@@ -71,6 +69,6 @@ RUN addgroup --gid 1099 tomcat && useradd -m -u 1099 -g tomcat tomcat \
 ADD start.sh /usr/local/bin/start.sh
 ENTRYPOINT [ "/bin/sh", "/usr/local/bin/start.sh"]
 
-VOLUME ["${GEOSERVER_DATA_DIR}", "${GEOSERVER_EXT_DIR}", "${RAW_DATA_DIR}"]
+VOLUME ["${GEOSERVER_DATA_DIR}", "${RAW_DATA_DIR}"]
 
 EXPOSE 8080
