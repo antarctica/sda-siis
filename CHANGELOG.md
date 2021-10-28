@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Re-enabling sensor component updates
+  [#125](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/125)
 * [App] Mis-match between colour schemes for day/night mode
   [#112](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/112)
 

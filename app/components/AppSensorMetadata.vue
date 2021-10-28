@@ -198,9 +198,9 @@ export default {
     this.setTime();
 
     let _this = this;
-    // setInterval(async function () {
-    //   await _this.getSensorReading();
-    // }, 5000);
+    setInterval(async function () {
+      await _this.getSensorReading();
+    }, 5000);
     setInterval(function () {
       _this.setTime();
     }, 1000);
