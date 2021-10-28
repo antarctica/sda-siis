@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [Infra] AWS Client replaced with `rsync` for updating the SIIS data directory
+  [#146](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/146)
 * [Infra] Raw data directory changed to fit with BAS SAN path (`/data/` -> `/data/siis/data`)
   [#142](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/142)
 * [App] Tidying up app controls (dark mode, projection, etc.) and collapsing into a toolbar

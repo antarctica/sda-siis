@@ -2,13 +2,10 @@
 version: "2"
 
 services:
-  aws-cli:
-    image: governmentpaas/awscli:latest
+  rsync:
+    image: instrumentisto/rsync-ssh:latest
     volumes:
       - ./data/:/data/
-    environment:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
 
   db:
     image: postgis/postgis:12-3.0-alpine
