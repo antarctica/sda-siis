@@ -16,10 +16,10 @@ export default {
 
   methods: {
     setColourScheme (context) {
-      if (context === 'light') {
+      if (context === 'light' || context === 'day') {
         document.body.classList.remove('dark-mode');
       }
-      else if (context === 'dark') {
+      else if (context === 'dark' || context === 'night') {
         document.body.classList.add('dark-mode');
       }
       else if (context === 'system') {

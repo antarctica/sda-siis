@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [App] Ability to toggle debug output
   [#98](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/98)
 
+### Fixed
+
+* [App] Mis-match between colour schemes for day/night mode
+  [#112](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/112)
+
 ### Changed
 
 * [Infra] AWS Client replaced with `rsync` for updating the SIIS data directory
