@@ -119,7 +119,7 @@ const projection3413 = new Projection({
 });
 const projection3031 = new Projection({
   code: 'EPSG:3031',
-  extent: [-12367396.2185, -12367396.2185, 12367396.2185, 12367396.2185]
+  extent: [-4194304, -4194304, 4194304, 4194304]
 });
 addProjection(projection3413);
 addProjection(projection3031);
