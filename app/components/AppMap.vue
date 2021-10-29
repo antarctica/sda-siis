@@ -445,6 +445,10 @@ export default {
     top: 3em;
   }
 
+  #app-map-control-position {
+    font-family: 'Monaco', 'Consolas', 'Courier New', Courier, monospace;
+  }
+
   .debug {
     grid-area: x-3-left;
     border: 1px solid red;
