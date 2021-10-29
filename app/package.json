@@ -18,6 +18,7 @@
     "Firefox ESR"
   ],
   "dependencies": {
+    "@fontsource/open-sans": "^4.5.1",
     "axios": "^0.21.1",
     "ol": "^6.5.0",
     "proj4": "^2.6.3",

@@ -57,6 +57,8 @@
 <script>
 import Vue from 'vue';
 
+import "@fontsource/open-sans";
+
 import AppColourScheme from './AppColourScheme.vue';
 import AppProductSwitcher from './AppProductSwitcher.vue';
 import AppMapControls from './AppMapControls.vue';
