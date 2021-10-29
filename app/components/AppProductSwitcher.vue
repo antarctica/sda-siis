@@ -50,7 +50,7 @@ export default {
       'raw_products': [],
       'selected_product': {},
       'active_products': [],
-      'time_filter': 0
+      'time_filter': 72
     }
   },
 

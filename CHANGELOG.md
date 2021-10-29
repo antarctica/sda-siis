@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Setting default time filter to 72 hours
+  [#136](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/136)
 * [Infra] AWS Client replaced with `rsync` for updating the SIIS data directory
   [#146](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/146)
 * [Infra] Raw data directory changed to fit with BAS SAN path (`/data/` -> `/data/siis/data`)
