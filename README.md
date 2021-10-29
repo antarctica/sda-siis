@@ -329,15 +329,15 @@ To add new dependencies:
 
 ```shell
 # update `package.json` and `yarn.lock` files in a container instance
-$ docker-compose run app ash
+$ docker compose run app ash
 $ yarn add [package]
 # copy updated files outside the container to persist and track changes in project repository
 $ cp package.json yarn.lock assets/
 $ exit
 $ mv app/assets/package.json app/assets/yarn.lock app/
 # rebuild application container to use updated package versions
-$ docker-compose build app
-$ docker-compose push app
+$ docker compose build app
+$ docker compose push app
 ```
 
 #### Code Style (Python)

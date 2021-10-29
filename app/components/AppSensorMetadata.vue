@@ -1,12 +1,12 @@
 <template>
   <section class="app-sensor-metadata">
     <header><h4>Sensor Metadata</h4></header>
-    <p>Lat: {{ lat.value }} <span :class="'status-indicator status-' + lat.available"></span></p>
-    <p>Lon: {{ lon.value }} <span :class="'status-indicator status-' + lon.available"></span></p>
-    <p>Speed: {{ speed.value }} kt <span :class="'status-indicator status-' + speed.available"></span></p>
-    <p>Heading: {{ heading.value }}° <span :class="'status-indicator status-' + heading.available"></span></p>
-    <p>Depth: {{ depth.value }} m <span :class="'status-indicator status-' + depth.available"></span></p>
-    <p>Time: {{ time }}</p>
+    <p>Lat: <code>{{ lat.value }}</code> <span :class="'status-indicator status-' + lat.available"></span></p>
+    <p>Lon: <code>{{ lon.value }}</code> <span :class="'status-indicator status-' + lon.available"></span></p>
+    <p>Speed: <code>{{ speed.value }} kt</code> <span :class="'status-indicator status-' + speed.available"></span></p>
+    <p>Heading: <code>{{ heading.value }}°</code> <span :class="'status-indicator status-' + heading.available"></span></p>
+    <p>Depth: <code>{{ depth.value }} m</code> <span :class="'status-indicator status-' + depth.available"></span></p>
+    <p>Time: <code>{{ time }}</p>
     <div class="debug" v-if="debug_mode">
       <p>Latitude (dd): <output>{{ latitude_value }}</output></p>
       <p>Longitude (dd): <output>{{ longitude_value }}</output></p>

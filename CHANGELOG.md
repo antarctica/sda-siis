@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Open-Sans font face
+  [#115](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/115)
 * [App] Ability to toggle debug output
   [#98](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/98)
 
