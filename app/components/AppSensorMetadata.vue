@@ -6,11 +6,18 @@
     <p>Speed: <code>{{ speed.value }} kt</code> <span :class="'status-indicator status-' + speed.available"></span></p>
     <p>Heading: <code>{{ heading.value }}°</code> <span :class="'status-indicator status-' + heading.available"></span></p>
     <p>Depth: <code>{{ depth.value }} m</code> <span :class="'status-indicator status-' + depth.available"></span></p>
-    <p>Time: <code>{{ time }}</p>
+    <div>
+      <span>Time:</span>
+      <code>{{ time }}
+      <button v-on:click="time_hours_offset += 1">+</button>
+      <button v-on:click="time_hours_offset -= 1">-</button>
+      <span>{{ time_hours_offset_description }}</span>
+    </div>
     <div class="debug" v-if="debug_mode">
       <p>Latitude (dd): <output>{{ latitude_value }}</output></p>
       <p>Longitude (dd): <output>{{ longitude_value }}</output></p>
       <p>Last update: <output>{{ last_update }}</output></p>
+      <p>Time offset: <output>{{ time_hours_offset }}</output></p>
     </div>
   </section>
 </template>
@@ -34,6 +41,7 @@ export default {
       'heading_degrees_online': false,
       'vertical_depth_online': false,
       'time': '',
+      'time_hours_offset': 0,
       'last_update': ''
     }
   },
@@ -96,6 +104,13 @@ export default {
         'value': value,
         'available': this.vertical_depth_value
       };
+    },
+    time_hours_offset_description: function () {
+      let prefix = '';
+      if (Math.sign(this.time_hours_offset) === 1) {
+        prefix = '+';
+      }
+      return `UTC${prefix}${this.time_hours_offset}`;
     }
   },
 
@@ -157,7 +172,8 @@ export default {
     },
     setTime: function () {
       const now = new Date();
-      this.time = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}:${String(now.getUTCSeconds()).padStart(2, "0") }`
+      let hours = now.getUTCHours() + this.time_hours_offset;
+      this.time = `${String(hours).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}:${String(now.getUTCSeconds()).padStart(2, "0") }`
     },
     decimalMinutes: function(decimalDegrees, opt_fractionDigits) {
       const degrees = decimalDegrees | 0;
