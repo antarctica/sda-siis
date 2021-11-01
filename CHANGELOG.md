@@ -34,6 +34,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Setting default projection to EPSG:3031 (Antarctica)
+  [#147](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/147)
 * [App] Setting default time filter to 72 hours
   [#136](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/136)
 * [Infra] AWS Client replaced with `rsync` for updating the SIIS data directory
