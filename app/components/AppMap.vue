@@ -13,6 +13,7 @@
         ref="AppMapView"
         :projection="crs"
         :zoom.sync="zoom"
+        :min-zoom="zoom_min"
         :rotation.sync="rotation"
         :center.sync="centre_crs"
       ></vl-view>
@@ -140,7 +141,8 @@ export default {
   data() {
     return {
       'layers': [],
-      'zoom': 3,
+      'zoom': 2,
+      'zoom_min': 2,
       'centre_crs': [0,0],
       'extent_4326': [0,0,0,0],
       'controls': false,
