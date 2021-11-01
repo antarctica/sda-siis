@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [Infra] Fixing incorrect geoserver endpoint
+  [#148](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/148)
 * [App] Extent for 3031 map projection, required for WMTS support
   [#51](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51)
 * [App] Re-enabling sensor component updates
