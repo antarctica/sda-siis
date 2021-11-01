@@ -76,7 +76,7 @@ export default Vue.extend({
       debug_mode: false,
       colour_scheme: 'system',
       system_colour_scheme: '',
-      control_crs: 'EPSG:3413',
+      control_crs: 'EPSG:3031',
       selected_product_granules: {},
       active_product_granules: [],
       selected_footprints: [],
