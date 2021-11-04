@@ -23,7 +23,7 @@ services:
     volumes:
       - "./data/geoserver/:/var/local/geoserver/"
       - "./data/raw/:/data/siis/data/raw/"
-      - "./runtime/gwc/blobstore/:/var/local/gwc/blobstore/"
+      - "./runtime/gwc/blobstore/:/data/siis/gwc/blobstore/"
     environment:
       JAVA_OPTS: -Dservice_pg_user=siis -Dservice_pg_pass=siis -Dservice_pg_host=db -Dservice_pg_port=5432 -Dservice_pg_db=siis
     ports:
