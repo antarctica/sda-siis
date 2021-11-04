@@ -3,9 +3,9 @@
     <button v-on:click="debug_control = !debug_control">Debug Mode</button>
     <fieldset>
       <select id="day-night-mode" v-model="day_night_mode" @change="onDayNightChange($event)">
-        <option value="system">Auto Day/Night</option>
-        <option value="day">Force Day (light)</option>
-        <option value="night">Force Night (dark)</option>
+        <!-- <option value="system">Auto Day/Night</option> -->
+        <option value="day">Day (Light)</option>
+        <option value="night">Night (Dark)</option>
       </select>
     </fieldset>
     <fieldset>
@@ -61,7 +61,7 @@ export default {
     return {
       'crs': 'EPSG:3413',
       'debug_control': false,
-      'day_night_mode': 'system',
+      'day_night_mode': 'day',
       'rotation_source': 'manual',
       'rotation_degrees': 0,
       'position_format': 'latlon',

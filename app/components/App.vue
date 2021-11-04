@@ -30,7 +30,7 @@
       <app-map-controls
         :initial_crs="control_crs"
         :debug_mode="debug_mode"
-        initial_day_night_mode="system"
+        initial_day_night_mode="day"
         :rotation_heading="rotation_heading"
         :rotation_longitude="rotation_longitude"
         v-on:update:crs="whenCRSChange"
@@ -74,7 +74,7 @@ export default Vue.extend({
     return {
       environment: 'development',
       debug_mode: false,
-      colour_scheme: 'system',
+      colour_scheme: 'day',
       system_colour_scheme: '',
       control_crs: 'EPSG:3031',
       selected_product_granules: {},
