@@ -163,7 +163,7 @@ Changes to these configuration files need to captured by
 
 A FileBlobStore is used for storing generated tiles. This blob store should be used by default.
 
-Within local development instances, the base directory for the blob store is: `/var/local/gwc/blobstore/`, which is
+Within local development instances, the base directory for the blob store is: `/data/siis/gwc/blobstore/`, which is
 mapped to `runtime/gwc/` within the container.
 
 **Note:** This blob store is not part of the [SIIS Data Directory](#siis-data-directory).

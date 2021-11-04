@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [Infra] Changed blob store directory in GeoServer development container to match other environments
+  [#150](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/150)
 * [App] Initial zoom setting
   [#139](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/139)
 * [App] Setting default projection to EPSG:3031 (Antarctica)
