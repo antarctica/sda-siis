@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Changing default colour scheme to light/day and hiding system scheme option
+  [#113](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/113)
 * [Infra] Changed blob store directory in GeoServer development container to match other environments
   [#150](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/150)
 * [App] Initial zoom setting

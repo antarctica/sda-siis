@@ -3,9 +3,9 @@
     <button v-on:click="debug_control = !debug_control">Debug Mode</button>
     <fieldset>
       <select id="day-night-mode" v-model="day_night_mode" @change="onDayNightChange($event)">
-        <option value="system">Auto Day/Night</option>
-        <option value="day">Force Day (light)</option>
-        <option value="night">Force Night (dark)</option>
+        <!-- <option value="system">Auto Day/Night</option> -->
+        <option value="day">Day (Light)</option>
+        <option value="night">Night (Dark)</option>
       </select>
     </fieldset>
     <fieldset>
