@@ -61,7 +61,7 @@ export default {
     return {
       'crs': 'EPSG:3413',
       'debug_control': false,
-      'day_night_mode': 'system',
+      'day_night_mode': 'day',
       'rotation_source': 'manual',
       'rotation_degrees': 0,
       'position_format': 'latlon',
