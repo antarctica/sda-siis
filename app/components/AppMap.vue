@@ -250,7 +250,11 @@ export default {
       this.value_at_pixel_feature = this.selected_value_at_pixel_feature;
     },
     value_at_pixel_feature () {
-      this.$emit("update:value_at_pixel_feature", this.value_at_pixel_feature.properties);
+      let _value_at_pixel_feature = this.value_at_pixel_feature
+      if (this.value_at_pixel_feature.hasOwnProperty('properties')) {
+        _value_at_pixel_feature = this.value_at_pixel_feature.properties;
+      }
+      this.$emit("update:value_at_pixel_feature", _value_at_pixel_feature);
     }
   },
 

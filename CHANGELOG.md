@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Incorrect assumption that the `value_at_pixel_feature` property of the map component would always have a
+  `properties` property
+  [#154](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/154)
 * [Infra] Fixing incorrect geoserver endpoint
   [#148](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/148)
 * [App] Extent for 3031 map projection, required for WMTS support
