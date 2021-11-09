@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Granule status output for selected granule
+  [#134](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/134)
 * [App] Hours offset control for clock
   [#126](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/126)
 * [App] Open-Sans font face
