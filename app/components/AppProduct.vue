@@ -344,31 +344,6 @@ export default {
     grid-area: availability;
   }
 
-  .status-indicator {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-  }
-  .status-na {
-    background-color: #BBDAC0;
-  }
-  .status-offline {
-    background-color: #B10E1E;
-  }
-  .status-pending {
-    background-color: #FFBF47;
-  }
-  .status-processing {
-    background-color: #2B8CC4;
-  }
-  .status-online {
-    background-color: #379245;
-  }
-  .status-outdated {
-    background-color: #F47738;
-  }
-
   .debug {
     border: 2px solid red;
     padding: 4px;

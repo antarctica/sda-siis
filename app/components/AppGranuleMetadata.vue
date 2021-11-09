@@ -9,6 +9,16 @@
           <ul>
             <li>Name: <output>{{ granule.label }}</output></li>
             <li>Time: <output>{{ granule.timestamp }}</output></li>
+            <li>Status:
+              <output class="status-control">
+                <template v-if="granule.status == 'n/a'"><span class="status-indicator status-na"></span></template>
+                <template v-else-if="granule.status == 'offline'"><span class="status-indicator status-offline"></span> Offline</template>
+                <template v-else-if="granule.status == 'pending'"><span class="status-indicator status-pending"></span> Pending</template>
+                <template v-else-if="granule.status == 'processing'"><span class="status-indicator status-processing"></span> Processing</template>
+                <template v-else-if="granule.status == 'online'"><span class="status-indicator status-online"></span> Online</template>
+                <template v-else-if="granule.status == 'outdated'"><span class="status-indicator status-outdated"></span> Outdated</template>
+              </output>
+            </li>
           </ul>
         </div>
       </template>
