@@ -94,14 +94,10 @@ export default {
       this.$emit('update:debug_mode', this.debug_control);
     },
     rotation_heading: function () {
-      if (this.rotation_source == 'heading') {
-        this.rotation_degrees = this.rotation_heading;
-      }
+      this.updateRotation();
     },
     rotation_longitude: function () {
-      if (this.rotation_source == 'longitude') {
-        this.rotation_degrees = this.rotation_longitude;
-      }
+      this.updateRotation();
     },
     rotation_degrees: function () {
       this.$emit('update:rotation_radians', this.rotation_radians);
@@ -134,6 +130,33 @@ export default {
     },
     onScaleBarUnitChange: function ($event) {
       this.$emit('update:scale_bar_unit', this.scale_bar_unit);
+    },
+    updateRotation: function() {
+      // see https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/111#note_72883 for where this logic came from.
+      if (this.rotation_source === 'heading') {
+        if (this.crs === 'EPSG:3857') {
+          this.rotation_degrees = this.invertSign(this.rotation_heading);
+        } else if (this.crs === 'EPSG:3031') {
+          this.rotation_degrees = this.invertSign(this.rotation_heading + this.rotation_longitude);
+        } else if (this.crs === 'ESPG:3413') {
+          this.rotation_degrees == this.invertSign(this.rotation_heading - this.rotation_longitude - 45);
+        }
+      } else if (this.rotation_source === 'longitude') {
+        if (this.crs === 'EPSG:3857') {
+          this.rotation_degrees = this.rotation_longitude;
+        } else if (this.crs === 'EPSG:3031') {
+          this.rotation_degrees = this.invertSign(this.rotation_longitude);
+        } else if (this.crs === 'ESPG:3413') {
+          this.rotation_degrees == this.rotation_longitude + 45;
+        }
+      }
+    },
+    invertSign: function (value) {
+      if (Math.sign(value) === 1) {
+        return -Math.abs(value);
+      } else if (Math.sign(value) === -1) {
+        return Math.abs(value);
+      }
     }
   },
 
