@@ -6,6 +6,7 @@
       :api_endpoint="api_endpoint"
       :ogc_endpoint="ogc_endpoint"
       :time_filter="time_filter"
+      :date_filter="date_filter"
       :initial_product="product"
       :initial_active_product_ids="initial_active_product_ids"
       :selected_product_id="selected_product_id"
@@ -23,14 +24,19 @@
     </div>
     <label for="time-filter">Time filter</label>
     <select id="time-filter" v-model="time_filter">
-      <option value=0>0 (No Limit)</option>
+      <option value=-1>No Limit</option>
+      <option value=0>Default</option>
+      <option value="d" disabled>Date Filter</option>
       <option value=72>Last 72 hours</option>
       <option value=48>Last 48 hours</option>
       <option value=24>Last 24 hours</option>
     </select>
+    <label for="date-filter">Date filter</label>
+    <input type="date" v-model="date_filter"/>
     <div class="debug" v-if="debug_mode">
       <p>Hemisphere: <output>{{ hemisphere }}</output></p>
       <p>Time filter: <output>{{ time_filter }}</output><p>
+      <p>Date filter: <output>{{ date_filter }}</output><p>
       <p>Selected footprints:</p>
       <pre>{{ selected_footprints }}</pre>
     </div>
@@ -50,7 +56,8 @@ export default {
       'raw_products': [],
       'selected_product': {},
       'active_products': [],
-      'time_filter': 72
+      'time_filter': 0,
+      'date_filter': ''
     }
   },
 
@@ -100,6 +107,13 @@ export default {
     crs: async function () {
       this.active_products = [];
       await this.getProducts();
+    },
+    date_filter: function () {
+      if (this.date_filter !== "") {
+        this.time_filter = 'd';
+      } else {
+        this.time_filter = 0;
+      }
     }
   },
 
