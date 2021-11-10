@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Map rotation based on ship longitude and heading corrected
+  [#111](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/111)
 * [App] Incorrect assumption that the `value_at_pixel_feature` property of the map component would always have a
   `properties` property
   [#154](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/154)
