@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Date selection for granules
+  [#133](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/133)
 * [App] Granule status for footprints
   [#135](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/135)
 * [App] Granule status output for selected granule

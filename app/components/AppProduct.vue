@@ -96,6 +96,7 @@ export default {
     'api_endpoint',
     'ogc_endpoint',
     'time_filter',
+    'date_filter',
     'initial_product',
     "initial_active_product_ids",
     'selected_product_id',
@@ -156,18 +157,22 @@ export default {
         return false;
       }
       return true;
+    },
+    granule_parameters: function() {
+      if (this.time_filter === 'd') {
+        return {'date': this.date_filter};
+      } else {
+        return {'maxage': this.time_filter};
+      }
     }
   },
 
   watch: {
     time_filter: async function () {
-      if (this.has_granules && this.granules_selection_mode === 'single') {
-        // as we don't know how many granules there will be the current selected index may be out of range,
-        // we therefore set the index to 0 first and then update it the new array length after getting granules.
-        this.selected_granule_indexes = [0];
-        this.granules = await this.getGranules();
-        this.selected_granule_indexes = [this.granules.length - 1];
-      }
+      this.updateGranules();
+    },
+    date_filter: async function () {
+      this.updateGranules();
     },
     initial_active_product_ids: function () {
       this.checkIfActiveProduct();
@@ -259,11 +264,7 @@ export default {
     },
     getGranules: async function() {
       let request_endpoint = this.api_endpoint + `/products/${this.code}/granules`;
-      let request_config = {'params': {}};
-
-      if (this.time_filter > 0) {
-        request_config['params']['maxage'] = this.time_filter;
-      }
+      let request_config = {'params': this.granule_parameters};
 
       try {
         const response = await axios.get(request_endpoint, request_config);
@@ -305,6 +306,15 @@ export default {
         }
       });
       this.selected_granule_indexes = _selected_granule_indexes;
+    },
+    updateGranules: async function() {
+      if (this.has_granules && this.granules_selection_mode === 'single') {
+        // as we don't know how many granules there will be the current selected index may be out of range,
+        // we therefore set the index to 0 first and then update it the new array length after getting granules.
+        this.selected_granule_indexes = [0];
+        this.granules = await this.getGranules();
+        this.selected_granule_indexes = [this.granules.length - 1];
+      }
     }
   },
 
