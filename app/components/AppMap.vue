@@ -45,7 +45,11 @@
       <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wfs'">
           <vl-layer-vector :zIndex=5>
-            <vl-source-vector :ref=layer.ref :url=layer.url></vl-source-vector>
+            <vl-source-vector :ref=layer.ref :url=layer.url>
+              <template v-if="layer.layer_type == 'footprint'">
+                  <vl-style-func :func="style_func_footprints"></vl-style-func>
+              </template>
+            </vl-source-vector>
           </vl-layer-vector>
         </template>
       </div>
@@ -100,6 +104,7 @@ import {register} from 'ol/proj/proj4';
 import {createStringXY} from 'ol/coordinate';
 import Projection from 'ol/proj/Projection';
 import VueLayers from 'vuelayers';
+import {createStyle} from 'vuelayers/dist/ol-ext'
 import '../assets/vuelayers.css'
 
 Vue.use(VueLayers);
@@ -270,7 +275,8 @@ export default {
           'format': product_granule.ogc_format,
           'style': `${product_granule.ogc_style}-${this.style_modifier}`,
           'opacity': product_granule.opacity,
-          'attribution': product_granule.attribution
+          'attribution': product_granule.attribution,
+          'layer_type': "default"
         }
         if (! product_granule.has_granules) {
           this.add_or_update_layer(layer);
@@ -297,7 +303,8 @@ export default {
               'id': id,
               '_id': product_granule.id,
               'protocol': 'wfs',
-              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`
+              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`,
+              'layer_type': "footprint"
             };
             this.add_or_update_layer(footprints_layer);
           }
@@ -407,6 +414,31 @@ export default {
           this.layers.splice(_index, 1);
         }
       });
+    },
+    style_func_footprints: function(feature, resolution) {
+      let stroke_colour = '#BBDAC0';  // .status-na
+      if (feature.values_.status == 'offline') {
+        stroke_colour = '#B10E1E';
+      }
+      else if (feature.values_.status == 'pending') {
+        stroke_colour = '#FFBF47';
+      }
+      else if (feature.values_.status == 'processing') {
+        stroke_colour = '#2B8CC4';
+      }
+      else if (feature.values_.status == 'online') {
+        stroke_colour = '#379245';
+      }
+      else if (feature.values_.status == 'outdated') {
+        stroke_colour = '#F47738';
+      }
+
+      let style = createStyle({
+        strokeColor: stroke_colour,
+        strokeWidth: 2,
+      });
+
+      return [style];
     }
   },
 
