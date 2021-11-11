@@ -54,6 +54,16 @@
         </template>
       </div>
 
+      <vl-graticule :show-labels="true">
+        <vl-style-stroke slot="stroke" color="green"></vl-style-stroke>
+        <vl-style-text slot="lon">
+          <vl-style-stroke color="blue"></vl-style-stroke>
+        </vl-style-text>
+        <vl-style-text slot="lat" text-align="end">
+          <vl-style-stroke color="black"></vl-style-stroke>
+        </vl-style-text>
+      </vl-graticule>
+
       <vl-interaction-select
         :features.sync="selected_features"
         :condition="select_condition"
@@ -121,11 +131,13 @@ register(proj4);
 
 const projection3413 = new Projection({
   code: 'EPSG:3413',
-  extent: [-4194304, -4194304, 4194304, 4194304]
+  extent: [-4194304, -4194304, 4194304, 4194304],
+  worldExtent: [-180, 60, 180, 90]
 });
 const projection3031 = new Projection({
   code: 'EPSG:3031',
-  extent: [-4194304, -4194304, 4194304, 4194304]
+  extent: [-4194304, -4194304, 4194304, 4194304],
+  worldExtent: [-180, -90, 180, -60]
 });
 addProjection(projection3413);
 addProjection(projection3031);
