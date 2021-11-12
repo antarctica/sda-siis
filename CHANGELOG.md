@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [Infra] Removed orphaned call to set permissions on now non-existent GeoServer extensions directory
+  [#157](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/157)
 * [App] Map rotation based on ship longitude and heading corrected
   [#111](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/111)
 * [App] Incorrect assumption that the `value_at_pixel_feature` property of the map component would always have a
