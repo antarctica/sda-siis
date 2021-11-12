@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import desc
 
 
-def read_all(limit=None, maxage=None):
+def read_all(limit=None, maxage=None, date=None):
     """
     This function responds to a request for /api/granule
     with the complete lists of granules
@@ -20,26 +20,55 @@ def read_all(limit=None, maxage=None):
 
     # Calculate earliest timestamp if maxage is supplied
     if isinstance(maxage, float):
-        pass
         d = datetime.utcnow() - timedelta(hours=maxage)
         aged_timestamp = d.isoformat()
     else:
         aged_timestamp = "2000-01-01T00:00:00"
 
-    # Create the list of granules from our data
-    if isinstance(limit, int):
-        granule = (
-            Granule.query.filter(Granule.timestamp > aged_timestamp)
-            .order_by(desc(Granule.timestamp))
-            .limit(int(limit))
-            .all()
-        )
+    if isinstance(date, str):
+        # Try to parse date
+        try:
+            date_start = datetime.strptime(date, '%Y-%m-%d')
+        except ValueError:
+            abort(
+                404,
+                "Parameter date not well formated. Use ISO string YYYY-MM-DD: {date}".format(date=date),
+            )
+
+        # Get the granules if a specific date is define
+        date_end = date_start + timedelta(days = 1) - timedelta(seconds = 1) 
+
+        if isinstance(limit, int):
+            granule = (
+                Granule.query
+                .filter(Granule.timestamp.between(date_start.strftime('%Y-%m-%d'), date_end.strftime('%Y-%m-%d %H:%M:%S')))
+                .order_by(desc(Granule.timestamp))
+                .limit(int(limit))
+                .all()
+            )
+        else:
+            granule = (
+                Granule.query
+                .filter(Granule.timestamp.between(date_start.strftime('%Y-%m-%d'), date_end.strftime('%Y-%m-%d %H:%M:%S')))
+                .order_by(desc(Granule.timestamp))
+                .all()
+            )
+
     else:
-        granule = (
-            Granule.query.filter(Granule.timestamp > aged_timestamp)
-            .order_by(desc(Granule.timestamp))
-            .all()
-        )
+        # Create the list of granules from our data
+        if isinstance(limit, int):
+            granule = (
+                Granule.query.filter(Granule.timestamp > aged_timestamp)
+                .order_by(desc(Granule.timestamp))
+                .limit(int(limit))
+                .all()
+            )
+        else:
+            granule = (
+                Granule.query.filter(Granule.timestamp > aged_timestamp)
+                .order_by(desc(Granule.timestamp))
+                .all()
+            )
 
     # Serialize the data for the response
     granule_schema = GranuleSchema(many=True)

@@ -87,10 +87,16 @@ paths:
             format: int32
         - name: maxage
           in: query
-          description: maximum age of granule since generation/acquiisiton in hours
+          description: maximum age of granule since generation/acquisiton in hours
           required: false
           schema:
             type: number
+        - name: date
+          in: query
+          description: filters returned granules by acquisition date
+          required: false
+          schema:
+              type: string
       responses:
         '200':
           description: Successfully read granules from granule data operation
@@ -116,10 +122,16 @@ paths:
             format: int32
         - name: maxage
           in: query
-          description: maximum age of granule since generation/acquiisiton in hours
+          description: maximum age of granule since generation/acquisiton in hours
           required: false
           schema:
             type: number
+        - name: date
+          in: query
+          description: filters returned granules by acquisition date
+          required: false
+          schema:
+              type: string
       responses:
         '200':
           description: Successfully read granule set operation
