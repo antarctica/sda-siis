@@ -16,8 +16,4 @@ fi
 chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR}
 chown -R tomcat:tomcat ${RAW_DATA_DIR}
 
-for ext in `ls -d "${GEOSERVER_EXT_DIR}"/*/`; do
-  su tomcat -c "cp "${ext}"*.jar /usr/local/geoserver/WEB-INF/lib"
-done
-
 su tomcat -c "/usr/local/tomcat/bin/catalina.sh run"
