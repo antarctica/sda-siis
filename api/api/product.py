@@ -77,7 +77,7 @@ def read_one(code):
         )
 
 
-def read_one_granules(code, limit=None, maxage=None):
+def read_one_granules(code, limit=None, maxage=None, date=None):
     """
     This function responds to a request for /api/products/{code}/granules
     with one matching product returning all granules for this product
@@ -91,31 +91,67 @@ def read_one_granules(code, limit=None, maxage=None):
     product = Product.query.filter(Product.code == code).one_or_none()
 
     # Calculate earliest timestamp if maxage is supplied
-    #   else use product.default_timeframe
+    #   if no maxage or maxage = 0: product.default_timeframe
+    #   no filter if maxage = -1
     if isinstance(maxage, float):
-        d = datetime.utcnow() - timedelta(hours=maxage)
-        aged_timestamp = d.isoformat()
+        if maxage == -1:
+            aged_timestamp = "2000-01-01T00:00:00"
+        elif maxage == 0:
+            d = datetime.utcnow() - timedelta(hours=product.default_timeframe)
+            aged_timestamp = d.isoformat()
+        else:
+            d = datetime.utcnow() - timedelta(hours=maxage)
+            aged_timestamp = d.isoformat()
     else:
         d = datetime.utcnow() - timedelta(hours=product.default_timeframe)
         aged_timestamp = d.isoformat()
-    #        aged_timestamp = "2000-01-01T00:00:00"
+      
 
-    # Get the granules requested
-    if isinstance(limit, int):
-        granule = (
-            Granule.query.filter(Granule.productcode == code)
-            .filter(Granule.timestamp > aged_timestamp)
-            .order_by(desc(Granule.timestamp))
-            .limit(int(limit))
-            .all()
-        )
+    if isinstance(date, str):
+        # Try to parse date
+        try:
+            date_start = datetime.strptime(date, '%Y-%m-%d')
+        except ValueError:
+            abort(
+                404,
+                "Parameter date not well formated. Use ISO string YYYY-MM-DD: {date}".format(date=date),
+            )
+
+        # Get the granules if a specific date is define
+        date_end = date_start + timedelta(days = 1) - timedelta(seconds = 1) 
+
+        if isinstance(limit, int):
+            granule = (
+                Granule.query.filter(Granule.productcode == code)
+                .filter(Granule.timestamp.between(date_start.strftime('%Y-%m-%d'), date_end.strftime('%Y-%m-%d %H:%M:%S')))
+                .order_by(desc(Granule.timestamp))
+                .limit(int(limit))
+                .all()
+            )
+        else:
+            granule = (
+                Granule.query.filter(Granule.productcode == code)
+                .filter(Granule.timestamp.between(date_start.strftime('%Y-%m-%d'), date_end.strftime('%Y-%m-%d %H:%M:%S')))
+                .order_by(desc(Granule.timestamp))
+                .all()
+            )
     else:
-        granule = (
-            Granule.query.filter(Granule.productcode == code)
-            .filter(Granule.timestamp > aged_timestamp)
-            .order_by(desc(Granule.timestamp))
-            .all()
-        )
+        # Get the granules requested
+        if isinstance(limit, int):
+            granule = (
+                Granule.query.filter(Granule.productcode == code)
+                .filter(Granule.timestamp > aged_timestamp)
+                .order_by(desc(Granule.timestamp))
+                .limit(int(limit))
+                .all()
+            )
+        else:
+            granule = (
+                Granule.query.filter(Granule.productcode == code)
+                .filter(Granule.timestamp > aged_timestamp)
+                .order_by(desc(Granule.timestamp))
+                .all()
+            )
 
     # Serialize the data for the response
     granule_schema = GranuleSchema(many=True)
