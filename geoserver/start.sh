@@ -3,7 +3,7 @@
 if [ -n "${CUSTOM_UID}" ];then
   echo "Using custom UID ${CUSTOM_UID}."
   usermod -u ${CUSTOM_UID} tomcat
-  find / -user 1099 -exec chown -h tomcat {} \; 
+  find / -user 1099 -exec chown -h tomcat {} \;
 fi
 
 if [ -n "${CUSTOM_GID}" ];then
@@ -13,8 +13,7 @@ if [ -n "${CUSTOM_GID}" ];then
 fi
 
 #We need this line to ensure that data has the correct rights
-chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR} 
-chown -R tomcat:tomcat ${GEOSERVER_EXT_DIR}
+chown -R tomcat:tomcat ${GEOSERVER_DATA_DIR}
 chown -R tomcat:tomcat ${RAW_DATA_DIR}
 
 for ext in `ls -d "${GEOSERVER_EXT_DIR}"/*/`; do
