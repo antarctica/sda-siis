@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [API] Black code formatting violations in API
+  [#161](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/161)
 * [Infra] Tweaked local development setup instructions to fit better with new data directory location
   [#162](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/162)
 * [Infra] Removed orphaned call to set permissions on now non-existent GeoServer extensions directory

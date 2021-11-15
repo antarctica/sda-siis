@@ -28,28 +28,38 @@ def read_all(limit=None, maxage=None, date=None):
     if isinstance(date, str):
         # Try to parse date
         try:
-            date_start = datetime.strptime(date, '%Y-%m-%d')
+            date_start = datetime.strptime(date, "%Y-%m-%d")
         except ValueError:
             abort(
                 404,
-                "Parameter date not well formated. Use ISO string YYYY-MM-DD: {date}".format(date=date),
+                "Parameter date not well formated. Use ISO string YYYY-MM-DD: {date}".format(
+                    date=date
+                ),
             )
 
         # Get the granules if a specific date is define
-        date_end = date_start + timedelta(days = 1) - timedelta(seconds = 1) 
+        date_end = date_start + timedelta(days=1) - timedelta(seconds=1)
 
         if isinstance(limit, int):
             granule = (
-                Granule.query
-                .filter(Granule.timestamp.between(date_start.strftime('%Y-%m-%d'), date_end.strftime('%Y-%m-%d %H:%M:%S')))
+                Granule.query.filter(
+                    Granule.timestamp.between(
+                        date_start.strftime("%Y-%m-%d"),
+                        date_end.strftime("%Y-%m-%d %H:%M:%S"),
+                    )
+                )
                 .order_by(desc(Granule.timestamp))
                 .limit(int(limit))
                 .all()
             )
         else:
             granule = (
-                Granule.query
-                .filter(Granule.timestamp.between(date_start.strftime('%Y-%m-%d'), date_end.strftime('%Y-%m-%d %H:%M:%S')))
+                Granule.query.filter(
+                    Granule.timestamp.between(
+                        date_start.strftime("%Y-%m-%d"),
+                        date_end.strftime("%Y-%m-%d %H:%M:%S"),
+                    )
+                )
                 .order_by(desc(Granule.timestamp))
                 .all()
             )
