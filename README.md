@@ -95,10 +95,10 @@ authoritative, SIIS data directory.
 $ docker-compose run rsync
 
 # to preview changes
-$ rsync -avzh --dry-run [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ /data/
+$ rsync -avzh --dry-run --exclude gwc $USER@bslcenb.nerc-bas.ac.uk:/data/siis/ /data/
 
 # to perform changes
-$ rsync -avzh --progress [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ /data/
+$ rsync -avzh --progress --exclude gwc $USER@bslcenb.nerc-bas.ac.uk:/data/siis/ /data/
 ```
 
 #### Refreshing the product data directory in the integration environment
@@ -262,6 +262,9 @@ $ brew cask install docker
 # clone project
 $ git clone https://gitlab.data.bas.ac.uk/MAGIC/SIIS.git
 $ cd ./SIIS
+
+# pull container images
+$ docker-compose pull
 ```
 
 [Populate your local data directory](#pulling-updates-from-the-product-data-directory).
@@ -269,7 +272,6 @@ $ cd ./SIIS
 ```shell
 # start stack
 # (note: the *app* service may display startup errors [1] which can be safely ignored)
-$ docker-compose pull
 $ docker-compose up
 # (visit http://localhost:9000 when up)
 
