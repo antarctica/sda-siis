@@ -10,7 +10,7 @@ services:
   db:
     image: postgis/postgis:12-3.0-alpine
     volumes:
-      - ./data/psql/:/docker-entrypoint-initdb.d/
+      - ./data/sql/:/docker-entrypoint-initdb.d/
     environment:
       POSTGRES_USER: siis
       POSTGRES_PASSWORD: siis
