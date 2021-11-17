@@ -18,7 +18,7 @@
     <fieldset>
       <select id="map-rotation-source" v-model="rotation_source" @change="onRotationSourceChange($event)">
         <option value="manual">Manual Rotation</option>
-        <option value="heading" v-if="crs !== 'EPSG:3857'">Rotation - Ship Heading</option>
+        <option value="heading">Rotation - Ship Heading</option>
         <option value="longitude" v-if="crs !== 'EPSG:3857'">Rortation - Ship Longitude</option>
       </select>
       <!-- <input
