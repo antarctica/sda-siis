@@ -18,7 +18,7 @@
     <fieldset>
       <select id="map-rotation-source" v-model="rotation_source" @change="onRotationSourceChange($event)">
         <option value="manual">Manual Rotation</option>
-        <option value="heading" v-if="crs !== 'EPSG:3857'">Rotation - Ship Heading</option>
+        <option value="heading">Rotation - Ship Heading</option>
         <option value="longitude" v-if="crs !== 'EPSG:3857'">Rortation - Ship Longitude</option>
       </select>
       <!-- <input
@@ -118,12 +118,7 @@ export default {
     onRotationSourceChange: function ($event) {
       this.rotation_source = $event.target.value;
       this.$emit('update:rotation_source', this.rotation_source);
-
-      if (this.rotation_source === 'heading') {
-        this.rotation_degrees = this.rotation_heading;
-      } else if (this.rotation_source === 'longitude') {
-        this.rotation_degrees = this.rotation_longitude;
-      }
+      this.updateRotation();
     },
     onPositionFormatChange: function ($event) {
       this.$emit('update:position_format', this.position_format);
