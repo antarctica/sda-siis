@@ -61,6 +61,7 @@ services:
       - ./app/dist/:/usr/src/app/dist/
       - ./app/index.js/:/usr/src/app/index.js
       - ./app/index.html/:/usr/src/app/index.html
+      - ./app/mixins.js:/usr/src/app/mixins.js
     environment:
       HOST: 0.0.0.0
       PORT: 9000
