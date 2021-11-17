@@ -115,6 +115,8 @@ import {createStringXY} from 'ol/coordinate';
 import Projection from 'ol/proj/Projection';
 import VueLayers from 'vuelayers';
 import {createStyle} from 'vuelayers/dist/ol-ext'
+
+import {degreesToStringHDDM} from '../mixins.js';
 import '../assets/vuelayers.css'
 
 Vue.use(VueLayers);
@@ -334,6 +336,7 @@ export default {
 
       mousePositionControl.setTarget(document.getElementById('app-map-control-position'));
       mousePositionControl.setProjection(this.mouse_position_format_projection);
+      mousePositionControl.setCoordinateFormat(this.mouse_position_coordinate_format);
       this.$refs.AppMap.$map.addControl(mousePositionControl);
 
       rotationControl.setTarget(document.getElementById('app-map-control-rotation'));
@@ -451,7 +454,12 @@ export default {
       });
 
       return [style];
-    }
+    },
+    mouse_position_coordinate_format: function(coordinate) {
+      let lat = degreesToStringHDDM('NS', coordinate[0], 3);
+      let lon = degreesToStringHDDM('EW', coordinate[1], 3)
+      return `Lat: ${lat}, Lon: ${lon}`;
+    },
   },
 
   mounted() {
