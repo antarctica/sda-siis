@@ -274,7 +274,8 @@ export default {
             'id': granule.id,
             'label': granule.productname,
             'status': granule.status,
-            'timestamp': this.formatGranuleTimestamp(granule.timestamp)
+            'timestamp': this.formatGranuleTimestamp(granule.timestamp),
+            'raw': granule,
           });
         });
         return granules;

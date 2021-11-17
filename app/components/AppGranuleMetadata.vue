@@ -20,6 +20,10 @@
               </output>
             </li>
           </ul>
+          <details>
+              <summary>Full details</summary>
+              <pre>{{ granule.raw }}</pre>
+          </details>
         </div>
       </template>
       <img :src="product.legend_url">
