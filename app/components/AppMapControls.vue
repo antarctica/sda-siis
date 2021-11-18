@@ -1,5 +1,6 @@
 <template>
   <section class="app-map-controls">
+    <button v-on:click="display_ui = !display_ui">Show/Hide UI</button>
     <button v-on:click="debug_control = !debug_control">Debug Mode</button>
     <fieldset>
       <select id="day-night-mode" v-model="day_night_mode" @change="onDayNightChange($event)">
@@ -60,6 +61,7 @@ export default {
   data() {
     return {
       'crs': 'EPSG:3413',
+      'display_ui': true,
       'debug_control': false,
       'day_night_mode': 'day',
       'rotation_source': 'manual',
@@ -90,6 +92,9 @@ export default {
   },
 
   watch: {
+    display_ui: function () {
+      this.$emit('update:display_ui', this.display_ui);
+    },
     debug_control: function () {
       this.$emit('update:debug_mode', this.debug_control);
     },
