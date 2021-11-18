@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Control to hide or show other UI panels (products, sensors, granules)
+  [#168](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/168)
 * [App] Very initial graticule support
   [#121](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/121)
 * [App] Date selection for granules

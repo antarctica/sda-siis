@@ -1,5 +1,5 @@
 <template>
-  <section class="app-product-switcher">
+  <section class="app-product-switcher" :class="{hidden: hide_ui}">
     <app-product
       v-for="product in raw_products"
       :key="product.id"
@@ -62,6 +62,7 @@ export default {
   },
 
   props: [
+    'display_ui',
     'debug_mode',
     'api_endpoint',
     'ogc_endpoint',
@@ -70,6 +71,9 @@ export default {
   ],
 
   computed: {
+    hide_ui: function() {
+      return !this.display_ui;
+    },
     selected_product_id: function() {
       return this.selected_product.id;
     },

@@ -1,5 +1,5 @@
 <template>
-  <section class="app-sensor-metadata">
+  <section class="app-sensor-metadata" :class="{hidden: hide_ui}">
     <header><h4>Sensor Metadata</h4></header>
     <p>Lat: <code>{{ lat.value }}</code> <span :class="'status-indicator status-' + lat.available"></span></p>
     <p>Lon: <code>{{ lon.value }}</code> <span :class="'status-indicator status-' + lon.available"></span></p>
@@ -46,11 +46,15 @@ export default {
   },
 
   props: [
+    'display_ui',
     'debug_mode',
     'ogc_endpoint'
   ],
 
   computed: {
+    hide_ui: function() {
+      return !this.display_ui;
+    },
     lat: function () {
       let value = '-'
       if (this.latitude_value !== false) {

@@ -1,5 +1,5 @@
 <template>
-  <section class="app-granule-metadata">
+  <section class="app-granule-metadata" :class="{hidden: hide_ui}">
     <header><h4>Granule Metadata</h4></header>
     <div v-if="Object.keys(selected_product_granules).length">
       <p v-if="product">Product: <output>{{ product.label }}</output></p>
@@ -53,11 +53,15 @@ export default {
   },
 
   props: [
+    'display_ui',
     'selected_product_granules',
     'value_at_pixel_feature'
   ],
 
   computed: {
+    hide_ui: function() {
+      return !this.display_ui;
+    },
     product: function () {
       return this.selected_product_granules.product;
     },

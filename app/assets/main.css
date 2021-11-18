@@ -3,6 +3,10 @@
   --bg: #eee;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .dark-mode {
   --color: #eee;
   --bg: #333;

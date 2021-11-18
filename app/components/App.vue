@@ -19,6 +19,7 @@
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
       ></app-map>
       <app-product-switcher
+        :display_ui="display_ui"
         :debug_mode="debug_mode"
         :api_endpoint="api_endpoint"
         :ogc_endpoint="ogc_endpoint"
@@ -34,6 +35,7 @@
         :rotation_heading="rotation_heading"
         :rotation_longitude="rotation_longitude"
         v-on:update:crs="whenCRSChange"
+        v-on:update:display_ui="whenDisplayUIChange"
         v-on:update:debug_mode="whenDebugModeChange"
         v-on:update:day_night="whenColourSchemeChange"
         v-on:update:rotation_radians="whenRotationRadiansChange"
@@ -41,10 +43,12 @@
         v-on:update:scale_bar_unit="whenScaleBarUnitChange"
       ></app-map-controls>
       <app-granule-metadata
+        :display_ui="display_ui"
         :selected_product_granules="selected_product_granules"
         :value_at_pixel_feature="value_at_pixel_feature"
       ></app-granule-metadata>
       <app-sensor-metadata
+        :display_ui="display_ui"
         :debug_mode="debug_mode"
         :ogc_endpoint="ogc_endpoint"
         v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
@@ -73,6 +77,7 @@ export default Vue.extend({
   data() {
     return {
       environment: 'development',
+      display_ui: true,
       debug_mode: false,
       colour_scheme: 'day',
       system_colour_scheme: '',
@@ -114,6 +119,9 @@ export default Vue.extend({
   },
 
   methods: {
+    whenDisplayUIChange: function ($event) {
+      this.display_ui = $event;
+    },
     whenDebugModeChange: function ($event) {
       this.debug_mode = $event;
       console.log('bar');
