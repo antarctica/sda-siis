@@ -114,7 +114,16 @@ export default {
         prefix = '+';
       }
       return `UTC${prefix}${this.time_hours_offset}`;
-    }
+    },
+    position: function () {
+      return [this.longitude_value, this.latitude_value];
+    },
+  },
+
+  watch: {
+    position: function () {
+      this.$emit("update:sensor_position", this.position);
+    },
   },
 
   methods: {

@@ -30,6 +30,10 @@
         v-model.number="rotation_degrees"
         :disabled="rotation_control_disabled"
       > -->
+    <fieldset>
+      <button v-on:click="updateMapCentre">Centre on sensor position</button>
+      <button v-on:click="follow_sensor_position = !follow_sensor_position">Track sensor position</button>
+    </fieldset>
     </fieldset>
     <fieldset>
       <select id="map-position-format" v-model="position_format" @change="onPositionFormatChange($event)">
@@ -67,7 +71,9 @@ export default {
       'rotation_source': 'manual',
       'rotation_degrees': 0,
       'position_format': 'latlon',
-      'scale_bar_unit': 'nautical'
+      'scale_bar_unit': 'nautical',
+      'follow_sensor_position': false,
+      'map_centre_4326': [0,0],
     }
   },
 
@@ -76,7 +82,8 @@ export default {
     'initial_crs',
     'initial_day_night_mode',
     'rotation_heading',
-    'rotation_longitude'
+    'rotation_longitude',
+    'sensor_position',
   ],
 
   computed: {
@@ -106,7 +113,15 @@ export default {
     },
     rotation_degrees: function () {
       this.$emit('update:rotation_radians', this.rotation_radians);
-    }
+    },
+    sensor_position: function () {
+      if (this.follow_sensor_position) {
+        this.map_centre_4326 = this.sensor_position;
+      }
+    },
+    map_centre_4326: function () {
+      this.$emit('update:map_centre', this.map_centre_4326);
+    },
   },
 
   methods: {
@@ -157,7 +172,10 @@ export default {
       } else if (Math.sign(value) === -1) {
         return Math.abs(value);
       }
-    }
+    },
+    updateMapCentre: function() {
+      this.map_centre_4326 = this.sensor_position;
+    },
   },
 
   mounted() {
