@@ -166,7 +166,7 @@ export default {
       'extent_4326': [0,0,0,0],
       'controls': false,
       'selected_features': [],
-      'value_at_pixel_feature': {}
+      'value_at_pixel_feature': {},
     }
   },
 
@@ -174,6 +174,7 @@ export default {
     'debug_mode',
     'colour_scheme',
     'crs',
+    'centre',
     'rotation',
     'product_granules',
     'selected_product_granules',
@@ -274,7 +275,10 @@ export default {
         _value_at_pixel_feature = this.value_at_pixel_feature.properties;
       }
       this.$emit("update:value_at_pixel_feature", _value_at_pixel_feature);
-    }
+    },
+    centre () {
+      this.updateCentre();
+    },
   },
 
   methods: {
@@ -460,12 +464,16 @@ export default {
       let lon = degreesToStringHDDM('EW', coordinate[1], 3)
       return `Lat: ${lat}, Lon: ${lon}`;
     },
+    updateCentre: function () {
+      this.centre_crs = transform(this.centre, this.crs, 'EPSG:4326');
+    },
   },
 
   mounted() {
     this.initLayers();
 
     this.$refs.AppMapView.$createPromise.then(() => {
+      this.updateCentre();
       this.updateExtent();
     });
 

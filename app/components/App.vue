@@ -12,6 +12,7 @@
         :rotation="rotation_radians"
         :product_granules="active_product_granules"
         :selected_product_granules="selected_product_granules"
+        :centre="map_centre"
         :position_format="position_format"
         :scale_bar_unit="scale_bar_unit"
         :ogc_endpoint="ogc_endpoint"
@@ -34,6 +35,7 @@
         initial_day_night_mode="day"
         :rotation_heading="rotation_heading"
         :rotation_longitude="rotation_longitude"
+        :sensor_position="sensor_position"
         v-on:update:crs="whenCRSChange"
         v-on:update:display_ui="whenDisplayUIChange"
         v-on:update:debug_mode="whenDebugModeChange"
@@ -41,6 +43,7 @@
         v-on:update:rotation_radians="whenRotationRadiansChange"
         v-on:update:position_format="whenPositionFormatChange"
         v-on:update:scale_bar_unit="whenScaleBarUnitChange"
+        v-on:update:map_centre="whenMapCentreChange"
       ></app-map-controls>
       <app-granule-metadata
         :display_ui="display_ui"
@@ -53,6 +56,7 @@
         :ogc_endpoint="ogc_endpoint"
         v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
         v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
+        v-on:update:sensor_position="whenSensorPositionChange"
       ></app-sensor-metadata>
     </div>
   </div>
@@ -90,7 +94,9 @@ export default Vue.extend({
       rotation_longitude: 0,
       rotation_radians: 0,
       position_format: 'latlon',
-      scale_bar_unit: 'nautical'
+      scale_bar_unit: 'nautical',
+      sensor_position: [0,0],
+      map_centre: [0,0],
     }
   },
 
@@ -171,6 +177,12 @@ export default Vue.extend({
     },
     whenValueAtPixelFeatureChanges: function ($event) {
       this.value_at_pixel_feature = $event;
+    },
+    whenSensorPositionChange: function ($event) {
+      this.sensor_position = $event;
+    },
+    whenMapCentreChange: function ($event) {
+      this.map_centre = $event;
     }
   }
 });
