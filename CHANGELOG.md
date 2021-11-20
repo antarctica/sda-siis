@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Switching between custom and XY position control formats
+  [#169](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/169)
 * [API] Black code formatting violations in API
   [#161](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/161)
 * [Infra] Tweaked local development setup instructions to fit better with new data directory location
