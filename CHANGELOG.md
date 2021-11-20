@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Very initial route drawing support
+  [#137](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/137)
 * [App] Controls to centre on, and/or track, current sensor position
   [#166](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/166)
 * [App] Control to hide or show other UI panels (products, sensors, granules)

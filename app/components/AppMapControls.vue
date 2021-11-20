@@ -50,6 +50,9 @@
     <fieldset>
       <button v-on:click="show_graticule = !show_graticule">Show Graticule</button>
     </fieldset>
+    <fieldset>
+      <button v-on:click="show_measure_tool = !show_measure_tool">Enable Measure Tool</button>
+    </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>
       <p>Day/Night mode: <output>{{ day_night_mode }}</output></p>
@@ -78,6 +81,7 @@ export default {
       'follow_sensor_position': false,
       'map_centre_4326': [0,0],
       'show_graticule': true,
+      'show_measure_tool': false,
     }
   },
 
@@ -128,6 +132,9 @@ export default {
     },
     show_graticule: function () {
       this.$emit('update:show_graticule', this.show_graticule);
+    },
+    show_measure_tool: function () {
+      this.$emit('update:show_measure_tool', this.show_measure_tool);
     },
   },
 
