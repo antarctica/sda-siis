@@ -54,15 +54,7 @@
         </template>
       </div>
 
-      <vl-graticule :show-labels="true">
-        <vl-style-stroke slot="stroke" color="green"></vl-style-stroke>
-        <vl-style-text slot="lon">
-          <vl-style-stroke color="blue"></vl-style-stroke>
-        </vl-style-text>
-        <vl-style-text slot="lat" text-align="end">
-          <vl-style-stroke color="black"></vl-style-stroke>
-        </vl-style-text>
-      </vl-graticule>
+      <vl-graticule :show-labels="false" v-if="show_graticule"></vl-graticule>
 
       <vl-interaction-select
         :features.sync="selected_features"
