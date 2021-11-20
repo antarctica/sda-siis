@@ -56,6 +56,21 @@
 
       <vl-graticule :show-labels="false" v-if="show_graticule"></vl-graticule>
 
+      <template v-if="show_measure_tool">
+        <vl-layer-vector>
+          <vl-source-vector :features.sync="drawn_features" ident="drawing-layer"></vl-source-vector>
+          <vl-style-box>
+            <vl-style-stroke color="green"></vl-style-stroke>
+          </vl-style-box>
+        </vl-layer-vector>
+        <vl-interaction-draw type="LineString" source="drawing-layer">
+          <vl-style-box>
+            <vl-style-stroke color="red"></vl-style-stroke>
+            <vl-style-fill color="rgba(255,255,255,0.5)"></vl-style-fill>
+          </vl-style-box>
+        </vl-interaction-draw>
+      </template>
+
       <vl-interaction-select
         :features.sync="selected_features"
         :condition="select_condition"
@@ -159,6 +174,7 @@ export default {
       'controls': false,
       'selected_features': [],
       'value_at_pixel_feature': {},
+      'drawn_features': []
     }
   },
 
