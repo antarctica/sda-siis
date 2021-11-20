@@ -16,6 +16,7 @@
         :position_format="position_format"
         :scale_bar_unit="scale_bar_unit"
         :ogc_endpoint="ogc_endpoint"
+        :show_graticule="show_graticule"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
       ></app-map>
@@ -44,6 +45,7 @@
         v-on:update:position_format="whenPositionFormatChange"
         v-on:update:scale_bar_unit="whenScaleBarUnitChange"
         v-on:update:map_centre="whenMapCentreChange"
+        v-on:update:show_graticule="whenShowGraticuleChange"
       ></app-map-controls>
       <app-granule-metadata
         :display_ui="display_ui"
@@ -97,6 +99,7 @@ export default Vue.extend({
       scale_bar_unit: 'nautical',
       sensor_position: [0,0],
       map_centre: [0,0],
+      show_graticule: true
     }
   },
 
@@ -183,6 +186,9 @@ export default Vue.extend({
     },
     whenMapCentreChange: function ($event) {
       this.map_centre = $event;
+    },
+    whenShowGraticuleChange: function ($event) {
+      this.show_graticule = $event;
     }
   }
 });
