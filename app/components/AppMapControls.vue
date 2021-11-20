@@ -47,6 +47,9 @@
         <option value=metric>Metric (m, km)</option>
       </select>
     </fieldset>
+    <fieldset>
+      <button v-on:click="show_graticule = !show_graticule">Show Graticule</button>
+    </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>
       <p>Day/Night mode: <output>{{ day_night_mode }}</output></p>
@@ -74,6 +77,7 @@ export default {
       'scale_bar_unit': 'nautical',
       'follow_sensor_position': false,
       'map_centre_4326': [0,0],
+      'show_graticule': true,
     }
   },
 
@@ -121,6 +125,9 @@ export default {
     },
     map_centre_4326: function () {
       this.$emit('update:map_centre', this.map_centre_4326);
+    },
+    show_graticule: function () {
+      this.$emit('update:show_graticule', this.show_graticule);
     },
   },
 

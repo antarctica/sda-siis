@@ -172,7 +172,8 @@ export default {
     'selected_product_granules',
     'position_format',
     'scale_bar_unit',
-    'ogc_endpoint'
+    'ogc_endpoint',
+    'show_graticule',
   ],
 
   computed: {
