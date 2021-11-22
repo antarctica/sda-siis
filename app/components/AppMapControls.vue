@@ -1,38 +1,36 @@
 <template>
   <section class="app-map-controls">
     <fieldset>
-      <button v-on:click="display_ui = !display_ui">Show/Hide UI</button>
+      <button v-on:click="debug_control = !debug_control">🐞</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="debug_control = !debug_control">Debug Mode</button>
+      <button v-on:click="display_ui = !display_ui">O</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="changeDayNightMode">Day/Night Mode</button>
+      <button v-on:click="updateMapCentre">C</button>
+      <button v-on:click="follow_sensor_position = !follow_sensor_position">F</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="crs = 'EPSG:3031'">Antarctic Projection</button>
-      <button v-on:click="crs = 'EPSG:3413'">Arctic Projection</button>
-      <button v-on:click="crs = 'EPSG:3857'">Mercator Projection</button>
+      <button v-on:click="rotation_source = 'heading'">Hd</button>
+      <button v-on:click="rotation_source = 'longitude'" :disabled="crs == 'EPSG:3857' ? 'disabled' : null">Ln</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="rotation_source = 'heading'">Heading Rotation</button>
-      <button v-on:click="rotation_source = 'longitude'" :disabled="crs == 'EPSG:3857' ? 'disabled' : null">Longitude Rotation</button>
-    <fieldset>
-      <button v-on:click="updateMapCentre">Centre on sensor position</button>
-      <button v-on:click="follow_sensor_position = !follow_sensor_position">Track sensor position</button>
-    </fieldset>
+      <button v-on:click="crs = 'EPSG:3413'">Ar</button>
+      <button v-on:click="crs = 'EPSG:3031'">An</button>
+      <button v-on:click="crs = 'EPSG:3857'">Mc</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="changePostionFormat">LonLat / XY</button>
+      <button v-on:click="changePostionFormat">DD</button>
+      <button v-on:click="changeScaleBarUnit">NM</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="changeScaleBarUnit">nm / km</button>
+      <button v-on:click="changeDayNightMode">D</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="show_graticule = !show_graticule">Show Graticule</button>
+      <button v-on:click="show_graticule = !show_graticule">G</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="show_measure_tool = !show_measure_tool">Enable Measure Tool</button>
+      <button v-on:click="show_measure_tool = !show_measure_tool">M</button>
     </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>
