@@ -1,51 +1,32 @@
 <template>
   <section class="app-map-controls">
-    <button v-on:click="display_ui = !display_ui">Show/Hide UI</button>
-    <button v-on:click="debug_control = !debug_control">Debug Mode</button>
     <fieldset>
-      <select id="day-night-mode" v-model="day_night_mode" @change="onDayNightChange($event)">
-        <!-- <option value="system">Auto Day/Night</option> -->
-        <option value="day">Day (Light)</option>
-        <option value="night">Night (Dark)</option>
-      </select>
+      <button v-on:click="display_ui = !display_ui">Show/Hide UI</button>
     </fieldset>
     <fieldset>
-      <select id="map-crs" v-model="crs" @change="onCRSChange($event)">
-        <option value="EPSG:3031">Antarctic Projection</option>
-        <option value="EPSG:3413">Arctic Projection</option>
-        <option value="EPSG:3857">Mercator Projector</option>
-      </select>
+      <button v-on:click="debug_control = !debug_control">Debug Mode</button>
     </fieldset>
     <fieldset>
-      <select id="map-rotation-source" v-model="rotation_source" @change="onRotationSourceChange($event)">
-        <option value="manual">Manual Rotation</option>
-        <option value="heading">Rotation - Ship Heading</option>
-        <option value="longitude" v-if="crs !== 'EPSG:3857'">Rortation - Ship Longitude</option>
-      </select>
-      <!-- <input
-        type="number"
-        min="-180"
-        max="180"
-        step=".01"
-        v-model.number="rotation_degrees"
-        :disabled="rotation_control_disabled"
-      > -->
+      <button v-on:click="changeDayNightMode">Day/Night Mode</button>
+    </fieldset>
+    <fieldset>
+      <button v-on:click="crs = 'EPSG:3031'">Antarctic Projection</button>
+      <button v-on:click="crs = 'EPSG:3413'">Arctic Projection</button>
+      <button v-on:click="crs = 'EPSG:3857'">Mercator Projection</button>
+    </fieldset>
+    <fieldset>
+      <button v-on:click="rotation_source = 'heading'">Heading Rotation</button>
+      <button v-on:click="rotation_source = 'longitude'" :disabled="crs == 'EPSG:3857' ? 'disabled' : null">Longitude Rotation</button>
     <fieldset>
       <button v-on:click="updateMapCentre">Centre on sensor position</button>
       <button v-on:click="follow_sensor_position = !follow_sensor_position">Track sensor position</button>
     </fieldset>
     </fieldset>
     <fieldset>
-      <select id="map-position-format" v-model="position_format" @change="onPositionFormatChange($event)">
-        <option value=latlon>Lat Lon</option>
-        <option value=xy>XY (Projected)</option>
-      </select>
+      <button v-on:click="changePostionFormat">LonLat / XY</button>
     </fieldset>
     <fieldset>
-      <select id="scale-bar-unit" v-model="scale_bar_unit" @change="onScaleBarUnitChange($event)">
-        <option value=nautical>Nautical Miles (nm)</option>
-        <option value=metric>Metric (m, km)</option>
-      </select>
+      <button v-on:click="changeScaleBarUnit">nm / km</button>
     </fieldset>
     <fieldset>
       <button v-on:click="show_graticule = !show_graticule">Show Graticule</button>
@@ -107,6 +88,17 @@ export default {
   },
 
   watch: {
+    crs: function () {
+      this.$emit("update:crs", this.crs);
+
+      if (this.crs === 'EPSG:3857') {
+        this.rotation_source = 'manual';
+      }
+    },
+    rotation_source: function () {
+      this.$emit('update:rotation_source', this.rotation_source);
+      this.updateRotation();
+    },
     display_ui: function () {
       this.$emit('update:display_ui', this.display_ui);
     },
@@ -139,25 +131,28 @@ export default {
   },
 
   methods: {
-    onCRSChange: function ($event) {
-      this.$emit("update:crs", this.crs);
-
-      if (this.crs === 'EPSG:3857') {
-        this.rotation_source = 'manual';
+    changeDayNightMode: function ($event) {
+      if (this.day_night_mode == 'day') {
+        this.day_night_mode = 'night';
+      } else if (this.day_night_mode == 'night') {
+        this.day_night_mode = 'day';
       }
-    },
-    onDayNightChange: function ($event) {
       this.$emit('update:day_night', this.day_night_mode);
     },
-    onRotationSourceChange: function ($event) {
-      this.rotation_source = $event.target.value;
-      this.$emit('update:rotation_source', this.rotation_source);
-      this.updateRotation();
-    },
-    onPositionFormatChange: function ($event) {
+    changePostionFormat: function ($event) {
+      if (this.position_format == 'latlon') {
+        this.position_format = 'xy';
+      } else if (this.position_format == 'xy') {
+        this.position_format = 'latlon';
+      }
       this.$emit('update:position_format', this.position_format);
     },
-    onScaleBarUnitChange: function ($event) {
+    changeScaleBarUnit: function ($event) {
+      if (this.scale_bar_unit == 'nautical') {
+        this.scale_bar_unit = 'metric';
+      } else if (this.scale_bar_unit == 'metric') {
+        this.scale_bar_unit = 'nautical';
+      }
       this.$emit('update:scale_bar_unit', this.scale_bar_unit);
     },
     updateRotation: function() {
