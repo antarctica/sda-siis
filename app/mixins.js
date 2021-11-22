@@ -28,9 +28,9 @@ export const degreesToStringHDDM = function(hemispheres, degrees, opt_fractionDi
 
   return (
     deg +
-    '\u00b0 ' +
+    '\u00b0' +
     decimalMinutes(degrees, dflPrecision) +
-    '\u2032 ' +
-    (normalizedDegrees == 0 ? '' : ' ' + hemispheres.charAt(normalizedDegrees < 0 ? 1 : 0))
+    '\u2032' +
+    (normalizedDegrees == 0 ? '' : '' + hemispheres.charAt(normalizedDegrees < 0 ? 1 : 0))
   );
 };
