@@ -93,12 +93,13 @@ authoritative, SIIS data directory.
 
 ```shell
 $ docker-compose run rsync
+$ cd /data
 
 # to preview changes
-$ rsync -avzh --dry-run --exclude gwc $USER@bslcenb.nerc-bas.ac.uk:/data/siis/ /data/
+$ rsync -avzh --dry-run --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 
 # to perform changes
-$ rsync -avzh --progress --exclude gwc $USER@bslcenb.nerc-bas.ac.uk:/data/siis/ /data/
+$ rsync -avzh --progress --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 ```
 
 #### Refreshing the product data directory in the integration environment
