@@ -167,7 +167,6 @@ export default {
 <style scoped>
   .app-product-switcher {
     grid-area: products-switcher;
-    border: 1px solid aqua;
     border-right: none;
     z-index: 10;
     overflow-y: scroll;

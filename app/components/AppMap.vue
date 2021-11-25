@@ -77,18 +77,16 @@
       ></vl-interaction-select>
     </vl-map>
 
-    <div class="app-map-controls">
-      <div class="app-map-control" id="app-map-control-zoom"></div>
-      <div class="app-map-control" id="app-map-control-fullscreen"></div>
-      <div class="app-map-control" id="app-map-control-position"></div>
+    <div class="app-map-measures">
+      <div class="app-map-control" id="app-map-measure-scalebar"></div>
+      <div class="app-map-control" id="app-map-measure-position"></div>
     </div>
 
     <div class="debug" v-if="debug_mode">
       <p>CRS: <output>{{ crs }}</output></p>
       <p>Rotation (radians): <output>{{ rotation }}</output></p>
       <p>Zoom: <output>{{ zoom }}</output></p>
-      <p>Centre (CRS): <output>{{ centre_crs }}</output></p>
-      <p>Centre (4326): <output>{{ centre_4326 }}</output></p>
+      <p>Centre (CRS): <output>{{ centre_crs }}</output></p>      <p>Centre (4326): <output>{{ centre_4326 }}</output></p>
       <p>Extent (EPSG:4326): <output>{{ extent_4326 }}</output></p>
       <p>Position format: <output>{{ position_format }}</output></p>
       <p>Scale bar units: <output>{{ scale_bar_unit }}</output></p>
@@ -153,7 +151,7 @@ const attributionControl = new Attribution({
 const fullscreenControl = new FullScreen();
 const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
-  undefinedHTML: '&nbsp;',
+  undefinedHTML: '-,<br/>-',
 });
 const scaleLineControl = new ScaleLine();
 const zoomControl = new Zoom();
@@ -471,7 +469,7 @@ export default {
     mouse_position_custom_coordinate_format: function (coordinate) {
       let lat = degreesToStringHDDM('NS', coordinate[0], 3);
       let lon = degreesToStringHDDM('EW', coordinate[1], 3)
-      return `Lat: ${lat}, Lon: ${lon}`;
+      return `Lat: ${lat}<br/>Lon: ${lon}`;
     },
     updateCentre: function () {
       this.centre_crs = transform(this.centre, this.crs, 'EPSG:4326');
@@ -499,46 +497,38 @@ export default {
   }
 
   .app-map {
-    grid-column: 1/ span 3;
+    grid-column: 1/ span 4;
     grid-row: 1/ span 4;
     width: 100%;
     height: 100vh;
     z-index: 1;
   }
 
-  .app-map-controls {
-    grid-area: map-controls;
-    border-right: 1px solid orchid;
-    border-bottom: 1px solid orchid;
+  .app-map-measures {
+    grid-area: map-measures;
     z-index: 10;
-  }
-  .app-map-controls .hidden {
-    display: none;
-  }
-
-  #app-map-control-position {
-    font-family: 'Monaco', 'Consolas', 'Courier New', Courier, monospace;
-  }
-
-  .debug {
-    grid-area: x-3-left;
-    border: 1px solid red;
-    padding: 4px;
-    z-index: 10;
-    overflow-x: scroll;
   }
 </style>
 
 <style>
-  .app-map-controls .app-map-control {
+  #app-map-control-zoom button,
+  #app-map-control-fullscreen button {
     display: inline-block;
-  }
-  .app-map-controls .app-map-control button {
     width: 30px;
     height: 30px;
   }
-  .app-map-controls .ol-control,
-  .app-map-controls .ol-mouse-position {
-    position: static;
+
+  #app-map-measure-scalebar .ol-scale-line {
+    position: initial;
+    background: none;
+  }
+  #app-map-measure-scalebar .ol-scale-line .ol-scale-line-inner {
+    color: #333;
+    border-color: #333;
+  }
+
+  #app-map-measure-position .ol-mouse-position {
+    font-family: 'Monaco', 'Consolas', 'Courier New', Courier, monospace;
+    position: initial;
   }
 </style>

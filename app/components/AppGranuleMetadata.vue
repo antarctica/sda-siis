@@ -26,23 +26,26 @@
           </details>
         </div>
       </template>
+
+      <p>Legend</p>
       <img :src="product.legend_url">
+
+      <template v-if="product && product.supports_value_at_pixel">
+        <header><h4>Value at pixel (Selected product/granule)</h4></header>
+        <template v-if="product.code == 'siis.ic-nor.s'">
+          Ice Class: <output>{{ value_at_pixel_feature.nis_class }}</output>
+        </template>
+        <template v-else-if="product.code == 'siis.sic.s'">
+          Value: <output>{{ value_at_pixel_feature.PALETTE_INDEX }}</output>
+        </template>
+        <template v-else>
+          <pre>{{ value_at_pixel_feature }}</pre>
+        </template>
+      </template>
     </div>
     <div v-else>
       <p>Select a product to view granule metadata</p>
     </div>
-    <template v-if="product && product.supports_value_at_pixel">
-      <header><h4>Value at pixel (Selected product/granule)</h4></header>
-      <template v-if="product.code == 'siis.ic-nor.s'">
-        Ice Class: <output>{{ value_at_pixel_feature.nis_class }}</output>
-      </template>
-      <template v-else-if="product.code == 'siis.sic.s'">
-        Value: <output>{{ value_at_pixel_feature.PALETTE_INDEX }}</output>
-      </template>
-      <template v-else>
-        <pre>{{ value_at_pixel_feature }}</pre>
-      </template>
-    </template>
   </section>
 </template>
 
@@ -75,8 +78,7 @@ export default {
 <style scoped>
   .app-granule-metadata {
     grid-area: granule-metadata;
-    border-left: 1px solid orange;
-    border-bottom: 1px solid orange;
     z-index: 10;
+    overflow-y: scroll;
   }
 </style>
