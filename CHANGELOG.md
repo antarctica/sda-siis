@@ -39,6 +39,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [Infra] Correcting instructions for syncing from project directory to local development data directories
+  [#176]((https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/176)
 * [App] Switching between custom and XY position control formats
   [#169](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/169)
 * [API] Black code formatting violations in API
