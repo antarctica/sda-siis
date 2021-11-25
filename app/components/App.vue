@@ -203,14 +203,14 @@ export default Vue.extend({
 <style scoped>
   .grid-container {
     display: grid;
-    grid-template-columns: max-content 1fr max-content;
-    grid-template-rows: max-content 1fr 1fr 1fr 4%;
+
+    grid-template-columns: 11% auto 15% 20%;
+    grid-template-rows: min-content auto 7% min-content;
     grid-template-areas:
-      "map-controls map-controls2 granule-metadata"
-      "x-1-left x-1-middle granule-metadata"
-      "x-2-left x-2-middle sensor-metadata"
-      "x-3-left x-3-middle products-switcher"
-      "x-4-left x-4-middle x-4-right";
+      "sensor-metadata .            granule-metadata products-switcher"
+      ".               .            .                .                "
+      "map-measures    .            .                .                "
+      "map-controls    map-controls map-controls     map-controls     ";
     gap: 15px 15px;
     height: 100vh;
   }

@@ -16,14 +16,20 @@
       class="active-control"
     >
     <div class="granule-previous-control">
-      <div v-if="has_granules && granules_selection_mode == 'single'">
-        <button v-on:click="selectPreviousGranule" :disabled="can_select_previous_granule">&lt;</button>
-      </div>
+      <button
+        v-if="has_granules && granules_selection_mode == 'single'"
+        v-on:click="selectPreviousGranule"
+        :disabled="can_select_previous_granule">
+        &lt;
+      </button>
     </div>
     <div class="granule-next-control">
-      <div v-if="has_granules && granules_selection_mode == 'single'">
-        <button v-on:click="selectNextGranule" :disabled="can_select_next_granule">&gt;</button>
-      </div>
+      <button
+        v-if="has_granules && granules_selection_mode == 'single'"
+        v-on:click="selectNextGranule"
+        :disabled="can_select_next_granule">
+        &gt;
+      </button>
     </div>
     <input
       type="range"
@@ -330,8 +336,9 @@ export default {
 <style scoped>
   .product-wrapper {
     display: grid;
-    grid-template-columns: 10% 10% 5% 5% 10% 5% 49%;
-    grid-template-areas: "selected enabled previous-granule next-granule opacity availability name";
+    /* grid-template-columns: 1fr     1fr     1fr              1fr          2%      1fr          3fr; */
+    grid-template-columns: 7%      7%       5%               5%           10%     5%           55%;
+    grid-template-areas:  "selected enabled previous-granule next-granule opacity availability name";
     column-gap: 1%;
   }
   .selected-control {
@@ -342,16 +349,18 @@ export default {
   }
   .granule-previous-control {
     grid-area: previous-granule;
+    display: inline-block;
   }
   .granule-next-control {
     grid-area: next-granule;
+    display: inline-block;
   }
   .opacity-control {
     grid-area: opacity;
   }
   .name-control {
     grid-area: name;
-    font-size: 80%;
+    font-size: 90%;
     white-space: nowrap;
     overflow-x: clip;
     line-height: 2;

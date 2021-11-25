@@ -1,8 +1,7 @@
 <template>
   <section class="app-map-controls">
-    <fieldset>
-      <button v-on:click="debug_control = !debug_control">🐞</button>
-    </fieldset>
+    <fieldset id="app-map-control-zoom"></fieldset>
+    <fieldset id="app-map-control-fullscreen"></fieldset>
     <fieldset>
       <button v-on:click="display_ui = !display_ui">O</button>
     </fieldset>
@@ -197,9 +196,7 @@ export default {
 
 <style scoped>
   .app-map-controls {
-    grid-area: map-controls2;
-    border: 1px solid lime;
-    border-top: none;
+    grid-area: map-controls;
     z-index: 10;
   }
 
@@ -207,12 +204,12 @@ export default {
     display: inline-block;
     border: none;
   }
-  fieldset select, button {
-    height: 30px;
+  fieldset:first-of-type {
+    padding-left: 0;
   }
 
-  .debug {
-    border: 1px solid red;
-    padding: 4px;
+  fieldset select, button {
+    height: 30px;
+    width: 30px;
   }
 </style>

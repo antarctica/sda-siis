@@ -16,7 +16,7 @@
       <div class="sensor-variable-label">Speed</div>
       <div :class="'sensor-variable-status status-indicator status-' + speed.available"></div>
       <div class="sensor-variable-controls"></div>
-      <code class="sensor-variable-value">{{ speed.value }} kt</code>
+      <code class="sensor-variable-value">{{ speed.value }}kt</code>
     </section>
     <section class="sensor-variable-container sensor-heading">
       <div class="sensor-variable-label">Heading</div>
@@ -28,7 +28,7 @@
       <div class="sensor-variable-label">Depth</div>
       <div :class="'sensor-variable-status status-indicator status-' + depth.available"></div>
       <div class="sensor-variable-controls"></div>
-      <code class="sensor-variable-value">{{ depth.value }} m</code>
+      <code class="sensor-variable-value">{{ depth.value }}m</code>
     </section>
     <section class="sensor-variable-container sensor-time">
       <div class="sensor-variable-label">Time {{ time_hours_offset_description }}</div>
@@ -235,15 +235,12 @@ export default {
 <style scoped>
   .app-sensor-metadata {
     grid-area: sensor-metadata;
-    border-top: 1px solid green;
-    border-left: 1px solid green;
-    border-bottom: 1px solid green;
     z-index: 10;
   }
 
   .sensor-variable-container {
     display: grid;
-    grid-template-columns: 1fr 5fr 12px;
+    grid-template-columns: 1fr min-content 12px;
     grid-template-rows: max-content 2fr;
     /* Read as:
       Row 1: [sensor-label -> | sensor status]
@@ -270,6 +267,11 @@ export default {
     grid-area: sensor-reading;
     text-align: right;
     font-size: 150%;
+  }
+
+  .sensor-time .sensor-variable-controls button {
+    width: 22px;
+    height: 22px;
   }
 
   .debug {
