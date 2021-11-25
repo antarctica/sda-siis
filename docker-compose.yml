@@ -59,21 +59,16 @@ services:
       - ./app/assets/:/usr/src/app/assets/
       - ./app/components/:/usr/src/app/components/
       - ./app/dist/:/usr/src/app/dist/
-      - ./app/index.js/:/usr/src/app/index.js
-      - ./app/index.html/:/usr/src/app/index.html
       - ./app/mixins.js:/usr/src/app/mixins.js
+      - ./app/index.js:/usr/src/app/index.js
+      - ./app/index.html:/usr/src/app/index.html
     environment:
       HOST: 0.0.0.0
       PORT: 9000
       VUELAYERS_DEBUG: 1
-      # # uncomment to use local components
       SERVICE_API_ENDPOINT: http://localhost:9001
       SERVICE_API_KV_ENDPOINT: http://localhost:9002/kv
       SERVICE_API_OGC_ENDPOINT: http://localhost:8080
-      # # uncomment to use integration environment components
-      # SERVICE_API_ENDPOINT: http://10.70.1.145:32002
-      # SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
-      # SERVICE_API_OGC_ENDPOINT: http://10.70.1.145:32001
     ports:
       - "9000:9000"
     depends_on:

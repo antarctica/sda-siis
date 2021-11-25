@@ -63,6 +63,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [Infra] Tidying up Docker Compose configuration
+  [#174](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/174)
 * [App] Iterating sensor information panel UI
   [#130](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/130)
 * [App] Iterating product switcher panel UI
