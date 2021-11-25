@@ -11,6 +11,7 @@
       <button v-on:click="follow_sensor_position = !follow_sensor_position">F</button>
     </fieldset>
     <fieldset>
+      <button v-on:click="rotation_source = 'reset'">Pr</button>
       <button v-on:click="rotation_source = 'heading'">Hd</button>
       <button v-on:click="rotation_source = 'longitude'" :disabled="crs == 'EPSG:3857' ? 'disabled' : null">Ln</button>
     </fieldset>
@@ -171,6 +172,8 @@ export default {
         } else if (this.crs === 'ESPG:3413') {
           this.rotation_degrees == this.rotation_longitude + 45;
         }
+      } else if (this.rotation_source === 'reset') {
+        this.rotation_degrees = 0
       }
     },
     invertSign: function (value) {

@@ -80,10 +80,6 @@
     <div class="app-map-controls">
       <div class="app-map-control" id="app-map-control-zoom"></div>
       <div class="app-map-control" id="app-map-control-fullscreen"></div>
-      <div class="app-map-control" id="app-map-control-rotation" v-bind:class="{ hidden: rotation === 0 }"></div>
-      <div class="app-map-control" id="app-map-control-rotation-disabled" v-if="rotation === 0">
-        <button class="ol-rotate-reset" type="button" title="Reset rotation" disabled><span class="ol-compass" style="transform: rotate(0rad);">⇧</span></button>
-      </div>
       <div class="app-map-control" id="app-map-control-position"></div>
     </div>
 
@@ -115,7 +111,7 @@ import Vue from 'vue'
 import axios from 'axios';
 import proj4 from 'proj4';
 import {click} from 'ol/events/condition';
-import {Attribution, FullScreen, MousePosition, Rotate, ScaleLine, Zoom} from 'ol/control';
+import {Attribution, FullScreen, MousePosition, ScaleLine, Zoom} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
 import {createStringXY} from 'ol/coordinate';
@@ -159,7 +155,6 @@ const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
   undefinedHTML: '&nbsp;',
 });
-const rotationControl = new Rotate();
 const scaleLineControl = new ScaleLine();
 const zoomControl = new Zoom();
 
@@ -353,9 +348,6 @@ export default {
       this.set_mouse_position_format();
       this.$refs.AppMap.$map.addControl(mousePositionControl);
 
-      rotationControl.setTarget(document.getElementById('app-map-control-rotation'));
-      this.$refs.AppMap.$map.addControl(rotationControl);
-
       scaleLineControl.setUnits(this.scale_bar_unit);
       this.$refs.AppMap.$map.addControl(scaleLineControl);
 
@@ -522,10 +514,6 @@ export default {
   }
   .app-map-controls .hidden {
     display: none;
-  }
-
-  .vl-map .ol-rotate {
-    top: 3em;
   }
 
   #app-map-control-position {
