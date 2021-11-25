@@ -1,18 +1,44 @@
 <template>
   <section class="app-sensor-metadata" :class="{hidden: hide_ui}">
-    <header><h4>Sensor Metadata</h4></header>
-    <p>Lat: <code>{{ lat.value }}</code> <span :class="'status-indicator status-' + lat.available"></span></p>
-    <p>Lon: <code>{{ lon.value }}</code> <span :class="'status-indicator status-' + lon.available"></span></p>
-    <p>Speed: <code>{{ speed.value }} kt</code> <span :class="'status-indicator status-' + speed.available"></span></p>
-    <p>Heading: <code>{{ heading.value }}°</code> <span :class="'status-indicator status-' + heading.available"></span></p>
-    <p>Depth: <code>{{ depth.value }} m</code> <span :class="'status-indicator status-' + depth.available"></span></p>
-    <div>
-      <span>Time:</span>
-      <code>{{ time }}
-      <button v-on:click="time_hours_offset += 1">+</button>
-      <button v-on:click="time_hours_offset -= 1">-</button>
-      <span>{{ time_hours_offset_description }}</span>
-    </div>
+    <section class="sensor-variable-container sensor-latitude">
+      <div class="sensor-variable-label">Latitude</div>
+      <div :class="'sensor-variable-status status-indicator status-' + lat.available"></div>
+      <div class="sensor-variable-controls"></div>
+      <code class="sensor-variable-value">{{ lat.value }}</code>
+    </section>
+    <section class="sensor-variable-container sensor-longitude">
+      <div class="sensor-variable-label">Longitude</div>
+      <div :class="'sensor-variable-status status-indicator status-' + lon.available"></div>
+      <div class="sensor-variable-controls"></div>
+      <code class="sensor-variable-value">{{ lon.value }}</code>
+    </section>
+    <section class="sensor-variable-container sensor-speed">
+      <div class="sensor-variable-label">Speed</div>
+      <div :class="'sensor-variable-status status-indicator status-' + speed.available"></div>
+      <div class="sensor-variable-controls"></div>
+      <code class="sensor-variable-value">{{ speed.value }} kt</code>
+    </section>
+    <section class="sensor-variable-container sensor-heading">
+      <div class="sensor-variable-label">Heading</div>
+      <div :class="'sensor-variable-status status-indicator status-' + heading.available"></div>
+      <div class="sensor-variable-controls"></div>
+      <code class="sensor-variable-value">{{ heading.value }}°</code>
+    </section>
+    <section class="sensor-variable-container sensor-depth">
+      <div class="sensor-variable-label">Depth</div>
+      <div :class="'sensor-variable-status status-indicator status-' + depth.available"></div>
+      <div class="sensor-variable-controls"></div>
+      <code class="sensor-variable-value">{{ depth.value }} m</code>
+    </section>
+    <section class="sensor-variable-container sensor-time">
+      <div class="sensor-variable-label">Time {{ time_hours_offset_description }}</div>
+      <div class="sensor-variable-status status-indicator status-available"></div>
+      <div class="sensor-variable-controls">
+        <button v-on:click="time_hours_offset += 1">+</button>
+        <button v-on:click="time_hours_offset -= 1">-</button>
+      </div>
+      <code class="sensor-variable-value">{{ time }}</code>
+    </section>
     <div class="debug" v-if="debug_mode">
       <p>Latitude (dd): <output>{{ latitude_value }}</output></p>
       <p>Longitude (dd): <output>{{ longitude_value }}</output></p>
@@ -109,11 +135,13 @@ export default {
       };
     },
     time_hours_offset_description: function () {
-      let prefix = '';
-      if (Math.sign(this.time_hours_offset) === 1) {
-        prefix = '+';
+      if (this.time_hours_offset === 0) {
+        return 'UTC';
+      } else if (Math.sign(this.time_hours_offset) === 1) {
+        return `UTC+${this.time_hours_offset}`;
+      } else {
+        return `UTC${this.time_hours_offset}`;
       }
-      return `UTC${prefix}${this.time_hours_offset}`;
     },
     position: function () {
       return [this.longitude_value, this.latitude_value];
@@ -213,6 +241,37 @@ export default {
     z-index: 10;
   }
 
+  .sensor-variable-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr 12px;
+    grid-template-rows: max-content 2fr;
+    /* Read as:
+      Row 1: [sensor-label -> | sensor status]
+      Row 2: [sensor-controls | -> sensor-reading]
+    */
+    grid-template-areas:
+      "sensor-label sensor-label sensor-status"
+      "sensor-controls sensor-reading sensor-reading";
+    gap: 0 5px;
+    padding-right: 10px;
+  }
+
+  .sensor-variable-label {
+    grid-area: sensor-label;
+  }
+  .sensor-variable-status {
+    grid-area: sensor-status;
+    margin: auto;
+  }
+  .sensor-variable-controls {
+    grid-area: sensor-controls;
+  }
+  .sensor-variable-value {
+    grid-area: sensor-reading;
+    text-align: right;
+    font-size: 150%;
+  }
+
   .debug {
     border: 2px solid red;
     padding: 4px;
@@ -220,15 +279,17 @@ export default {
 
   .status-indicator {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 100%;
   }
 
   .status-true {
-    background-color: #379245;
+    border: 1px solid #379245;
+    background-color: #BBDAC0;
   }
   .status-false {
-    background-color: #B10E1E;
+    border: 1px solid #B10E1E;
+    background-color: #E4ADB3;
   }
 </style>

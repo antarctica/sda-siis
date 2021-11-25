@@ -22,17 +22,16 @@
         <li v-for="product in active_products" :key="product.id">{{ product.id }} - {{ product.code }}</li>
       </ul>
     </div>
-    <label for="time-filter">Time filter</label>
-    <select id="time-filter" v-model="time_filter">
-      <option value=-1>No Limit</option>
-      <option value=0>Default</option>
-      <option value="d" disabled>Date Filter</option>
-      <option value=72>Last 72 hours</option>
-      <option value=48>Last 48 hours</option>
-      <option value=24>Last 24 hours</option>
-    </select>
-    <label for="date-filter">Date filter</label>
-    <input type="date" v-model="date_filter"/>
+    <fieldset>
+      <label for="time-filter">Time Filter</label>
+      <button v-on:click="time_filter = -1" :disabled="time_filter == 'disabled' ? 'disabled' : null">None</button>
+      <button v-on:click="time_filter = 0" :disabled="time_filter == 'disabled' ? 'disabled' : null">Default</button>
+      <button v-on:click="time_filter = 72" :disabled="time_filter == 'disabled' ? 'disabled' : null">72 Hours</button>
+      <button v-on:click="time_filter = 48" :disabled="time_filter == 'disabled' ? 'disabled' : null">48 Hours</button>
+      <button v-on:click="time_filter = 24" :disabled="time_filter == 'disabled' ? 'disabled' : null">24 Hours</button>
+      <label for="date-filter">Date filter</label>
+      <input type="date" v-model="date_filter"/>
+    </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Hemisphere: <output>{{ hemisphere }}</output></p>
       <p>Time filter: <output>{{ time_filter }}</output><p>
@@ -114,7 +113,7 @@ export default {
     },
     date_filter: function () {
       if (this.date_filter !== "") {
-        this.time_filter = 'd';
+        this.time_filter = 'disabled';
       } else {
         this.time_filter = 0;
       }
@@ -171,10 +170,14 @@ export default {
     border: 1px solid aqua;
     border-right: none;
     z-index: 10;
-
+    overflow-y: scroll;
     display: grid;
     grid-auto-rows: auto;
     row-gap: 10px;
+  }
+
+  fieldset {
+    border: none;
   }
 
   .debug {
