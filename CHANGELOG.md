@@ -63,6 +63,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Iterating product switcher panel UI
+  [#130](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/130)
+* [App] Converting time filters to button controls
+  [#130](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/130)
 * [App] Custom coordinate formatting used for mouse position
   [#118](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/118)
 * [App] Changing default colour scheme to light/day and hiding system scheme option

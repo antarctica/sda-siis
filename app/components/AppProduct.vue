@@ -17,12 +17,12 @@
     >
     <div class="granule-previous-control">
       <div v-if="has_granules && granules_selection_mode == 'single'">
-        <button v-on:click="selectPreviousGranule" :disabled="can_select_previous_granule">&lt;&lt;</button>
+        <button v-on:click="selectPreviousGranule" :disabled="can_select_previous_granule">&lt;</button>
       </div>
     </div>
     <div class="granule-next-control">
       <div v-if="has_granules && granules_selection_mode == 'single'">
-        <button v-on:click="selectNextGranule" :disabled="can_select_next_granule">&gt;&gt;</button>
+        <button v-on:click="selectNextGranule" :disabled="can_select_next_granule">&gt;</button>
       </div>
     </div>
     <input
@@ -35,15 +35,16 @@
       v-model.number="opacity"
       class="opacity-control"
     >
+
+    <span class="status-control status-indicator status-na" v-if="status == 'n/a'" title="N/A"></span>
+    <span class="status-control status-indicator status-offline" v-else-if="status == 'offline'" title="Offline"></span>
+    <span class="status-control status-indicator status-pending" v-else-if="status == 'pending'" title="Pending"></span>
+    <span class="status-control status-indicator status-processing" v-else-if="status == 'processing'" title="Processing"></span>
+    <span class="status-control status-indicator status-online" v-else-if="status == 'online'" title="Online"></span>
+    <span class="status-control status-indicator status-outdated" v-else-if="status == 'outdated'" title="Outdated"></span>
+
     <span class="name-control">{{ label }}</span>
-    <div class="status-control">
-      <template v-if="status == 'n/a'"><span class="status-indicator status-na"></span></template>
-      <template v-else-if="status == 'offline'"><span class="status-indicator status-offline"></span></template>
-      <template v-else-if="status == 'pending'"><span class="status-indicator status-pending"></span></template>
-      <template v-else-if="status == 'processing'"><span class="status-indicator status-processing"></span></template>
-      <template v-else-if="status == 'online'"><span class="status-indicator status-online"></span></template>
-      <template v-else-if="status == 'outdated'"><span class="status-indicator status-outdated"></span></template>
-    </div>
+
     <div class="debug" v-if="debug_mode">
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
@@ -329,8 +330,8 @@ export default {
 <style scoped>
   .product-wrapper {
     display: grid;
-    grid-template-columns: 5% 5% 5% 5% 20% 44% 10%;
-    grid-template-areas: "selected enabled previous-granule next-granule opacity name availability";
+    grid-template-columns: 10% 10% 5% 5% 10% 5% 49%;
+    grid-template-areas: "selected enabled previous-granule next-granule opacity availability name";
     column-gap: 1%;
   }
   .selected-control {
@@ -350,9 +351,14 @@ export default {
   }
   .name-control {
     grid-area: name;
+    font-size: 80%;
+    white-space: nowrap;
+    overflow-x: clip;
+    line-height: 2;
   }
   .status-control {
     grid-area: availability;
+    margin: auto;
   }
 
   .debug {
