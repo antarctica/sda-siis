@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Support for toggle buttons and toggle button groups
+  [#165](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/165)
 * [App] Very initial route drawing support
   [#137](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/137)
 * [App] Controls to centre on, and/or track, current sensor position

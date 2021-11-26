@@ -79,6 +79,5 @@ export default {
   .app-granule-metadata {
     grid-area: granule-metadata;
     z-index: 10;
-    overflow-y: scroll;
   }
 </style>

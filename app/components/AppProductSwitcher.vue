@@ -26,9 +26,9 @@
       <label for="time-filter">Time Filter</label>
       <button v-on:click="time_filter = -1" :disabled="time_filter == 'disabled' ? 'disabled' : null">None</button>
       <button v-on:click="time_filter = 0" :disabled="time_filter == 'disabled' ? 'disabled' : null">Default</button>
-      <button v-on:click="time_filter = 72" :disabled="time_filter == 'disabled' ? 'disabled' : null">72 Hours</button>
-      <button v-on:click="time_filter = 48" :disabled="time_filter == 'disabled' ? 'disabled' : null">48 Hours</button>
-      <button v-on:click="time_filter = 24" :disabled="time_filter == 'disabled' ? 'disabled' : null">24 Hours</button>
+      <button v-on:click="time_filter = 72" :disabled="time_filter == 'disabled' ? 'disabled' : null">72 H</button>
+      <button v-on:click="time_filter = 48" :disabled="time_filter == 'disabled' ? 'disabled' : null">48 H</button>
+      <button v-on:click="time_filter = 24" :disabled="time_filter == 'disabled' ? 'disabled' : null">24 H</button>
       <label for="date-filter">Date filter</label>
       <input type="date" v-model="date_filter"/>
     </fieldset>
@@ -169,7 +169,6 @@ export default {
     grid-area: products-switcher;
     border-right: none;
     z-index: 10;
-    overflow-y: scroll;
     display: grid;
     grid-auto-rows: auto;
     row-gap: 10px;

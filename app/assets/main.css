@@ -33,22 +33,29 @@ code {
   width: 12px;
   height: 12px;
   border-radius: 100%;
+  border: 1px solid transparent;
 }
 .status-na {
-  background-color: #BBDAC0;
+  border-color: #555555;
+  background-color: #EEEEEE;
 }
 .status-offline {
-  background-color: #B10E1E;
+  border-color: #B10E1E;
+  background-color: #E4ADB3;
 }
 .status-pending {
-  background-color: #FFBF47;
+  border-color: #FFBF47;
+  background-color: #FFE9C0;
 }
 .status-processing {
-  background-color: #2B8CC4;
+  border-color: #2B8CC4;
+  background-color: #B7D8EB;
 }
 .status-online {
-  background-color: #379245;
+  border-color: #379245;
+  background-color: #BBDAC0;
 }
 .status-outdated {
-  background-color: #F47738;
+  border-color: #F47738;
+  background-color: #FBD1BB;
 }

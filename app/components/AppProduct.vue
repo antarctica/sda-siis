@@ -350,10 +350,14 @@ export default {
   .granule-previous-control {
     grid-area: previous-granule;
     display: inline-block;
+    position: relative;
+    top: 4px;
   }
   .granule-next-control {
     grid-area: next-granule;
     display: inline-block;
+    position: relative;
+    top: 4px;
   }
   .opacity-control {
     grid-area: opacity;
