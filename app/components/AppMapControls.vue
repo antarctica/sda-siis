@@ -3,31 +3,37 @@
     <fieldset id="app-map-control-zoom"></fieldset>
     <fieldset id="app-map-control-fullscreen"></fieldset>
     <fieldset>
-      <button v-on:click="display_ui = !display_ui">O</button>
+      <button v-on:click="display_ui = !display_ui" :class="!display_ui ? 'activated': null">O</button>
     </fieldset>
     <fieldset>
       <button v-on:click="updateMapCentre">C</button>
-      <button v-on:click="follow_sensor_position = !follow_sensor_position">F</button>
+      <button v-on:click="follow_sensor_position = !follow_sensor_position" :class="follow_sensor_position ? 'activated': null">F</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="rotation_source = 'reset'">Pr</button>
-      <button v-on:click="rotation_source = 'heading'">Hd</button>
-      <button v-on:click="rotation_source = 'longitude'" :disabled="crs == 'EPSG:3857' ? 'disabled' : null">Ln</button>
+      <button v-on:click="rotation_source = 'reset'" :class="rotation_source === 'reset' ? 'activated': null">Pr</button>
+      <button v-on:click="rotation_source = 'heading'" :class="rotation_source === 'heading' ? 'activated': null">Hd</button>
+      <button
+        v-on:click="rotation_source = 'longitude'"
+        :disabled="crs == 'EPSG:3857' ? 'disabled' : null"
+        :class="rotation_source === 'longitude' ? 'activated': null"
+      >
+        Ln
+      </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="crs = 'EPSG:3413'">Ar</button>
-      <button v-on:click="crs = 'EPSG:3031'">An</button>
-      <button v-on:click="crs = 'EPSG:3857'">Mc</button>
+      <button v-on:click="crs = 'EPSG:3413'" :class="crs === 'EPSG:3413' ? 'activated': null">Ar</button>
+      <button v-on:click="crs = 'EPSG:3031'" :class="crs === 'EPSG:3031' ? 'activated': null">An</button>
+      <button v-on:click="crs = 'EPSG:3857'" :class="crs === 'EPSG:3857' ? 'activated': null">Mc</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="changePostionFormat">DD</button>
-      <button v-on:click="changeScaleBarUnit">NM</button>
+      <button v-on:click="changePostionFormat" :class="position_format === 'xy' ? 'activated': null">DD</button>
+      <button v-on:click="changeScaleBarUnit" :class="scale_bar_unit === 'metric' ? 'activated': null">NM</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="changeDayNightMode">D</button>
+      <button v-on:click="changeDayNightMode" :class="day_night_mode === 'night' ? 'activated': null">D</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="show_graticule = !show_graticule">G</button>
+      <button v-on:click="show_graticule = !show_graticule" :class="show_graticule ? 'activated': null">G</button>
     </fieldset>
     <fieldset>
       <button v-on:click="show_measure_tool = !show_measure_tool">M</button>
@@ -201,15 +207,25 @@ export default {
   }
 
   fieldset {
-    display: inline-block;
+    display: inline-flex;
+    padding: 0 6px;
     border: none;
   }
   fieldset:first-of-type {
     padding-left: 0;
   }
 
-  fieldset select, button {
+  fieldset select, button,
+  fieldset div button {
     height: 30px;
     width: 30px;
+  }
+
+  .activated {
+    box-shadow: inset 1px 1px 4px #777;
+    transform: translateY(1px);
+    background-color: #d5caca;
+    border-style: double;
+    border-radius: 4px;
   }
 </style>
