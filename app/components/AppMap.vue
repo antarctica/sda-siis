@@ -86,7 +86,8 @@
       <p>CRS: <output>{{ crs }}</output></p>
       <p>Rotation (radians): <output>{{ rotation }}</output></p>
       <p>Zoom: <output>{{ zoom }}</output></p>
-      <p>Centre (CRS): <output>{{ centre_crs }}</output></p>      <p>Centre (4326): <output>{{ centre_4326 }}</output></p>
+      <p>Centre (CRS): <output>{{ centre_crs }}</output></p>
+      <p>Centre (4326): <output>{{ centre_4326 }}</output></p>
       <p>Extent (EPSG:4326): <output>{{ extent_4326 }}</output></p>
       <p>Position format: <output>{{ position_format }}</output></p>
       <p>Scale bar units: <output>{{ scale_bar_unit }}</output></p>
@@ -98,6 +99,8 @@
       <pre>{{ selected_value_at_pixel_feature }}</pre>
       <p>Value at pixel feature</p>
       <pre>{{ value_at_pixel_feature }}</pre>
+      <p>Drawn features</p>
+      <pre>{{ drawn_features }}</pre>
       <p>Layers:</p>
       <pre v-for="layer in layers" :key="layer.name">{{ JSON.stringify(layer) }}</pre>
     </div>
@@ -183,13 +186,14 @@ export default {
     'scale_bar_unit',
     'ogc_endpoint',
     'show_graticule',
+    'show_measure_tool',
   ],
 
   computed: {
     style_modifier: function () {
-      if (this.colour_scheme == 'light') {
+      if (this.colour_scheme == 'light' || this.colour_scheme == 'day') {
         return 'day';
-      } else if (this.colour_scheme == 'dark') {
+      } else if (this.colour_scheme == 'dark' || this.colour_scheme == 'night') {
         return 'night';
       }
     },
@@ -219,7 +223,7 @@ export default {
       return granule_features;
     },
     selected_value_at_pixel_feature: function () {
-      if (!('product' in this.selected_product_granules)) {
+      if (! ('product' in this.selected_product_granules)) {
         return {};
       }
       if (! this.selected_product_granules.product.supports_value_at_pixel) {
@@ -341,11 +345,12 @@ export default {
       fullscreenControl.setTarget(document.getElementById('app-map-control-fullscreen'));
       this.$refs.AppMap.$map.addControl(fullscreenControl);
 
-      mousePositionControl.setTarget(document.getElementById('app-map-control-position'));
+      mousePositionControl.setTarget(document.getElementById('app-map-measure-position'));
       mousePositionControl.setProjection(this.mouse_position_format_projection);
       this.set_mouse_position_format();
       this.$refs.AppMap.$map.addControl(mousePositionControl);
 
+      scaleLineControl.setTarget(document.getElementById('app-map-measure-scalebar'));
       scaleLineControl.setUnits(this.scale_bar_unit);
       this.$refs.AppMap.$map.addControl(scaleLineControl);
 
@@ -407,7 +412,7 @@ export default {
         this.layers[_index] = layer;
       }
     },
-    cleanup_orphaned_layers: function() {
+    cleanup_orphaned_layers: function () {
       this.layers.forEach((layer) => {
         let _index = this.product_granules.findIndex(_layer => _layer.id === layer.id);
         if (layer.ref.includes('___')) {
@@ -434,7 +439,7 @@ export default {
         }
       });
     },
-    style_func_footprints: function(feature, resolution) {
+    style_func_footprints: function (feature, resolution) {
       let stroke_colour = '#BBDAC0';  // .status-na
       if (feature.values_.status == 'offline') {
         stroke_colour = '#B10E1E';

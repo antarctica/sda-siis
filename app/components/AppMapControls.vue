@@ -36,7 +36,7 @@
       <button v-on:click="show_graticule = !show_graticule" :class="show_graticule ? 'activated': null">G</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="show_measure_tool = !show_measure_tool">M</button>
+      <button v-on:click="show_measure_tool = !show_measure_tool" :class="show_measure_tool ? 'activated': null">M</button>
     </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>

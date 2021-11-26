@@ -136,8 +136,6 @@ export default Vue.extend({
     },
     whenDebugModeChange: function ($event) {
       this.debug_mode = $event;
-      console.log('bar');
-      console.log($event);
     },
     whenDayNightChange: function ($event) {
       if ($event == 'system') {
