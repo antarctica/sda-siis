@@ -523,8 +523,8 @@ export default {
     background: none;
   }
   #app-map-measure-scalebar .ol-scale-line .ol-scale-line-inner {
-    color: #333;
-    border-color: #333;
+    color: var(--color);
+    border-color: var(--color);
   }
 
   #app-map-measure-position .ol-mouse-position {
