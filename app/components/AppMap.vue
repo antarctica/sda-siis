@@ -53,7 +53,10 @@
           </vl-layer-vector>
         </template>
       </div>
-
+      <vl-interaction-select
+        :features.sync="selected_features"
+        :condition="select_condition"
+      ></vl-interaction-select>
       <vl-graticule :show-labels="false" v-if="show_graticule"></vl-graticule>
 
       <template v-if="show_measure_tool">
@@ -74,11 +77,6 @@
           </vl-style-box>
         </vl-interaction-draw>
       </template>
-
-      <vl-interaction-select
-        :features.sync="selected_features"
-        :condition="select_condition"
-      ></vl-interaction-select>
     </vl-map>
 
     <div class="app-map-measures">

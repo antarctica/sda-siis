@@ -35,9 +35,9 @@
         v-on:update:active_product_granules="whenActiveProductGranulesChange"
       ></app-product-switcher>
       <app-map-controls
+        initial_day_night_mode="day"
         :initial_crs="control_crs"
         :debug_mode="debug_mode"
-        initial_day_night_mode="day"
         :rotation_heading="rotation_heading"
         :rotation_longitude="rotation_longitude"
         :sensor_position="sensor_position"

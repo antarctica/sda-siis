@@ -16,9 +16,7 @@
         v-on:click="rotation_source = 'longitude'"
         :disabled="crs == 'EPSG:3857' ? 'disabled' : null"
         :class="rotation_source === 'longitude' ? 'activated': null"
-      >
-        Ln
-      </button>
+      >Ln</button>
     </fieldset>
     <fieldset>
       <button v-on:click="crs = 'EPSG:3413'" :class="crs === 'EPSG:3413' ? 'activated': null">Ar</button>
