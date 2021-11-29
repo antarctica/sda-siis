@@ -58,7 +58,11 @@
 
       <template v-if="show_measure_tool">
         <vl-layer-vector>
-          <vl-source-vector :features.sync="drawn_features" ident="drawing-layer"></vl-source-vector>
+          <vl-source-vector
+            ref="AppMapDrawingSource"
+            ident="drawing-layer"
+            :features.sync="drawn_features"
+          ></vl-source-vector>
           <vl-style-box>
             <vl-style-stroke color="green"></vl-style-stroke>
           </vl-style-box>
@@ -117,6 +121,7 @@ import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
 import {createStringXY} from 'ol/coordinate';
 import Projection from 'ol/proj/Projection';
+import {getLength} from 'ol/sphere';
 import VueLayers from 'vuelayers';
 import {createStyle} from 'vuelayers/dist/ol-ext'
 

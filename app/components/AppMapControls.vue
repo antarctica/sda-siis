@@ -38,6 +38,7 @@
     <fieldset>
       <button v-on:click="show_measure_tool = !show_measure_tool" :class="show_measure_tool ? 'activated': null">M</button>
       <div class="measure-tool-feature-tool-feature-count" :class="measure_tool_feature_count == 0 ? 'disabled' : null">{{ measure_tool_feature_count }}</div>
+      <div class="measure-tool-feature-tool-feature-length" :class="measure_tool_feature_length == 0 ? 'disabled' : null">{{ measure_tool_feature_length }}m</div>
       <button v-on:click="resetDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">R</button>
     </fieldset>
     <div class="debug" v-if="debug_mode">
@@ -80,6 +81,7 @@ export default {
     'rotation_longitude',
     'sensor_position',
     'measure_tool_feature_count',
+    'measure_tool_feature_length',
   ],
 
   computed: {
@@ -248,5 +250,8 @@ export default {
   .measure-tool-feature-tool-feature-count.disabled,
   .measure-tool-feature-tool-feature-length.disabled {
     opacity: 60%;
+  }
+  .measure-tool-feature-tool-feature-length {
+    width: 200px;
   }
 </style>

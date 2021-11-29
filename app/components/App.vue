@@ -22,6 +22,7 @@
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature="whenDrawnFeatureChanges"
+        v-on:update:drawn_feature_length="whenDrawnFeatureLengthChanges"
       ></app-map>
       <app-product-switcher
         :display_ui="display_ui"
@@ -41,6 +42,7 @@
         :rotation_longitude="rotation_longitude"
         :sensor_position="sensor_position"
         :measure_tool_feature_count="measure_tool_feature_count"
+        :measure_tool_feature_length="measure_tool_feature_length"
         v-on:update:crs="whenCRSChange"
         v-on:update:display_ui="whenDisplayUIChange"
         v-on:update:debug_mode="whenDebugModeChange"
@@ -108,6 +110,7 @@ export default Vue.extend({
       show_graticule: true,
       show_measure_tool: false,
       measure_tool_feature_count: 0,
+      measure_tool_feature_length: 0,
       measure_tool_feature_reset_count: 0,
     }
   },
@@ -206,6 +209,9 @@ export default Vue.extend({
       } else {
         this.measure_tool_feature_count = $event.geometry.coordinates.length;
       }
+    },
+    whenDrawnFeatureLengthChanges: function ($event) {
+      this.measure_tool_feature_length = $event;
     },
     whenDrawnFeatureReset: function ($event) {
       this.measure_tool_feature_reset_count += 1;
