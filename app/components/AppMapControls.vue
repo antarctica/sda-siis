@@ -16,9 +16,7 @@
         v-on:click="rotation_source = 'longitude'"
         :disabled="crs == 'EPSG:3857' ? 'disabled' : null"
         :class="rotation_source === 'longitude' ? 'activated': null"
-      >
-        Ln
-      </button>
+      >Ln</button>
     </fieldset>
     <fieldset>
       <button v-on:click="crs = 'EPSG:3413'" :class="crs === 'EPSG:3413' ? 'activated': null">Ar</button>
@@ -37,6 +35,9 @@
     </fieldset>
     <fieldset>
       <button v-on:click="show_measure_tool = !show_measure_tool" :class="show_measure_tool ? 'activated': null">M</button>
+      <div class="measure-tool-feature-tool-feature-count" :class="measure_tool_feature_count == 0 ? 'disabled' : null">{{ measure_tool_feature_count }}</div>
+      <div class="measure-tool-feature-tool-feature-length" :class="measure_tool_feature_length == 0 ? 'disabled' : null">{{ measure_tool_feature_length }}m</div>
+      <button v-on:click="resetDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">R</button>
     </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>
@@ -77,6 +78,8 @@ export default {
     'rotation_heading',
     'rotation_longitude',
     'sensor_position',
+    'measure_tool_feature_count',
+    'measure_tool_feature_length',
   ],
 
   computed: {
@@ -191,6 +194,9 @@ export default {
     updateMapCentre: function() {
       this.map_centre_4326 = this.sensor_position;
     },
+    resetDrawnFeature: function() {
+      this.$emit('update:reset_drawn_feature');
+    },
   },
 
   mounted() {
@@ -227,5 +233,23 @@ export default {
     background-color: #d5caca;
     border-style: double;
     border-radius: 4px;
+  }
+
+  .measure-tool-feature-tool-feature-count,
+  .measure-tool-feature-tool-feature-length {
+    width: 28px;
+    height: 25px;
+    background-color: #e9e9ed;
+    border: 1px solid #8f8f9d;
+    border-radius: 4px;
+    text-align: center;
+    padding-top: 3px;
+  }
+  .measure-tool-feature-tool-feature-count.disabled,
+  .measure-tool-feature-tool-feature-length.disabled {
+    opacity: 60%;
+  }
+  .measure-tool-feature-tool-feature-length {
+    width: 200px;
   }
 </style>

@@ -18,8 +18,11 @@
         :ogc_endpoint="ogc_endpoint"
         :show_graticule="show_graticule"
         :show_measure_tool="show_measure_tool"
+        :drawn_feature_reset_count="measure_tool_feature_reset_count"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
+        v-on:update:drawn_feature="whenDrawnFeatureChanges"
+        v-on:update:drawn_feature_length="whenDrawnFeatureLengthChanges"
       ></app-map>
       <app-product-switcher
         :display_ui="display_ui"
@@ -32,12 +35,14 @@
         v-on:update:active_product_granules="whenActiveProductGranulesChange"
       ></app-product-switcher>
       <app-map-controls
+        initial_day_night_mode="day"
         :initial_crs="control_crs"
         :debug_mode="debug_mode"
-        initial_day_night_mode="day"
         :rotation_heading="rotation_heading"
         :rotation_longitude="rotation_longitude"
         :sensor_position="sensor_position"
+        :measure_tool_feature_count="measure_tool_feature_count"
+        :measure_tool_feature_length="measure_tool_feature_length"
         v-on:update:crs="whenCRSChange"
         v-on:update:display_ui="whenDisplayUIChange"
         v-on:update:debug_mode="whenDebugModeChange"
@@ -48,6 +53,7 @@
         v-on:update:map_centre="whenMapCentreChange"
         v-on:update:show_graticule="whenShowGraticuleChange"
         v-on:update:show_measure_tool="whenShowMeasureToolChange"
+        v-on:update:reset_drawn_feature="whenDrawnFeatureReset"
       ></app-map-controls>
       <app-granule-metadata
         :display_ui="display_ui"
@@ -103,6 +109,9 @@ export default Vue.extend({
       map_centre: [0,0],
       show_graticule: true,
       show_measure_tool: false,
+      measure_tool_feature_count: 0,
+      measure_tool_feature_length: 0,
+      measure_tool_feature_reset_count: 0,
     }
   },
 
@@ -193,6 +202,19 @@ export default Vue.extend({
     },
     whenShowMeasureToolChange: function ($event) {
       this.show_measure_tool = $event;
+    },
+    whenDrawnFeatureChanges: function ($event) {
+      if (Object.keys($event).length === 0) {
+        this.measure_tool_feature_count = 0;
+      } else {
+        this.measure_tool_feature_count = $event.geometry.coordinates.length;
+      }
+    },
+    whenDrawnFeatureLengthChanges: function ($event) {
+      this.measure_tool_feature_length = $event;
+    },
+    whenDrawnFeatureReset: function ($event) {
+      this.measure_tool_feature_reset_count += 1;
     },
   }
 });
