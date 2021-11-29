@@ -187,6 +187,7 @@ export default {
     'ogc_endpoint',
     'show_graticule',
     'show_measure_tool',
+    'drawn_feature_reset_count',
   ],
 
   computed: {
@@ -243,7 +244,13 @@ export default {
       }
 
       return this.selected_features[0];
-    }
+    },
+    drawn_feature: function () {
+      if (this.drawn_features.length > 0) {
+        return this.drawn_features[0];
+      }
+      return {};
+    },
   },
 
   watch: {
@@ -285,6 +292,20 @@ export default {
     },
     centre () {
       this.updateCentre();
+    },
+    drawn_features () {
+      if (this.drawn_features.length > 1) {
+        this.drawn_features = [this.drawn_features.at(-1)];
+      }
+    },
+    drawn_feature () {
+      this.$emit("update:drawn_feature", this.drawn_feature);
+      this.$emit("update:drawn_feature_length", this.calculateDrawnFeatureLength());
+    },
+    drawn_feature_reset_count () {
+      // this is a bit of a hack - each time the reset button is clicked, this variable is incremented, which is
+      // registered in this method and used as a signal to reset the drawn features - i.e. the value itself is ignored.
+      this.resetDrawnFeatures();
     },
   },
 
@@ -478,6 +499,18 @@ export default {
     },
     updateCentre: function () {
       this.centre_crs = transform(this.centre, this.crs, 'EPSG:4326');
+    },
+    resetDrawnFeatures: function() {
+      this.drawn_features = [];
+    },
+    calculateDrawnFeatureLength: function() {
+      if (Object.keys(this.drawn_feature).length === 0) {
+        return 0;
+      } else {
+        const feature = this.$refs.AppMapDrawingSource.$source.getFeatures()[0];
+        const feature_geom = feature.getGeometry();
+        return getLength(feature_geom);
+      }
     },
   },
 
