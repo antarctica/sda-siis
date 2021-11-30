@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Initial support for UI panel backgrounds
+  [#178](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/178)
 * [App] Support for showing ship track and ship position
   [#163](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/163)
 * [App] Support for toggle buttons and toggle button groups

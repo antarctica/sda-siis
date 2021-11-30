@@ -28,6 +28,10 @@ code {
   font-family: 'Monaco', 'Consolas', 'Courier New', Courier, monospace;
 }
 
+.app-panel {
+  background-color: var(--bg);
+}
+
 .status-indicator {
   display: inline-block;
   width: 12px;
