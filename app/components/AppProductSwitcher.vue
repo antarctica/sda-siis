@@ -1,5 +1,5 @@
 <template>
-  <section class="app-product-switcher" :class="{hidden: hide_ui}">
+  <section class="app-panel app-product-switcher" :class="{hidden: hide_ui}">
     <app-product
       v-for="product in raw_products"
       :key="product.id"

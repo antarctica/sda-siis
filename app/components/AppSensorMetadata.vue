@@ -1,5 +1,5 @@
 <template>
-  <section class="app-sensor-metadata" :class="{hidden: hide_ui}">
+  <section class="app-panel app-sensor-metadata" :class="{hidden: hide_ui}">
     <section class="sensor-variable-container sensor-latitude">
       <div class="sensor-variable-label">Latitude</div>
       <div :class="'sensor-variable-status status-indicator status-' + lat.available"></div>
