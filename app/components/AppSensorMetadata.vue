@@ -170,11 +170,15 @@ export default {
         const response = await axios.get(request_endpoint, request_config);
         let sensorData = response.data.features[0];
         if (sensorData.geometry.coordinates[1] !== null) {
+          if (this.latitude_value != sensorData.geometry.coordinates[1]) {
+            this.$emit("update:sensor_position_latitude", sensorData.geometry.coordinates[1]);
+          }
           this.latitude_value = sensorData.geometry.coordinates[1];
         }
         if (sensorData.geometry.coordinates[0] !== null) {
           if (this.longitude_value != sensorData.geometry.coordinates[0]) {
             this.$emit("update:sensor_rotation_longitude", sensorData.geometry.coordinates[0]);
+            this.$emit("update:sensor_position_longitude", sensorData.geometry.coordinates[0]);
           }
           this.longitude_value = sensorData.geometry.coordinates[0];
         }

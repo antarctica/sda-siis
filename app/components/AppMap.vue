@@ -59,6 +59,33 @@
       ></vl-interaction-select>
       <vl-graticule :show-labels="false" v-if="show_graticule"></vl-graticule>
 
+      <template v-if="show_ship_position">
+        <vl-layer-vector>
+          <vl-source-vector>
+            <vl-feature>
+              <vl-geom-point :coordinates="ship_position_projected"></vl-geom-point>
+              <vl-style-box>
+                <vl-style-circle :radius="5">
+                  <vl-style-fill color="#B10E1E"></vl-style-fill>
+                  <vl-style-stroke color="#FFFFFF"></vl-style-stroke>
+                </vl-style-circle>
+              </vl-style-box>
+            </vl-feature>
+          </vl-source-vector>
+        </vl-layer-vector>
+      </template>
+      <template v-if="show_ship_track">
+        <vl-layer-tile>
+          <vl-source-tile-wms
+            ref='ship-track'
+            :url="`${this.ogc_endpoint}/geoserver/siis/wms`"
+            layers='siis:vw_track_line'
+            :style="`siis:vessel_track_line.${this.style_modifier}`"
+            attributions='British Antarctic Survey'
+          ></vl-source-tile-wms>
+        </vl-layer-tile>
+      </template>
+
       <template v-if="show_measure_tool">
         <vl-layer-vector>
           <vl-source-vector
@@ -190,6 +217,10 @@ export default {
     'ogc_endpoint',
     'show_graticule',
     'show_measure_tool',
+    'show_ship_position',
+    'show_ship_track',
+    'ship_position_lat',
+    'ship_position_lon',
     'drawn_feature_reset_count',
   ],
 
@@ -253,6 +284,12 @@ export default {
         return this.drawn_features[0];
       }
       return {};
+    },
+    ship_position_projected: function () {
+      if (this.ship_position_lat !== 0 && this.ship_position_lon !== 0) {
+        return transform([this.ship_position_lon, this.ship_position_lat], 'EPSG:4326', this.crs);
+      }
+      return [0,0];
     },
   },
 

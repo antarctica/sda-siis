@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Support for showing ship track and ship position
+  [#163](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/163)
 * [App] Support for toggle buttons and toggle button groups
   [#165](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/165)
 * [App] Very initial route drawing and measuring support

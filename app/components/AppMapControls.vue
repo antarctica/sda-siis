@@ -39,6 +39,10 @@
       <div class="measure-tool-feature-tool-feature-length" :class="measure_tool_feature_length == 0 ? 'disabled' : null">{{ measure_tool_feature_length }}m</div>
       <button v-on:click="resetDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">R</button>
     </fieldset>
+    <fieldset>
+      <button v-on:click="show_ship_position = !show_ship_position" :class="show_ship_position ? 'activated': null">Sp</button>
+      <button v-on:click="show_ship_track = !show_ship_track" :class="show_ship_track ? 'activated': null">St</button>
+    </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>
       <p>Day/Night mode: <output>{{ day_night_mode }}</output></p>
@@ -68,6 +72,8 @@ export default {
       'map_centre_4326': [0,0],
       'show_graticule': true,
       'show_measure_tool': false,
+      'show_ship_position': false,
+      'show_ship_track': false,
     }
   },
 
@@ -134,6 +140,12 @@ export default {
     },
     show_measure_tool: function () {
       this.$emit('update:show_measure_tool', this.show_measure_tool);
+    },
+    show_ship_position: function () {
+      this.$emit('update:show_ship_position', this.show_ship_position);
+    },
+    show_ship_track: function () {
+      this.$emit('update:show_ship_track', this.show_ship_track);
     },
   },
 

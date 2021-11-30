@@ -18,6 +18,10 @@
         :ogc_endpoint="ogc_endpoint"
         :show_graticule="show_graticule"
         :show_measure_tool="show_measure_tool"
+        :show_ship_position="show_ship_position"
+        :show_ship_track="show_ship_track"
+        :ship_position_lat="ship_position_lat"
+        :ship_position_lon="ship_position_lon"
         :drawn_feature_reset_count="measure_tool_feature_reset_count"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
@@ -54,6 +58,8 @@
         v-on:update:show_graticule="whenShowGraticuleChange"
         v-on:update:show_measure_tool="whenShowMeasureToolChange"
         v-on:update:reset_drawn_feature="whenDrawnFeatureReset"
+        v-on:update:show_ship_position="whenShowShipPositionChange"
+        v-on:update:show_ship_track="whenShowShipTrackChange"
       ></app-map-controls>
       <app-granule-metadata
         :display_ui="display_ui"
@@ -64,6 +70,8 @@
         :display_ui="display_ui"
         :debug_mode="debug_mode"
         :ogc_endpoint="ogc_endpoint"
+        v-on:update:sensor_position_latitude="whenShipPositionLatitudeChange"
+        v-on:update:sensor_position_longitude="whenShipPositionLongitudeChange"
         v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
         v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
         v-on:update:sensor_position="whenSensorPositionChange"
@@ -109,6 +117,10 @@ export default Vue.extend({
       map_centre: [0,0],
       show_graticule: true,
       show_measure_tool: false,
+      show_ship_position: false,
+      show_ship_track: false,
+      ship_position_lat: 0,
+      ship_position_lon: 0,
       measure_tool_feature_count: 0,
       measure_tool_feature_length: 0,
       measure_tool_feature_reset_count: 0,
@@ -202,6 +214,18 @@ export default Vue.extend({
     },
     whenShowMeasureToolChange: function ($event) {
       this.show_measure_tool = $event;
+    },
+    whenShowShipPositionChange: function ($event) {
+      this.show_ship_position = $event;
+    },
+    whenShowShipTrackChange: function ($event) {
+      this.show_ship_track = $event;
+    },
+    whenShipPositionLatitudeChange: function ($event) {
+      this.ship_position_lat = $event;
+    },
+    whenShipPositionLongitudeChange: function ($event) {
+      this.ship_position_lon = $event;
     },
     whenDrawnFeatureChanges: function ($event) {
       if (Object.keys($event).length === 0) {
