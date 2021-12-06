@@ -1,6 +1,7 @@
 :root {
-  --color: #333;
-  --bg: #eee;
+  --color: #333333;
+  --bg: #eeeeee;
+  --panel-bg: #eeeeeede;
 }
 
 .hidden {
@@ -8,8 +9,9 @@
 }
 
 .dark-mode {
-  --color: #eee;
-  --bg: #333;
+  --color: #eeeeee;
+  --bg: #333333;
+  --panel-bg: #333333b8;
 }
 
 body {
@@ -29,7 +31,7 @@ code {
 }
 
 .app-panel {
-  background-color: var(--bg);
+  background-color: var(--panel-bg);
 }
 
 .status-indicator {
