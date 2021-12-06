@@ -284,11 +284,8 @@ $ docker-compose down
 You will need access to the [BAS GitLab](https://gitlab.data.bas.ac.uk) instance to clone the project Git repository.
 
 You will need access to the BAS Private Docker Registry (provided by the BAS GitLab instance) to pull containers for
-this project.
-
-You will need access credentials for the [BAS AWS](https://gitlab.data.bas.ac.uk/WSF/bas-aws) account to download the
-product samples. Specifically you will need IAM credentials exposed as environment variables (`AWS_ACCESS_KEY_ID`,
-`AWS_SECRET_ACCESS_KEY`).
+this project, see the [BAS GitLab README](https://gitlab.data.bas.ac.uk/WSF/bas-gitlab#docker-registry) for more
+information.
 
 [1]
 
