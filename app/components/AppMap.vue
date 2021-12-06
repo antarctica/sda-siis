@@ -147,6 +147,7 @@ import {register} from 'ol/proj/proj4';
 import {createStringXY} from 'ol/coordinate';
 import Projection from 'ol/proj/Projection';
 import {getLength} from 'ol/sphere';
+import GeoJSON from 'ol/format/GeoJSON';
 import VueLayers from 'vuelayers';
 import {createStyle} from 'vuelayers/dist/ol-ext'
 
@@ -222,6 +223,7 @@ export default {
     'ship_position_lat',
     'ship_position_lon',
     'drawn_feature_reset_count',
+    'measure_tool_feature_export_count',
   ],
 
   computed: {
@@ -346,6 +348,11 @@ export default {
       // this is a bit of a hack - each time the reset button is clicked, this variable is incremented, which is
       // registered in this method and used as a signal to reset the drawn features - i.e. the value itself is ignored.
       this.resetDrawnFeatures();
+    },
+    measure_tool_feature_export_count () {
+      // this is a bit of a hack - each time the export button is clicked, this variable is incremented, which is
+      // registered in this method and used as a signal to export the drawn feature - i.e. the value itself is ignored.
+      this.exportDrawnFeature();
     },
   },
 
@@ -550,6 +557,18 @@ export default {
         const feature = this.$refs.AppMapDrawingSource.$source.getFeatures()[0];
         const feature_geom = feature.getGeometry();
         return getLength(feature_geom);
+      }
+    },
+    exportDrawnFeature: function() {
+      if (Object.keys(this.drawn_feature).length === 0) {
+        return '';
+      } else {
+        const feature = this.$refs.AppMapDrawingSource.$source.getFeatures()[0];
+        const exporter = new GeoJSON();
+        this.$emit("update:drawn_feature_export", exporter.writeFeature(
+          feature,
+          {dataProjection: 'EPSG:4326', featureProjection: this.crs}
+        ));
       }
     },
   },

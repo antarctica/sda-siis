@@ -23,10 +23,12 @@
         :ship_position_lat="ship_position_lat"
         :ship_position_lon="ship_position_lon"
         :drawn_feature_reset_count="measure_tool_feature_reset_count"
+        :measure_tool_feature_export_count="measure_tool_feature_export_count"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature="whenDrawnFeatureChanges"
         v-on:update:drawn_feature_length="whenDrawnFeatureLengthChanges"
+        v-on:update:drawn_feature_export="whenDrawnFeatureExportChanges"
       ></app-map>
       <app-product-switcher
         :display_ui="display_ui"
@@ -47,6 +49,7 @@
         :sensor_position="sensor_position"
         :measure_tool_feature_count="measure_tool_feature_count"
         :measure_tool_feature_length="measure_tool_feature_length"
+        :measure_tool_feature_geojson="measure_tool_feature_geojson"
         v-on:update:crs="whenCRSChange"
         v-on:update:display_ui="whenDisplayUIChange"
         v-on:update:debug_mode="whenDebugModeChange"
@@ -58,6 +61,7 @@
         v-on:update:show_graticule="whenShowGraticuleChange"
         v-on:update:show_measure_tool="whenShowMeasureToolChange"
         v-on:update:reset_drawn_feature="whenDrawnFeatureReset"
+        v-on:update:export_drawn_feature="whenDrawnFeatureExport"
         v-on:update:show_ship_position="whenShowShipPositionChange"
         v-on:update:show_ship_track="whenShowShipTrackChange"
       ></app-map-controls>
@@ -124,6 +128,8 @@ export default Vue.extend({
       measure_tool_feature_count: 0,
       measure_tool_feature_length: 0,
       measure_tool_feature_reset_count: 0,
+      measure_tool_feature_export_count: 0,
+      measure_tool_feature_geojson: '',
     }
   },
 
@@ -239,6 +245,12 @@ export default Vue.extend({
     },
     whenDrawnFeatureReset: function ($event) {
       this.measure_tool_feature_reset_count += 1;
+    },
+    whenDrawnFeatureExport: function ($event) {
+      this.measure_tool_feature_export_count += 1;
+    },
+    whenDrawnFeatureExportChanges: function ($event) {
+      this.measure_tool_feature_geojson = $event;
     },
   }
 });
