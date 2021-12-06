@@ -38,6 +38,7 @@
       <div class="measure-tool-feature-tool-feature-count" :class="measure_tool_feature_count == 0 ? 'disabled' : null">{{ measure_tool_feature_count }}</div>
       <div class="measure-tool-feature-tool-feature-length" :class="measure_tool_feature_length == 0 ? 'disabled' : null">{{ measure_tool_feature_length }}m</div>
       <button v-on:click="resetDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">R</button>
+      <button v-on:click="exportDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">E</button>
     </fieldset>
     <fieldset>
       <button v-on:click="show_ship_position = !show_ship_position" :class="show_ship_position ? 'activated': null">Sp</button>
@@ -79,6 +80,7 @@ export default {
 
   props: [
     'debug_mode',
+    'api_endpoint',
     'initial_crs',
     'initial_day_night_mode',
     'rotation_heading',
@@ -86,6 +88,7 @@ export default {
     'sensor_position',
     'measure_tool_feature_count',
     'measure_tool_feature_length',
+    'measure_tool_feature_geojson',
   ],
 
   computed: {
@@ -146,6 +149,9 @@ export default {
     },
     show_ship_track: function () {
       this.$emit('update:show_ship_track', this.show_ship_track);
+    },
+    measure_tool_feature_geojson: function () {
+      this.exportDrawnFeatureGeoJSON();
     },
   },
 
@@ -208,6 +214,14 @@ export default {
     },
     resetDrawnFeature: function() {
       this.$emit('update:reset_drawn_feature');
+    },
+    exportDrawnFeature: function() {
+      this.$emit('update:export_drawn_feature');
+    },
+    prepareDrawnFeatureGeoJSON: function(feature) {
+      return feature;
+    },
+    exportDrawnFeatureGeoJSON: function() {
     },
   },
 
