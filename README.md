@@ -4,7 +4,7 @@ Sea Ice Information System (SIIS) for the Sir David Attenborough (SDA).
 
 ## Status
 
-This application is an early alpha. Significant refactoring is ongoing and so should be considered unstable.
+This application is a mature alpha being prepared for its first test deployment.
 
 ## Overview
 
@@ -24,6 +24,18 @@ SIIS is comprised of a number of components, represented by top-level directorie
 * **App** [`app/`](./app/): Frontend application used by users to visualise sea ice information
 * **GeoServer** [`geoserver/`](./api/): Used to provide OGC services for sea-ice, and more general, data products
 * **PostGIS**: Persists settings and information in the App/API and provides storage for vector data products
+
+### Standards support
+
+This application supports exporting waypoints/routes to a file compliant with the
+[IEC 61774:2015](https://webstore.iec.ch/publication/23128) standard (RTZ).
+
+RTZ versions supported by this application: **1.0**
+
+See the [BAS Metadata Library](https://github.com/antarctica/metadata-library#coverage-for-iec-61174) documentation for
+RTZ parameters/options supported by this application.
+
+No RTZ extensions are supported by this application.
 
 ## Usage
 
