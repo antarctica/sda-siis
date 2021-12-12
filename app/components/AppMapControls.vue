@@ -3,46 +3,135 @@
     <fieldset id="app-map-control-zoom"></fieldset>
     <fieldset id="app-map-control-fullscreen"></fieldset>
     <fieldset>
-      <button v-on:click="display_ui = !display_ui" :class="!display_ui ? 'activated': null">O</button>
+      <button
+        v-on:click="display_ui = !display_ui"
+        :class="!display_ui ? 'activated': null"
+        title="Hide control panels"
+      >O
+      </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="updateMapCentre">C</button>
-      <button v-on:click="follow_sensor_position = !follow_sensor_position" :class="follow_sensor_position ? 'activated': null">F</button>
+      <button v-on:click="updateMapCentre" title="Pan to vessel position">C</button>
+      <button
+        v-on:click="follow_sensor_position = !follow_sensor_position"
+        :class="follow_sensor_position ? 'activated': null"
+        title="Follow vessel position"
+        >F
+        </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="rotation_source = 'reset'" :class="rotation_source === 'reset' ? 'activated': null">Pr</button>
-      <button v-on:click="rotation_source = 'heading'" :class="rotation_source === 'heading' ? 'activated': null">Hd</button>
+      <button
+        v-on:click="rotation_source = 'reset'"
+        :class="rotation_source === 'reset' ? 'activated': null"
+        title="Default map rotation"
+      >Pr
+      </button>
+      <button
+        v-on:click="rotation_source = 'heading'"
+        :class="rotation_source === 'heading' ? 'activated': null"
+        title="Vessel heading up rotation"
+      >Hd
+      </button>
       <button
         v-on:click="rotation_source = 'longitude'"
         :disabled="crs == 'EPSG:3857' ? 'disabled' : null"
         :class="rotation_source === 'longitude' ? 'activated': null"
-      >Ln</button>
+        title="Vessel longitude up rotation"
+      >Ln
+      </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="crs = 'EPSG:3413'" :class="crs === 'EPSG:3413' ? 'activated': null">Ar</button>
-      <button v-on:click="crs = 'EPSG:3031'" :class="crs === 'EPSG:3031' ? 'activated': null">An</button>
-      <button v-on:click="crs = 'EPSG:3857'" :class="crs === 'EPSG:3857' ? 'activated': null">Mc</button>
+      <button
+        v-on:click="crs = 'EPSG:3413'"
+        :class="crs === 'EPSG:3413' ? 'activated': null"
+        title="Arctic Polar Stereographic"
+      >Ar
+      </button>
+      <button
+        v-on:click="crs = 'EPSG:3031'"
+        :class="crs === 'EPSG:3031' ? 'activated': null"
+        title="Antarctic Polar Stereographic"
+      >An
+      </button>
+      <button
+        v-on:click="crs = 'EPSG:3857'"
+        :class="crs === 'EPSG:3857' ? 'activated': null"
+        title="Mercator Projection"
+      >Mc
+      </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="changePostionFormat" :class="position_format === 'xy' ? 'activated': null">DD</button>
-      <button v-on:click="changeScaleBarUnit" :class="scale_bar_unit === 'metric' ? 'activated': null">NM</button>
+      <button
+        v-on:click="changePostionFormat"
+        :class="position_format === 'xy' ? 'activated': null"
+        title="Mouse cursor position: Lat/Lon - Projection"
+      >DD
+      </button>
+      <button
+        v-on:click="changeScaleBarUnit"
+        :class="scale_bar_unit === 'metric' ? 'activated': null"
+        title="Mouse cursor position: Metric - Nautical distances"
+      >NM
+      </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="changeDayNightMode" :class="day_night_mode === 'night' ? 'activated': null">D</button>
+      <button
+        v-on:click="changeDayNightMode"
+        :class="day_night_mode === 'night' ? 'activated': null"
+        title="Dark/Night mode"
+        >D</button>
     </fieldset>
     <fieldset>
-      <button v-on:click="show_graticule = !show_graticule" :class="show_graticule ? 'activated': null">G</button>
+      <button
+        v-on:click="show_graticule = !show_graticule"
+        :class="show_graticule ? 'activated': null"
+        title="Graticule on/off"
+      >G
+      </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="show_measure_tool = !show_measure_tool" :class="show_measure_tool ? 'activated': null">M</button>
-      <div class="measure-tool-feature-tool-feature-count" :class="measure_tool_feature_count == 0 ? 'disabled' : null">{{ measure_tool_feature_count }}</div>
-      <div class="measure-tool-feature-tool-feature-length" :class="measure_tool_feature_length == 0 ? 'disabled' : null">{{ measure_tool_feature_length }}m</div>
-      <button v-on:click="resetDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">R</button>
-      <button v-on:click="exportDrawnFeature" :disabled="measure_tool_feature_count == 0 || measure_tool_feature_count >= this.measure_tool_max_features ? 'disabled' : null">E</button>
+      <button
+        v-on:click="show_measure_tool = !show_measure_tool"
+        :class="show_measure_tool ? 'activated': null"
+        title="Measure route"
+      >M
+      </button>
+      <div
+        class="measure-tool-feature-tool-feature-count"
+        :class="measure_tool_feature_count == 0 ? 'disabled' : null"
+        title="Measured route - number of waypoints"
+      >{{ measure_tool_feature_count }}
+      </div>
+      <div
+        class="measure-tool-feature-tool-feature-length"
+        :class="measure_tool_feature_length == 0 ? 'disabled' : null"
+        title="Measured route - length (metres)"
+      >{{ measure_tool_feature_length }}m
+      </div>
+      <button
+        v-on:click="resetDrawnFeature"
+        :disabled="measure_tool_feature_count == 0 ? 'disabled' : null"
+        title="Measured route - reset"
+      >R
+      </button>
+      <button
+        v-on:click="exportDrawnFeature"
+        :disabled="measure_tool_feature_count == 0 || measure_tool_feature_count >= this.measure_tool_max_features ? 'disabled' : null"
+        title="Measured route - export to ECDIS"
+      >E
+      </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="show_ship_position = !show_ship_position" :class="show_ship_position ? 'activated': null">Sp</button>
-      <button v-on:click="show_ship_track = !show_ship_track" :class="show_ship_track ? 'activated': null">St</button>
+      <button
+        v-on:click="show_ship_position = !show_ship_position" :class="show_ship_position ? 'activated': null"
+        title="Show ship position"
+      >Sp
+      </button>
+      <button
+        v-on:click="show_ship_track = !show_ship_track" :class="show_ship_track ? 'activated': null"
+        title="Show ship track"
+      >St
+      </button>
     </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>

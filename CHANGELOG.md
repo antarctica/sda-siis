@@ -16,8 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* [App] Initial support for drawn route export
-  [#164](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/178)
+* [App] UI control titles
+  [#179](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/179)
+* [App, API] Initial support for drawn route export
+  [#164](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/164)
 * [App] Initial support for UI panel backgrounds
   [#178](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/178)
 * [App] Support for showing ship track and ship position
