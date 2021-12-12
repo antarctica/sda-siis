@@ -24,6 +24,7 @@
         :ship_position_lon="ship_position_lon"
         :drawn_feature_reset_count="measure_tool_feature_reset_count"
         :measure_tool_feature_export_count="measure_tool_feature_export_count"
+        :measure_tool_max_features="measure_tool_max_features"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature="whenDrawnFeatureChanges"
@@ -42,6 +43,7 @@
       ></app-product-switcher>
       <app-map-controls
         initial_day_night_mode="day"
+        :api_endpoint="api_endpoint"
         :initial_crs="control_crs"
         :debug_mode="debug_mode"
         :rotation_heading="rotation_heading"
@@ -50,6 +52,7 @@
         :measure_tool_feature_count="measure_tool_feature_count"
         :measure_tool_feature_length="measure_tool_feature_length"
         :measure_tool_feature_geojson="measure_tool_feature_geojson"
+        :measure_tool_max_features="measure_tool_max_features"
         v-on:update:crs="whenCRSChange"
         v-on:update:display_ui="whenDisplayUIChange"
         v-on:update:debug_mode="whenDebugModeChange"
@@ -130,6 +133,7 @@ export default Vue.extend({
       measure_tool_feature_reset_count: 0,
       measure_tool_feature_export_count: 0,
       measure_tool_feature_geojson: '',
+      measure_tool_max_features: 8300,
     }
   },
 

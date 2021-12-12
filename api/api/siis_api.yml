@@ -273,6 +273,61 @@ paths:
             schema:
               $ref: "#/components/schemas/kv"
 
+  /routes/convert:
+    post:
+      summary: Convert a route between formats for use in external systems
+      operationId: route.convert
+      tags:
+        - Routes
+      description: Converts a route from a source format, such as GeoJSON to a destination format, such as an RTZ.
+      parameters:
+        -
+          name: accept
+          in: header
+          description: Accept header - used to specify the desired/destination data format (i.e. what to convert to)
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'application/geo+json'
+              - 'application/rtz'
+              - 'application/rtzp'
+        -
+          name: content-type
+          in: header
+          description: Content Type header - used to specify the source data format (i.e. what to convert from)
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'application/geo+json'
+              - 'application/rtz'
+              - 'application/rtzp'
+      requestBody:
+        description: Source input
+        content:
+          'application/geo+json':
+            schema: {}
+          'application/rtz':
+            schema: {}
+          'application/rtzp':
+            schema: {}
+        "required": true
+      responses:
+        '200':
+          description: Successfully converted route
+          content:
+            'application/geo+json':
+              schema:
+                type: object
+            'application/rtz':
+              schema:
+                type: string
+            'application/rtzp':
+              schema:
+                type: string
+                format: binary
+
 components:
   schemas:
 

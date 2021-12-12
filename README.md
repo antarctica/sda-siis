@@ -25,6 +25,18 @@ SIIS is comprised of a number of components, represented by top-level directorie
 * **GeoServer** [`geoserver/`](./api/): Used to provide OGC services for sea-ice, and more general, data products
 * **PostGIS**: Persists settings and information in the App/API and provides storage for vector data products
 
+### Standards support
+
+This application supports exporting waypoints/routes to a file compliant with the
+[IEC 61774:2015](https://webstore.iec.ch/publication/23128) standard (RTZ).
+
+RTZ versions supported by this application: **1.0**
+
+See the [BAS Metadata Library](https://github.com/antarctica/metadata-library#coverage-for-iec-61174) documentation for
+RTZ parameters/options supported by this application.
+
+No RTZ extensions are supported by this application.
+
 ## Usage
 
 * [Frontend application (Internal, BAS network required)](http://10.70.1.145:32004/)

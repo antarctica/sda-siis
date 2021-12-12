@@ -224,6 +224,7 @@ export default {
     'ship_position_lon',
     'drawn_feature_reset_count',
     'measure_tool_feature_export_count',
+    'measure_tool_max_features'
   ],
 
   computed: {
@@ -343,6 +344,11 @@ export default {
     drawn_feature () {
       this.$emit("update:drawn_feature", this.drawn_feature);
       this.$emit("update:drawn_feature_length", this.calculateDrawnFeatureLength());
+
+      // emit warning to user if feature count is nearly 8300, meaning it might produce a file over 1MB when exported
+      if (this.drawn_feature.geometry.coordinates.length >= this.measure_tool_max_features) {
+        alert(`WARNING: Route length is over limit for RTZ export (${this.measure_tool_max_features}) - export disabled.`)
+      }
     },
     drawn_feature_reset_count () {
       // this is a bit of a hack - each time the reset button is clicked, this variable is incremented, which is

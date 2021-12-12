@@ -5,3 +5,4 @@ flask-marshmallow==0.13.0
 Flask-SQLAlchemy==2.1
 marshmallow-sqlalchemy==0.23.1
 postgres==3.0.0
+bas_metadata_library==0.7.1

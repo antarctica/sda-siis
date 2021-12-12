@@ -38,7 +38,7 @@
       <div class="measure-tool-feature-tool-feature-count" :class="measure_tool_feature_count == 0 ? 'disabled' : null">{{ measure_tool_feature_count }}</div>
       <div class="measure-tool-feature-tool-feature-length" :class="measure_tool_feature_length == 0 ? 'disabled' : null">{{ measure_tool_feature_length }}m</div>
       <button v-on:click="resetDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">R</button>
-      <button v-on:click="exportDrawnFeature" :disabled="measure_tool_feature_count == 0 ? 'disabled' : null">E</button>
+      <button v-on:click="exportDrawnFeature" :disabled="measure_tool_feature_count == 0 || measure_tool_feature_count >= this.measure_tool_max_features ? 'disabled' : null">E</button>
     </fieldset>
     <fieldset>
       <button v-on:click="show_ship_position = !show_ship_position" :class="show_ship_position ? 'activated': null">Sp</button>
@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -89,6 +91,7 @@ export default {
     'measure_tool_feature_count',
     'measure_tool_feature_length',
     'measure_tool_feature_geojson',
+    'measure_tool_max_features'
   ],
 
   computed: {
@@ -219,9 +222,42 @@ export default {
       this.$emit('update:export_drawn_feature');
     },
     prepareDrawnFeatureGeoJSON: function(feature) {
+      const name_free_text_regex = /^[a-zA-Z0-9-_]+$/;
+      let name_free_text = prompt("Route name (no spaces or special characters, except '-' or '_')");
+      let timestamp = Math.floor(Date.now() / 1000);
+
+      if (!name_free_text_regex.test(name_free_text)) {
+        return false;
+    }
+
+      feature.properties = {};
+      feature.properties.route_name = `siis-${name_free_text}-${timestamp}`;
       return feature;
     },
     exportDrawnFeatureGeoJSON: function() {
+      let data = this.prepareDrawnFeatureGeoJSON(JSON.parse(this.measure_tool_feature_geojson))
+      if (data === false) {
+        alert('Route name is invalid - aborting.');
+        return false;
+      }
+
+      axios({
+        url: this.api_endpoint + '/routes/convert',
+        method: 'POST',
+        responseType: 'blob',
+        headers: {
+          'content-type': 'application/geo+json',
+          'accept': 'application/rtzp',
+        },
+        data: data,
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'siis-route.rtzp');
+        document.body.appendChild(link);
+        link.click();
+      });
     },
   },
 
