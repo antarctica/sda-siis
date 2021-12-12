@@ -4,7 +4,7 @@ Sea Ice Information System (SIIS) for the Sir David Attenborough (SDA).
 
 ## Status
 
-This application is an early alpha. Significant refactoring is ongoing and so should be considered unstable.
+This application is a mature alpha being prepared for its first test deployment.
 
 ## Overview
 
