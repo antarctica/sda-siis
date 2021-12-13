@@ -372,7 +372,7 @@ export default {
           'endpoint': product_granule.ogc_protocol_url,
           'name': product_granule.ogc_layer_name,
           'format': product_granule.ogc_format,
-          'style': `${product_granule.ogc_style}-${this.style_modifier}`,
+          'style': `${product_granule.ogc_style}.${this.style_modifier}`,
           'opacity': product_granule.opacity,
           'attribution': product_granule.attribution,
           'layer_type': "default"
