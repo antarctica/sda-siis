@@ -49,6 +49,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Style selection for WMS/WMTS layers
+  [#182](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/182)
 * [App] Small tweaks/fixes
   [#177](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/177)
 * [Infra] Correcting instructions for syncing from project directory to local development data directories
