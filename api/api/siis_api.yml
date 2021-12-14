@@ -162,6 +162,28 @@ paths:
               schema:
                 $ref: "#/components/schemas/granule"
 
+  /granules/{uuid}/request_highres:
+    post:
+      summary: Issue highres product download request to shore
+      operationId: granule.request_highres
+      tags:
+        - Granules
+      description: Issue highres product download request to shore
+      parameters:
+        - name: uuid
+          in: path
+          description: Granule UUID
+          schema:
+            type: string
+          required: true
+      responses:
+        '202':
+          description: Accepted
+        '404':
+          description: Granule not found for UUID
+        '405':
+          description: Method not supported by product
+
   /kvs:
     get:
       summary: Read the entire set of Key/Value pairs, sorted by key     
