@@ -86,6 +86,19 @@
         </vl-layer-tile>
       </template>
 
+      <template v-if="reference_feature_coordinates_projected.length > 0">
+        <vl-layer-vector ref="reference-layer">
+          <vl-source-vector>
+            <vl-feature>
+              <vl-geom-line-string :coordinates="reference_feature_coordinates_projected"></vl-geom-line-string>
+              <vl-style-box>
+                <vl-style-stroke color="#F47738" :width="2"></vl-style-stroke>
+              </vl-style-box>
+            </vl-feature>
+          </vl-source-vector>
+        </vl-layer-vector>
+      </template>
+
       <template v-if="show_measure_tool">
         <vl-layer-vector>
           <vl-source-vector
@@ -224,7 +237,8 @@ export default {
     'ship_position_lon',
     'drawn_feature_reset_count',
     'measure_tool_feature_export_count',
-    'measure_tool_max_features'
+    'measure_tool_max_features',
+    'reference_feature',
   ],
 
   computed: {
@@ -293,6 +307,17 @@ export default {
         return transform([this.ship_position_lon, this.ship_position_lat], 'EPSG:4326', this.crs);
       }
       return [0,0];
+    },
+    reference_feature_coordinates_projected: function () {
+      let coordinates = [];
+      let _crs = this.crs;
+      if (Array.isArray(this.reference_feature?.geometry?.coordinates)) {
+        this.reference_feature.geometry.coordinates.forEach(function(coordinate) {
+          coordinates.push(transform(coordinate, 'EPSG:4326', _crs));
+        });
+      }
+
+      return coordinates;
     },
   },
 
