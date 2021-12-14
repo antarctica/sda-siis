@@ -109,12 +109,6 @@
       >{{ measure_tool_feature_length }}m
       </div>
       <button
-        v-on:click="resetDrawnFeature"
-        :disabled="measure_tool_feature_count == 0 ? 'disabled' : null"
-        title="Measured route - reset"
-      >R
-      </button>
-      <button
         v-on:click="exportDrawnFeature"
         :disabled="measure_tool_feature_count == 0 || measure_tool_feature_count >= this.measure_tool_max_features ? 'disabled' : null"
         title="Measured route - export to ECDIS"
@@ -122,6 +116,18 @@
       </button>
       <input ref="referenceFeatureFileUpload" @change="handleImportReferenceFeature" type="file" hidden>
       <button title="Import route from ECDIS" v-on:click="importReferenceFeature">I</button>
+      <button
+        v-on:click="resetDrawnFeature"
+        :disabled="measure_tool_feature_count == 0 ? 'disabled' : null"
+        title="Clear measured route"
+      >Rm
+      </button>
+      <button
+        v-on:click="resetReferenceFeature"
+        :disabled="reference_feature_count == 0 ? 'disabled' : null"
+        title="Clear imported/reference route"
+      >Ri
+      </button>
     </fieldset>
     <fieldset>
       <button
@@ -168,6 +174,7 @@ export default {
       'show_measure_tool': false,
       'show_ship_position': false,
       'show_ship_track': false,
+      'reference_feature_count': 0,
     }
   },
 
@@ -194,7 +201,7 @@ export default {
     },
     rotation_radians: function() {
       return this.rotation_degrees * Math.PI / 180;
-    }
+    },
   },
 
   watch: {
@@ -367,11 +374,26 @@ export default {
         data: event.target.files[0]
       })
       .then((response) => {
+        this.determineReferenceFeatureCount(response.data);
         this.$emit('update:import_reference_feature', response.data);
       })
       .catch(function(){
         alert('Failed to import route.');
       });
+    },
+    determineReferenceFeatureCount: function(feature) {
+      let feature_vertex_count = 0;
+
+      if (Array.isArray(feature?.geometry?.coordinates)) {
+        feature_vertex_count = feature.geometry.coordinates.length;
+      }
+
+      this.reference_feature_count = feature_vertex_count;
+    },
+    resetReferenceFeature: function() {
+      let feature = {};
+      this.determineReferenceFeatureCount(feature);
+      this.$emit('update:import_reference_feature', feature);
     },
   },
 
