@@ -25,6 +25,7 @@
         :drawn_feature_reset_count="measure_tool_feature_reset_count"
         :measure_tool_feature_export_count="measure_tool_feature_export_count"
         :measure_tool_max_features="measure_tool_max_features"
+        :reference_feature="reference_feature"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature="whenDrawnFeatureChanges"
@@ -67,6 +68,7 @@
         v-on:update:export_drawn_feature="whenDrawnFeatureExport"
         v-on:update:show_ship_position="whenShowShipPositionChange"
         v-on:update:show_ship_track="whenShowShipTrackChange"
+        v-on:update:import_reference_feature="whenImportReferenceFeatureChange"
       ></app-map-controls>
       <app-granule-metadata
         :display_ui="display_ui"
@@ -134,6 +136,7 @@ export default Vue.extend({
       measure_tool_feature_export_count: 0,
       measure_tool_feature_geojson: '',
       measure_tool_max_features: 8300,
+      reference_feature: {},
     }
   },
 
@@ -255,6 +258,9 @@ export default Vue.extend({
     },
     whenDrawnFeatureExportChanges: function ($event) {
       this.measure_tool_feature_geojson = $event;
+    },
+    whenImportReferenceFeatureChange: function ($event) {
+      this.reference_feature = $event;
     },
   }
 });

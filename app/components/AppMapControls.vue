@@ -120,6 +120,8 @@
         title="Measured route - export to ECDIS"
       >E
       </button>
+      <input ref="referenceFeatureFileUpload" @change="handleImportReferenceFeature" type="file" hidden>
+      <button title="Import route from ECDIS" v-on:click="importReferenceFeature">I</button>
     </fieldset>
     <fieldset>
       <button
@@ -346,6 +348,29 @@ export default {
         link.setAttribute('download', 'siis-route.rtzp');
         document.body.appendChild(link);
         link.click();
+      })
+      .catch(function(){
+        alert('Failed to export route.');
+      });
+    },
+    importReferenceFeature: function() {
+      this.$refs.referenceFeatureFileUpload.click();
+    },
+    handleImportReferenceFeature: function(event) {
+      axios({
+        url: this.api_endpoint + '/routes/convert',
+        method: 'POST',
+        headers: {
+          'content-type': 'application/rtzp',
+          'accept': 'application/geo+json',
+        },
+        data: event.target.files[0]
+      })
+      .then((response) => {
+        this.$emit('update:import_reference_feature', response.data);
+      })
+      .catch(function(){
+        alert('Failed to import route.');
       });
     },
   },
