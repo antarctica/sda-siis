@@ -57,7 +57,7 @@
         :features.sync="selected_features"
         :condition="select_condition"
       ></vl-interaction-select>
-      <vl-graticule :show-labels="false" v-if="show_graticule"></vl-graticule>
+      <vl-layer-graticule :show-labels="false" v-if="show_graticule"></vl-layer-graticule>
 
       <template v-if="show_ship_position">
         <vl-layer-vector>

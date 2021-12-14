@@ -104,7 +104,7 @@ an out of sync directory.
 authoritative, SIIS data directory.
 
 ```shell
-$ docker-compose run rsync
+$ docker compose run rsync
 $ cd /data
 
 # to preview changes
