@@ -293,7 +293,7 @@ export default {
         });
         return granules;
       } catch (error) {
-        console.error('Granules could not be retrieved');
+        alert('Granules could not be retrieved');
         console.error(error);
       }
     },

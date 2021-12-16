@@ -88,6 +88,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Improving error reporting
+  [#186](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/186)
 * [Proj] Relicencing project under the MIT licence
   [#175](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/175)
 * [Infra] Tidying up Docker Compose configuration

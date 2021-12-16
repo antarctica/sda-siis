@@ -490,7 +490,7 @@ export default {
         // assume only one feature will be returned
         this.value_at_pixel_feature = response.data.features[0];
       } catch (error) {
-        console.error('Value at pixel (WMS test) data could not be retrieved');
+        alert('Value at pixel (WMS test) data could not be retrieved');
         console.error(error);
       }
       return {};
