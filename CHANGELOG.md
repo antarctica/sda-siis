@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Initial support for high resolution
 * [App, API] Initial support for route import
   [#181](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/181)
 * [App] UI control titles

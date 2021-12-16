@@ -48,7 +48,11 @@
     <span class="status-control status-indicator status-processing" v-else-if="status == 'processing'" title="Processing"></span>
     <span class="status-control status-indicator status-online" v-else-if="status == 'online'" title="Online"></span>
     <span class="status-control status-indicator status-outdated" v-else-if="status == 'outdated'" title="Outdated"></span>
-
+    <span class="status-control status-indicator status-hr-requested" v-else-if="status == 'hr_requested'"></span>
+    <span class="status-control status-indicator status-hr-pending" v-else-if="status == 'hr_pending'"></span>
+    <span class="status-control status-indicator status-hr-processing" v-else-if="status == 'hr_processing'"></span>
+    <span class="status-control status-indicator status-hr-online" v-else-if="status == 'hr_online'"></span>
+    <span class="status-control status-indicator" v-else :title="status">?</span>
     <span class="name-control">{{ label }}</span>
 
     <div class="debug" v-if="debug_mode">
@@ -94,7 +98,8 @@ export default {
       'selected_granule_indexes': [],
       'has_granules': false,
       'granules_selection_mode': '',
-      'supports_value_at_pixel': false
+      'supports_value_at_pixel': false,
+      'supports_high_res_granules': false,
     }
   },
 
@@ -215,6 +220,7 @@ export default {
 
       if (this.has_granules) {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
+        this.supports_high_res_granules = this.initial_product.highres_available;
         this.granules = await this.getGranules();
         if (this.granules_selection_mode === 'single') {
           this.selected_granule_indexes = [this.granules.length - 1];

@@ -555,6 +555,18 @@ export default {
       else if (feature.values_.status == 'outdated') {
         stroke_colour = '#F47738';
       }
+      else if (feature.values_.status == 'hr_requested') {
+        stroke_colour = '#B6DFDC';
+      }
+      else if (feature.values_.status == 'hr_pending') {
+        stroke_colour = '#6FC0B9';
+      }
+      else if (feature.values_.status == 'hr_processing') {
+        stroke_colour = '#0E3733';
+      }
+      else if (feature.values_.status == 'hr_online') {
+        stroke_colour = '#28A197';
+      }
 
       let style = createStyle({
         strokeColor: stroke_colour,

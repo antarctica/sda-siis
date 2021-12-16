@@ -71,6 +71,7 @@
         v-on:update:import_reference_feature="whenImportReferenceFeatureChange"
       ></app-map-controls>
       <app-granule-metadata
+        :api_endpoint="api_endpoint"
         :display_ui="display_ui"
         :selected_product_granules="selected_product_granules"
         :value_at_pixel_feature="value_at_pixel_feature"
