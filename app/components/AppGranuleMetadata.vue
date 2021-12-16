@@ -17,9 +17,24 @@
                 <template v-else-if="granule.status == 'processing'"><span class="status-indicator status-processing"></span> Processing</template>
                 <template v-else-if="granule.status == 'online'"><span class="status-indicator status-online"></span> Online</template>
                 <template v-else-if="granule.status == 'outdated'"><span class="status-indicator status-outdated"></span> Outdated</template>
+                <template v-else-if="granule.status == 'hr_requested'"><span class="status-indicator status-hr-requested"></span> HR Requested</template>
+                <template v-else-if="granule.status == 'hr_pending'"><span class="status-indicator status-hr-pending"></span> HR Pending</template>
+                <template v-else-if="granule.status == 'hr_processing'"><span class="status-indicator status-hr-processing"></span> HR Processing</template>
+                <template v-else-if="granule.status == 'hr_online'"><span class="status-indicator status-hr-online"></span> HR Online</template>
               </output>
             </li>
           </ul>
+          <template v-if="product.supports_high_res_granules">
+            <button
+              class="granule-hr-request"
+              v-on:click="requestHRGranule(granule.id)"
+              :disabled="granule.status == 'hr_requested' ||
+                         granule.status == 'hr_pending' ||
+                         granule.status == 'hr_processing' ||
+                         granule.status == 'hr_online' ? 'disabled' : null"
+            >Get High Resolution Granule
+            </button>
+          </template>
           <details>
               <summary>Full details</summary>
               <pre>{{ granule.raw }}</pre>
@@ -50,12 +65,15 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {}
   },
 
   props: [
+    'api_endpoint',
     'display_ui',
     'selected_product_granules',
     'value_at_pixel_feature'
@@ -72,6 +90,20 @@ export default {
       return this.selected_product_granules.granules;
     },
   },
+
+  methods: {
+    requestHRGranule: async function(granule_id) {
+      let request_endpoint = this.api_endpoint + `/granules/${granule_id}/request_highres`;
+
+      try {
+        const response = await axios.post(request_endpoint);
+        alert(response.statusText);
+      } catch (error) {
+        alert('Could not request high resolution granule');
+        console.error(error);
+      }
+    },
+  },
 }
 </script>
 
@@ -79,5 +111,8 @@ export default {
   .app-granule-metadata {
     grid-area: granule-metadata;
     z-index: 10;
+  }
+  .granule-hr-request {
+    margin-bottom: 16px;
   }
 </style>
