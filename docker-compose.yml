@@ -4,8 +4,11 @@ version: "2"
 services:
   rsync:
     image: instrumentisto/rsync-ssh:latest
+    working_dir: /data
     volumes:
-      - ./data/:/data/
+      - ./data/geoserver/:/data/geoserver/
+      - ./data/raw/:/data/data/raw/
+      - ./data/sql/:/data/sql/
 
   db:
     image: postgis/postgis:12-3.0-alpine
