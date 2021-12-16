@@ -71,22 +71,10 @@ In general terms:
 $ docker compose run rsync
 
 # to preview changes
-$ rsync -avzh --dry-run /data/[directory]/ [user]@bslcenb.nerc-bas.ac.uk:/data/siis/[directory]/
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --dry-run . [user]@bslcenb.nerc-bas.ac.uk:/data/siis/
 
 # to perform changes
-$ rsync -avzh --progress /data/[directory]/ [user]@bslcenb.nerc-bas.ac.uk:/data/siis/[directory]/
-```
-
-For example to upload changes in `/data/psql/` directory:
-
-```shell
-$ docker compose run rsync
-
-# preview changes (1 file to upload)
-$ rsync -avzh --dry-run /data/psql/ felnne@@bslcenb.nerc-bas.ac.uk:/data/siis/sql/
-
-# perform changes (1 file uploaded)
-$ rsync -avzh --progress /data/psql/ felnne@@bslcenb.nerc-bas.ac.uk:/data/siis/sql/
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --progress . [user]@bslcenb.nerc-bas.ac.uk:/data/siis/
 ```
 
 After making updates, ensure to communicate with other developers, currently via the
@@ -105,13 +93,12 @@ authoritative, SIIS data directory.
 
 ```shell
 $ docker compose run rsync
-$ cd /data
 
 # to preview changes
-$ rsync -avzh --dry-run --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --dry-run --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 
 # to perform changes
-$ rsync -avzh --progress --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --progress --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 ```
 
 #### Refreshing the product data directory in the integration environment
