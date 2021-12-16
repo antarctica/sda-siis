@@ -210,7 +210,7 @@ export default {
         const now = new Date();
         this.last_update = now.toISOString();
       } catch (error) {
-        console.error('Sensor data could not be retrieved');
+        alert('Sensor data could not be retrieved');
         console.error(error);
       }
     },

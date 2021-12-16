@@ -137,7 +137,7 @@ export default {
         const response = await axios.get(request_endpoint, request_config);
         this.raw_products = response.data;
       } catch (error) {
-        console.error('Products could not be retrieved');
+        alert('Products could not be retrieved');
         console.error(error);
       }
     },
