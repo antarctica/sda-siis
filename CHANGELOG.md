@@ -52,6 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [Proj] Fixing MIT licence
+  [#185](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/185)
 * [Infra] Improving rsync instructions
   [#184](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/184)
 * [App] Updated graticule component implementation (VueLayers deprecation)
