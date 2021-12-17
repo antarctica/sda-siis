@@ -287,7 +287,7 @@ export default {
             'id': granule.id,
             'label': granule.productname,
             'status': granule.status,
-            'timestamp': this.formatGranuleTimestamp(granule.timestamp),
+            'timestamp': this.formatGranuleTimestamp(granule.timestamp, granule.productcode),
             'raw': granule,
           });
         });
@@ -297,9 +297,12 @@ export default {
         console.error(error);
       }
     },
-    formatGranuleTimestamp: function(timestamp) {
-      // convert `2021-06-14T13:24:51.009896` into `2021-06-14`
+    formatGranuleTimestamp: function(timestamp, product) {
+      // convert `2021-06-14T13:24:51.009896` into `2021-06-14`, except for S1 products
       // see https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/90 for long term fix
+      if (product === 'siis.s1.s' || product === 'siis.s1.n') {
+        return `${timestamp}.0Z`;
+      }
       return timestamp.split('T')[0];
     },
     selectPreviousGranule: function() {
