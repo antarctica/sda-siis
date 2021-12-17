@@ -583,8 +583,8 @@ export default {
       }
     },
     mouse_position_custom_coordinate_format: function (coordinate) {
-      let lat = degreesToStringHDDM('NS', coordinate[0], 3);
-      let lon = degreesToStringHDDM('EW', coordinate[1], 3)
+      let lat = degreesToStringHDDM('NS', coordinate[1], 3);
+      let lon = degreesToStringHDDM('EW', coordinate[0], 3)
       return `Lat: ${lat}<br/>Lon: ${lon}`;
     },
     updateCentre: function () {
