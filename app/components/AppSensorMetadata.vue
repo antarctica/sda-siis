@@ -240,11 +240,13 @@ export default {
   .app-sensor-metadata {
     grid-area: sensor-metadata;
     z-index: 10;
+    height: fit-content;
+    padding: 5px;
   }
 
   .sensor-variable-container {
     display: grid;
-    grid-template-columns: 1fr min-content 12px;
+    grid-template-columns: 1fr min-content 6px;
     grid-template-rows: max-content 2fr;
     /* Read as:
       Row 1: [sensor-label -> | sensor status]
@@ -259,6 +261,7 @@ export default {
 
   .sensor-variable-label {
     grid-area: sensor-label;
+    font-size: 50%;
   }
   .sensor-variable-status {
     grid-area: sensor-status;
@@ -270,12 +273,13 @@ export default {
   .sensor-variable-value {
     grid-area: sensor-reading;
     text-align: right;
-    font-size: 150%;
+    font-size: 100%;
   }
 
   .sensor-time .sensor-variable-controls button {
-    width: 22px;
-    height: 22px;
+    width: 15px;
+    height: 15px;
+    font-size: 50%;
   }
 
   .debug {
@@ -285,8 +289,8 @@ export default {
 
   .status-indicator {
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 6px;
+    height: 6px;
     border-radius: 100%;
   }
 

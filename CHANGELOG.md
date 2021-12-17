@@ -88,6 +88,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Various styling fine tuning
+  [#188](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/188)
 * [App] Improving error reporting
   [#186](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/186)
 * [Proj] Relicencing project under the MIT licence

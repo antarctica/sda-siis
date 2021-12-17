@@ -22,13 +22,14 @@
         <li v-for="product in active_products" :key="product.id">{{ product.id }} - {{ product.code }}</li>
       </ul>
     </div>
-    <fieldset>
+    <fieldset class="time-filters">
       <label for="time-filter">Time Filter</label>
       <button v-on:click="time_filter = -1" :disabled="time_filter == 'disabled' ? 'disabled' : null">None</button>
       <button v-on:click="time_filter = 0" :disabled="time_filter == 'disabled' ? 'disabled' : null">Default</button>
       <button v-on:click="time_filter = 72" :disabled="time_filter == 'disabled' ? 'disabled' : null">72 H</button>
       <button v-on:click="time_filter = 48" :disabled="time_filter == 'disabled' ? 'disabled' : null">48 H</button>
       <button v-on:click="time_filter = 24" :disabled="time_filter == 'disabled' ? 'disabled' : null">24 H</button>
+      <br />
       <label for="date-filter">Date filter</label>
       <input type="date" v-model="date_filter"/>
     </fieldset>
@@ -170,11 +171,20 @@ export default {
     z-index: 10;
     display: grid;
     row-gap: 10px;
-    height: fit-content
+    height: fit-content;
+    padding: 5px;
   }
 
   fieldset {
     border: none;
+  }
+
+  .time-filters {
+    font-size: 60%;
+  }
+  .time-filters button,
+  .time-filters input {
+    font-size: 80%;
   }
 
   .debug {

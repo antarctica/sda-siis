@@ -366,7 +366,7 @@ export default {
   }
   .name-control {
     grid-area: name;
-    font-size: 90%;
+    font-size: 60%;
     white-space: nowrap;
     overflow-x: clip;
     margin: auto 0;
