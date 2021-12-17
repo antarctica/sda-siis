@@ -167,11 +167,10 @@ export default {
 <style scoped>
   .app-product-switcher {
     grid-area: products-switcher;
-    border-right: none;
     z-index: 10;
     display: grid;
-    grid-auto-rows: auto;
     row-gap: 10px;
+    height: fit-content
   }
 
   fieldset {
