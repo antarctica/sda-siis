@@ -1,13 +1,12 @@
 <template>
   <section class="app-panel app-granule-metadata" :class="{hidden: hide_ui}">
-    <header><h4>Granule Metadata</h4></header>
     <div v-if="Object.keys(selected_product_granules).length">
       <p v-if="product">Product: <output>{{ product.label }}</output></p>
       <template v-if="granules">
         <div v-for="granule in granules" :key="granule.id">
           <p>Granule:</p>
-          <ul>
-            <li>Name: <output>{{ granule.label }}</output></li>
+          <ul class="granule-info">
+            <li>Name: <output class="granule-label">{{ granule.label }}</output></li>
             <li>Time: <output>{{ granule.timestamp }}</output></li>
             <li>Status:
               <output class="status-control">
@@ -35,10 +34,10 @@
             >Get High Resolution Granule
             </button>
           </template>
-          <details>
+          <!-- <details>
               <summary>Full details</summary>
               <pre>{{ granule.raw }}</pre>
-          </details>
+          </details> -->
         </div>
       </template>
 
@@ -111,8 +110,24 @@ export default {
   .app-granule-metadata {
     grid-area: granule-metadata;
     z-index: 10;
+    font-size: 60%;
+    height: fit-content;
+    padding: 5px;
+  }
+
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+  }
+
+  .granule-info {
+    padding-left: 20px;
+  }
+  .granule-label {
+    overflow-wrap: anywhere;
   }
   .granule-hr-request {
     margin-bottom: 16px;
+    font-size: 80%;
   }
 </style>
