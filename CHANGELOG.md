@@ -52,6 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Correcting custom lat/lon formatting
+  [#189](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/189)
 * [Proj] Fixing MIT licence
   [#185](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/185)
 * [Infra] Improving rsync instructions
