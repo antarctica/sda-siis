@@ -106,7 +106,7 @@
         class="measure-tool-feature-tool-feature-length"
         :class="measure_tool_feature_length == 0 ? 'disabled' : null"
         title="Measured route - length (metres)"
-      >{{ measure_tool_feature_length }}m
+      >{{ measure_tool_feature_length_formatted }}km
       </div>
       <button
         v-on:click="exportDrawnFeature"
@@ -201,6 +201,10 @@ export default {
     },
     rotation_radians: function() {
       return this.rotation_degrees * Math.PI / 180;
+    },
+    measure_tool_feature_length_formatted: function() {
+      let length_km = this.measure_tool_feature_length / 1000;
+      return Math.floor(length_km * 100) / 100; // round down to 2 decimal places
     },
   },
 
@@ -448,6 +452,6 @@ export default {
     opacity: 60%;
   }
   .measure-tool-feature-tool-feature-length {
-    width: 200px;
+    width: 100px;
   }
 </style>
