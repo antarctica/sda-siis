@@ -342,10 +342,10 @@ export default {
 <style scoped>
   .product-wrapper {
     display: grid;
-    /* grid-template-columns: 1fr     1fr     1fr              1fr          2%      1fr          3fr; */
-    grid-template-columns: 7%      7%       5%               5%           10%     5%           55%;
     grid-template-areas:  "selected enabled previous-granule next-granule opacity availability name";
+    grid-template-columns: 7%      7%       5%               5%           10%     5%           55%;
     column-gap: 1%;
+    height: fit-content;
   }
   .selected-control {
     grid-area: selected;
@@ -355,15 +355,11 @@ export default {
   }
   .granule-previous-control {
     grid-area: previous-granule;
-    display: inline-block;
-    position: relative;
-    top: 4px;
+    margin: auto;
   }
   .granule-next-control {
     grid-area: next-granule;
-    display: inline-block;
-    position: relative;
-    top: 4px;
+    margin: auto;
   }
   .opacity-control {
     grid-area: opacity;
@@ -373,7 +369,7 @@ export default {
     font-size: 90%;
     white-space: nowrap;
     overflow-x: clip;
-    line-height: 2;
+    margin: auto 0;
   }
   .status-control {
     grid-area: availability;
