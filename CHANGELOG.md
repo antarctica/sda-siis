@@ -16,14 +16,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* [App] Initial support for high resolution
-* [App, API] Initial support for route import
 * [App] Initial support for route import from AI Lab Route Planner
   [#187](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/181)
+* [App] Initial support for high resolution granules
+  [#172](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/172)
+* [App/API] Initial support for route import
   [#181](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/181)
 * [App] UI control titles
   [#179](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/179)
-* [App, API] Initial support for drawn route export
+* [App/API] Initial support for drawn route export
   [#164](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/164)
 * [App] Initial support for UI panel backgrounds
   [#178](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/178)
