@@ -114,8 +114,28 @@
         title="Measured route - export to ECDIS"
       >E
       </button>
-      <input ref="referenceFeatureFileUpload" @change="handleImportReferenceFeature" type="file" hidden>
-      <button title="Import route from ECDIS" v-on:click="importReferenceFeature">I</button>
+      <input
+        ref="referenceFeatureEcdisFileUpload"
+        @change="handleImportReferenceFeatureEcdis"
+        type="file"
+        hidden
+      >
+      <button
+        title="Import route from ECDIS"
+        v-on:click="importReferenceFeatureEcdis"
+      >Ie
+      </button>
+      <input
+        ref="referenceFeatureAIRoutePlannerFileUpload"
+        @change="handleImportReferenceFeatureAIRoutePlanner"
+        type="file"
+        hidden
+      >
+      <button
+        title="Import route from AI Lab Route Planner"
+        v-on:click="importReferenceFeatureAIRoutePlanner"
+      >Ia
+      </button>
       <button
         v-on:click="resetDrawnFeature"
         :disabled="measure_tool_feature_count == 0 ? 'disabled' : null"
@@ -364,10 +384,13 @@ export default {
         alert('Failed to export route.');
       });
     },
-    importReferenceFeature: function() {
-      this.$refs.referenceFeatureFileUpload.click();
+    importReferenceFeatureEcdis: function() {
+      this.$refs.referenceFeatureEcdisFileUpload.click();
     },
-    handleImportReferenceFeature: function(event) {
+    importReferenceFeatureAIRoutePlanner: function() {
+      this.$refs.referenceFeatureAIRoutePlannerFileUpload.click();
+    },
+    handleImportReferenceFeatureEcdis: function(event) {
       axios({
         url: this.api_endpoint + '/routes/convert',
         method: 'POST',
@@ -384,6 +407,15 @@ export default {
       .catch(function(){
         alert('Failed to import route.');
       });
+    },
+    handleImportReferenceFeatureAIRoutePlanner: function(event) {
+      const reader = new FileReader()
+      reader.addEventListener("load", event => {
+        let feature = JSON.parse(reader.result)['features'][0];
+        this.determineReferenceFeatureCount(feature);
+        this.$emit('update:import_reference_feature', feature);
+      });
+      reader.readAsText(event.target.files[0]);
     },
     determineReferenceFeatureCount: function(feature) {
       let feature_vertex_count = 0;

@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [App] Initial support for high resolution
 * [App, API] Initial support for route import
+* [App] Initial support for route import from AI Lab Route Planner
+  [#187](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/181)
   [#181](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/181)
 * [App] UI control titles
   [#179](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/179)
