@@ -95,6 +95,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Granule raw properties re-enabled
+  [#191](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/191)
 * [App] Various styling fine tuning
   [#188](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/188)
 * [App] Improving error reporting

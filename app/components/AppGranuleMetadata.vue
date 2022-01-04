@@ -34,10 +34,10 @@
             >Get High Resolution Granule
             </button>
           </template>
-          <!-- <details>
+          <details>
               <summary>Full details</summary>
               <pre>{{ granule.raw }}</pre>
-          </details> -->
+          </details>
         </div>
       </template>
 
