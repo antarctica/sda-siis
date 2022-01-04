@@ -75,7 +75,19 @@
         </vl-layer-vector>
       </template>
       <template v-if="show_ship_track">
-        <vl-layer-tile>
+        <vl-layer-vector>
+          <vl-source-vector>
+            <vl-feature>
+              <vl-geom-line-string
+                :coordinates="ship_track_projected"
+                attributions='British Antarctic Survey'
+              ></vl-geom-line-string>
+            </vl-feature>
+          </vl-source-vector>
+        </vl-layer-vector>
+
+        <!-- Retained in case we need to fall back from the WFS based layer for performance reasons -->
+        <!-- <vl-layer-tile>
           <vl-source-tile-wms
             ref='ship-track'
             :url="`${this.ogc_endpoint}/geoserver/siis/wms`"
@@ -83,7 +95,7 @@
             :style="`siis:vessel_track_line.${this.style_modifier}`"
             attributions='British Antarctic Survey'
           ></vl-source-tile-wms>
-        </vl-layer-tile>
+        </vl-layer-tile> -->
       </template>
 
       <template v-if="reference_feature_coordinates_projected.length > 0">
@@ -214,7 +226,8 @@ export default {
       'controls': false,
       'selected_features': [],
       'value_at_pixel_feature': {},
-      'drawn_features': []
+      'drawn_features': [],
+      'ship_track': [],
     }
   },
 
@@ -307,6 +320,12 @@ export default {
         return transform([this.ship_position_lon, this.ship_position_lat], 'EPSG:4326', this.crs);
       }
       return [0,0];
+    },
+    ship_track_projected: function () {
+      if (this.ship_track.length > 0) {
+        return this.ship_track;
+      }
+      return [[0,0]];
     },
     reference_feature_coordinates_projected: function () {
       let coordinates = [];
@@ -614,10 +633,38 @@ export default {
         ));
       }
     },
+    getShipTrack: async function() {
+      let request_endpoint = this.ogc_endpoint + '/geoserver/siis/ows';
+      let request_config = {'params': {
+        'service': 'WFS',
+        'version': '1.0.0',
+        'request': 'GetFeature',
+        'typeName': 'siis:vw_track_line',
+        'srsName': this.crs,
+        'maxFeatures': '1',
+        'outputFormat': 'application/json',
+      }};
+
+      try {
+        const response = await axios.get(request_endpoint, request_config);
+        let feature = response.data.features[0];
+        this.ship_track = feature.geometry.coordinates;
+      } catch (error) {
+        alert('Ship track data could not be retrieved');
+        console.error(error);
+      }
+    }
   },
 
-  mounted() {
+  async mounted() {
     this.initLayers();
+
+    if (this.show_ship_track) {
+      let _this = this;
+      setInterval(async function () {
+        await _this.getShipTrack();
+      }, 30000);
+    }
 
     this.$refs.AppMapView.$createPromise.then(() => {
       this.updateCentre();
