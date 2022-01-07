@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Minimal time filter support for footprints
+  [#190](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/191)
 * [App] Initial support for route import from AI Lab Route Planner
   [#187](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/181)
 * [App] Initial support for high resolution granules

@@ -252,6 +252,7 @@ export default {
     'measure_tool_feature_export_count',
     'measure_tool_max_features',
     'reference_feature',
+    'time_filter',
   ],
 
   computed: {
@@ -441,12 +442,20 @@ export default {
           if (product_granule.granules_selection_mode === 'multiple') {
             const footprints_layer_name = 'siis:footprints';
             const id = `footprints-${product_granule.id}`;
+
+            // horrible hack!
+            const date_filter = this.calculateTimeFilterAsInterval(product_granule.default_time_filter);
+            let date_filter_parameter = '';
+            if (date_filter !== false) {
+              date_filter_parameter = `&cql_filter=timestamp%20DURING%20${date_filter.start}%2F${date_filter.end}`;
+            }
+
             let footprints_layer = {
               'ref': id,
               'id': id,
               '_id': product_granule.id,
               'protocol': 'wfs',
-              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}`,
+              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}${date_filter_parameter}`,
               'layer_type': "footprint"
             };
             this.add_or_update_layer(footprints_layer);
@@ -653,7 +662,34 @@ export default {
         alert('Ship track data could not be retrieved');
         console.error(error);
       }
-    }
+    },
+    calculateTimeFilterAsInterval: function (default_period_hours) {
+      if (this.time_filter == '-1') {
+        // no filter
+        return false;
+      } else if (this.time_filter == '0') {
+        // default
+        return this.calculateDateIntervalFromHours(default_period_hours);
+      } else {
+        // filter set by app
+        return this.calculateDateIntervalFromHours(this.time_filter);
+      }
+    },
+    calculateDateIntervalFromHours: function (hours) {
+      const days = Math.floor(hours / 24);
+      let interval_start = new Date(new Date().setDate(new Date().getDate()-days));
+      let interval_end = new Date();
+
+      // Hack: ECQL requires complete datetime's but we don't want to use the current time
+      // tried with `+00:00` initially but something choked on the `+` and changed it to a space, which is invalid
+      interval_start = interval_start.toISOString().split("T")[0] + 'T00:00:00Z';
+      interval_end = interval_end.toISOString().split("T")[0] + 'T00:00:00Z';
+
+      return {
+        'start': interval_start,
+        'end': interval_end
+      }
+    },
   },
 
   async mounted() {

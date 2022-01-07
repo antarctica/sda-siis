@@ -104,7 +104,7 @@ export default {
         return 's';
       }
       return false;
-    }
+    },
   },
 
   watch: {
@@ -118,7 +118,10 @@ export default {
       } else {
         this.time_filter = 0;
       }
-    }
+    },
+    time_filter: function () {
+      this.$emit("update:time_filter", this.time_filter);
+    },
   },
 
   components: {

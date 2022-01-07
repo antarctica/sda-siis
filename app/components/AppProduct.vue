@@ -100,6 +100,7 @@ export default {
       'granules_selection_mode': '',
       'supports_value_at_pixel': false,
       'supports_high_res_granules': false,
+      'default_time_filter': 0,
     }
   },
 
@@ -217,6 +218,7 @@ export default {
       this.opacity = 1;
       this.has_granules = !this.initial_product.static;
       this.supports_value_at_pixel = this.determineValueAtPixelSupported(this.code);
+      this.default_time_filter = this.initial_product.default_timeframe;
 
       if (this.has_granules) {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
