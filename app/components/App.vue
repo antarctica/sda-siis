@@ -26,6 +26,7 @@
         :measure_tool_feature_export_count="measure_tool_feature_export_count"
         :measure_tool_max_features="measure_tool_max_features"
         :reference_feature="reference_feature"
+        :time_filter="time_filter"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature="whenDrawnFeatureChanges"
@@ -41,6 +42,7 @@
         :selected_footprints="selected_footprints"
         v-on:update:selected_product_granules="whenSelectedProductGranulesChange"
         v-on:update:active_product_granules="whenActiveProductGranulesChange"
+        v-on:update:time_filter="whenTimeFilterChange"
       ></app-product-switcher>
       <app-map-controls
         initial_day_night_mode="day"
@@ -138,6 +140,7 @@ export default Vue.extend({
       measure_tool_feature_geojson: '',
       measure_tool_max_features: 8300,
       reference_feature: {},
+      time_filter: 0,
     }
   },
 
@@ -262,6 +265,9 @@ export default Vue.extend({
     },
     whenImportReferenceFeatureChange: function ($event) {
       this.reference_feature = $event;
+    },
+    whenTimeFilterChange: function($event) {
+      this.time_filter = $event;
     },
   }
 });
