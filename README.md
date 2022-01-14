@@ -39,10 +39,7 @@ No RTZ extensions are supported by this application.
 
 ## Usage
 
-* [Frontend application (Internal, BAS network required)](http://10.70.1.145:32004/)
-* [Backend API (Interactive API reference)](api/api/swagger.yml)
-* [GeoServer instance (Internal, BAS network required)](http://10.70.1.145:32001/geoserver)
-  * Credentials available from MAGIC 1Password as entry *SIIS GeoServer [Integration]*
+...
 
 ## Implementation
 
@@ -100,28 +97,6 @@ $ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --dry-run --exclude gwc [user
 # to perform changes
 $ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --progress --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 ```
-
-#### Refreshing the product data directory in the integration environment
-
-This section applies if someone has [Updated The Product Data Directory](#updating-the-product-data-directory) and you
-wish to update the data directory within the integration environment.
-
-In this environment, Nomad will automatically download a copy of the data directory into each allocation (deployment)
-of the project using pre-start tasks. Deployments are created automatically when either the API or Application
-components are updated (through [Continuous Deployment (CD)](#continuous-deployment)).
-
-Where these components are not updated, a CD run can triggered manually:
-
-1. view the list of project [Pipeline](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/pipelines) runs in GitLab (internal)
-2. select the latest pipeline with a deploy job and inspect the job
-3. choose to *Retry* the job (even though it succeeded)
-
-This will trigger a new Nomad deployment, which will create a new allocation, which will download a fresh copy of the
-data directory from the remote, authoritative, S3 bucket.
-
-**Note:** This process is not intended for long term use and will be reviewed in future.
-
-**Note:** This process assumes the CD process is working correctly (is green), if not raise an incident to resolve it.
 
 ### GeoServer
 
@@ -204,10 +179,6 @@ Product samples are distributed as files within the [SIIS Data Directory](#siis-
 Changes to extensions need to captured by [Updating The SIIS Data Directory](#updating-the-siis-data-directory).
 
 ## Setup
-
-[Continuous Deployment](#continuous-deployment) will configure this application to run in the experimental
-[MAGIC Nomad cluster](https://gitlab.data.bas.ac.uk/MAGIC/infrastructure/nomad) using an automatically generated job
-definition.
 
 See the [Usage](#usage) section for how to use the application.
 
@@ -336,7 +307,7 @@ $ docker compose build app
 $ docker compose push app
 ```
 
-#### Code Style (Python)
+### Code Style (Python)
 
 PEP-8 style and formatting guidelines must be used for this project, with the exception of the 80 character line limit.
 
@@ -368,21 +339,16 @@ application and backend API components when new releases (tags) are created. Pac
 [GitLab Package Registry](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/packages):
 
 * frontend application: compressed distribution bundle for deployment into a web root:
+  * `app-{version}-{environment}.zip`: per environment bundle including source maps
+  * `app-{version}-{environment}-no-src-maps.zip`: per environment bundle without source maps, to reduce file size
   * `app-{version}.zip`: default bundle including source maps
-  * `app-no-src-maps-{version}.zip`: default bundle without source maps, to reduce file size
+  * `app-{version}-no-src-maps.zip`: default bundle without source maps, to reduce file size
 
 ### Deployment containers
 
 Self-contained deployment containers are built by [Continuous Deployment](#continuous-deployment) for the frontend
 application and backend API components. Images for these containers are tagged under the `/deploy` namespace in the
 [BAS Docker Registry](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/container_registry).
-
-### Integration environment
-
-An integration environment is managed by [Continuous Deployment](#continuous-deployment) using the
-[MAGIC Nomad cluster](https://gitlab.data.bas.ac.uk/MAGIC/infrastructure/nomad).
-
-* [Nomad job](http://bsl-nomad-magic-dev-s3.nerc-bas.ac.uk:4646/ui/jobs/siis-integration)
 
 ### Continuous Deployment
 

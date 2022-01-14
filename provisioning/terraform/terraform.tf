@@ -9,10 +9,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.14"
     }
-    nomad = {
-      source  = "hashicorp/nomad"
-      version = "~> 1.4"
-    }
   }
 
   # AWS S3 Remote state backend
@@ -30,41 +26,6 @@ terraform {
   }
 }
 
-# SIIS Nomad update key variable
-#
-variable "nomad_update_key" {
-  type        = string
-  description = "Used to ensure each Nomad job submission is considered unique on each run"
-}
-
-# SIIS Nomad AWS access key ID
-#
-variable "nomad_aws_access_key_id" {
-  type        = string
-  description = "AWS IAM access key ID used to allow Nomad to access AWS resources"
-}
-
-# SIIS Nomad AWS secret access key
-#
-variable "nomad_aws_secret_access_key" {
-  type        = string
-  description = "AWS IAM secret access key used to allow Nomad to access AWS resources"
-}
-
-# SIIS Nomad BAS Docker registry username
-#
-variable "nomad_bas_docker_registry_username" {
-  type        = string
-  description = "BAS private Docker Registry username used to allow Nomad to access private images"
-}
-
-# SIIS Nomad BAS Docker registry password
-#
-variable "nomad_bas_docker_registry_password" {
-  type        = string
-  description = "BAS private Docker Registry password used to allow Nomad to access private images"
-}
-
 # AWS provider
 #
 # See https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication
@@ -73,14 +34,6 @@ variable "nomad_bas_docker_registry_password" {
 # Terraform source: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 provider "aws" {
   region = "eu-west-1"
-}
-
-# Nomad provider
-#
-# Terraform source: https://registry.terraform.io/providers/hashicorp/nomad/latest/docs
-provider "nomad" {
-  address = "http://bsl-nomad-magic-dev-s3.nerc-bas.ac.uk:4646"
-  region  = "bas"
 }
 
 # SIIS Data product samples storage bucket
@@ -134,22 +87,6 @@ resource "aws_iam_user_policy" "bas_gitlab_ci_siis_terraform_remote_state" {
   policy = file("iam/policies/inline/siis-terraform-remote-state.json")
 }
 
-# SIIS Nomad IAM user
-#
-# Used to allow Nomad to download data from the SIIS Data product samples storage bucket
-#
-# AWS source: https://aws.amazon.com/iam/
-# Terraform source: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user
-resource "aws_iam_user" "bas_nomad_siis" {
-  name = "bas-nomad-siis"
-
-  tags = {
-    X-Project    = "Sea Ice Information Service"
-    X-Managed-By = "Terraform"
-  }
-}
-
-
 # SIIS Data product samples storage bucket management policy
 #
 # Policy to allow Nomad to download data from the SIIS Data product samples storage bucket
@@ -164,17 +101,4 @@ resource "aws_iam_user_policy" "bas_nomad_siis_siis_product_samples" {
   name   = "bas-nomad-siis-siis-product-samples"
   user   = aws_iam_user.bas_nomad_siis.name
   policy = file("iam/policies/inline/siis-project-samples-bucket.json")
-}
-
-# SIIS Nomad Job (Integration)
-#
-# Terraform source: https://registry.terraform.io/providers/hashicorp/nomad/latest/docs/resources/job
-resource "nomad_job" "integration" {
-  jobspec = templatefile("nomad/siis-integration.hcl.tmpl", {
-    update_key                   = var.nomad_update_key
-    aws_access_key_id            = var.nomad_aws_access_key_id
-    aws_secret_access_key        = var.nomad_aws_secret_access_key
-    bas_docker_registry_username = var.nomad_bas_docker_registry_username
-    bas_docker_registry_password = var.nomad_bas_docker_registry_password
-  })
 }
