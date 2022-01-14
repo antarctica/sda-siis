@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [API] Black linting
   [#194](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/194)
 
+### Removed
+
+* [Infra] Defunct integration environment
+  [#195](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/194)
+
 ## 1.0.0-rc.2 - 2022-01-14
 
 ### Added

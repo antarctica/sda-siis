@@ -11,17 +11,8 @@
 # - Variables are grouped by section in KEY: "value" format (e.g. FOO: "bar")
 #   Sensitive values are represented by "[Sensitive]"
 #
-# - AWS IAM user for use within Nomad job
-#   > NOMAD_AWS_ACCESS_KEY_ID: "[Sensitive]"
-#   > NOMAD_AWS_SECRET_ACCESS_KEY: "[Sensitive]"
+# ...
 #
-# - GitLab deploy token for deploying to Nomad
-#   create a deploy token at https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/settings/repository
-#   - name: 'Nomad'
-#   - scopes: 'read_registry'
-#   > NOMAD_DOCKER_REGISTRY_USERNAME: "nomad"
-#   > NOMAD_DOCKER_REGISTRY_PASSWORD: "[Sensitive]"
-
 # Changes and tags
 # - most jobs in this pipeline use 'changes' rules to run jobs only when certain components have been updated
 # - when a pipeline is created for a new tag (as part of a release), changes rules will always evaluate to true and run
@@ -40,7 +31,6 @@ stages:
   - 📦 package
   - 🚚 distribute
   - 🐳 containerise
-  - 🚀 deploy
 
 variables:
   DOCKER_HOST: tcp://docker:2376
@@ -269,27 +259,3 @@ containerise-api:
   rules:
     - changes:
       - 'api/**/*.*'
-
-deploy:
-  stage: 🚀 deploy
-  image:
-    name: hashicorp/terraform:0.13.4
-    entrypoint: [""]
-  before_script:
-    - "cd provisioning/terraform"
-    - "export TF_VAR_nomad_update_key=$CI_JOB_ID"
-    - "export TF_VAR_nomad_aws_access_key_id=$NOMAD_AWS_ACCESS_KEY_ID"
-    - "export TF_VAR_nomad_aws_secret_access_key=$NOMAD_AWS_SECRET_ACCESS_KEY"
-    - "export TF_VAR_nomad_bas_docker_registry_username=$NOMAD_DOCKER_REGISTRY_USERNAME"
-    - "export TF_VAR_nomad_bas_docker_registry_password=$NOMAD_DOCKER_REGISTRY_PASSWORD"
-  script:
-    - 'terraform init'
-    - 'terraform validate'
-    - 'terraform apply -auto-approve -target nomad_job.integration'
-  rules:
-    - changes:
-      - 'app/**/*.*'
-      - 'api/**/*.*'
-  environment:
-    name: Integration
-    url: http://10.70.1.145:32004/
