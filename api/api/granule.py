@@ -113,6 +113,7 @@ def read_one(uuid):
             "Granule not found for UUID: {uuid}".format(uuid=uuid),
         )
 
+
 def request_highres(uuid):
     """
     This function responds to a request for /api/granule/{uuid}/request_highres
@@ -128,18 +129,22 @@ def request_highres(uuid):
 
     # Did we find a granule?
     if granule is not None:
-        print ("-- BLABLA --")
-        print (granule.productcode)
-        product = Product.query.filter(Product.code == granule.productcode).one_or_none()
+        print("-- BLABLA --")
+        print(granule.productcode)
+        product = Product.query.filter(
+            Product.code == granule.productcode
+        ).one_or_none()
         if product is not None:
-            print ("  product found - highres: %s" %product.highres_available)
+            print("  product found - highres: %s" % product.highres_available)
             if product.highres_available:
                 request_message(uuid)
-                return 'Accepted', 202
+                return "Accepted", 202
             else:
                 abort(
                     405,
-                    "Product not supporting high resolution granules: {product}".format(product=granule.productcode),
+                    "Product not supporting high resolution granules: {product}".format(
+                        product=granule.productcode
+                    ),
                 )
 
     # Otherwise, nope, didn't find that granule
@@ -149,15 +154,9 @@ def request_highres(uuid):
             "Granule not found for UUID: {uuid}".format(uuid=uuid),
         )
 
+
 def request_message(uuid):
     """
     create JSON request message and put to out messages folder
     """
-    print ("create request message")
-
-
-
-
-
-
-
+    print("create request message")

@@ -7,14 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* [API] Black linting
+  [#194](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/194)
+
 ## 1.0.0-rc.2 - 2022-01-14
-
-### Removed
-
-* [Infra] GeoServer Jpeg2000 extension removed
-  [#144](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/144)
-* [Infra] GeoServer GDAL extension removed due to removed OS dependency
-  [#143](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/143)
 
 ### Added
 
@@ -137,6 +135,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#100](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/100)
 * [App] Moving product switcher to right of map as a panel, and improving per-product controls layout
   [#99](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/99)
+
+### Removed
+
+* [Infra] GeoServer Jpeg2000 extension removed
+  [#144](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/144)
+* [Infra] GeoServer GDAL extension removed due to removed OS dependency
+  [#143](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/143)
 
 ## 1.0.0-rc.1 - 2021-07-15
 
