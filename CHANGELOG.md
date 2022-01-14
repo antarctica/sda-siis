@@ -15,7 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 
 * [Infra] Defunct integration environment
-  [#195](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/194)
+  [#195](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/195)
+* [Infra] Defunct Terraform provisioning
+  [#196](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/196)
 
 ## 1.0.0-rc.2 - 2022-01-14
 

@@ -182,42 +182,7 @@ Changes to extensions need to captured by [Updating The SIIS Data Directory](#up
 
 See the [Usage](#usage) section for how to use the application.
 
-### Terraform
-
-Terraform is used for:
-
-* resources required for storing product samples and other data files
-* generating a Nomad job definition based on a template during [Continuous Deployment](#continuous-deployment)
-
-To provision these resources, you will need:
-
-* access to the [BAS AWS](https://gitlab.data.bas.ac.uk/WSF/bas-aws) account
-* access to the [MAGIC 1Password](https://gitlab.data.bas.ac.uk/MAGIC/general/-/wikis/1password) account
-* a [Development environment](#development-environment)
-
-**Note:** Most resources only need to be provisioned once and Terraform will simply confirm they exist.
-
-```shell
-# set per-user sensitive environment variables listed in `provisioning/terraform/docker-compose.yml`
-# download the *SIIS Terraform environment variables* 1Password secret and save as (`provisioning/terraform/.env`)
-$ cd provisioning/terraform
-$ docker-compose run terraform
-$ terraform init
-$ terraform apply
-```
-
-### Terraform remote state
-
-Terraform state information is stored remotely as part of
-[BAS Terraform Remote State](https://gitlab.data.bas.ac.uk/WSF/terraform-remote-state) project.
-
-Remote state storage will be automatically initialised when running `terraform init`, with any changes automatically
-saved to the remote (AWS S3) backend. There is no need to manually push or pull changes.
-
-#### Remote state authentication
-
-Permission to read and/or write remote state information for this project is restricted to authorised users. Contact
-the project maintainer to request access.
+...
 
 ## Developing
 
