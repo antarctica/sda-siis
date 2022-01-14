@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 1.0.0-rc.2 - 2022-01-14
+
 ### Removed
 
 * [Infra] GeoServer Jpeg2000 extension removed
