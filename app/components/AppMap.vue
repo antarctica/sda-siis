@@ -18,7 +18,12 @@
         :center.sync="centre_crs"
       ></vl-view>
       <vl-layer-tile :zIndex=0>
-        <vl-source-osm></vl-source-osm>
+        <vl-source-tile-wms
+          ref='base-map'
+          :url="basemap_url"
+          layers='siis:base_global_full'
+          attributions='British Antarctic Survey'
+        ></vl-source-tile-wms>
       </vl-layer-tile>
 
       <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity :zIndex=1>
@@ -339,6 +344,9 @@ export default {
 
       return coordinates;
     },
+    basemap_url: function () {
+      return `${this.ogc_endpoint}/geoserver/siis/wms`;
+    }
   },
 
   watch: {
