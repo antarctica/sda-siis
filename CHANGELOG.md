@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [API] Black linting
   [#194](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/194)
 
+### Changed
+
+* [App] Switched to local base map layer (away from OSM)
+  [#120](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/120)
+
 ### Removed
 
 * [Infra] Defunct integration environment
