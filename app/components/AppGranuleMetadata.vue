@@ -41,8 +41,10 @@
         </div>
       </template>
 
-      <p>Legend</p>
-      <img :src="product.legend_url">
+      <details>
+        <summary>Legend</summary>
+        <img :src="product.legend_url">
+      </details>
 
       <template v-if="product && product.supports_value_at_pixel">
         <header><h4>Value at pixel (Selected product/granule)</h4></header>
