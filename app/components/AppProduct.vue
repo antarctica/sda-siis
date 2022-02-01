@@ -295,7 +295,8 @@ export default {
         });
         return granules;
       } catch (error) {
-        alert('Granules could not be retrieved');
+        // alerts disabled as per https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199
+        // alert('Granules could not be retrieved');
         console.error(error);
       }
     },
