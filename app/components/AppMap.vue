@@ -526,7 +526,8 @@ export default {
         // assume only one feature will be returned
         this.value_at_pixel_feature = response.data.features[0];
       } catch (error) {
-        alert('Value at pixel (WMS test) data could not be retrieved');
+        // alerts disabled as per https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199
+        // alert('Value at pixel (WMS test) data could not be retrieved');
         console.error(error);
       }
       return {};
@@ -667,7 +668,8 @@ export default {
         let feature = response.data.features[0];
         this.ship_track = feature.geometry.coordinates;
       } catch (error) {
-        alert('Ship track data could not be retrieved');
+        // alerts disabled as per https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199
+        // alert('Ship track data could not be retrieved');
         console.error(error);
       }
     },

@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#225](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/225)
 * [App] Legend for selected product now within detail/summary element
   [#206](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/206)
+* [App] Disabling user facing alerts (except where error prevents a user action)
+  [#199](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199)
 
 ### Removed
 

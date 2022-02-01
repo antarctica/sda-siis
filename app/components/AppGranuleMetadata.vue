@@ -100,7 +100,8 @@ export default {
         const response = await axios.post(request_endpoint);
         alert(response.statusText);
       } catch (error) {
-        alert('Could not request high resolution granule');
+        // alerts disabled as per https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199
+        // alert('Could not request high resolution granule');
         console.error(error);
       }
     },

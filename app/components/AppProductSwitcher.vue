@@ -141,7 +141,8 @@ export default {
         const response = await axios.get(request_endpoint, request_config);
         this.raw_products = response.data;
       } catch (error) {
-        alert('Products could not be retrieved');
+        // alerts disabled as per https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199
+        // alert('Products could not be retrieved');
         console.error(error);
       }
     },

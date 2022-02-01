@@ -210,7 +210,8 @@ export default {
         const now = new Date();
         this.last_update = now.toISOString();
       } catch (error) {
-        alert('Sensor data could not be retrieved');
+        // alerts disabled as per https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199
+        // alert('Sensor data could not be retrieved');
         console.error(error);
       }
     },
