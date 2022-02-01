@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [App] Switched to local base map layer (away from OSM)
   [#120](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/120)
+* [App] Changed sensor data refresh frequency to 3 seconds
+  [#225](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/225)
 
 ### Removed
 
