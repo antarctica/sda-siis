@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#206](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/206)
 * [App] Disabling user facing alerts (except where error prevents a user action)
   [#199](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199)
+* [Infra] Streamline CI/CD
+  [#227](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/227)
 
 ### Removed
 
