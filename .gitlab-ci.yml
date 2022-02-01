@@ -39,6 +39,8 @@ variables:
   DOCKER_TLS_VERIFY: 1
   GITLAB_REGISTRY: docker-registry.data.bas.ac.uk
 
+# == Jobs ==
+
 black:
   stage: 🧪 test
   image:
@@ -50,29 +52,6 @@ black:
   rules:
     - changes:
       - 'api/**/*.*'
-
-build-app-int:
-  stage: 🏗 build
-  image:
-    name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
-    entrypoint: [""]
-  variables:
-    SERVICE_API_ENDPOINT: http://10.70.1.145:32002
-    SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
-    SERVICE_API_OGC_ENDPOINT: http://10.70.1.145:32001
-  before_script:
-    - 'cd app'
-    - 'yarn install'
-  script:
-    - "yarn build"
-  needs: []
-  artifacts:
-    paths:
-      - app/dist
-    expire_in: 1 month
-  rules:
-    - changes:
-      - 'app/**/*.*'
 
 build-app-stage:
   stage: 🏗 build
@@ -119,29 +98,7 @@ build-app-prod:
   rules:
     - changes:
       - 'app/**/*.*'
-
-package-app-int:
-  stage: 📦 package
-  image:
-    name: alpine:latest
-    entrypoint: [""]
-  before_script:
-    - "apk add --no-cache zip"
-    - "mkdir -p ./app/dist-pkgs/"
-    - "cd ./app/dist/"
-  script:
-    - "zip ../dist-pkgs/app.zip *"
-    - "zip ../dist-pkgs/app-no-src-maps.zip * -x '*.map*'"
-  artifacts:
-    paths:
-      - app/dist-pkgs
-    expire_in: 1 month
-  needs:
-    - job: build-app-int
-      artifacts: true
-  rules:
-    - changes:
-      - 'app/**/*.*'
+    - if: $CI_COMMIT_TAG
 
 package-app-stage:
   stage: 📦 package
@@ -188,6 +145,7 @@ package-app-prod:
   rules:
     - changes:
       - 'app/**/*.*'
+    - if: $CI_COMMIT_TAG
 
 distribute-app:
   stage: 🚚 distribute
@@ -200,62 +158,14 @@ distribute-app:
     - "export PACKAGE_VERSION=$(echo $CI_COMMIT_TAG | sed 's/^v//')"
   script:
     # if these commands fail, remove the `--fail` flag to re-enable response output, this flag is normally on to fail this job on a non-200 status code, annoyingly you can't have both behaviours
-    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION.zip'
-    - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-no-src-maps.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION-no-src-maps.zip'
     - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-stage.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION-stage.zip'
     - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-stage-no-src-maps.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION-stage-no-src-maps.zip'
     - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-prod.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION-prod.zip'
     - 'curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./app/dist-pkgs/app-prod-no-src-maps.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/app/$PACKAGE_VERSION/app-$PACKAGE_VERSION-prod-no-src-maps.zip'
   needs:
-    - job: package-app-int
-      artifacts: true
     - job: package-app-stage
       artifacts: true
     - job: package-app-prod
       artifacts: true
   rules:
     - if: $CI_COMMIT_TAG
-
-containerise-app:
-  stage: 🐳 containerise
-  image:
-    name: docker:19.03-dind
-    entrypoint: [""]
-  before_script:
-    - 'echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin'
-    - 'cp -r ./app/dist/ ./app/support/docker-packaging/'
-    - 'cd app/support/docker-packaging/'
-  script:
-    - 'docker build . -t $CI_REGISTRY_IMAGE/deploy/app:latest'
-    - 'docker push $CI_REGISTRY_IMAGE/deploy/app:latest'
-  services:
-    - docker:dind
-  tags:
-    - dnd
-  needs:
-    - job: build-app-int
-      artifacts: true
-  rules:
-    - changes:
-      - 'app/**/*.*'
-
-containerise-api:
-  stage: 🐳 containerise
-  image:
-    name: docker:19.03-dind
-    entrypoint: [""]
-  before_script:
-    - 'echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin'
-    - 'cp -r ./api/api/ ./api/support/docker-packaging/'
-    - 'cd api/support/docker-packaging/'
-  script:
-    - 'docker build . -t $CI_REGISTRY_IMAGE/deploy/api:latest'
-    - 'docker push $CI_REGISTRY_IMAGE/deploy/api:latest'
-  services:
-    - docker:dind
-  tags:
-    - dnd
-  needs: []
-  rules:
-    - changes:
-      - 'api/**/*.*'
