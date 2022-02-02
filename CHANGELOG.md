@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [API] Black linting
   [#194](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/194)
+* [App] Centre on / Follow ship position controls
+  [#201](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/201)
+  [#202](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/202)
 
 ### Changed
 

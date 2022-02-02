@@ -625,7 +625,9 @@ export default {
       return `Lat: ${lat}<br/>Lon: ${lon}`;
     },
     updateCentre: function () {
-      this.centre_crs = transform(this.centre, this.crs, 'EPSG:4326');
+      if (this.centre[0] != 0 && this.centre[1] != 0) {
+        this.centre_crs = transform(this.centre, 'EPSG:4326', this.crs);
+      }
     },
     resetDrawnFeatures: function() {
       this.drawn_features = [];
