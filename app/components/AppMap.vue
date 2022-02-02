@@ -549,8 +549,11 @@ export default {
       }
     },
     cleanup_orphaned_layers: function () {
+      let _orphaned_layers = [];
+
       this.layers.forEach((layer) => {
         let _index = this.product_granules.findIndex(_layer => _layer.id === layer.id);
+
         if (layer.ref.includes('___')) {
           // assume layer is for a product granule
           let _product_id = layer.ref.split('___')[0];
@@ -571,8 +574,13 @@ export default {
 
         if (_index === -1) {
           _index = this.layers.findIndex(_layer => _layer.id === layer.id);
-          this.layers.splice(_index, 1);
+          _orphaned_layers.push(_index);
         }
+      });
+
+      // remove any indexes marked as orphans - this requires `_orphaned_layers` to be sorted in ascending order
+      this.layers = this.layers.filter(function(value, index) {
+        return _orphaned_layers.indexOf(index) == -1;
       });
     },
     style_func_footprints: function (feature, resolution) {
