@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#202](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/202)
 * [App] Correcting how drawn features are selected for measurements
   [#204](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/204)
+* [App] Correctly removing orphaned map layers
+  [#229](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/229)
 
 ### Changed
 
