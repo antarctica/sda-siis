@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [App] Centre on / Follow ship position controls
   [#201](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/201)
   [#202](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/202)
+* [App] Correcting how drawn features are selected for measurements
+  [#204](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/204)
 
 ### Changed
 

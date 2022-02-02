@@ -96,9 +96,10 @@ build-app-prod:
       - app/dist
     expire_in: 1 month
   rules:
-    - changes:
-      - 'app/**/*.*'
-    - if: $CI_COMMIT_TAG
+    -
+      changes:
+        - 'app/**/*.*'
+      if: $CI_COMMIT_TAG
 
 package-app-stage:
   stage: 📦 package
@@ -143,9 +144,10 @@ package-app-prod:
     - job: build-app-prod
       artifacts: true
   rules:
-    - changes:
-      - 'app/**/*.*'
-    - if: $CI_COMMIT_TAG
+    -
+      changes:
+        - 'app/**/*.*'
+      if: $CI_COMMIT_TAG
 
 distribute-app:
   stage: 🚚 distribute
