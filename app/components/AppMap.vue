@@ -317,7 +317,7 @@ export default {
     },
     drawn_feature: function () {
       if (this.drawn_features.length > 0) {
-        return this.drawn_features[0];
+        return this.drawn_features[this.drawn_features.length - 1];
       }
       return {};
     },
@@ -636,7 +636,7 @@ export default {
       if (Object.keys(this.drawn_feature).length === 0) {
         return 0;
       } else {
-        const feature = this.$refs.AppMapDrawingSource.$source.getFeatures()[0];
+        const feature = this.$refs.AppMapDrawingSource.$source.getFeatures()[this.$refs.AppMapDrawingSource.$source.getFeatures().length - 1];
         const feature_geom = feature.getGeometry();
         return getLength(feature_geom);
       }
