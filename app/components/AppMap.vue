@@ -52,7 +52,7 @@
           <vl-layer-vector :zIndex=5>
             <vl-source-vector :ref=layer.ref :url=layer.url>
               <template v-if="layer.layer_type == 'footprint'">
-                  <vl-style-func :func="style_func_footprints"></vl-style-func>
+                  <vl-style-func :function="style_func_footprints"></vl-style-func>
               </template>
             </vl-source-vector>
           </vl-layer-vector>
