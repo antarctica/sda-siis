@@ -57,7 +57,8 @@ export default {
       'selected_product': {},
       'active_products': [],
       'time_filter': 0,
-      'date_filter': ''
+      'date_filter': '',
+      'additional_initial_active_product_ids': [],
     }
   },
 
@@ -91,11 +92,11 @@ export default {
     },
     initial_active_product_ids: function() {
       if (this.crs == 'EPSG:3413') {
-        return this.arctic_default_product_ids;
+        return this.arctic_default_product_ids.concat(this.additional_initial_active_product_ids);
       } else if (this.crs == 'EPSG:3031') {
-        return this.antarctic_default_product_ids;
+        return this.antarctic_default_product_ids.concat(this.additional_initial_active_product_ids);
       }
-      return this.arctic_default_product_ids.concat(this.antarctic_default_product_ids);
+      return this.arctic_default_product_ids.concat(this.antarctic_default_product_ids).concat(this.additional_initial_active_product_ids);
     },
     hemisphere: function () {
       if (this.crs == 'EPSG:3413') {
@@ -119,7 +120,18 @@ export default {
         this.time_filter = 0;
       }
     },
-    time_filter: function () {
+    time_filter: async function () {
+      // hack: reset all active products to make products reactive to time filter changes - #208
+      this.additional_initial_active_product_ids = [];
+      this.active_products.forEach((product) => {
+        this.additional_initial_active_product_ids.push(product.id);
+      });
+
+      this.raw_products = [];
+      this.active_products = [];
+      this.$emit("update:active_product_granules", this.active_products);
+      await this.getProducts();
+
       this.$emit("update:time_filter", this.time_filter);
     },
   },

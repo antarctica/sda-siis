@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#199](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199)
 * [Infra] Streamline CI/CD
   [#227](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/227)
+* [App] Initial/crude support for making product selections reactive when the time filter changes
+  [#208](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/208)
 
 ### Removed
 
