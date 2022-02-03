@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#204](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/204)
 * [App] Correctly removing orphaned map layers
   [#229](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/229)
+* [App] Adding feedback for active time filter choice
+  [#207](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/207)
 
 ### Changed
 
