@@ -136,7 +136,7 @@
       </template>
     </vl-map>
 
-    <div class="app-map-measures">
+    <div class="app-map-measures app-panel">
       <div class="app-map-control" id="app-map-measure-scalebar"></div>
       <div class="app-map-control" id="app-map-measure-position"></div>
     </div>

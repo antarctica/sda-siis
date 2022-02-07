@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#80](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/80)
 * [App] Inconsistency with depth sensor value variable
   [#213](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/213)
+* [App] Contrast in AppMap measures sub-component
+  [#234](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/234)
 
 ## 1.0.0-rc.3 - 2022-02-03
 
