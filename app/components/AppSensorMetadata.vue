@@ -127,7 +127,7 @@ export default {
     depth: function () {
       let value = '-'
       if (this.vertical_depth_value !== false) {
-        value = this.heading_degrees_value;
+        value = this.vertical_depth_value;
       }
       return {
         'value': value,
@@ -192,7 +192,7 @@ export default {
           this.heading_degrees_value = sensorData.properties.heading;
         }
         if (sensorData.properties.depth !== null) {
-          this.depth_value = sensorData.properties.depth;
+          this.vertical_depth_value = sensorData.properties.depth;
         }
         if (sensorData.properties.pos_online === true) {
           this.latitude_online = true;
