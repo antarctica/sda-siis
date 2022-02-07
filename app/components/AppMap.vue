@@ -65,7 +65,7 @@
       <vl-layer-graticule :show-labels="false" v-if="show_graticule"></vl-layer-graticule>
 
       <template v-if="show_ship_position">
-        <vl-layer-vector>
+        <vl-layer-vector :zIndex=12>
           <vl-source-vector>
             <vl-feature>
               <vl-geom-point :coordinates="ship_position_projected"></vl-geom-point>
@@ -80,7 +80,7 @@
         </vl-layer-vector>
       </template>
       <template v-if="show_ship_track">
-        <vl-layer-vector>
+        <vl-layer-vector :zIndex=10>
           <vl-source-vector>
             <vl-feature>
               <vl-geom-line-string
@@ -104,7 +104,7 @@
       </template>
 
       <template v-if="reference_feature_coordinates_projected.length > 0">
-        <vl-layer-vector ref="reference-layer">
+        <vl-layer-vector ref="reference-layer" :zIndex=50>
           <vl-source-vector>
             <vl-feature>
               <vl-geom-line-string :coordinates="reference_feature_coordinates_projected"></vl-geom-line-string>
@@ -117,7 +117,7 @@
       </template>
 
       <template v-if="show_measure_tool">
-        <vl-layer-vector>
+        <vl-layer-vector :zIndex=100>
           <vl-source-vector
             ref="AppMapDrawingSource"
             ident="drawing-layer"
