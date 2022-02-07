@@ -9,13 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-* [App] Assigning z-index to ship track and other map components
+* [App] Assigning z-index to ship track and other map components to prevent overlap
   [#80](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/80)
 * [App] Inconsistency with depth sensor value variable
   [#213](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/213)
-* [App] Contrast in AppMap measures sub-component
+* [App] Improving contrast in AppMap measures sub-component
   [#234](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/234)
-* [App] Change footprint selection style
+
+### Changed
+
+* [App] removed transparency from footprint selection style
   [#236](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/236)
 
 ## 1.0.0-rc.3 - 2022-02-03
