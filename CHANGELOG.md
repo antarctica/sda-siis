@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* [App] Bounds to time component
+  [#238](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/238)
+
 ### Fixed
 
 * [App] Assigning z-index to ship track and other map components to prevent overlap

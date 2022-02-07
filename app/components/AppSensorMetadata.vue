@@ -34,10 +34,10 @@
       <div class="sensor-variable-label">Time {{ time_hours_offset_description }}</div>
       <div class="sensor-variable-status status-indicator status-available"></div>
       <div class="sensor-variable-controls">
-        <button v-on:click="time_hours_offset += 1">+</button>
-        <button v-on:click="time_hours_offset -= 1">-</button>
+        <button :disabled="time_hours > 23 ? 'disabled' : null" v-on:click="time_hours_offset += 1">+</button>
+        <button :disabled="time_hours < 1 ? 'disabled' : null" v-on:click="time_hours_offset -= 1">-</button>
       </div>
-      <code class="sensor-variable-value">{{ time }}</code>
+      <code class="sensor-variable-value">{{ time_hours }}:{{ time_minutes }}:{{ time_seconds }}</code>
     </section>
     <div class="debug" v-if="debug_mode">
       <p>Latitude (dd): <output>{{ latitude_value }}</output></p>
@@ -65,7 +65,9 @@ export default {
       'velocity_online': false,
       'heading_degrees_online': false,
       'vertical_depth_online': false,
-      'time': '',
+      'time_hours': '',
+      'time_minutes': '',
+      'time_seconds': '',
       'time_hours_offset': 0,
       'last_update': ''
     }
@@ -217,8 +219,9 @@ export default {
     },
     setTime: function () {
       const now = new Date();
-      let hours = now.getUTCHours() + this.time_hours_offset;
-      this.time = `${String(hours).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}:${String(now.getUTCSeconds()).padStart(2, "0") }`
+      this.time_hours = String(now.getUTCHours() + this.time_hours_offset).padStart(2, "0");
+      this.time_minutes = String(now.getUTCMinutes()).padStart(2, "0");
+      this.time_seconds = String(now.getUTCSeconds()).padStart(2, "0");
     }
   },
 
