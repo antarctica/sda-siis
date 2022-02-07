@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* [App] Assigning z-index to ship track and other map components
+  [#80](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/80)
+
 ## 1.0.0-rc.3 - 2022-02-03
 
 ### Fixed
