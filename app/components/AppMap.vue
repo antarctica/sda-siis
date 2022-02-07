@@ -61,7 +61,12 @@
       <vl-interaction-select
         :features.sync="selected_features"
         :condition="select_condition"
-      ></vl-interaction-select>
+      >
+        <vl-style-box>
+          <vl-style-stroke color="#28A197" width="2"></vl-style-stroke>
+          <vl-style-fill color="rgba(255, 255, 255, 0)"></vl-style-fill>
+        </vl-style-box>
+      </vl-interaction-select>
       <vl-layer-graticule :show-labels="false" v-if="show_graticule"></vl-layer-graticule>
 
       <template v-if="show_ship_position">
@@ -585,6 +590,7 @@ export default {
     },
     style_func_footprints: function (feature, resolution) {
       let stroke_colour = '#BBDAC0';  // .status-na
+
       if (feature.values_.status == 'offline') {
         stroke_colour = '#B10E1E';
       }
