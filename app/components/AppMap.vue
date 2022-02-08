@@ -706,10 +706,8 @@ export default {
       let interval_start = new Date(new Date().setDate(new Date().getDate()-days));
       let interval_end = new Date();
 
-      // Hack: ECQL requires complete datetime's but we don't want to use the current time
-      // tried with `+00:00` initially but something choked on the `+` and changed it to a space, which is invalid
-      interval_start = interval_start.toISOString().split("T")[0] + 'T00:00:00Z';
-      interval_end = interval_end.toISOString().split("T")[0] + 'T00:00:00Z';
+      interval_start = interval_start.toISOString();
+      interval_end = interval_end.toISOString();
 
       return {
         'start': interval_start,

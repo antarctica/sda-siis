@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [App] removed transparency from footprint selection style
   [#236](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/236)
 
+### Removed
+
+* [App] Logic to normalise temporal period in footprint WFS requests
+  [#208](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/208)
+
 ## 1.0.0-rc.3 - 2022-02-03
 
 ### Fixed
