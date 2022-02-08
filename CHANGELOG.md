@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#235](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/235)
 * [App] Bounds to time component
   [#238](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/238)
+* [App] Hard-coding Z-index levels for products
+  [#80](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/80)
 
 ### Fixed
 

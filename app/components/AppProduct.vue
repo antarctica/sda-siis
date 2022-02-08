@@ -101,6 +101,7 @@ export default {
       'supports_value_at_pixel': false,
       'supports_high_res_granules': false,
       'default_time_filter': 0,
+      'z_index': 1,
     }
   },
 
@@ -219,6 +220,7 @@ export default {
       this.has_granules = !this.initial_product.static;
       this.supports_value_at_pixel = this.determineValueAtPixelSupported(this.code);
       this.default_time_filter = this.initial_product.default_timeframe;
+      this.z_index = this.determineZindex(this.code);
 
       if (this.has_granules) {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
@@ -272,6 +274,19 @@ export default {
         return true;
       }
       return false;
+    },
+    determineZindex: function(code) {
+      if (code === 'siis.sic.n' || code === 'siis.sic.s') {
+        return 2;
+      } else if (code === 'siis.s3.s' || code === 'siis.s3.n') {
+        return 3;
+      } else if (code === 'siis.s1.s' || code === 'siis.s1.n') {
+        return 4;
+      } else if (code === 'siis.base.s' || code === 'siis.base.n') {
+        return 5;
+      }
+
+      return 1;
     },
     checkIfActiveProduct: function() {
       if (this.initial_active_product_ids.includes(this.id)) {
