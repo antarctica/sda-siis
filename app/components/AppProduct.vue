@@ -225,7 +225,7 @@ export default {
         this.supports_high_res_granules = this.initial_product.highres_available;
         this.granules = await this.getGranules();
         if (this.granules_selection_mode === 'single') {
-          if (this.granules.length < 0) {
+          if (this.granules.length > 0) {
             this.selected_granule_indexes = [this.granules.length - 1];
           }
         }

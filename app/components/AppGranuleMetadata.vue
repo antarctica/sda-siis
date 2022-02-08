@@ -3,42 +3,47 @@
     <div v-if="Object.keys(selected_product_granules).length">
       <p v-if="product">Product: <output>{{ product.label }}</output></p>
       <template v-if="granules">
-        <div v-for="granule in granules" :key="granule.id">
-          <p>Granule:</p>
-          <ul class="granule-info">
-            <li>Name: <output class="granule-label">{{ granule.label }}</output></li>
-            <li>Time: <output>{{ granule.timestamp }}</output></li>
-            <li>Status:
-              <output class="status-control">
-                <template v-if="granule.status == 'n/a'"><span class="status-indicator status-na"></span></template>
-                <template v-else-if="granule.status == 'offline'"><span class="status-indicator status-offline"></span> Offline</template>
-                <template v-else-if="granule.status == 'pending'"><span class="status-indicator status-pending"></span> Pending</template>
-                <template v-else-if="granule.status == 'processing'"><span class="status-indicator status-processing"></span> Processing</template>
-                <template v-else-if="granule.status == 'online'"><span class="status-indicator status-online"></span> Online</template>
-                <template v-else-if="granule.status == 'outdated'"><span class="status-indicator status-outdated"></span> Outdated</template>
-                <template v-else-if="granule.status == 'hr_requested'"><span class="status-indicator status-hr-requested"></span> HR Requested</template>
-                <template v-else-if="granule.status == 'hr_pending'"><span class="status-indicator status-hr-pending"></span> HR Pending</template>
-                <template v-else-if="granule.status == 'hr_processing'"><span class="status-indicator status-hr-processing"></span> HR Processing</template>
-                <template v-else-if="granule.status == 'hr_online'"><span class="status-indicator status-hr-online"></span> HR Online</template>
-              </output>
-            </li>
-          </ul>
-          <template v-if="product.supports_high_res_granules">
-            <button
-              class="granule-hr-request"
-              v-on:click="requestHRGranule(granule.id)"
-              :disabled="granule.status == 'hr_requested' ||
-                         granule.status == 'hr_pending' ||
-                         granule.status == 'hr_processing' ||
-                         granule.status == 'hr_online' ? 'disabled' : null"
-            >Get High Resolution Granule
-            </button>
-          </template>
-          <details>
-              <summary>Full details</summary>
-              <pre>{{ granule.raw }}</pre>
-          </details>
-        </div>
+        <template v-if="granules.length == 0">
+          <p>No granules available within current time filter</p>
+        </template>
+        <template v-else>
+          <div v-for="granule in granules" :key="granule.id">
+            <p>Granule:</p>
+            <ul class="granule-info">
+              <li>Name: <output class="granule-label">{{ granule.label }}</output></li>
+              <li>Time: <output>{{ granule.timestamp }}</output></li>
+              <li>Status:
+                <output class="status-control">
+                  <template v-if="granule.status == 'n/a'"><span class="status-indicator status-na"></span></template>
+                  <template v-else-if="granule.status == 'offline'"><span class="status-indicator status-offline"></span> Offline</template>
+                  <template v-else-if="granule.status == 'pending'"><span class="status-indicator status-pending"></span> Pending</template>
+                  <template v-else-if="granule.status == 'processing'"><span class="status-indicator status-processing"></span> Processing</template>
+                  <template v-else-if="granule.status == 'online'"><span class="status-indicator status-online"></span> Online</template>
+                  <template v-else-if="granule.status == 'outdated'"><span class="status-indicator status-outdated"></span> Outdated</template>
+                  <template v-else-if="granule.status == 'hr_requested'"><span class="status-indicator status-hr-requested"></span> HR Requested</template>
+                  <template v-else-if="granule.status == 'hr_pending'"><span class="status-indicator status-hr-pending"></span> HR Pending</template>
+                  <template v-else-if="granule.status == 'hr_processing'"><span class="status-indicator status-hr-processing"></span> HR Processing</template>
+                  <template v-else-if="granule.status == 'hr_online'"><span class="status-indicator status-hr-online"></span> HR Online</template>
+                </output>
+              </li>
+            </ul>
+            <template v-if="product.supports_high_res_granules">
+              <button
+                class="granule-hr-request"
+                v-on:click="requestHRGranule(granule.id)"
+                :disabled="granule.status == 'hr_requested' ||
+                          granule.status == 'hr_pending' ||
+                          granule.status == 'hr_processing' ||
+                          granule.status == 'hr_online' ? 'disabled' : null"
+              >Get High Resolution Granule
+              </button>
+            </template>
+            <details>
+                <summary>Full details</summary>
+                <pre>{{ granule.raw }}</pre>
+            </details>
+          </div>
+        </template>
       </template>
 
       <details>
