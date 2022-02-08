@@ -26,7 +26,7 @@
         ></vl-source-tile-wms>
       </vl-layer-tile>
 
-      <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity :zIndex=1>
+      <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity :zIndex=layer.z_index>
         <template v-if="layer.protocol === 'wms' || layer.protocol === 'wmts'">
           <!-- WMTS layers are considereed to use WMS until https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51 is resolved -->
           <!-- <vl-source-wmts
@@ -49,7 +49,7 @@
       </vl-layer-tile>
       <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wfs'">
-          <vl-layer-vector :zIndex=5>
+          <vl-layer-vector :zIndex=9>
             <vl-source-vector :ref=layer.ref :url=layer.url>
               <template v-if="layer.layer_type == 'footprint'">
                   <vl-style-func :function="style_func_footprints"></vl-style-func>
@@ -433,7 +433,8 @@ export default {
           'style': `${product_granule.ogc_style}.${this.style_modifier}`,
           'opacity': product_granule.opacity,
           'attribution': product_granule.attribution,
-          'layer_type': "default"
+          'layer_type': "default",
+          'z_index': product_granule.z_index,
         }
         if (! product_granule.has_granules) {
           this.add_or_update_layer(layer);
