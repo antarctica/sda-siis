@@ -132,8 +132,8 @@
             <vl-style-stroke color="green"></vl-style-stroke>
           </vl-style-box>
         </vl-layer-vector>
-        <vl-interaction-draw type="LineString" source="drawing-layer">
           <vl-style-box>
+        <vl-interaction-draw type="LineString" source="drawing-layer" v-on:drawstart="drawnRouteListener">
             <vl-style-stroke color="red"></vl-style-stroke>
             <vl-style-fill color="rgba(255,255,255,0.5)"></vl-style-fill>
           </vl-style-box>
@@ -238,6 +238,7 @@ export default {
       'value_at_pixel_feature': {},
       'drawn_features': [],
       'ship_track': [],
+      'draw_feature_listener': null,
     }
   },
 
@@ -393,20 +394,6 @@ export default {
     },
     centre () {
       this.updateCentre();
-    },
-    drawn_features () {
-      if (this.drawn_features.length > 1) {
-        this.drawn_features = [this.drawn_features.at(-1)];
-      }
-    },
-    drawn_feature () {
-      this.$emit("update:drawn_feature", this.drawn_feature);
-      this.$emit("update:drawn_feature_length", this.calculateDrawnFeatureLength());
-
-      // emit warning to user if feature count is nearly 8300, meaning it might produce a file over 1MB when exported
-      if (this.drawn_feature.geometry.coordinates.length >= this.measure_tool_max_features) {
-        alert(`WARNING: Route length is over limit for RTZ export (${this.measure_tool_max_features}) - export disabled.`)
-      }
     },
     drawn_feature_reset_count () {
       // this is a bit of a hack - each time the reset button is clicked, this variable is incremented, which is
@@ -647,14 +634,22 @@ export default {
     resetDrawnFeatures: function() {
       this.drawn_features = [];
     },
-    calculateDrawnFeatureLength: function() {
-      if (Object.keys(this.drawn_feature).length === 0) {
-        return 0;
-      } else {
-        const feature = this.$refs.AppMapDrawingSource.$source.getFeatures()[this.$refs.AppMapDrawingSource.$source.getFeatures().length - 1];
-        const feature_geom = feature.getGeometry();
-        return getLength(feature_geom);
-      }
+    drawnRouteListener: function(event) {
+      let feature = event.feature;
+      let _this = this
+
+      this.draw_feature_listener = feature.getGeometry().on('change', function(geometry_event) {
+        const feature_geometry = geometry_event.target;
+        const feature_geometry_vertexes = feature_geometry.getCoordinates().length
+
+        _this.$emit("update:drawn_feature_vertexes", feature_geometry_vertexes);
+        _this.$emit("update:drawn_feature_length", getLength(feature_geometry));
+
+        // emit warning to user if feature count is nearly 8300, meaning it might produce a file over 1MB when exported
+        if (feature_geometry_vertexes >= _this.measure_tool_max_features) {
+          alert(`WARNING: Route length is over limit for RTZ export (${_this.measure_tool_max_features}) - export disabled.`)
+        }
+      });
     },
     exportDrawnFeature: function() {
       if (Object.keys(this.drawn_feature).length === 0) {
