@@ -29,7 +29,7 @@
         :time_filter="time_filter"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
-        v-on:update:drawn_feature="whenDrawnFeatureChanges"
+        v-on:update:drawn_feature_vertexes="whenDrawnFeatureVertexesChanges"
         v-on:update:drawn_feature_length="whenDrawnFeatureLengthChanges"
         v-on:update:drawn_feature_export="whenDrawnFeatureExportChanges"
       ></app-map>
@@ -244,12 +244,8 @@ export default Vue.extend({
     whenShipPositionLongitudeChange: function ($event) {
       this.ship_position_lon = $event;
     },
-    whenDrawnFeatureChanges: function ($event) {
-      if (Object.keys($event).length === 0) {
-        this.measure_tool_feature_count = 0;
-      } else {
-        this.measure_tool_feature_count = $event.geometry.coordinates.length;
-      }
+    whenDrawnFeatureVertexesChanges: function ($event) {
+      this.measure_tool_feature_count = $event;
     },
     whenDrawnFeatureLengthChanges: function ($event) {
       this.measure_tool_feature_length = $event;
