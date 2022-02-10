@@ -274,9 +274,10 @@ export default Vue.extend({
     display: grid;
 
     grid-template-columns: 11% auto 15% 20%;
-    grid-template-rows: min-content auto 64px 30px;
+    grid-template-rows: min-content min-content auto 64px 30px;
     grid-template-areas:
-      "sensor-metadata .            granule-metadata products-switcher"
+      "sensor-metadata .            .                products-switcher"
+      ".               .            .                granule-metadata "
       ".               .            .                .                "
       "map-measures    .            .                .                "
       "map-controls    map-controls map-controls     map-controls     ";
