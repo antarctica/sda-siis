@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#236](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/236)
 * [App] Measure tool distance and vertex count now update as the feature is drawn
   [#203](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/203)
+* [App] Moving granule metadata under products switcher
+  [#241](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/241)
 
 ### Removed
 
