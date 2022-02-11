@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 1.0.0-rc.4 - 2022-02-11
+
 ### Added
 
 * [App] Notice to users where a product is selected without any granules in the current time filter period
@@ -29,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-* [App] removed transparency from footprint selection style
+* [App] Removed transparency from footprint selection style
   [#236](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/236)
 * [App] Measure tool distance and vertex count now update as the feature is drawn
   [#203](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/203)
