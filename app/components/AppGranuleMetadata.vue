@@ -4,7 +4,7 @@
       <p v-if="product">Product: <output>{{ product.label }}</output></p>
       <template v-if="granules">
         <template v-if="granules.length == 0">
-          <p>No granules available within current time filter</p>
+          <p>No granules available within current time filter.</p>
         </template>
         <template v-else>
           <div v-for="granule in granules" :key="granule.id">
