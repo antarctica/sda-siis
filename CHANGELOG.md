@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 1.0.0-rc.4 - 2022-02-11
+
 ### Added
 
 * [App] Notice to users where a product is selected without any granules in the current time filter period
