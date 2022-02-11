@@ -2,6 +2,8 @@
   --color: #333333;
   --bg: #eeeeee;
   --panel-bg: #eeeeee63;
+
+  overflow: hidden;
 }
 
 .hidden {
