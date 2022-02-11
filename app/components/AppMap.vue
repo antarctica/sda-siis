@@ -175,7 +175,7 @@
 import Vue from 'vue'
 import axios from 'axios';
 import proj4 from 'proj4';
-import {click} from 'ol/events/condition';
+import {click, never} from 'ol/events/condition';
 import {Attribution, FullScreen, MousePosition, ScaleLine, Zoom} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
@@ -283,8 +283,14 @@ export default {
       }
       return this.crs;
     },
+    enable_footprint_selection: function () {
+      return !this.show_measure_tool;
+    },
     select_condition: function () {
-    	return click;
+      if (this.enable_footprint_selection === true) {
+        return click;
+      }
+      return never;
     },
     selected_footprints: function () {
       let granule_features = []

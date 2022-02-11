@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   [#213](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/213)
 * [App] Improving contrast in AppMap measures sub-component
   [#234](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/234)
+* [App] Granule selections are no longer lost when the measure tool is active
+  [#239](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/239)
 
 ### Changed
 
