@@ -74,12 +74,12 @@
           <vl-source-vector>
             <vl-feature>
               <vl-geom-point :coordinates="ship_position_projected"></vl-geom-point>
-              <vl-style-box>
+              <vl-style>
                 <vl-style-circle :radius="5">
                   <vl-style-fill color="#B10E1E"></vl-style-fill>
                   <vl-style-stroke color="#FFFFFF"></vl-style-stroke>
                 </vl-style-circle>
-              </vl-style-box>
+              </vl-style>
             </vl-feature>
           </vl-source-vector>
         </vl-layer-vector>
@@ -113,9 +113,9 @@
           <vl-source-vector>
             <vl-feature>
               <vl-geom-line-string :coordinates="reference_feature_coordinates_projected"></vl-geom-line-string>
-              <vl-style-box>
+              <vl-style>
                 <vl-style-stroke color="#F47738" :width="2"></vl-style-stroke>
-              </vl-style-box>
+              </vl-style>
             </vl-feature>
           </vl-source-vector>
         </vl-layer-vector>
@@ -128,15 +128,15 @@
             ident="drawing-layer"
             :features.sync="drawn_features"
           ></vl-source-vector>
-          <vl-style-box>
+          <vl-style>
             <vl-style-stroke color="green"></vl-style-stroke>
-          </vl-style-box>
+          </vl-style>
         </vl-layer-vector>
-          <vl-style-box>
         <vl-interaction-draw type="LineString" source="drawing-layer" v-on:drawstart="drawnRouteListener">
+          <vl-style>
             <vl-style-stroke color="red"></vl-style-stroke>
             <vl-style-fill color="rgba(255,255,255,0.5)"></vl-style-fill>
-          </vl-style-box>
+          </vl-style>
         </vl-interaction-draw>
       </template>
     </vl-map>
