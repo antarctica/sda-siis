@@ -130,7 +130,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
                         date_end.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 )
-                .order_by(desc(Granule.timestamp))
+                .order_by(Granule.timestamp)
                 .limit(int(limit))
                 .all()
             )
@@ -143,7 +143,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
                         date_end.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 )
-                .order_by(desc(Granule.timestamp))
+                .order_by(Granule.timestamp)
                 .all()
             )
     else:
@@ -152,7 +152,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
             granule = (
                 Granule.query.filter(Granule.productcode == code)
                 .filter(Granule.timestamp > aged_timestamp)
-                .order_by(desc(Granule.timestamp))
+                .order_by(Granule.timestamp)
                 .limit(int(limit))
                 .all()
             )
@@ -160,7 +160,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
             granule = (
                 Granule.query.filter(Granule.productcode == code)
                 .filter(Granule.timestamp > aged_timestamp)
-                .order_by(desc(Granule.timestamp))
+                .order_by(Granule.timestamp)
                 .all()
             )
 
