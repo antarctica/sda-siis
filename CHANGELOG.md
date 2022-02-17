@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* Footprint selection supports multiple features
+  [#237](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/237)
 * Product selection no longer uses radio-buttons
   [#209](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/209)
 

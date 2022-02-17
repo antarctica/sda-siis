@@ -59,8 +59,10 @@
         </template>
       </div>
       <vl-interaction-select
-        :features.sync="selected_features"
         :condition="select_condition"
+        :toggleCondition="select_condition"
+        @select="onInteractionSelect"
+        @unselect="onInteractionUnselect"
       >
         <vl-style>
           <vl-style-stroke color="#28A197" :width="2"></vl-style-stroke>
@@ -714,6 +716,15 @@ export default {
       return {
         'start': interval_start,
         'end': interval_end
+      }
+    },
+    onInteractionSelect: function (event) {
+      this.selected_features.push(event.json);
+    },
+    onInteractionUnselect: function (event) {
+      let _index = this.selected_features.findIndex(_feature => _feature.id === event.json.id);
+      if (_index !== -1) {
+        this.selected_features.splice(_index, 1);
       }
     },
   },
