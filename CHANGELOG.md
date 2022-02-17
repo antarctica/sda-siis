@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Product selection no longer uses radio-buttons
+  [#209](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/209)
+
 ## 1.0.0-rc.4 - 2022-02-11
 
 ### Added

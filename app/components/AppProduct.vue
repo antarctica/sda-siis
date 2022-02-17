@@ -1,13 +1,9 @@
 <template>
-  <section class="product-wrapper">
-    <input
-      type="radio"
-      name="product-selection"
-      :id="'product-selection-' + id"
-      :value="id"
-      v-model="selected"
-      class="selected-control"
-    >
+  <section
+    class="product-wrapper"
+    :class="is_selected ? 'active-product' : null"
+    v-on:click="setSelectedProduct"
+  >
     <input
       type="checkbox"
       name="active-products"
@@ -288,6 +284,9 @@ export default {
 
       return 1;
     },
+    setSelectedProduct: function() {
+      this.selected = true;
+    },
     checkIfActiveProduct: function() {
       if (this.initial_active_product_ids.includes(this.id)) {
         this.is_active = true;
@@ -365,10 +364,17 @@ export default {
 <style scoped>
   .product-wrapper {
     display: grid;
-    grid-template-areas:  "selected enabled previous-granule next-granule opacity availability name";
-    grid-template-columns: 7%      7%       5%               5%           10%     5%           55%;
+    grid-template-areas:  "enabled previous-granule next-granule opacity availability name";
+    grid-template-columns: 7%       5%               5%           17%     5%           55%;
     column-gap: 1%;
     height: fit-content;
+  }
+  .active-product {
+    box-shadow: inset 1px 1px 4px #777;
+    transform: translateY(1px);
+    background-color: #d5caca;
+    border-style: double;
+    border-radius: 4px;
   }
   .selected-control {
     grid-area: selected;
