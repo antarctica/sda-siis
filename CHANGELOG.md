@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* [App] Exponential backoff for sensor data requests
+  [#212](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/212)
+
 ### Fixed
 
 * [App] Graticule layer can no longer be selected

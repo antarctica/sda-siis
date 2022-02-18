@@ -20,6 +20,7 @@
   "dependencies": {
     "@fontsource/open-sans": "^4.5.1",
     "axios": "^0.21.1",
+    "axios-retry": "^3.2.4",
     "ol": "^6.5.0",
     "proj4": "^2.6.3",
     "vue": "^2.6.12",
