@@ -50,7 +50,11 @@
 
 <script>
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import {degreesToStringHDDM} from '../mixins.js';
+
+// Enable exponential back-off for fetching sensor data
+axiosRetry(axios, { retries: 5, retryDelay: axiosRetry.exponentialDelay});
 
 export default {
   data() {
