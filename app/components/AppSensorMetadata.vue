@@ -133,7 +133,7 @@ export default {
       }
       return {
         'value': value,
-        'available': this.vertical_depth_value
+        'available': this.vertical_depth_online
       };
     },
     time_hours_offset_description: function () {
