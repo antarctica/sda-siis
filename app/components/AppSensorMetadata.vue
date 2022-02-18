@@ -196,16 +196,21 @@ export default {
         if (sensorData.properties.depth !== null) {
           this.vertical_depth_value = sensorData.properties.depth;
         }
+        this.latitude_online = false;
+          this.longitude_online = false;
         if (sensorData.properties.pos_online === true) {
           this.latitude_online = true;
           this.longitude_online = true;
         }
+        this.velocity_online = false;
         if (sensorData.properties.speed_online === true) {
           this.velocity_online = true;
         }
+        this.heading_degrees_online = false
         if (sensorData.properties.heading_online === true) {
           this.heading_degrees_online = true;
         }
+        this.vertical_depth_online = false;
         if (sensorData.properties.depth_online === true) {
           this.vertical_depth_online = true;
         }
