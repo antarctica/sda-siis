@@ -61,6 +61,7 @@
       <vl-interaction-select
         :condition="select_condition"
         :toggleCondition="select_condition"
+        :layers="select_layers"
         @select="onInteractionSelect"
         @unselect="onInteractionUnselect"
       >
@@ -727,6 +728,14 @@ export default {
         this.selected_features.splice(_index, 1);
       }
     },
+    select_layers: function (event) {
+      // filter out graticule layer
+      if ('meridiansLabels_' in event) {
+        return false;
+      }
+
+      return true;
+    }
   },
 
   async mounted() {
