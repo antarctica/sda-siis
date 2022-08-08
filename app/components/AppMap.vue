@@ -179,7 +179,7 @@ import Vue from 'vue'
 import axios from 'axios';
 import proj4 from 'proj4';
 import {click, never} from 'ol/events/condition';
-import {Attribution, FullScreen, MousePosition, ScaleLine, Zoom} from 'ol/control';
+import {Attribution, MousePosition, ScaleLine, Zoom} from 'ol/control';
 import {transform, transformExtent, addProjection} from 'ol/proj'
 import {register} from 'ol/proj/proj4';
 import {createStringXY} from 'ol/coordinate';
@@ -478,9 +478,6 @@ export default {
     },
     initControls: function () {
       this.$refs.AppMap.$map.addControl(attributionControl);
-
-      fullscreenControl.setTarget(document.getElementById('app-map-control-fullscreen'));
-      this.$refs.AppMap.$map.addControl(fullscreenControl);
 
       mousePositionControl.setTarget(document.getElementById('app-map-measure-position'));
       mousePositionControl.setProjection(this.mouse_position_format_projection);

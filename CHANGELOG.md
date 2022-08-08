@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Full screen behaviour changed to use HTML5 full screen API rather than OL control
+  [#232](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/232)
 * [App] Footprint selection supports multiple features
   [#237](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/237)
 * [App] Product selection no longer uses radio-buttons
