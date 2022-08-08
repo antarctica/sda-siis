@@ -1,7 +1,12 @@
 <template>
   <section class="app-map-controls">
     <fieldset id="app-map-control-zoom"></fieldset>
-    <fieldset id="app-map-control-fullscreen"></fieldset>
+    <fieldset id="app-map-control-fullscreen">
+      <button
+        v-on:click="makeAppFullscreen"
+        title="Hide control panels"
+      >X
+    </fieldset>
     <fieldset>
       <button
         v-on:click="display_ui = !display_ui"
@@ -430,6 +435,15 @@ export default {
       let feature = {};
       this.determineReferenceFeatureCount(feature);
       this.$emit('update:import_reference_feature', feature);
+    },
+    makeAppFullscreen: function() {
+      // this should be `document.fullscreenElement` but this always seems to be undefined
+      if (document.mozFullScreenElement) {
+        document.exitFullscreen();
+      } else {
+        const appElement = document.getElementById("app-wrapper");
+        appElement.requestFullscreen();
+      }
     },
   },
 
