@@ -449,7 +449,7 @@ export default {
             this.add_or_update_layer(layer);
           });
 
-          if (product_granule.granules_selection_mode === 'multiple') {
+          if (product_granule.granules_selection_mode === 'multiple' && product_granule.is_active) {
             const footprints_layer_name = 'siis:footprints';
             const id = `footprints-${product_granule.id}`;
 
