@@ -220,7 +220,6 @@ addProjection(projection3031);
 const attributionControl = new Attribution({
   collapsible: true,
 });
-const fullscreenControl = new FullScreen();
 const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
   undefinedHTML: '-,<br/>-',
