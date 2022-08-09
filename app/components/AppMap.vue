@@ -220,7 +220,6 @@ addProjection(projection3031);
 const attributionControl = new Attribution({
   collapsible: true,
 });
-const fullscreenControl = new FullScreen();
 const mousePositionControl = new MousePosition({
   coordinateFormat: createStringXY(4),
   undefinedHTML: '-,<br/>-',
@@ -449,7 +448,7 @@ export default {
             this.add_or_update_layer(layer);
           });
 
-          if (product_granule.granules_selection_mode === 'multiple') {
+          if (product_granule.granules_selection_mode === 'multiple' && product_granule.is_active) {
             const footprints_layer_name = 'siis:footprints';
             const id = `footprints-${product_granule.id}`;
 
