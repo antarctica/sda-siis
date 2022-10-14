@@ -34,6 +34,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [Infra] Minimal information on staging environment (URLs to components)
+  [#248](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/248)
 * [App] Notice to users where a product is selected without any granules in the current time filter period
   [#235](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/235)
 * [App] Bounds to time component
