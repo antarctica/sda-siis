@@ -91,11 +91,11 @@ authoritative, SIIS data directory.
 ```shell
 $ docker compose run rsync
 
-# to preview changes
-$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --dry-run --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
+# to preview change
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --dry-run --exclude /gwc --exclude /datastagein --exclude /datastageout [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 
 # to perform changes
-$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --progress --exclude gwc [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --progress --exclude /gwc --exclude /datastagein --exclude /datastageout [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 ```
 
 ### GeoServer

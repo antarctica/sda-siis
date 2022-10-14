@@ -43,6 +43,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [Infra] Correcting `rsync` commands for copying data for a local development environment
+  [#249](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/249)
 * [App] Assigning z-index to ship track and other map components to prevent overlap
   [#80](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/80)
 * [App] Inconsistency with depth sensor value variable
