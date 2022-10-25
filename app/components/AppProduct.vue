@@ -345,11 +345,14 @@ export default {
     },
     updateGranules: async function() {
       if (this.has_granules && this.granules_selection_mode === 'single') {
-        // as we don't know how many granules there will be the current selected index may be out of range,
-        // we therefore set the index to 0 first and then update it the new array length after getting granules.
-        this.selected_granule_indexes = [0];
+        // As we don't know how many granules there will be the current selected index may be out of range,
+        // we therefore clear the selected granule and then when new granules fetched, select the last item.
+        // This has the consequence that granule selections aren't preserved when changing time or date selections.
+        this.selected_granule_indexes = [];
         this.granules = await this.getGranules();
-        this.selected_granule_indexes = [this.granules.length - 1];
+        if (this.granules.length > 0) {
+          this.selected_granule_indexes = [this.granules.length - 1];
+        }
       }
     }
   },
