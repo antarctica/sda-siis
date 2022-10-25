@@ -5,8 +5,6 @@
       :key="product.id"
       :api_endpoint="api_endpoint"
       :ogc_endpoint="ogc_endpoint"
-      :time_filter="time_filter"
-      :date_filter="date_filter"
       :initial_product="product"
       :initial_active_product_ids="initial_active_product_ids"
       :selected_product_id="selected_product_id"
@@ -22,51 +20,8 @@
         <li v-for="product in active_products" :key="product.id">{{ product.id }} - {{ product.code }}</li>
       </ul>
     </div>
-    <fieldset class="time-filters">
-      <label for="time-filter">Time Filter</label>
-      <button
-        v-on:click="time_filter = -1"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == -1 ? 'activated': null"
-      >
-        None
-      </button>
-      <button
-        v-on:click="time_filter = 0"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == 0 ? 'activated': null"
-      >
-        Default
-      </button>
-      <button
-        v-on:click="time_filter = 72"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == 72 ? 'activated': null"
-      >
-        72 H
-      </button>
-      <button
-        v-on:click="time_filter = 48"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == 48 ? 'activated': null"
-      >
-        48 H
-      </button>
-      <button
-        v-on:click="time_filter = 24"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == 24 ? 'activated': null"
-      >
-        24 H
-      </button>
-      <br />
-      <label for="date-filter">Date filter</label>
-      <input type="date" v-model="date_filter"/>
-    </fieldset>
     <div class="debug" v-if="debug_mode">
       <p>Hemisphere: <output>{{ hemisphere }}</output></p>
-      <p>Time filter: <output>{{ time_filter }}</output><p>
-      <p>Date filter: <output>{{ date_filter }}</output><p>
       <p>Selected footprints:</p>
       <pre>{{ selected_footprints }}</pre>
     </div>
@@ -86,8 +41,6 @@ export default {
       'raw_products': [],
       'selected_product': {},
       'active_products': [],
-      'time_filter': 0,
-      'date_filter': '',
       'additional_initial_active_product_ids': [],
     }
   },
@@ -142,27 +95,6 @@ export default {
     crs: async function () {
       this.active_products = [];
       await this.getProducts();
-    },
-    date_filter: function () {
-      if (this.date_filter !== "") {
-        this.time_filter = 'disabled';
-      } else {
-        this.time_filter = 0;
-      }
-    },
-    time_filter: async function () {
-      // hack: reset all active products to make products reactive to time filter changes - #208
-      this.additional_initial_active_product_ids = [];
-      this.active_products.forEach((product) => {
-        this.additional_initial_active_product_ids.push(product.id);
-      });
-
-      this.raw_products = [];
-      this.active_products = [];
-      this.$emit("update:active_product_granules", this.active_products);
-      await this.getProducts();
-
-      this.$emit("update:time_filter", this.time_filter);
     },
   },
 
@@ -219,26 +151,6 @@ export default {
     row-gap: 10px;
     height: fit-content;
     padding: 5px;
-  }
-
-  fieldset {
-    border: none;
-  }
-
-  .time-filters {
-    font-size: 60%;
-  }
-  .time-filters button,
-  .time-filters input {
-    font-size: 80%;
-  }
-
-  .activated {
-    box-shadow: inset 1px 1px 4px #777;
-    transform: translateY(1px);
-    background-color: #d5caca;
-    border-style: double;
-    border-radius: 4px;
   }
 
   .debug {

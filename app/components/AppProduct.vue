@@ -51,6 +51,11 @@
     <span class="status-control status-indicator" v-else :title="status">?</span>
     <span class="name-control">{{ label }}</span>
 
+    <app-product-time-filter
+      v-on:update:date_filter="whenDateFilterChanges"
+      v-on:update:time_filter="whenTimeFilterChanges"
+    ></app-product-time-filter>
+
     <div class="debug" v-if="debug_mode">
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
@@ -74,7 +79,10 @@
 <script>
 import axios from 'axios';
 
+import AppProductTimeFilter from './AppProductTimeFilter.vue';
+
 export default {
+  components: { AppProductTimeFilter },
   data() {
     return {
       'id': '',
@@ -98,6 +106,7 @@ export default {
       'supports_high_res_granules': false,
       'default_time_filter': 0,
       'z_index': 1,
+      'granule_parameters': {},
     }
   },
 
@@ -105,8 +114,6 @@ export default {
     'debug_mode',
     'api_endpoint',
     'ogc_endpoint',
-    'time_filter',
-    'date_filter',
     'initial_product',
     "initial_active_product_ids",
     'selected_product_id',
@@ -168,22 +175,9 @@ export default {
       }
       return true;
     },
-    granule_parameters: function() {
-      if (this.time_filter === 'd') {
-        return {'date': this.date_filter};
-      } else {
-        return {'maxage': this.time_filter};
-      }
-    }
   },
 
   watch: {
-    time_filter: async function () {
-      this.updateGranules();
-    },
-    date_filter: async function () {
-      this.updateGranules();
-    },
     initial_active_product_ids: function () {
       this.checkIfActiveProduct();
     },
@@ -343,6 +337,14 @@ export default {
       });
       this.selected_granule_indexes = _selected_granule_indexes;
     },
+    whenTimeFilterChanges: function($event) {
+      this.granule_parameters = {'maxage': $event};
+      this.updateGranules();
+    },
+    whenDateFilterChanges: function($event) {
+      this.granule_parameters = {'date': $event};
+      this.updateGranules();
+    },
     updateGranules: async function() {
       if (this.has_granules && this.granules_selection_mode === 'single') {
         // As we don't know how many granules there will be the current selected index may be out of range,
@@ -406,6 +408,10 @@ export default {
   .status-control {
     grid-area: availability;
     margin: auto;
+  }
+
+  .time-filters {
+    grid-column: 1/-1;
   }
 
   .debug {
