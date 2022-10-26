@@ -50,11 +50,14 @@
       <div v-for="layer in layers" :key="layer.layer_id" :opacity=layer.opacity>
         <template v-if="layer.protocol === 'wfs'">
           <vl-layer-vector :zIndex=9>
-            <vl-source-vector :ref=layer.ref :url=layer.url>
-              <template v-if="layer.layer_type == 'footprint'">
-                  <vl-style-func :function="style_func_footprints"></vl-style-func>
-              </template>
-            </vl-source-vector>
+            <template v-if="layer.layer_type == 'footprint'">
+              <vl-source-vector :ref="layer.ref" :features.sync="layer.features">
+                <vl-style-func :function="style_func_footprints"></vl-style-func>
+              </vl-source-vector>
+            </template>
+            <template v-else>
+              <vl-source-vector :ref="layer.ref" :url="layer.url"></vl-source-vector>
+            </template>
           </vl-layer-vector>
         </template>
       </div>
@@ -265,7 +268,6 @@ export default {
     'measure_tool_feature_export_count',
     'measure_tool_max_features',
     'reference_feature',
-    'time_filter',
   ],
 
   computed: {
@@ -417,7 +419,7 @@ export default {
 
   methods: {
     initLayers: function () {
-      this.product_granules.forEach((product_granule) => {
+      this.product_granules.forEach(async (product_granule) => {
         let layer = {
           'ref': this.generateLayerRef(product_granule.code),
           'id': product_granule.id,
@@ -452,9 +454,20 @@ export default {
             const footprints_layer_name = 'siis:footprints';
             const id = `footprints-${product_granule.id}`;
 
-            // horrible hack!
-            const date_filter = this.calculateTimeFilterAsInterval(product_granule.default_time_filter);
+            let date_filter = false;
             let date_filter_parameter = '';
+            if ('maxage' in product_granule.granule_parameters && product_granule.granule_parameters.maxage != -1) {
+              date_filter = this.calculateDateIntervalFromHours(product_granule.granule_parameters.maxage);
+            }
+            else if ('date' in product_granule.granule_parameters) {
+              date_filter = {
+                'start': product_granule.granule_parameters.date,
+                'end': product_granule.granule_parameters.date
+              };
+            }
+            else if ('default_time_filter' in product_granule) {
+              date_filter = this.calculateDateIntervalFromHours(product_granule.default_time_filter);
+            }
             if (date_filter !== false) {
               date_filter_parameter = `&cql_filter=timestamp%20DURING%20${date_filter.start}%2F${date_filter.end}`;
             }
@@ -464,9 +477,14 @@ export default {
               'id': id,
               '_id': product_granule.id,
               'protocol': 'wfs',
-              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}${date_filter_parameter}`,
+              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&SrsName=epsg:3031&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}${date_filter_parameter}`,
               'layer_type': "footprint"
             };
+
+            // VueLayers can't/won't fetch new data the source changes [1], features have to be provided directly
+            // therefore we make the request for features ourselves and attach this to the layer.
+            // [1] https://github.com/ghettovoice/vuelayers/issues/205
+            footprints_layer.features = await this.getGeoJSONFeaturesFromSource(footprints_layer.url);
             this.add_or_update_layer(footprints_layer);
           }
         }
@@ -690,18 +708,6 @@ export default {
         console.error(error);
       }
     },
-    calculateTimeFilterAsInterval: function (default_period_hours) {
-      if (this.time_filter == '-1') {
-        // no filter
-        return false;
-      } else if (this.time_filter == '0') {
-        // default
-        return this.calculateDateIntervalFromHours(default_period_hours);
-      } else {
-        // filter set by app
-        return this.calculateDateIntervalFromHours(this.time_filter);
-      }
-    },
     calculateDateIntervalFromHours: function (hours) {
       const days = Math.floor(hours / 24);
       let interval_start = new Date(new Date().setDate(new Date().getDate()-days));
@@ -731,11 +737,20 @@ export default {
       }
 
       return true;
-    }
+    },
+    getGeoJSONFeaturesFromSource: async function (url) {
+      try {
+        const response = await axios.get(url);
+        return response.data.features;
+      } catch (error) {
+        // alerts disabled as per https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/199
+        console.error(error);
+      }
+    },
   },
 
   async mounted() {
-    this.initLayers();
+    await this.initLayers();
 
     if (this.show_ship_track) {
       let _this = this;

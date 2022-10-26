@@ -11,6 +11,7 @@
       :selected_footprints="selected_footprints"
       v-on:update:selected_product="whenSelectedProductGranulesChange"
       v-on:update:selected_granules="whenSelectedProductGranulesChange"
+      v-on:update:granule_parameters="whenProductGranuleParametersChange"
       v-on:update:active_product="whenActiveProductsChange"
     ></app-product>
     <div class="debug" v-if="debug_mode">
@@ -134,6 +135,10 @@ export default {
         this.active_products.splice(_index, 1);
       }
       this.$emit("update:active_product_granules", this.active_products);
+    },
+    whenProductGranuleParametersChange: function ($event) {
+      // piggyback on the selected_product_granules event
+      this.$emit("update:selected_product_granules", this.selected_product_granules);
     }
   },
 

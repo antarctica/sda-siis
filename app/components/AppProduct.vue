@@ -340,10 +340,12 @@ export default {
     whenTimeFilterChanges: function($event) {
       this.granule_parameters = {'maxage': $event};
       this.updateGranules();
+      this.$emit("update:granule_parameters", this.$data);
     },
     whenDateFilterChanges: function($event) {
       this.granule_parameters = {'date': $event};
       this.updateGranules();
+      this.$emit("update:granule_parameters", this.$data);
     },
     updateGranules: async function() {
       if (this.has_granules && this.granules_selection_mode === 'single') {
