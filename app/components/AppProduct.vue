@@ -52,6 +52,7 @@
     <span class="name-control">{{ label }}</span>
 
     <app-product-time-filter
+      v-if="has_granules"
       v-on:update:date_filter="whenDateFilterChanges"
       v-on:update:time_filter="whenTimeFilterChanges"
     ></app-product-time-filter>
