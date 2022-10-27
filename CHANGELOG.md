@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 1.0.0-rc.5 - 2022-10-27
+
 ### Added
 
 * [App] Exponential backoff for sensor data requests
