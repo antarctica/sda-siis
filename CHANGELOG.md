@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* Time / date filters are now per-product
+  [#230](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/230)
 * Limiting footprint selections to the active product (where multiple granule selections apply)
   [#240](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/240)
 * [App] Full screen behaviour changed to use HTML5 full screen API rather than OL control

@@ -51,6 +51,16 @@
     <span class="status-control status-indicator" v-else :title="status">?</span>
     <span class="name-control">{{ label }}</span>
 
+    <app-product-time-filter
+      v-if="has_granules"
+      :granules_selection_mode="granules_selection_mode"
+      :default_time_filter="default_time_filter"
+      :min_date="earliest_granule.timestamp"
+      :max_date="latest_granule.timestamp"
+      v-on:update:date_filter="whenDateFilterChanges"
+      v-on:update:time_filter="whenTimeFilterChanges"
+    ></app-product-time-filter>
+
     <div class="debug" v-if="debug_mode">
       <p>Code: {{ code }}</p>
       <p>Selected: {{ is_selected }}</p>
@@ -74,7 +84,10 @@
 <script>
 import axios from 'axios';
 
+import AppProductTimeFilter from './AppProductTimeFilter.vue';
+
 export default {
+  components: { AppProductTimeFilter },
   data() {
     return {
       'id': '',
@@ -98,6 +111,9 @@ export default {
       'supports_high_res_granules': false,
       'default_time_filter': 0,
       'z_index': 1,
+      'granule_parameters': {},
+      'earliest_granule': {},
+      'latest_granule': {},
     }
   },
 
@@ -105,8 +121,6 @@ export default {
     'debug_mode',
     'api_endpoint',
     'ogc_endpoint',
-    'time_filter',
-    'date_filter',
     'initial_product',
     "initial_active_product_ids",
     'selected_product_id',
@@ -168,22 +182,9 @@ export default {
       }
       return true;
     },
-    granule_parameters: function() {
-      if (this.time_filter === 'd') {
-        return {'date': this.date_filter};
-      } else {
-        return {'maxage': this.time_filter};
-      }
-    }
   },
 
   watch: {
-    time_filter: async function () {
-      this.updateGranules();
-    },
-    date_filter: async function () {
-      this.updateGranules();
-    },
     initial_active_product_ids: function () {
       this.checkIfActiveProduct();
     },
@@ -222,6 +223,7 @@ export default {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
         this.supports_high_res_granules = this.initial_product.highres_available;
         this.granules = await this.getGranules();
+        this.calculateTemporalExtent();
         if (this.granules_selection_mode === 'single') {
           if (this.granules.length > 0) {
             this.selected_granule_indexes = [this.granules.length - 1];
@@ -306,6 +308,7 @@ export default {
             'label': granule.productname,
             'status': granule.status,
             'timestamp': this.formatGranuleTimestamp(granule.timestamp, granule.productcode),
+            'sort_datetime': Date.parse(granule.timestamp),
             'raw': granule,
           });
         });
@@ -343,15 +346,49 @@ export default {
       });
       this.selected_granule_indexes = _selected_granule_indexes;
     },
+    whenTimeFilterChanges: function($event) {
+      this.granule_parameters = {'maxage': $event};
+      this.updateGranules();
+      this.$emit("update:granule_parameters", this.$data);
+    },
+    whenDateFilterChanges: function($event) {
+      this.granule_parameters = {'date': $event};
+      this.updateGranules();
+      this.$emit("update:granule_parameters", this.$data);
+    },
     updateGranules: async function() {
       if (this.has_granules && this.granules_selection_mode === 'single') {
-        // as we don't know how many granules there will be the current selected index may be out of range,
-        // we therefore set the index to 0 first and then update it the new array length after getting granules.
-        this.selected_granule_indexes = [0];
+        // As we don't know how many granules there will be the current selected index may be out of range,
+        // we therefore clear the selected granule and then when new granules fetched, select the last item.
+        // This has the consequence that granule selections aren't preserved when changing time or date selections.
+        this.selected_granule_indexes = [];
         this.granules = await this.getGranules();
-        this.selected_granule_indexes = [this.granules.length - 1];
+        this.calculateTemporalExtent();
+        if (this.granules.length > 0) {
+          this.selected_granule_indexes = [this.granules.length - 1];
+        }
       }
-    }
+    },
+    calculateTemporalExtent: function() {
+      const earliest_granule = this.granules.reduce((prev_granule, next_granule) => {
+        if (next_granule.sort_datetime < prev_granule.sort_datetime)
+          return next_granule;
+        else {
+          return prev_granule;
+        }
+      });
+
+      const latest_granule = this.granules.reduce((prev_granule, next_granule) => {
+        if (next_granule.sort_datetime > prev_granule.sort_datetime)
+          return next_granule;
+        else {
+          return prev_granule;
+        }
+      });
+
+      this.earliest_granule = earliest_granule;
+      this.latest_granule = latest_granule;
+    },
   },
 
   mounted() {
@@ -403,6 +440,10 @@ export default {
   .status-control {
     grid-area: availability;
     margin: auto;
+  }
+
+  .time-filters {
+    grid-column: 1/-1;
   }
 
   .debug {
