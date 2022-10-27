@@ -53,6 +53,10 @@
 
     <app-product-time-filter
       v-if="has_granules"
+      :granules_selection_mode="granules_selection_mode"
+      :default_time_filter="default_time_filter"
+      :min_date="earliest_granule.timestamp"
+      :max_date="latest_granule.timestamp"
       v-on:update:date_filter="whenDateFilterChanges"
       v-on:update:time_filter="whenTimeFilterChanges"
     ></app-product-time-filter>
@@ -108,6 +112,8 @@ export default {
       'default_time_filter': 0,
       'z_index': 1,
       'granule_parameters': {},
+      'earliest_granule': {},
+      'latest_granule': {},
     }
   },
 
@@ -217,6 +223,7 @@ export default {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
         this.supports_high_res_granules = this.initial_product.highres_available;
         this.granules = await this.getGranules();
+        this.calculateTemporalExtent();
         if (this.granules_selection_mode === 'single') {
           if (this.granules.length > 0) {
             this.selected_granule_indexes = [this.granules.length - 1];
@@ -301,6 +308,7 @@ export default {
             'label': granule.productname,
             'status': granule.status,
             'timestamp': this.formatGranuleTimestamp(granule.timestamp, granule.productcode),
+            'sort_datetime': Date.parse(granule.timestamp),
             'raw': granule,
           });
         });
@@ -355,11 +363,32 @@ export default {
         // This has the consequence that granule selections aren't preserved when changing time or date selections.
         this.selected_granule_indexes = [];
         this.granules = await this.getGranules();
+        this.calculateTemporalExtent();
         if (this.granules.length > 0) {
           this.selected_granule_indexes = [this.granules.length - 1];
         }
       }
-    }
+    },
+    calculateTemporalExtent: function() {
+      const earliest_granule = this.granules.reduce((prev_granule, next_granule) => {
+        if (next_granule.sort_datetime < prev_granule.sort_datetime)
+          return next_granule;
+        else {
+          return prev_granule;
+        }
+      });
+
+      const latest_granule = this.granules.reduce((prev_granule, next_granule) => {
+        if (next_granule.sort_datetime > prev_granule.sort_datetime)
+          return next_granule;
+        else {
+          return prev_granule;
+        }
+      });
+
+      this.earliest_granule = earliest_granule;
+      this.latest_granule = latest_granule;
+    },
   },
 
   mounted() {

@@ -39,6 +39,7 @@
     <br />
     <label for="date-filter">Date filter</label>
     <input type="date" v-model="date_filter"/>
+    <input type="date" v-model="date_filter" :min="min_date" :max="max_date" />
   </fieldset>
 </template>
 
@@ -51,10 +52,14 @@ export default {
     }
   },
 
+  props: [
+    'min_date',
+    'max_date'
+  ],
+
   watch: {
     date_filter: function () {
-      if (this.date_filter !== "") {
-        this.time_filter = 'disabled';
+      if (this.date_filter !== "") {        this.time_filter = 'disabled';
       } else {
         this.time_filter = 0;
       }
@@ -70,8 +75,7 @@ export default {
 
 <style scoped>
   fieldset {
-    border: none;
-  }
+    border: none;  }
 
   .time-filters {
     font-size: 60%;
