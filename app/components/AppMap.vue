@@ -17,15 +17,6 @@
         :rotation.sync="rotation"
         :center.sync="centre_crs"
       ></vl-view>
-      <vl-layer-tile :zIndex=0>
-        <vl-source-tile-wms
-          ref='base-map'
-          :url="basemap_url"
-          layers='siis:base_global_full'
-          attributions='British Antarctic Survey'
-        ></vl-source-tile-wms>
-      </vl-layer-tile>
-
       <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity="layer.opacity" :zIndex="layer.z_index">
         <template v-if="layer.protocol === 'wms' || layer.protocol === 'wmts'">
           <!-- WMTS layers are considereed to use WMS until https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51 is resolved -->
