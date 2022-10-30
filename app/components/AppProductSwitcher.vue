@@ -37,8 +37,8 @@ import AppProduct from './AppProduct.vue';
 export default {
   data() {
     return {
-      'arctic_default_product_ids': ['4'],
-      'antarctic_default_product_ids': ['5'],
+      'arctic_default_product_ids': ['13', '4'],
+      'antarctic_default_product_ids': ['12', '5'],
       'raw_products': [],
       'selected_product': {},
       'active_products': [],

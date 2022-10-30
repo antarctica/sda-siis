@@ -182,6 +182,20 @@ export default {
       }
       return true;
     },
+    earliest_granule_timestamp: function() {
+      if (this.earliest_granule.hasOwnProperty('timestamp')) {
+        return this.earliest_granule.timestamp;
+      }
+
+      return null;
+    },
+    latest_granule_timestamp: function() {
+      if (this.latest_granule.hasOwnProperty('timestamp')) {
+        return this.latest_granule.timestamp;
+      }
+
+      return null;
+    },
   },
 
   watch: {
@@ -370,24 +384,25 @@ export default {
       }
     },
     calculateTemporalExtent: function() {
-      const earliest_granule = this.granules.reduce((prev_granule, next_granule) => {
-        if (next_granule.sort_datetime < prev_granule.sort_datetime)
-          return next_granule;
-        else {
-          return prev_granule;
-        }
-      });
+      if (this.granules.length > 0) {
+        const earliest_granule = this.granules.reduce((prev_granule, next_granule) => {
+          if (next_granule.sort_datetime < prev_granule.sort_datetime)
+            return next_granule;
+          else {
+            return prev_granule;
+          }
+        });
+        this.earliest_granule = earliest_granule;
 
-      const latest_granule = this.granules.reduce((prev_granule, next_granule) => {
-        if (next_granule.sort_datetime > prev_granule.sort_datetime)
-          return next_granule;
-        else {
-          return prev_granule;
-        }
-      });
-
-      this.earliest_granule = earliest_granule;
-      this.latest_granule = latest_granule;
+        const latest_granule = this.granules.reduce((prev_granule, next_granule) => {
+          if (next_granule.sort_datetime > prev_granule.sort_datetime)
+            return next_granule;
+          else {
+            return prev_granule;
+          }
+        });
+        this.latest_granule = latest_granule;
+      }
     },
   },
 

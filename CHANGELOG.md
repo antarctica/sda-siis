@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* Workaround for static basemap layer not using updated map projection
+  [#256](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/256)
+* Handling determining a temporal extent for products with no granules (i.e. too old)
+  [#230](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/230)
+
 ## 1.0.0-rc.5 - 2022-10-27
 
 ### Added
