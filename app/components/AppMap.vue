@@ -409,10 +409,10 @@ export default {
   },
 
   methods: {
-    initLayers: function () {
+    initLayers: async function () {
       this.product_granules.forEach(async (product_granule) => {
         let layer = {
-          'ref': this.generateLayerRef(product_granule.code),
+          'ref': await this.generateLayerRef(product_granule.code),
           'id': product_granule.id,
           'protocol': product_granule.ogc_protocol,
           'endpoint': product_granule.ogc_protocol_url,
@@ -429,11 +429,12 @@ export default {
         }
 
         if (product_granule.has_granules) {
-          product_granule.selected_granule_indexes.forEach((granule_index) => {
+          product_granule.selected_granule_indexes.forEach(async (granule_index) => {
             let _granule_layer = JSON.parse(JSON.stringify(layer));  // clone base layer properties
             let _granule = product_granule.granules[granule_index];
+
             // replace product ID with granule ID for layer ID
-            _granule_layer['ref'] = this.generateLayerRef(layer.id, _granule.id);
+            _granule_layer['ref'] = await this.generateLayerRef(layer.id, _granule.id);
             _granule_layer['id'] = _granule.id;
             _granule_layer['time'] = _granule.timestamp;
             layer = _granule_layer
@@ -540,12 +541,10 @@ export default {
       return {};
     },
     generateLayerRef: function (product_id, granule_id) {
-      let _id = product_id;
-      if (typeof granule_id !== "undefined") {
-        _id = `${_id}___${granule_id}`;
+      if (typeof granule_id === "undefined") {
+        return product_id;
       }
-
-      return _id;
+      return `${product_id}___${granule_id}`;
     },
     add_or_update_layer: function (layer) {
       let _index = this.layers.findIndex(_layer => _layer.id === layer.id);
