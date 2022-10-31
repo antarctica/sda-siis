@@ -453,8 +453,8 @@ export default {
             }
             else if ('date' in product_granule.granule_parameters) {
               date_filter = {
-                'start': product_granule.granule_parameters.date,
-                'end': product_granule.granule_parameters.date
+                'start': `${product_granule.granule_parameters.date}T00:00:00Z`,
+                'end': `${product_granule.granule_parameters.date}T23:59:59`
               };
             }
             else if ('default_time_filter' in product_granule) {
