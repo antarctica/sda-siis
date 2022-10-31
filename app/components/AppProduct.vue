@@ -371,14 +371,15 @@ export default {
       this.$emit("update:granule_parameters", this.$data);
     },
     updateGranules: async function() {
-      if (this.has_granules && this.granules_selection_mode === 'single') {
+      if (this.has_granules) {
         // As we don't know how many granules there will be the current selected index may be out of range,
         // we therefore clear the selected granule and then when new granules fetched, select the last item.
         // This has the consequence that granule selections aren't preserved when changing time or date selections.
         this.selected_granule_indexes = [];
         this.granules = await this.getGranules();
         this.calculateTemporalExtent();
-        if (this.granules.length > 0) {
+
+        if (this.granules.length > 0 && this.granules_selection_mode === 'single') {
           this.selected_granule_indexes = [this.granules.length - 1];
         }
       }
