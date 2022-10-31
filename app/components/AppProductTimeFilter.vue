@@ -55,13 +55,16 @@ export default {
       if (this.date_filter !== "") {
         this.time_filter = 'disabled';
       } else {
-        this.time_filter = 0;
+        this.time_filter = this.default_time_filter;
+        this.$emit("update:time_filter", this.time_filter);
       }
 
       this.$emit("update:date_filter", this.date_filter);
     },
     time_filter: function () {
-      this.$emit("update:time_filter", this.time_filter);
+      if (this.time_filter !== 'disabled') {
+        this.$emit("update:time_filter", this.time_filter);
+      }
     }
   },
 
