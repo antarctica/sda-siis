@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 1.0.0-rc.6 - 2022-10-31
+
 ### Fixed
 
 * Workaround for static basemap layer not using updated map projection
