@@ -42,8 +42,7 @@ No RTZ extensions are supported by this application.
 * [staging instance](https://siis.sda-stage.bas.ac.uk/)
   * [GeoServer](https://start.1password.com/open/i?a=QSB6V7TUNVEOPPPWR6G7S2ARJ4&v=ffy5l25mjdv577qj6izuk6lo4m&i=ksuxk6us55dbjbjy3jubvsy4ve&h=magic.1password.eu)
   * [Database](https://start.1password.com/open/i?a=QSB6V7TUNVEOPPPWR6G7S2ARJ4&v=ffy5l25mjdv577qj6izuk6lo4m&i=3edi7zmpe6n7fb7s4bfgicsbvm&h=magic.1password.eu)
-
-...
+* [production instance](https://siis.sda.bas.ac.uk/)
 
 ## Implementation
 
@@ -96,10 +95,10 @@ authoritative, SIIS data directory.
 $ docker compose run rsync
 
 # to preview change
-$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --dry-run --exclude /gwc --exclude /datastagein --exclude /datastageout [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --dry-run --exclude /gwc --exclude /datastagein --exclude /datastageout --exclude /data/xfer [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 
 # to perform changes
-$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --progress --exclude /gwc --exclude /datastagein --exclude /datastageout [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
+$ rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --progress --exclude /gwc --exclude /datastagein --exclude /datastageout --exclude /data/xfer [user]@bslcenb.nerc-bas.ac.uk:/data/siis/ .
 ```
 
 ### GeoServer
