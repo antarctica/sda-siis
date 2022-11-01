@@ -154,8 +154,9 @@ export default {
     z-index: 10;
     display: grid;
     row-gap: 10px;
-    height: fit-content;
     padding: 5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .debug {

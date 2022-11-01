@@ -268,7 +268,7 @@ export default Vue.extend({
     display: grid;
 
     grid-template-columns: 11% auto 15% 20%;
-    grid-template-rows: min-content min-content auto 64px 30px;
+    grid-template-rows: 50vh 30vh auto 64px 30px;
     grid-template-areas:
       "sensor-metadata .            .                products-switcher"
       ".               .            .                granule-metadata "
