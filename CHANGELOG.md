@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [App] Previous granule ID was incorrectly used as product ID when generating granule layer references
   [#260](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/230)
 
+### Changed
+
+* [App] UI updated to make product selection panel bigger
+  [#261](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/261)
+
 ## 1.0.0-rc.6 - 2022-10-31
 
 ### Fixed

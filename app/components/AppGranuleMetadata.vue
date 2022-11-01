@@ -115,12 +115,18 @@ export default {
 </script>
 
 <style scoped>
+  p, ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .app-granule-metadata {
     grid-area: granule-metadata;
     z-index: 10;
     font-size: 60%;
-    height: fit-content;
     padding: 5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .status-indicator {
@@ -135,7 +141,6 @@ export default {
     overflow-wrap: anywhere;
   }
   .granule-hr-request {
-    margin-bottom: 16px;
     font-size: 80%;
   }
 </style>
