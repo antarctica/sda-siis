@@ -60,7 +60,7 @@
         @unselect="onInteractionUnselect"
       >
         <vl-style>
-          <vl-style-stroke color="#28A197" :width="2"></vl-style-stroke>
+          <vl-style-stroke color="#28A197" :width="3"></vl-style-stroke>
           <vl-style-fill color="rgba(255, 255, 255, 0)"></vl-style-fill>
         </vl-style>
       </vl-interaction-select>
@@ -634,7 +634,7 @@ export default {
 
       let style = createStyle({
         strokeColor: stroke_colour,
-        strokeWidth: 2,
+        strokeWidth: 3,
       });
 
       return [style];
