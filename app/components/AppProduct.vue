@@ -321,7 +321,7 @@ export default {
             'id': granule.id,
             'label': granule.productname,
             'status': granule.status,
-            'timestamp': this.formatGranuleTimestamp(granule.timestamp, granule.productcode),
+            'timestamp': this.formatGranuleTimestamp(granule.timestamp),
             'sort_datetime': Date.parse(granule.timestamp),
             'raw': granule,
           });
@@ -333,10 +333,11 @@ export default {
         console.error(error);
       }
     },
-    formatGranuleTimestamp: function(timestamp, product) {
-      // convert `2021-06-14T13:24:51.009896` into `2021-06-14`, except for S1 products
-      // see https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/90 for long term fix
-      if (product === 'siis.s1.s' || product === 'siis.s1.n') {
+    formatGranuleTimestamp: function(timestamp) {
+      // convert `2021-06-14T13:24:51.009896` into `2021-06-14`, except for products supporting multiple granule
+      // selections, which are modified to include a timezone.
+      // See https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/90 for long term fix
+      if (this.granules_selection_mode == 'multiple') {
         return `${timestamp}.0Z`;
       }
       return timestamp.split('T')[0];

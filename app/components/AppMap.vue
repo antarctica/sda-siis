@@ -40,7 +40,7 @@
       </vl-layer-tile>
       <div v-for="layer in layers" :key="layer.layer_id" :opacity="layer.opacity">
         <template v-if="layer.protocol === 'wfs'">
-          <vl-layer-vector :zIndex=9>
+          <vl-layer-vector :id="layer.id" :zIndex=9>
             <template v-if="layer.layer_type == 'footprint'">
               <vl-source-vector :ref="layer.ref" :features.sync="layer.features">
                 <vl-style-func :function="style_func_footprints"></vl-style-func>
@@ -55,7 +55,7 @@
       <vl-interaction-select
         :condition="select_condition"
         :toggleCondition="select_condition"
-        :layers="select_layers"
+        :layers="interaction_select_layers"
         @select="onInteractionSelect"
         @unselect="onInteractionUnselect"
       >
@@ -353,7 +353,19 @@ export default {
     },
     basemap_url: function () {
       return `${this.ogc_endpoint}/geoserver/siis/wms`;
-    }
+    },
+    interaction_select_layers: function() {
+      if (!this.selected_product_granules.hasOwnProperty('product')) {
+        return [];
+      }
+
+      // only products supporting multiple granule selections will have a footprints layer
+      if (this.selected_product_granules.product.hasOwnProperty('granules_selection_mode') && this.selected_product_granules.product.granules_selection_mode == 'multiple') {
+        return [`footprints-${this.selected_product_granules.product.id}`];
+      }
+
+      return [];
+    },
   },
 
   watch: {
@@ -719,14 +731,6 @@ export default {
       if (_index !== -1) {
         this.selected_features.splice(_index, 1);
       }
-    },
-    select_layers: function (event) {
-      // filter out graticule layer
-      if ('meridiansLabels_' in event) {
-        return false;
-      }
-
-      return true;
     },
     getGeoJSONFeaturesFromSource: async function (url) {
       try {
