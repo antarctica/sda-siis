@@ -227,7 +227,7 @@ export default {
       this.ogc_style = this.initial_product.style;
       this.legend_url = this.determineLegendUrl();
       this.attribution = this.initial_product.attribution;
-      this.opacity = 1;
+      this.opacity = this.initial_product.default_opacity;
       this.has_granules = !this.initial_product.static;
       this.supports_value_at_pixel = this.determineValueAtPixelSupported(this.code);
       this.default_time_filter = this.initial_product.default_timeframe;

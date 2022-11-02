@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [API] Default opacity values added as a property in API responses
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
 * [API] Z index values added as a property in API responses
   [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
 
@@ -24,6 +26,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Setting product default opacity value from API property
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
 * [App] Setting product Z index value from API property
   [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
 * [App] Updating OGC API endpoint property names
