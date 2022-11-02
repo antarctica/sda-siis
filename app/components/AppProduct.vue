@@ -232,6 +232,7 @@ export default {
       this.supports_value_at_pixel = this.determineValueAtPixelSupported(this.code);
       this.default_time_filter = this.initial_product.default_timeframe;
       this.z_index = this.initial_product.default_z;
+      this.is_active = this.initial_product.show_on_startup;
 
       if (this.has_granules) {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
@@ -243,6 +244,10 @@ export default {
             this.selected_granule_indexes = [this.granules.length - 1];
           }
         }
+      }
+
+      if (this.is_active) {
+        this.$emit("update:active_product", this.$data);
       }
     },
     determinePreferredOGCProtocol: function(protocols) {
