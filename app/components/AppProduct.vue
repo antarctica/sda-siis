@@ -225,7 +225,7 @@ export default {
       this.ogc_layer_name = this.initial_product.gs_layername,
       this.ogc_format = this.determineOGCFormat(this.initial_product.formats);
       this.ogc_style = this.initial_product.style;
-      this.legend_url = this.determineLegendUrl();
+      this.legend_url = this.determineLegendUrl(this.initial_product.legend_graphic_params);
       this.attribution = this.initial_product.attribution;
       this.opacity = this.initial_product.default_opacity;
       this.has_granules = !this.initial_product.static;
@@ -276,8 +276,17 @@ export default {
         return 'image/jpeg';
       }
     },
-    determineLegendUrl: function() {
-      return `${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${this.ogc_layer_name}`;
+    determineLegendUrl: function(legend_options) {
+      let legend_url =`${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${this.ogc_layer_name}`;
+
+      if (legend_options != '' && legend_options != null) {
+        // workaround in case legend_options key is already in value
+        legend_options = legend_options.toLowerCase().replace('legend_options=', '');
+
+        legend_url = `${legend_url}&legend_options=${legend_options}`;
+      }
+
+      return legend_url;
     },
     determineGranuleSelectionMode: function(mode) {
       if (mode) {

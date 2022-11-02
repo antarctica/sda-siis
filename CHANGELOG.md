@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Setting legend options from API property
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [API] Legend options added as a property in API responses
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
 * [App] Setting whether product is shown on startup from API property
   [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
 * [API] Show on startup values added as a property in API responses
