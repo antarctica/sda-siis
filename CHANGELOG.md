@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Updating OGC API endpoint property names
+  [#264](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/264)
 * [App] Stroke width for footprints increased to make them easier to click
   [#262](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/262)
 * [App] UI updated to make product selection panel bigger
