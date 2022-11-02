@@ -92,17 +92,6 @@
             </vl-feature>
           </vl-source-vector>
         </vl-layer-vector>
-
-        <!-- Retained in case we need to fall back from the WFS based layer for performance reasons -->
-        <!-- <vl-layer-tile>
-          <vl-source-tile-wms
-            ref='ship-track'
-            :url="`${this.ogc_endpoint}/geoserver/siis/wms`"
-            layers='siis:vw_track_line'
-            :style="`siis:vessel_track_line.${this.style_modifier}`"
-            attributions='British Antarctic Survey'
-          ></vl-source-tile-wms>
-        </vl-layer-tile> -->
       </template>
 
       <template v-if="reference_feature_coordinates_projected.length > 0">
@@ -235,6 +224,7 @@ export default {
       'drawn_features': [],
       'ship_track': [],
       'draw_feature_listener': null,
+      'ship_track_update_frequency': 30000,
     }
   },
 
@@ -418,6 +408,16 @@ export default {
       // registered in this method and used as a signal to export the drawn feature - i.e. the value itself is ignored.
       this.exportDrawnFeature();
     },
+    show_ship_track: async function () {
+      if (this.show_ship_track) {
+        _this.getShipTrack();
+
+        let _this = this;
+        setInterval(async function () {
+          await _this.getShipTrack();
+        }, this.ship_track_update_frequency);
+      }
+    }
   },
 
   methods: {
@@ -750,7 +750,7 @@ export default {
       let _this = this;
       setInterval(async function () {
         await _this.getShipTrack();
-      }, 30000);
+      }, this.ship_track_update_frequency);
     }
 
     this.$refs.AppMapView.$createPromise.then(() => {
