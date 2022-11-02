@@ -40,7 +40,7 @@
       </vl-layer-tile>
       <div v-for="layer in layers" :key="layer.layer_id" :opacity="layer.opacity">
         <template v-if="layer.protocol === 'wfs'">
-          <vl-layer-vector :id="layer.id" :zIndex=9>
+          <vl-layer-vector :id="layer.id" :zIndex=920>
             <template v-if="layer.layer_type == 'footprint'">
               <vl-source-vector :ref="layer.ref" :features.sync="layer.features">
                 <vl-style-func :function="style_func_footprints"></vl-style-func>
@@ -64,10 +64,10 @@
           <vl-style-fill color="rgba(255, 255, 255, 0)"></vl-style-fill>
         </vl-style>
       </vl-interaction-select>
-      <vl-layer-graticule :show-labels="false" v-if="show_graticule"></vl-layer-graticule>
+      <vl-layer-graticule :show-labels="false" v-if="show_graticule" :zIndex=910></vl-layer-graticule>
 
       <template v-if="show_ship_position">
-        <vl-layer-vector :zIndex=12>
+        <vl-layer-vector :zIndex=940>
           <vl-source-vector>
             <vl-feature>
               <vl-geom-point :coordinates="ship_position_projected"></vl-geom-point>
@@ -82,7 +82,7 @@
         </vl-layer-vector>
       </template>
       <template v-if="show_ship_track">
-        <vl-layer-vector :zIndex=10>
+        <vl-layer-vector :zIndex=930>
           <vl-source-vector>
             <vl-feature>
               <vl-geom-line-string
@@ -106,7 +106,7 @@
       </template>
 
       <template v-if="reference_feature_coordinates_projected.length > 0">
-        <vl-layer-vector ref="reference-layer" :zIndex=50>
+        <vl-layer-vector ref="reference-layer" :zIndex=950>
           <vl-source-vector>
             <vl-feature>
               <vl-geom-line-string :coordinates="reference_feature_coordinates_projected"></vl-geom-line-string>
@@ -119,7 +119,7 @@
       </template>
 
       <template v-if="show_measure_tool">
-        <vl-layer-vector :zIndex=100>
+        <vl-layer-vector :zIndex=960>
           <vl-source-vector
             ref="AppMapDrawingSource"
             ident="drawing-layer"

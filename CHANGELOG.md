@@ -12,6 +12,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [API] 'temp' prefix removed from OGC API endpoints
   [#264](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/264)
 
+### Added
+
+* [App] Setting legend options from API property
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [API] Legend options added as a property in API responses
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [App] Setting whether product is shown on startup from API property
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [API] Show on startup values added as a property in API responses
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [API] Default opacity values added as a property in API responses
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [API] Z index values added as a property in API responses
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+
 ### Fixed
 
 * [App] Previous granule ID was incorrectly used as product ID when generating granule layer references
@@ -19,6 +34,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Setting product default opacity value from API property
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [App] Setting product Z index value from API property
+  [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
+* [App] Updating OGC API endpoint property names
+  [#264](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/264)
 * [App] Stroke width for footprints increased to make them easier to click
   [#262](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/262)
 * [App] UI updated to make product selection panel bigger

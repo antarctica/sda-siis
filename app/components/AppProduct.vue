@@ -225,13 +225,14 @@ export default {
       this.ogc_layer_name = this.initial_product.gs_layername,
       this.ogc_format = this.determineOGCFormat(this.initial_product.formats);
       this.ogc_style = this.initial_product.style;
-      this.legend_url = this.determineLegendUrl();
+      this.legend_url = this.determineLegendUrl(this.initial_product.legend_graphic_params);
       this.attribution = this.initial_product.attribution;
-      this.opacity = 1;
+      this.opacity = this.initial_product.default_opacity;
       this.has_granules = !this.initial_product.static;
       this.supports_value_at_pixel = this.determineValueAtPixelSupported(this.code);
       this.default_time_filter = this.initial_product.default_timeframe;
-      this.z_index = this.determineZindex(this.code);
+      this.z_index = this.initial_product.default_z;
+      this.is_active = this.initial_product.show_on_startup;
 
       if (this.has_granules) {
         this.granules_selection_mode = this.determineGranuleSelectionMode(this.initial_product.render_exclusive);
@@ -243,6 +244,10 @@ export default {
             this.selected_granule_indexes = [this.granules.length - 1];
           }
         }
+      }
+
+      if (this.is_active) {
+        this.$emit("update:active_product", this.$data);
       }
     },
     determinePreferredOGCProtocol: function(protocols) {
@@ -271,8 +276,17 @@ export default {
         return 'image/jpeg';
       }
     },
-    determineLegendUrl: function() {
-      return `${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${this.ogc_layer_name}`;
+    determineLegendUrl: function(legend_options) {
+      let legend_url =`${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${this.ogc_layer_name}`;
+
+      if (legend_options != '' && legend_options != null) {
+        // workaround in case legend_options key is already in value
+        legend_options = legend_options.toLowerCase().replace('legend_options=', '');
+
+        legend_url = `${legend_url}&legend_options=${legend_options}`;
+      }
+
+      return legend_url;
     },
     determineGranuleSelectionMode: function(mode) {
       if (mode) {
@@ -286,19 +300,6 @@ export default {
         return true;
       }
       return false;
-    },
-    determineZindex: function(code) {
-      if (code === 'siis.sic.n' || code === 'siis.sic.s') {
-        return 2;
-      } else if (code === 'siis.s3.s' || code === 'siis.s3.n') {
-        return 3;
-      } else if (code === 'siis.s1.s' || code === 'siis.s1.n') {
-        return 4;
-      } else if (code === 'siis.base.s' || code === 'siis.base.n') {
-        return 5;
-      }
-
-      return 1;
     },
     setSelectedProduct: function() {
       this.selected = true;
