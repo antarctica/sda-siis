@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed [BREAKING!]
+
+* [API] 'temp' prefix removed from OGC API endpoints
+  [#264](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/264)
+
 ### Fixed
 
 * [App] Previous granule ID was incorrectly used as product ID when generating granule layer references
