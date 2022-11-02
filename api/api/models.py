@@ -72,6 +72,10 @@ class Product(db.Model):
     status = db.Column(db.String())
     render_exclusive = db.Column(db.Boolean())
     highres_available = db.Column(db.Boolean())
+    legend_graphic_params = db.Column(db.String())
+    show_on_startup = db.Column(db.Boolean())
+    default_opacity = ma.auto_field()
+    default_z = db.Column(db.Integer())
     geom_extent = db.Column(db.String())
 
     # granules = db.relationship(
