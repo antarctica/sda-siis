@@ -257,11 +257,11 @@ export default {
     },
     determineOGCProtocolEndpoint: function() {
       if (this.ogc_protocol === 'wmts') {
-        return `${this.ogc_endpoint}${this.initial_product.gs_tempwmtsendpoint}`;
+        return `${this.ogc_endpoint}${this.initial_product.gs_wmtsendpoint}`;
       } else if (this.ogc_protocol === 'wms') {
-        return `${this.ogc_endpoint}${this.initial_product.gs_tempwmsendpoint}`;
+        return `${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}`;
       } else if (this.ogc_protocol === 'wfs') {
-        return `${this.ogc_endpoint}${this.initial_product.gs_tempwfsendpoint}`;
+        return `${this.ogc_endpoint}${this.initial_product.gs_wfsendpoint}`;
       }
     },
     determineOGCFormat: function(formats) {
@@ -272,7 +272,7 @@ export default {
       }
     },
     determineLegendUrl: function() {
-      return `${this.ogc_endpoint}${this.initial_product.gs_tempwmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${this.ogc_layer_name}`;
+      return `${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${this.ogc_layer_name}`;
     },
     determineGranuleSelectionMode: function(mode) {
       if (mode) {
