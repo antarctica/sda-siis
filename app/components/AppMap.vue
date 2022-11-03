@@ -645,15 +645,22 @@ export default {
       return [style];
     },
     set_mouse_position_format: function() {
-      if (this.position_format == 'latlon') {
-        mousePositionControl.setCoordinateFormat(this.mouse_position_custom_coordinate_format);
+      if (this.position_format == 'ddm') {
+        mousePositionControl.setCoordinateFormat(this.mouse_position_ddm_coordinate_format);
       } else {
-        mousePositionControl.setCoordinateFormat(createStringXY(4));
+        mousePositionControl.setProjection('EPSG:4326');
+        mousePositionControl.setCoordinateFormat(this.mouse_position_dd_coordinate_format);
       }
     },
-    mouse_position_custom_coordinate_format: function (coordinate) {
+    mouse_position_ddm_coordinate_format: function (coordinate) {
       let lat = degreesToStringHDDM('NS', coordinate[1], 3);
       let lon = degreesToStringHDDM('EW', coordinate[0], 3)
+      return `Lat: ${lat}<br/>Lon: ${lon}`;
+    },
+    mouse_position_dd_coordinate_format: function (coordinate) {
+      const precision = 4;
+      let lat = coordinate[1].toFixed(precision);
+      let lon = coordinate[0].toFixed(precision);
       return `Lat: ${lat}<br/>Lon: ${lon}`;
     },
     updateCentre: function () {

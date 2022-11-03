@@ -121,7 +121,7 @@ export default Vue.extend({
       rotation_heading: 0,
       rotation_longitude: 0,
       rotation_radians: 0,
-      position_format: 'latlon',
+      position_format: 'ddm',
       scale_bar_unit: 'nautical',
       sensor_position: [0,0],
       map_centre: [0,0],
