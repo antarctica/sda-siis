@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 1.0.0-rc.8 - 2022-11-03
+
 ### Changed
 
 * [App] suppressing attribution control until proper attribution statements are written
