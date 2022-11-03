@@ -4,7 +4,7 @@
     <fieldset id="app-map-control-fullscreen">
       <button
         v-on:click="makeAppFullscreen"
-        title="Hide control panels"
+        title="Make full screen"
       >X
     </fieldset>
     <fieldset>

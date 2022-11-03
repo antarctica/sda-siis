@@ -18,9 +18,8 @@
         :center.sync="centre_crs"
       ></vl-view>
       <vl-layer-tile v-for="layer in layers" :key="layer.layer_id" :opacity="layer.opacity" :zIndex="layer.z_index">
-        <template v-if="layer.protocol === 'wms' || layer.protocol === 'wmts'">
-          <!-- WMTS layers are considereed to use WMS until https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51 is resolved -->
-          <!-- <vl-source-wmts
+        <template v-if="layer.protocol === 'wmts'">
+          <vl-source-wmts
             :ref=layer.ref
             :url=layer.endpoint
             :layerName=layer.name
@@ -28,7 +27,9 @@
             :format=layer.format
             :matrixSet=crs
             :attributions=layer.attribution
-          ></vl-source-wmts> -->
+          ></vl-source-wmts>
+        </template>
+        <template v-else-if="layer.protocol === 'wms'">
           <vl-source-tile-wms
             :ref=layer.ref
             :url=layer.endpoint
@@ -533,6 +534,9 @@ export default {
        _reference = this.generateLayerRef(this.selected_product_granules.product.id, this.selected_product_granules.granules[0].id);
       }
       if (typeof(this.$refs[_reference]) === 'undefined') {
+        return {}
+      }
+      if (! this.$refs[_reference].hasOwnProperty('getFeatureInfoUrl') ) {
         return {}
       }
 
