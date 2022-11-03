@@ -274,7 +274,7 @@ export default {
 
   .sensor-variable-label {
     grid-area: sensor-label;
-    font-size: 50%;
+    font-size: 100%;
   }
   .sensor-variable-status {
     grid-area: sensor-status;
@@ -286,7 +286,7 @@ export default {
   .sensor-variable-value {
     grid-area: sensor-reading;
     text-align: right;
-    font-size: 100%;
+    font-size: 175%;
   }
 
   .sensor-time .sensor-variable-controls button {

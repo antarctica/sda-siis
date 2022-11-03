@@ -1,37 +1,41 @@
 <template>
-  <fieldset class="time-filters">
-    <template v-if="granules_selection_mode == 'multiple'">
-      <button
-        v-on:click="time_filter = -1"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == -1 ? 'activated': null"
-      >
-        All
-      </button>
-      <button
-        v-on:click="time_filter = 72"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == 72 ? 'activated': null"
-      >
-        72 H
-      </button>
-      <button
-        v-on:click="time_filter = 48"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == 48 ? 'activated': null"
-      >
-        48 H
-      </button>
-      <button
-        v-on:click="time_filter = 24"
-        :disabled="time_filter == 'disabled' ? 'disabled' : null"
-        :class="time_filter == 24 ? 'activated': null"
-      >
-        24 H
-      </button>
-    </template>
-    <input type="date" v-model="date_filter" :min="min_date" :max="max_date" />
-  </fieldset>
+  <div class="date-time-filter-control">
+    <fieldset class="time-filters">
+      <template v-if="granules_selection_mode == 'multiple'">
+        <button
+          v-on:click="time_filter = -1"
+          :disabled="time_filter == 'disabled' ? 'disabled' : null"
+          :class="time_filter == -1 ? 'activated': null"
+        >
+          All
+        </button>
+        <button
+          v-on:click="time_filter = 72"
+          :disabled="time_filter == 'disabled' ? 'disabled' : null"
+          :class="time_filter == 72 ? 'activated': null"
+        >
+          72 H
+        </button>
+        <button
+          v-on:click="time_filter = 48"
+          :disabled="time_filter == 'disabled' ? 'disabled' : null"
+          :class="time_filter == 48 ? 'activated': null"
+        >
+          48 H
+        </button>
+        <button
+          v-on:click="time_filter = 24"
+          :disabled="time_filter == 'disabled' ? 'disabled' : null"
+          :class="time_filter == 24 ? 'activated': null"
+        >
+          24 H
+        </button>
+      </template>
+    </fieldset>
+    <fieldset class="date-filters">
+      <input type="date" v-model="date_filter" :min="min_date" :max="max_date" />
+    </fieldset>
+  </div>
 </template>
 
 <script>
@@ -85,15 +89,27 @@ export default {
 <style scoped>
   fieldset {
     border: none;
+    padding: 0;
   }
 
-  .time-filters {
-    font-size: 60%;
-  }
-  .time-filters button,
-  .time-filters input {
+  .time-filters button {
     font-size: 80%;
+    padding: 3px;
+  }
+
+  .time-filters,
+  .date-filters {
+    display: inline-block;
+  }
+  .date-filters input {
+    font-size: 100%;
     padding: 0;
+  }
+
+  .dark-mode .date-filters input {
+    color: var(--color);
+    background-color: var(--bg);
+    border-color: var(--border-color);
   }
 
   .activated {

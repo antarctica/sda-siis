@@ -425,6 +425,7 @@ export default {
     column-gap: 1%;
     height: fit-content;
   }
+
   .active-product {
     box-shadow: inset 1px 1px 4px #777;
     transform: translateY(1px);
@@ -432,6 +433,10 @@ export default {
     border-style: double;
     border-radius: 4px;
   }
+  .dark-mode .active-product {
+    background-color: transparent;
+  }
+
   .selected-control {
     grid-area: selected;
   }
@@ -451,7 +456,9 @@ export default {
   }
   .name-control {
     grid-area: name;
-    font-size: 60%;
+    font-size: 120%;
+    font-weight: bold;
+    text-transform: uppercase;
     white-space: nowrap;
     overflow-x: clip;
     margin: auto 0;
@@ -461,7 +468,7 @@ export default {
     margin: auto;
   }
 
-  .time-filters {
+  .date-time-filter-control {
     grid-column: 1/-1;
   }
 
