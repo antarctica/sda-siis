@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## 1.0.0-rc.7 - 2022-11-02 [BREAKING!]
+
 ### Changed [BREAKING!]
 
 * [API] 'temp' prefix removed from OGC API endpoints
@@ -14,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Auto-updating ship track when enabled
+  [#163](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/163)
 * [App] Setting legend options from API property
   [#265](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/265)
 * [API] Legend options added as a property in API responses
