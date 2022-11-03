@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] suppressing attribution control until proper attribution statements are written
+  [#274](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/274)
 * [App] Updating text sizes and dark mode styling
   [#273](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/273)
 * [App] Removing fixed size from legend graphics

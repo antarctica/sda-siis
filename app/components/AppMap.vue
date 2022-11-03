@@ -500,7 +500,8 @@ export default {
       this.$forceUpdate();
     },
     initControls: function () {
-      this.$refs.AppMap.$map.addControl(attributionControl);
+      // disabled until #274 is resolved
+      //this.$refs.AppMap.$map.addControl(attributionControl);
 
       mousePositionControl.setTarget(document.getElementById('app-map-measure-position'));
       mousePositionControl.setProjection(this.mouse_position_format_projection);
