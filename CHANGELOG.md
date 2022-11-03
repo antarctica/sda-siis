@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Removing hard-coded SRS in footprint layer URls
+  [#271](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/271)
 * [App] Map rotation controls when using Arctic projection
   [#268](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/268)
 
