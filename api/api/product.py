@@ -31,7 +31,14 @@ def read_all(limit=None, hemi=None):
                 .all()
             )
         else:
-            product = Product.query.order_by(Product.code).limit(int(limit)).all()
+            product = (
+                Product.query.filter(
+                    Product.hemisphere == "" or Product.hemisphere == None
+                )
+                .order_by(Product.code)
+                .limit(int(limit))
+                .all()
+            )
     else:
         if isinstance(hemi, str):
             product = (
@@ -40,7 +47,13 @@ def read_all(limit=None, hemi=None):
                 .all()
             )
         else:
-            product = Product.query.order_by(Product.code).all()
+            product = (
+                Product.query.filter(
+                    Product.hemisphere == "" or Product.hemisphere == None
+                )
+                .order_by(Product.code)
+                .all()
+            )
 
     # Serialize the data for the response
     product_schema = ProductSchema(many=True)
