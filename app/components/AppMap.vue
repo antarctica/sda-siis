@@ -483,7 +483,7 @@ export default {
               'id': id,
               '_id': product_granule.id,
               'protocol': 'wfs',
-              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&SrsName=epsg:3031&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}${date_filter_parameter}`,
+              'url': `${this.ogc_endpoint}/geoserver/siis/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson&typeName=${footprints_layer_name}&SrsName=${this.crs}&viewparams=p_code:${product_granule.ogc_layer_name.replace(':', '.').replace('_', '.')}${date_filter_parameter}`,
               'layer_type': "footprint"
             };
 
