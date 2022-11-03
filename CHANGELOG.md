@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Updating text sizes and dark mode styling
+  [#273](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/273)
 * [App] Removing fixed size from legend graphics
   [#270](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/270)
 * [App] Mouse coordinate formats now DDM or DD (rather than DDM or XY)

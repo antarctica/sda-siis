@@ -814,6 +814,7 @@ export default {
   }
 
   #app-map-measure-position .ol-mouse-position {
+    font-size: 125%;
     font-family: 'Monaco', 'Consolas', 'Courier New', Courier, monospace;
     position: initial;
   }

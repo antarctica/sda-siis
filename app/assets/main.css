@@ -11,9 +11,10 @@
 }
 
 .dark-mode {
-  --color: #eeeeee;
+  --color: limegreen;
   --bg: #333333;
   --panel-bg: #333333b8;
+  --border-color: limegreen;
 }
 
 body {
@@ -85,4 +86,16 @@ code {
 .status-hr-online {
   border-color: #0E3733;
   background-color: #28A197;
+}
+
+/* general dark mode overrides */
+.dark-mode button {
+  color: var(--color);
+  background-color: var(--bg);
+  border-color: var(--border-color);
+}
+.dark-mode .activated {
+  color: var(--bg);
+  background-color: var(--border-color);
+  border-color: var(--bg);
 }
