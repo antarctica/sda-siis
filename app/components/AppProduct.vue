@@ -252,8 +252,7 @@ export default {
     },
     determinePreferredOGCProtocol: function(protocols) {
       if (protocols.includes('WMTS')) {
-        // Treat all WMTS layers as WMS until https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51 is resolved
-        return 'wms';
+        return 'wmts';
       } else if (protocols.includes('WMS')) {
         return 'wms';
       } else if (protocols.includes('WFS')) {

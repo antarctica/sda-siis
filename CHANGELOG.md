@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* [App] Re-enabling WMTS support
+  [#51](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/51)
 * [App] Stroke width for footprints increased further to make them easier to click
   [#267](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/267)
 
