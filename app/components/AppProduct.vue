@@ -276,7 +276,7 @@ export default {
       }
     },
     determineLegendUrl: function(legend_options) {
-      let legend_url =`${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${this.ogc_layer_name}`;
+      let legend_url =`${this.ogc_endpoint}${this.initial_product.gs_wmsendpoint}/?service=WMS&request=GetLegendGraphic&format=image%2Fpng&layer=${this.ogc_layer_name}`;
 
       if (legend_options != '' && legend_options != null) {
         // workaround in case legend_options key is already in value
