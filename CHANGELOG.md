@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [App] Stroke width for footprints increased further to make them easier to click
   [#267](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/267)
 
+### Fixed
+
+* [App] Map rotation controls when using Arctic projection
+  [#268](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/268)
+
 ## 1.0.0-rc.7 - 2022-11-02 [BREAKING!]
 
 ### Changed [BREAKING!]
