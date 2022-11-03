@@ -68,14 +68,14 @@
     <fieldset>
       <button
         v-on:click="changePostionFormat"
-        :class="position_format === 'xy' ? 'activated': null"
-        title="Mouse cursor position: Lat/Lon - Projection"
+        :class="position_format === 'dd' ? 'activated': null"
+        title="Mouse cursor position: DD or DDM"
       >DD
       </button>
       <button
         v-on:click="changeScaleBarUnit"
         :class="scale_bar_unit === 'metric' ? 'activated': null"
-        title="Mouse cursor position: Metric - Nautical distances"
+        title="Metric or Nautical scale bar unit"
       >NM
       </button>
     </fieldset>
@@ -191,7 +191,7 @@ export default {
       'day_night_mode': 'day',
       'rotation_source': 'manual',
       'rotation_degrees': 0,
-      'position_format': 'latlon',
+      'position_format': 'ddm',
       'scale_bar_unit': 'nautical',
       'follow_sensor_position': false,
       'map_centre_4326': [0,0],
@@ -295,10 +295,10 @@ export default {
       this.$emit('update:day_night', this.day_night_mode);
     },
     changePostionFormat: function ($event) {
-      if (this.position_format == 'latlon') {
-        this.position_format = 'xy';
-      } else if (this.position_format == 'xy') {
-        this.position_format = 'latlon';
+      if (this.position_format == 'ddm') {
+        this.position_format = 'dd';
+      } else if (this.position_format == 'dd') {
+        this.position_format = 'ddm';
       }
       this.$emit('update:position_format', this.position_format);
     },
