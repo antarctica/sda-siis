@@ -31,7 +31,14 @@ def read_all(limit=None, hemi=None):
                 .all()
             )
         else:
-            product = Product.query.order_by(Product.code).limit(int(limit)).all()
+            product = (
+                Product.query.filter(
+                    Product.hemisphere == "" or Product.hemisphere == None
+                )
+                .order_by(Product.code)
+                .limit(int(limit))
+                .all()
+            )
     else:
         if isinstance(hemi, str):
             product = (
@@ -40,7 +47,13 @@ def read_all(limit=None, hemi=None):
                 .all()
             )
         else:
-            product = Product.query.order_by(Product.code).all()
+            product = (
+                Product.query.filter(
+                    Product.hemisphere == "" or Product.hemisphere == None
+                )
+                .order_by(Product.code)
+                .all()
+            )
 
     # Serialize the data for the response
     product_schema = ProductSchema(many=True)
@@ -130,7 +143,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
                         date_end.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 )
-                .order_by(Granule.timestamp)
+                .order_by(desc(Granule.timestamp))
                 .limit(int(limit))
                 .all()
             )
@@ -143,7 +156,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
                         date_end.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 )
-                .order_by(Granule.timestamp)
+                .order_by(desc(Granule.timestamp))
                 .all()
             )
     else:
@@ -152,7 +165,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
             granule = (
                 Granule.query.filter(Granule.productcode == code)
                 .filter(Granule.timestamp > aged_timestamp)
-                .order_by(Granule.timestamp)
+                .order_by(desc(Granule.timestamp))
                 .limit(int(limit))
                 .all()
             )
@@ -160,7 +173,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None):
             granule = (
                 Granule.query.filter(Granule.productcode == code)
                 .filter(Granule.timestamp > aged_timestamp)
-                .order_by(Granule.timestamp)
+                .order_by(desc(Granule.timestamp))
                 .all()
             )
 

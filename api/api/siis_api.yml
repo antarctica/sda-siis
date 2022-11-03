@@ -416,6 +416,22 @@ components:
         render_exclusive:
           type: boolean
           description: Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
+        highres_available:
+          type: boolean
+          description: Indicated availability of a corresponding high-resolution granule
+        legend_graphic_params:
+          type: string
+          description: Holds GeoServer WMS request parameters for legend graphic styling
+        show_on_startup:
+          type: boolean
+          description: Show product in product list by default
+        default_opacity:
+          type: number
+          format: float
+          description: Default render opacity
+        default_z:
+          type: integer
+          description: Default z-index / layer stacking order for map rendering
         geom_extent:
           type: string
           description: product footprint
