@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* [App] Background colour assigned to app wrapper element rather than body to work when in full screen mode
+  [#276](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/276)
+
 ### Changed
 
 * [App] Min/Max attributes removed from date filter as temporal extent can't be reliably calculated currently
