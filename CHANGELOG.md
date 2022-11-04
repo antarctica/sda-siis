@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* [App] Map rotation controls when using Arctic projection
+  [#268](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/268)
+
 ## 1.0.0-rc.9 - 2022-11-04
 
 ### Added
