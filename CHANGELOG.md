@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* [App] Min/Max attributes removed from date filter as temporal extent can't be reliably calculated currently
+  [#275](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/275)
+
 ## 1.0.0-rc.8 - 2022-11-03
 
 ### Changed

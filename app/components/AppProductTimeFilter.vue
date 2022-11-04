@@ -33,7 +33,9 @@
       </template>
     </fieldset>
     <fieldset class="date-filters">
-      <input type="date" v-model="date_filter" :min="min_date" :max="max_date" />
+      <!-- min/max attributes disabled until #254 is resolved, see #275 for details. -->
+      <!--<input type="date" v-model="date_filter" :min="min_date" :max="max_date" />-->
+      <input type="date" v-model="date_filter" />
     </fieldset>
   </div>
 </template>
