@@ -317,7 +317,7 @@ export default {
           this.rotation_degrees = this.invertSign(this.rotation_heading);
         } else if (this.crs === 'EPSG:3031') {
           this.rotation_degrees = this.invertSign(this.rotation_heading + this.rotation_longitude);
-        } else if (this.crs === 'ESPG:3413') {
+        } else if (this.crs === 'EPSG:3413') {
           this.rotation_degrees = this.invertSign(this.rotation_heading - this.rotation_longitude - 45);
         }
       } else if (this.rotation_source === 'longitude') {
@@ -325,7 +325,7 @@ export default {
           this.rotation_degrees = this.rotation_longitude;
         } else if (this.crs === 'EPSG:3031') {
           this.rotation_degrees = this.invertSign(this.rotation_longitude);
-        } else if (this.crs === 'ESPG:3413') {
+        } else if (this.crs === 'EPSG:3413') {
           this.rotation_degrees = this.rotation_longitude + 45;
         }
       } else if (this.rotation_source === 'reset') {
