@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* [App] Considering WMS-T layers the same as WMS
+  [#277](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/277)ß
+
 ### Fixed
 
 * [App] Background colour assigned to app wrapper element rather than body to work when in full screen mode

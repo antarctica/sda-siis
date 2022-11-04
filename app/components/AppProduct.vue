@@ -253,7 +253,7 @@ export default {
     determinePreferredOGCProtocol: function(protocols) {
       if (protocols.includes('WMTS')) {
         return 'wmts';
-      } else if (protocols.includes('WMS')) {
+      } else if (protocols.includes('WMS') || protocols.includes('WMS-T')) {
         return 'wms';
       } else if (protocols.includes('WFS')) {
         return 'wfs';
