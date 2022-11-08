@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Invalid JS code prevented ship track from loading/updating
+  [#280](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/280)
 * [App] Initial granule selection order changed to select latest granule not oldest granule
   [#277](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/277)
 * [App] Background colour assigned to app wrapper element rather than body to work when in full screen mode

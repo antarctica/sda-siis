@@ -411,10 +411,9 @@ export default {
       this.exportDrawnFeature();
     },
     show_ship_track: async function () {
+      let _this = this;
       if (this.show_ship_track) {
         _this.getShipTrack();
-
-        let _this = this;
         setInterval(async function () {
           await _this.getShipTrack();
         }, this.ship_track_update_frequency);
