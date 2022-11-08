@@ -241,7 +241,7 @@ export default {
         this.calculateTemporalExtent();
         if (this.granules_selection_mode === 'single') {
           if (this.granules.length > 0) {
-            this.selected_granule_indexes = [this.granules.length - 1];
+            this.selected_granule_indexes = [0];
           }
         }
       }
@@ -383,7 +383,7 @@ export default {
         this.calculateTemporalExtent();
 
         if (this.granules.length > 0 && this.granules_selection_mode === 'single') {
-          this.selected_granule_indexes = [this.granules[0]];
+          this.selected_granule_indexes = [0];
         }
       }
     },
