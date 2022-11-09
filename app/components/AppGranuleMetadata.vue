@@ -27,7 +27,7 @@
                 </output>
               </li>
             </ul>
-            <template v-if="product.supports_high_res_granules">
+            <!-- <template v-if="product.supports_high_res_granules">
               <button
                 class="granule-hr-request"
                 v-on:click="requestHRGranule(granule.id)"
@@ -37,7 +37,7 @@
                           granule.status == 'hr_online' ? 'disabled' : null"
               >Get High Resolution Granule
               </button>
-            </template>
+            </template> -->
             <details>
                 <summary>Full details</summary>
                 <pre>{{ granule.raw }}</pre>
