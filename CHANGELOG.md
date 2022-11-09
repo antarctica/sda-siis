@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [App] Map rotation controls when using Arctic projection
   [#268](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/268)
 
+### Changed
+
+* [App] Disabling high resolution download option
+  [#312](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/312)
+
 ## 1.0.0-rc.9 - 2022-11-04
 
 ### Added
