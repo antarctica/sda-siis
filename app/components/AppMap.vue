@@ -645,10 +645,10 @@ export default {
       return [style];
     },
     set_mouse_position_format: function() {
+      mousePositionControl.setProjection('EPSG:4326');
       if (this.position_format == 'ddm') {
         mousePositionControl.setCoordinateFormat(this.mouse_position_ddm_coordinate_format);
       } else {
-        mousePositionControl.setProjection('EPSG:4326');
         mousePositionControl.setCoordinateFormat(this.mouse_position_dd_coordinate_format);
       }
     },
