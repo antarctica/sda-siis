@@ -491,6 +491,7 @@ export default {
             // [1] https://github.com/ghettovoice/vuelayers/issues/205
             footprints_layer.features = await this.getGeoJSONFeaturesFromSource(footprints_layer.url);
             this.add_or_update_layer(footprints_layer);
+            this.$refs.AppMap.refresh();
           }
         }
       });
