@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Footprint layers not always re-rendering when time selections are changed
+  [#284](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/284)
 * [App] Map rotation controls when using Arctic projection
   [#268](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/268)
 * DDM coordinate format projection
