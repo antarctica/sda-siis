@@ -464,6 +464,13 @@ export default {
             if ('maxage' in product_granule.granule_parameters && product_granule.granule_parameters.maxage != -1) {
               date_filter = this.calculateDateIntervalFromHours(product_granule.granule_parameters.maxage);
             }
+            else if ('maxage' in product_granule.granule_parameters && product_granule.granule_parameters.maxage == -1) {
+              // in future this should be set to the temporal extent of the layer
+              date_filter = {
+                'start': '1900-01-01T00:00:00Z',
+                'end': '2100-01-01T00:00:00Z'
+              }
+            }
             else if ('date' in product_granule.granule_parameters) {
               date_filter = {
                 'start': `${product_granule.granule_parameters.date}T00:00:00Z`,
