@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Missing styles parameter in WMS layers
+  [#304](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/304)
 * [App] Fixing missing timestamp CQL filter where 'All' time filter is selected
   [#314](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/314)
 * [App] Footprint layers not always re-rendering when time selections are changed

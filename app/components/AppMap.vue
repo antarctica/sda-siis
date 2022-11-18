@@ -34,6 +34,7 @@
             :ref=layer.ref
             :url=layer.endpoint
             :layers=layer.name
+            :styles=layer.style
             :time=layer.time
             :attributions=layer.attribution
           ></vl-source-tile-wms>
