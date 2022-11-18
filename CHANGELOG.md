@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* [App] Replacing map layers when style property changes
+  [#304](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/304)
+
 ### Fixed
 
 * [App] Missing styles parameter in WMS layers

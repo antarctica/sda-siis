@@ -579,6 +579,11 @@ export default {
       } else {
         this.layers[_index] = layer;
       }
+      // account for the layer style changing (by replacing layer)
+      if (_index != -1 && layer.style != this.layers[_index]) {
+        this.layers.splice(_index, 1);
+        this.layers.push(layer);
+      }
     },
     cleanup_orphaned_layers: function () {
       let _orphaned_layers = [];
