@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* [App] Centre on and follow ship position controls disabled when ship position is not within bounds of current projection
+  [#301](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/301)
 * [App] Missing styles parameter in WMS layers
   [#304](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/304)
 * [App] Fixing missing timestamp CQL filter where 'All' time filter is selected
