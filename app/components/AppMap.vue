@@ -419,7 +419,7 @@ export default {
           await _this.getShipTrack();
         }, this.ship_track_update_frequency);
       }
-    }
+    },
   },
 
   methods: {

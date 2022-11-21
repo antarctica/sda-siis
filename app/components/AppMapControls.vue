@@ -71,7 +71,7 @@
     </fieldset>
     <fieldset>
       <button
-        v-on:click="changePostionFormat"
+        v-on:click="changePositionFormat"
         :class="position_format === 'dd' ? 'activated': null"
         title="Mouse cursor position: DD or DDM"
       >DD
@@ -160,12 +160,14 @@
     </fieldset>
     <fieldset>
       <button
-        v-on:click="show_ship_position = !show_ship_position" :class="show_ship_position ? 'activated': null"
+        v-on:click="show_ship_position = !show_ship_position"
+        :class="show_ship_position ? 'activated': null"
         title="Show ship position"
       >Sp
       </button>
       <button
-        v-on:click="show_ship_track = !show_ship_track" :class="show_ship_track ? 'activated': null"
+        v-on:click="show_ship_track = !show_ship_track"
+        :class="show_ship_track ? 'activated': null"
         title="Show ship track"
       >St
       </button>
@@ -310,7 +312,7 @@ export default {
       }
       this.$emit('update:day_night', this.day_night_mode);
     },
-    changePostionFormat: function ($event) {
+    changePositionFormat: function ($event) {
       if (this.position_format == 'ddm') {
         this.position_format = 'dd';
       } else if (this.position_format == 'dd') {
