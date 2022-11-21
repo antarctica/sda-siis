@@ -16,10 +16,14 @@
       </button>
     </fieldset>
     <fieldset>
-      <button v-on:click="updateMapCentre" title="Pan to vessel position">C</button>
+      <button
+        v-on:click="updateMapCentre"
+        :disabled="pan_to_ship_position_disabled ? 'disabled' : null"
+        title="Pan to vessel position">C</button>
       <button
         v-on:click="follow_sensor_position = !follow_sensor_position"
         :class="follow_sensor_position ? 'activated': null"
+        :disabled="follow_ship_position_disabled ? 'disabled' : null"
         title="Follow vessel position"
         >F
         </button>
@@ -67,7 +71,7 @@
     </fieldset>
     <fieldset>
       <button
-        v-on:click="changePostionFormat"
+        v-on:click="changePositionFormat"
         :class="position_format === 'dd' ? 'activated': null"
         title="Mouse cursor position: DD or DDM"
       >DD
@@ -156,12 +160,14 @@
     </fieldset>
     <fieldset>
       <button
-        v-on:click="show_ship_position = !show_ship_position" :class="show_ship_position ? 'activated': null"
+        v-on:click="show_ship_position = !show_ship_position"
+        :class="show_ship_position ? 'activated': null"
         title="Show ship position"
       >Sp
       </button>
       <button
-        v-on:click="show_ship_track = !show_ship_track" :class="show_ship_track ? 'activated': null"
+        v-on:click="show_ship_track = !show_ship_track"
+        :class="show_ship_track ? 'activated': null"
         title="Show ship track"
       >St
       </button>
@@ -181,6 +187,7 @@
 
 <script>
 import axios from 'axios';
+import {containsCoordinate} from 'ol/extent';
 
 export default {
   data() {
@@ -231,6 +238,12 @@ export default {
       let length_km = this.measure_tool_feature_length / 1000;
       return Math.floor(length_km * 100) / 100; // round down to 2 decimal places
     },
+    pan_to_ship_position_disabled: function() {
+      return !this.projectionValidForShipPosition();
+    },
+    follow_ship_position_disabled: function() {
+      return !this.projectionValidForShipPosition();
+    }
   },
 
   watch: {
@@ -283,6 +296,11 @@ export default {
     measure_tool_feature_geojson: function () {
       this.exportDrawnFeatureGeoJSON();
     },
+    follow_ship_position_disabled: function () {
+      if (this.follow_sensor_position && !follow_ship_position_disabled) {
+        this.follow_sensor_position = false;
+      }
+    },
   },
 
   methods: {
@@ -294,7 +312,7 @@ export default {
       }
       this.$emit('update:day_night', this.day_night_mode);
     },
-    changePostionFormat: function ($event) {
+    changePositionFormat: function ($event) {
       if (this.position_format == 'ddm') {
         this.position_format = 'dd';
       } else if (this.position_format == 'dd') {
@@ -445,6 +463,29 @@ export default {
         appElement.requestFullscreen();
       }
     },
+    projectionValidForShipPosition: function() {
+      const projectionBounds3857 = [-180.0,-85.06, 180.0, 85.06];
+      const projectionBounds3031 = [-180.0, -90.0, 180.0, -60.0];
+      const projectionBounds3413 = [-180.0, 60.0, 180.0, 90.0];
+
+      let ship_position = this.sensor_position;
+
+      if (this.crs === 'EPSG:3857') {
+        if ( containsCoordinate(projectionBounds3857, ship_position)) {
+          return true;
+        }
+      } else if (this.crs === 'EPSG:3031') {
+        if ( containsCoordinate(projectionBounds3031, ship_position)) {
+          return true;
+        }
+      } else if (this.crs === 'EPSG:3413') {
+        if ( containsCoordinate(projectionBounds3413, ship_position)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
   },
 
   mounted() {
