@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [App] Disabling high resolution download option
   [#312](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/312)
+* [App] Disabling time filter buttons (24/48/72)
+  [#316](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/316)
 
 ## 1.0.0-rc.9 - 2022-11-04
 

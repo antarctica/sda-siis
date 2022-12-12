@@ -2,7 +2,8 @@
   <div class="date-time-filter-control">
     <fieldset class="time-filters">
       <template v-if="granules_selection_mode == 'multiple'">
-        <button
+        <!-- Disabled due to #316 -->
+        <!-- <button
           v-on:click="time_filter = -1"
           :disabled="time_filter == 'disabled' ? 'disabled' : null"
           :class="time_filter == -1 ? 'activated': null"
@@ -29,7 +30,7 @@
           :class="time_filter == 24 ? 'activated': null"
         >
           24 H
-        </button>
+        </button> -->
       </template>
     </fieldset>
     <fieldset class="date-filters">
