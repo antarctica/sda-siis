@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* [App] Replacing high resolution download option with IWS link interim solution
+  [#317](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/317)
 * [App] Replacing map layers when style property changes
   [#304](https://gitlab.data.bas.ac.uk/MAGIC/SIIS/-/issues/304)
 

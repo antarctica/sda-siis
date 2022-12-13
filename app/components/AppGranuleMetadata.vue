@@ -27,17 +27,17 @@
                 </output>
               </li>
             </ul>
-            <!-- <template v-if="product.supports_high_res_granules">
+            <template v-if="product.supports_high_res_granules">
               <button
                 class="granule-hr-request"
-                v-on:click="requestHRGranule(granule.id)"
+                v-on:click="openHRGranule(granule.label, granule.timestamp)"
                 :disabled="granule.status == 'hr_requested' ||
                           granule.status == 'hr_pending' ||
                           granule.status == 'hr_processing' ||
                           granule.status == 'hr_online' ? 'disabled' : null"
               >Get High Resolution Granule
               </button>
-            </template> -->
+            </template>
             <details>
                 <summary>Full details</summary>
                 <pre>{{ granule.raw }}</pre>
@@ -110,6 +110,14 @@ export default {
         console.error(error);
       }
     },
+    openHRGranule: function(granule_label, granule_timestamp) {
+      let timetamp = Date.parse(granule_timestamp);
+      let date = new Date(timetamp);
+      let year = date.getFullYear();
+      let month = date.toLocaleDateString('en-GB', {month: '2-digit'});
+      let url = `http://bslmagb.nerc-bas.ac.uk/iwsviewer/?image=DataPolarview/111_S1jpeg2000_${year}${month}/${granule_label}.8bit.jp2`
+      window.open(url, '_blank').focus();
+    }
   },
 }
 </script>
