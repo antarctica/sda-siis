@@ -127,6 +127,21 @@
           </vl-style>
         </vl-interaction-draw>
       </template>
+
+      <template v-if="choose_polarroute_start">
+        <vl-layer-vector :zIndex=960>
+          <vl-source-vector
+            ref="AppMapDrawingSource"
+            ident="drawing-layer"
+            :features.sync="polarroute_start"
+          ></vl-source-vector>
+        </vl-layer-vector>
+        <vl-interaction-draw type="Point" source="drawing-layer" v-on:drawstart="polarRouteListener">
+          <vl-style>
+            <vl-style-fill color="rgba(255,255,255,0.5)"></vl-style-fill>
+          </vl-style>
+        </vl-interaction-draw>
+      </template>
     </vl-map>
 
     <div class="app-map-measures app-panel">
@@ -224,6 +239,7 @@ export default {
       'selected_features': [],
       'value_at_pixel_feature': {},
       'drawn_features': [],
+      'polarroute_start': {},
       'ship_track': [],
       'draw_feature_listener': null,
       'ship_track_update_frequency': 30000,
@@ -252,6 +268,7 @@ export default {
     'measure_tool_feature_export_count',
     'measure_tool_max_features',
     'reference_feature',
+    'choose_polarroute_start'
   ],
 
   computed: {
@@ -420,6 +437,9 @@ export default {
         }, this.ship_track_update_frequency);
       }
     },
+    polarroute_start: function () {
+      this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
+    }
   },
 
   methods: {
@@ -700,6 +720,17 @@ export default {
         if (feature_geometry_vertexes >= _this.measure_tool_max_features) {
           alert(`WARNING: Route length is over limit for RTZ export (${_this.measure_tool_max_features}) - export disabled.`)
         }
+      });
+    },
+    polarrouteStartListener: function(event) {
+      let feature = event.feature;
+      let _this = this
+
+      this.draw_feature_listener = feature.getGeometry().on('change', function(geometry_event) {
+        const feature_geometry = geometry_event.target;
+
+        // _this.$emit("update:polarroute_start", feature_geometry.coordinates);
+      
       });
     },
     exportDrawnFeature: function() {
