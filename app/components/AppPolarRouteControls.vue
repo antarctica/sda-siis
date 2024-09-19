@@ -76,4 +76,12 @@ export default {
     border: 1px solid red;
     padding: 4px;
   }
+
+  .activated {
+    box-shadow: inset 1px 1px 4px #777;
+    transform: translateY(1px);
+    background-color: #d5caca;
+    border-style: double;
+    border-radius: 4px;
+  }
 </style>
