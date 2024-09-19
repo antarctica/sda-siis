@@ -731,7 +731,7 @@ export default {
     polarrouteStartListener: function(event) {
       let coordinates = event.feature.values_.geometry.flatCoordinates;
       let _this = this;
-      _this.polarroute_coords.start = coordinates;
+      _this.polarroute_coords.start = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
       _this.$emit("update:polarroute_coords", _this.polarroute_coords);
     },
     exportDrawnFeature: function() {
