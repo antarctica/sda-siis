@@ -128,17 +128,21 @@
         </vl-interaction-draw>
       </template>
 
-      <template v-if="choose_polarroute_start">
-        <vl-layer-vector :zIndex=960>
+      <template v-if="show_polarroute">
+        <vl-layer-vector :zIndex=970>
           <vl-source-vector
-            ref="AppMapDrawingSource"
+            ref="AppMapPolarRouteSource"
             ident="drawing-layer"
-            :features.sync="polarroute_start"
+            :features="polarroute_vl_features"
+            @update:features="val => polarroute_vl_features = val.slice(-1)"
           ></vl-source-vector>
         </vl-layer-vector>
-        <vl-interaction-draw type="Point" source="drawing-layer" v-on:drawstart="polarRouteListener">
+        <vl-interaction-draw v-if="choose_polarroute_start"
+          type="Point" source="drawing-layer" :maxPoints=1
+          v-on:drawstart="polarrouteStartListener"
+          >
           <vl-style>
-            <vl-style-fill color="rgba(255,255,255,0.5)"></vl-style-fill>
+            <vl-style-fill color="rgba(0,255,0,0.5)"></vl-style-fill>
           </vl-style>
         </vl-interaction-draw>
       </template>
@@ -239,7 +243,8 @@ export default {
       'selected_features': [],
       'value_at_pixel_feature': {},
       'drawn_features': [],
-      'polarroute_start': {},
+      'polarroute_vl_features': [],
+      'polarroute_coords': {},
       'ship_track': [],
       'draw_feature_listener': null,
       'ship_track_update_frequency': 30000,
@@ -262,6 +267,7 @@ export default {
     'show_measure_tool',
     'show_ship_position',
     'show_ship_track',
+    'show_polarroute',
     'ship_position_lat',
     'ship_position_lon',
     'drawn_feature_reset_count',
@@ -437,7 +443,7 @@ export default {
         }, this.ship_track_update_frequency);
       }
     },
-    polarroute_start: function () {
+    polarroute_coords: function () {
       this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
     }
   },
@@ -723,15 +729,10 @@ export default {
       });
     },
     polarrouteStartListener: function(event) {
-      let feature = event.feature;
-      let _this = this
-
-      this.draw_feature_listener = feature.getGeometry().on('change', function(geometry_event) {
-        const feature_geometry = geometry_event.target;
-
-        // _this.$emit("update:polarroute_start", feature_geometry.coordinates);
-      
-      });
+      let coordinates = event.feature.values_.geometry.flatCoordinates;
+      let _this = this;
+      _this.polarroute_coords.start = coordinates;
+      _this.$emit("update:polarroute_coords", _this.polarroute_coords);
     },
     exportDrawnFeature: function() {
       if (Object.keys(this.drawn_feature).length === 0) {

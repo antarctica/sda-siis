@@ -30,7 +30,7 @@ export default {
 
     props: [
         'debug_mode',
-        'polarroute_start',
+        'polarroute_coords',
     ],
 
     data() {
@@ -46,7 +46,8 @@ export default {
 
     watch: {
       choose_polarroute_start: function () {
-        this.$emit('update:polarroute_start', {});
+        // blank any previous coords when selecting 'choose on map'
+        this.$emit('update:polarroute_coords', {});
         this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
       },
     },

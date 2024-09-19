@@ -27,16 +27,17 @@
         :measure_tool_feature_export_count="measure_tool_feature_export_count"
         :measure_tool_max_features="measure_tool_max_features"
         :reference_feature="reference_feature"
+        :show_polarroute="show_polarroute"
         :choose_polarroute_start="choose_polarroute_start"
-        :polarroute_start="polarroute_start"
+        :polarroute_coords="polarroute_coords"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature_vertexes="whenDrawnFeatureVertexesChanges"
         v-on:update:drawn_feature_length="whenDrawnFeatureLengthChanges"
         v-on:update:drawn_feature_export="whenDrawnFeatureExportChanges"
-        v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChange"
+        v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
+        v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
         ></app-map>
-        <!-- v-on:update:polarroute_point="whenPolarRoutePointsChange" -->
       <app-product-switcher
         :display_ui="display_ui"
         :debug_mode="debug_mode"
@@ -85,10 +86,10 @@
         <app-polarroute-controls
         v-if="show_polarroute"
         :debug_mode="debug_mode"
-        :polarroute_start="polarroute_start"
+        :polarroute_coords="polarroute_coords"
         :choose_polarroute_start="choose_polarroute_start"
-        v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChange"
-        v-on:update:polarroute_start="whenPolarRouteStartChange"
+        v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
+        v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
         ></app-polarroute-controls>
         <app-sensor-metadata
         :display_ui="display_ui"
@@ -155,7 +156,7 @@ export default Vue.extend({
       measure_tool_max_features: 8300,
       reference_feature: {},
       choose_polarroute_start: false,
-      polarroute_start: {},
+      polarroute_coords: {},
     }
   },
 
@@ -281,11 +282,11 @@ export default Vue.extend({
     whenImportReferenceFeatureChange: function ($event) {
       this.reference_feature = $event;
     },
-    whenPolarRouteChooseStartChange: function ($event) {
+    whenPolarRouteChooseStartChanges: function ($event) {
       this.choose_polarroute_start = $event;
     },
-    whenPolarRouteStartChange: function ($event) {
-      this.polarroute_start = $event;
+    whenPolarRouteCoordsChange: function ($event) {
+      this.polarroute_coords = $event;
     }
   }
 });
