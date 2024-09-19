@@ -135,14 +135,22 @@
             ident="drawing-layer"
             :features="polarroute_vl_features"
             @update:features="val => polarroute_vl_features = val.slice(-1)"
-          ></vl-source-vector>
+          >
+          <vl-style>
+            <vl-style-circle :radius="5">
+            <vl-style-fill color="green"></vl-style-fill>
+            </vl-style-circle>
+          </vl-style>
+        </vl-source-vector>
         </vl-layer-vector>
         <vl-interaction-draw v-if="choose_polarroute_start"
           type="Point" source="drawing-layer" :maxPoints=1
           v-on:drawstart="polarrouteStartListener"
           >
           <vl-style>
-            <vl-style-fill color="rgba(0,255,0,0.5)"></vl-style-fill>
+            <vl-style-circle :radius="5">
+            <vl-style-fill color="green"></vl-style-fill>
+            </vl-style-circle>
           </vl-style>
         </vl-interaction-draw>
       </template>
