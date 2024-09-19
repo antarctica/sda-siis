@@ -15,7 +15,7 @@
             <option value="">or from favourites</option>
             <option v-for="loc in favourites" :value="loc">{{ loc.name }}</option>
         </select>
-      <button title="Request Route">Request Route</button>
+      <button title="Request Route">Get Route</button>
     </fieldset>
 </section>
 </template>
