@@ -129,12 +129,13 @@
       </template>
 
       <template v-if="show_polarroute">
+        <!-- Start location selection -->
         <vl-layer-vector :zIndex=970>
           <vl-source-vector
-            ref="AppMapPolarRouteSource"
-            ident="drawing-layer"
-            :features="polarroute_vl_features"
-            @update:features="val => polarroute_vl_features = val.slice(-1)"
+            ref="AppMapPolarRouteStart"
+            ident="polarroute-start-drawing-layer"
+            :features="polarroute_vl_start"
+            @update:features="val => polarroute_vl_start = val.slice(-1)"
           >
           <vl-style>
             <vl-style-circle :radius="5">
@@ -144,7 +145,7 @@
         </vl-source-vector>
         </vl-layer-vector>
         <vl-interaction-draw v-if="choose_polarroute_start"
-          type="Point" source="drawing-layer" :maxPoints=1
+          type="Point" source="polarroute-start-drawing-layer"
           v-on:drawstart="polarrouteStartListener"
           v-on:drawend="choose_polarroute_start = false"
           >
@@ -154,6 +155,34 @@
             </vl-style-circle>
           </vl-style>
         </vl-interaction-draw>
+
+        <!-- End location selection -->
+        <vl-layer-vector :zIndex=980>
+          <vl-source-vector
+            ref="AppMapPolarRouteEnd"
+            ident="polarroute-end-drawing-layer"
+            :features="polarroute_vl_end"
+            @update:features="val => polarroute_vl_end = val.slice(-1)"
+          >
+          <vl-style>
+            <vl-style-circle :radius="5">
+            <vl-style-fill color="red"></vl-style-fill>
+            </vl-style-circle>
+          </vl-style>
+        </vl-source-vector>
+        </vl-layer-vector>
+        <vl-interaction-draw v-if="choose_polarroute_end"
+          type="Point" source="polarroute-end-drawing-layer"
+          v-on:drawstart="polarrouteEndListener"
+          v-on:drawend="choose_polarroute_end = false"
+          >
+          <vl-style>
+            <vl-style-circle :radius="5">
+            <vl-style-fill color="red"></vl-style-fill>
+            </vl-style-circle>
+          </vl-style>
+        </vl-interaction-draw>
+
       </template>
     </vl-map>
 
@@ -252,7 +281,8 @@ export default {
       'selected_features': [],
       'value_at_pixel_feature': {},
       'drawn_features': [],
-      'polarroute_vl_features': [],
+      'polarroute_vl_start': [],
+      'polarroute_vl_end': [],
       'ship_track': [],
       'draw_feature_listener': null,
       'ship_track_update_frequency': 30000,
@@ -283,6 +313,7 @@ export default {
     'measure_tool_max_features',
     'reference_feature',
     'choose_polarroute_start',
+    'choose_polarroute_end',
     'polarroute_coords'
   ],
 
@@ -455,6 +486,9 @@ export default {
     choose_polarroute_start: function() {
       this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
     },
+    choose_polarroute_end: function() {
+      this.$emit('update:choose_polarroute_end', this.choose_polarroute_end);
+    },
     polarroute_coords: {
       deep: true,
       handler: function (polarroute_coords) {
@@ -464,7 +498,19 @@ export default {
         if (polarroute_coords.start.name != "user") {
           // add points chosen by dropdown to the map
           let coordinates = transform([polarroute_coords.start.lon, polarroute_coords.start.lat], 'EPSG:4326', _this.crs);
-          _this.polarroute_vl_features = [{
+          _this.polarroute_vl_start = [{
+            "geometry": {"coordinates": coordinates, "type": "Point"},
+            "id": null,
+            "properties": null,
+            "type": "Feature"
+          }]
+        }
+
+        // TODO tidy up this logic and reduce duplication
+        if (polarroute_coords.end.name != "user") {
+          // add points chosen by dropdown to the map
+          let coordinates = transform([polarroute_coords.end.lon, polarroute_coords.end.lat], 'EPSG:4326', _this.crs);
+          _this.polarroute_vl_end = [{
             "geometry": {"coordinates": coordinates, "type": "Point"},
             "id": null,
             "properties": null,
@@ -760,6 +806,18 @@ export default {
       let _this = this;
       let coords_4326 = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
        _this.polarroute_coords.start = {
+        "name": "user",
+        "lat": coords_4326[1],
+        "lon": coords_4326[0]
+       }
+      _this.$emit("update:polarroute_coords", _this.polarroute_coords);
+    },
+    polarrouteEndListener: function(event) {
+      // TODO tidy up this logic and reduce duplication
+      let coordinates = event.feature.values_.geometry.flatCoordinates;
+      let _this = this;
+      let coords_4326 = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
+       _this.polarroute_coords.end = {
         "name": "user",
         "lat": coords_4326[1],
         "lon": coords_4326[0]

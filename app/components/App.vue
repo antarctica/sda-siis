@@ -28,6 +28,7 @@
         :measure_tool_max_features="measure_tool_max_features"
         :reference_feature="reference_feature"
         :choose_polarroute_start="choose_polarroute_start"
+        :choose_polarroute_end="choose_polarroute_end"
         :polarroute_coords="polarroute_coords"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
@@ -35,6 +36,7 @@
         v-on:update:drawn_feature_length="whenDrawnFeatureLengthChanges"
         v-on:update:drawn_feature_export="whenDrawnFeatureExportChanges"
         v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
+        v-on:update:choose_polarroute_end="whenPolarRouteChooseEndChanges"
         v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
         ></app-map>
       <app-product-switcher
@@ -87,9 +89,11 @@
         :debug_mode="debug_mode"
         :polarroute_coords="polarroute_coords"
         :choose_polarroute_start="choose_polarroute_start"
+        :choose_polarroute_end="choose_polarroute_end"
         :ship_position_lat="ship_position_lat"
         :ship_position_lon="ship_position_lon"
         v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
+        v-on:update:choose_polarroute_end="whenPolarRouteChooseEndChanges"
         v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
         ></app-polarroute-controls>
         <app-sensor-metadata
@@ -157,6 +161,7 @@ export default Vue.extend({
       measure_tool_max_features: 8300,
       reference_feature: {},
       choose_polarroute_start: false,
+      choose_polarroute_end: false,
       polarroute_coords: {"start": {}, "end": {}},
     }
   },
@@ -284,7 +289,16 @@ export default Vue.extend({
       this.reference_feature = $event;
     },
     whenPolarRouteChooseStartChanges: function ($event) {
+      if (this.choose_polarroute_end === true && $event === true) {
+          this.choose_polarroute_end = false;
+        }
       this.choose_polarroute_start = $event;
+    },
+    whenPolarRouteChooseEndChanges: function ($event) {
+      if (this.choose_polarroute_start === true && $event === true) {
+          this.choose_polarroute_start = false;
+        }
+      this.choose_polarroute_end = $event;
     },
     whenPolarRouteCoordsChange: function ($event) {
       this.polarroute_coords = $event;

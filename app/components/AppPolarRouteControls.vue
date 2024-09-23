@@ -4,20 +4,37 @@
     <span>Use PolarRoute to calculate the optimal route between two points.</span>
     
     <fieldset id="app-polarroute-control-request">
-        <label for="point-select">Start</label>
+        <label for="start-point-select">Start</label>
         
         <button title="Choose on map"
         v-on:click="choose_polarroute_start = !choose_polarroute_start"
         :class="choose_polarroute_start ? 'activated': null"
         >Choose start on map</button>
 
-        <select name="start" id="point-select"
+        <select name="start" id="start-point-select"
         @input="event => polarroute_coords.start = favourites.filter(obj => {return obj.name === event.target.value})[0]">
           <option value="">or from list</option>
           <option
             v-for="loc in locations"
             >{{ loc.name }}</option>
         </select>
+
+
+        <label for="end-point-select">End</label>
+        
+        <button title="Choose on map"
+        v-on:click="choose_polarroute_end = !choose_polarroute_end"
+        :class="choose_polarroute_end ? 'activated': null"
+        >Choose end on map</button>
+
+        <select name="end" id="end-point-select"
+        @input="event => polarroute_coords.end = favourites.filter(obj => {return obj.name === event.target.value})[0]">
+          <option value="">or from list</option>
+          <option
+            v-for="loc in locations"
+            >{{ loc.name }}</option>
+        </select>
+
       <button title="Request Route">Get Route</button>
     </fieldset>
 </section>
@@ -35,12 +52,13 @@ export default {
         'debug_mode',
         'polarroute_coords',
         'ship_position_lon',
-        'ship_position_lat'
+        'ship_position_lat',
+        'choose_polarroute_start',
+        'choose_polarroute_end'
     ],
 
     data() {
         return {
-            choose_polarroute_start: false,
             favourites: [
                 {"name": "Falklands", "lat": -51.731, "lon": -57.706},
                 {"name": "Signy", "lat": -60.720, "lon": -45.480},
@@ -65,6 +83,9 @@ export default {
     watch: {
       choose_polarroute_start: function () {
         this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
+      },
+      choose_polarroute_end: function () {
+        this.$emit('update:choose_polarroute_end', this.choose_polarroute_end);
       },
       polarroute_coords: function () {
           this.$emit('update:polarroute_coords', this.polarroute_coords);
