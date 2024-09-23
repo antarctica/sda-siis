@@ -27,7 +27,6 @@
         :measure_tool_feature_export_count="measure_tool_feature_export_count"
         :measure_tool_max_features="measure_tool_max_features"
         :reference_feature="reference_feature"
-        :show_polarroute="show_polarroute"
         :choose_polarroute_start="choose_polarroute_start"
         :polarroute_coords="polarroute_coords"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
@@ -88,6 +87,8 @@
         :debug_mode="debug_mode"
         :polarroute_coords="polarroute_coords"
         :choose_polarroute_start="choose_polarroute_start"
+        :ship_position_lat="ship_position_lat"
+        :ship_position_lon="ship_position_lon"
         v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
         v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
         ></app-polarroute-controls>
@@ -156,7 +157,7 @@ export default Vue.extend({
       measure_tool_max_features: 8300,
       reference_feature: {},
       choose_polarroute_start: false,
-      polarroute_coords: {},
+      polarroute_coords: {"start": {}, "end": {}},
     }
   },
 

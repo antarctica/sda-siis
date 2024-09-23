@@ -146,6 +146,7 @@
         <vl-interaction-draw v-if="choose_polarroute_start"
           type="Point" source="drawing-layer" :maxPoints=1
           v-on:drawstart="polarrouteStartListener"
+          v-on:drawend="choose_polarroute_start = false"
           >
           <vl-style>
             <vl-style-circle :radius="5">
@@ -252,7 +253,6 @@ export default {
       'value_at_pixel_feature': {},
       'drawn_features': [],
       'polarroute_vl_features': [],
-      'polarroute_coords': {},
       'ship_track': [],
       'draw_feature_listener': null,
       'ship_track_update_frequency': 30000,
@@ -282,7 +282,8 @@ export default {
     'measure_tool_feature_export_count',
     'measure_tool_max_features',
     'reference_feature',
-    'choose_polarroute_start'
+    'choose_polarroute_start',
+    'polarroute_coords'
   ],
 
   computed: {
@@ -445,15 +446,33 @@ export default {
     show_ship_track: async function () {
       let _this = this;
       if (this.show_ship_track) {
-        _this.getShipTrack();
+        _this.getShipTrack(); 
         setInterval(async function () {
           await _this.getShipTrack();
         }, this.ship_track_update_frequency);
       }
     },
-    polarroute_coords: function () {
+    choose_polarroute_start: function() {
       this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
-    }
+    },
+    polarroute_coords: {
+      deep: true,
+      handler: function (polarroute_coords) {
+        let _this = this;
+        
+        // no need to transform coords if chosen from map
+        if (polarroute_coords.start.name != "user") {
+          // add points chosen by dropdown to the map
+          let coordinates = transform([polarroute_coords.start.lon, polarroute_coords.start.lat], 'EPSG:4326', _this.crs);
+          _this.polarroute_vl_features = [{
+            "geometry": {"coordinates": coordinates, "type": "Point"},
+            "id": null,
+            "properties": null,
+            "type": "Feature"
+          }]
+        }
+      }
+      }
   },
 
   methods: {
@@ -739,7 +758,12 @@ export default {
     polarrouteStartListener: function(event) {
       let coordinates = event.feature.values_.geometry.flatCoordinates;
       let _this = this;
-      _this.polarroute_coords.start = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
+      let coords_4326 = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
+       _this.polarroute_coords.start = {
+        "name": "user",
+        "lat": coords_4326[1],
+        "lon": coords_4326[0]
+       }
       _this.$emit("update:polarroute_coords", _this.polarroute_coords);
     },
     exportDrawnFeature: function() {
