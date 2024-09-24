@@ -12,7 +12,7 @@
         >Choose start on map</button>
 
         <select name="start" id="start-point-select"
-        @input="event => polarroute_coords.start = favourites.filter(obj => {return obj.name === event.target.value})[0]">
+        @input="event => polarroute_coords.start = locations.filter(obj => {return obj.name === event.target.value})[0]">
           <option value="">or from list</option>
           <option
             v-for="loc in locations"
@@ -20,6 +20,7 @@
         </select>
 
 
+        <!-- TODO reduce duplication here -->
         <label for="end-point-select">End</label>
         
         <button title="Choose on map"
@@ -28,7 +29,7 @@
         >Choose end on map</button>
 
         <select name="end" id="end-point-select"
-        @input="event => polarroute_coords.end = favourites.filter(obj => {return obj.name === event.target.value})[0]">
+        @input="event => polarroute_coords.end = locations.filter(obj => {return obj.name === event.target.value})[0]">
           <option value="">or from list</option>
           <option
             v-for="loc in locations"
@@ -68,19 +69,19 @@ export default {
     },
 
     computed: {
-        locations: function() {
-          let _this = this;
-          let l = _this.favourites;
-          l.unshift({
-            "name": "Ship Position",
-            "lat": this.ship_position_lat,
-            "lon": this.ship_position_lon
-          })
-          return l 
+      locations() {
+        let l = JSON.parse(JSON.stringify(this.favourites)); // Hacky deep clone
+        l.unshift({
+          "name": "Ship Position",
+          "lat": this.ship_position_lat,
+          "lon": this.ship_position_lon
+        })
+        return l 
       }
     },
 
     watch: {
+      
       choose_polarroute_start: function () {
         this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
       },
