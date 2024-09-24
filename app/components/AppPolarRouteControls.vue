@@ -36,16 +36,21 @@
             >{{ loc.name }}</option>
         </select>
 
-      <button title="Request Route">Get Route</button>
+      <button title="Request Route" v-on:click="requestRoute()">Get Route</button>
     </fieldset>
 </section>
 </template>
 
 <script>
+import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import Vue from 'vue';
 import { DrawInteraction } from 'vuelayers';
 
 Vue.use(DrawInteraction)
+
+const status_client = axios.create({ baseURL: 'http://localhost:8000' });
+axiosRetry(status_client, { retryDelay: axiosRetry.exponentialDelay });
 
 export default {
 
@@ -92,6 +97,48 @@ export default {
           this.$emit('update:polarroute_coords', this.polarroute_coords);
         },
     },
+
+    methods: {
+      async startRequest(){
+          status_url = this.requestRoute();
+          this.requestStatus(status_url);
+      },
+      async requestRoute() {
+        // Make initial post request to initiate route calculation
+        await axios.post('http://localhost:8000/api/route',
+        {
+          "start": {"latitude": this.polarroute_coords.start.lat, "longitude": this.polarroute_coords.start.lon},
+          "end": {"latitude": this.polarroute_coords.end.lat, "longitude": this.polarroute_coords.end.lon},
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        )
+        .then(function (response) {
+          console.log(response)
+          return response.data["status-url"];
+        }
+        )
+        .catch(function (error) {
+          console.error(error);
+        })
+
+      },
+      async requestStatus(status_url) {
+        await status_client.get(status_url, {headers: {'Content-Type': 'application/json'}})
+        .then(function (response) {
+          console.log(response)
+          return response.data.json
+        }
+        )
+        .catch(function (error) {
+          console.error(error);
+        })
+
+      }
+    }
 }
 </script>
 
