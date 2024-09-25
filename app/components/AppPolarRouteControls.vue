@@ -43,14 +43,10 @@
 
 <script>
 import axios from 'axios';
-import axiosRetry from 'axios-retry';
 import Vue from 'vue';
 import { DrawInteraction } from 'vuelayers';
 
 Vue.use(DrawInteraction)
-
-const status_client = axios.create({ baseURL: 'http://localhost:8000' });
-axiosRetry(status_client, { retryDelay: axiosRetry.exponentialDelay });
 
 export default {
 
@@ -65,10 +61,12 @@ export default {
 
     data() {
         return {
-            favourites: [
-                {"name": "Falklands", "lat": -51.731, "lon": -57.706},
-                {"name": "Signy", "lat": -60.720, "lon": -45.480},
-                {"name": "Rothera", "lat": -67.764, "lon": -68.02},
+          statusUpdateFrequency: 30, // seconds
+          routes: [],
+          favourites: [
+              {"name": "Falklands", "lat": -51.731, "lon": -57.706},
+              {"name": "Signy", "lat": -60.720, "lon": -45.480},
+              {"name": "Rothera", "lat": -67.764, "lon": -68.02},
         ]
         }
     },
@@ -99,44 +97,57 @@ export default {
     },
 
     methods: {
-      async startRequest(){
-          status_url = this.requestRoute();
-          this.requestStatus(status_url);
-      },
-      async requestRoute() {
-        // Make initial post request to initiate route calculation
-        await axios.post('http://localhost:8000/api/route',
-        {
+      routeRequestConfig(){
+        return {
           "start": {"latitude": this.polarroute_coords.start.lat, "longitude": this.polarroute_coords.start.lon},
           "end": {"latitude": this.polarroute_coords.end.lat, "longitude": this.polarroute_coords.end.lon},
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
         }
-        )
-        .then(function (response) {
-          console.log(response)
-          return response.data["status-url"];
-        }
-        )
-        .catch(function (error) {
-          console.error(error);
-        })
-
       },
-      async requestStatus(status_url) {
-        await status_client.get(status_url, {headers: {'Content-Type': 'application/json'}})
+      requestRoute: async function() {
+        console.log("requesting route")
+        // Make initial post request to initiate route calculation
+        let _this = this;
+        let route = _this.routeRequestConfig();
+        await axios.post('http://localhost:8000/api/route', route,
+          {headers: {'Content-Type': 'application/json'}})
         .then(function (response) {
           console.log(response)
-          return response.data.json
-        }
-        )
+          if (Object.hasOwn(response.data, 'json')){
+            console.log(response)
+            route.json = response.data.json;
+            route.status = "SUCCESS";
+            console.log("Route status: "+ route.status)
+          }else if (Object.hasOwn(response.data, "status-url")){
+            let status_url = response.data["status-url"];
+            route.status_url = status_url;
+            route.status = "PENDING";
+            
+            console.log("Setting interval")
+
+            // set up periodic status request if route pending
+            route.status_handle = setInterval(function(){_this.requestStatus(route)}, 5000);
+          }
+          _this.routes.push(route); // add route to list
+        })
         .catch(function (error) {
           console.error(error);
         })
+      },
+      requestStatus: async function (route) {
+        console.log("requesting route status: " + route.status_url)
+        await axios.get(route.status_url)
+          .then(function (response){
+            route.status = response.data.status;
+            if (Object.hasOwn(response.data, "json") && response.data.status == "SUCCESS"){
+              route.json = response.data.json;
+            }
 
+            // stop polling for status if it isn't still calculating
+            if (response.data.status != "PENDING"){
+              clearInterval(route.status_handle);
+            }
+          })
+          .catch(error => console.error(error))
       }
     }
 }
