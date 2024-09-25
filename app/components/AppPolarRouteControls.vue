@@ -104,25 +104,25 @@ export default {
         }
       },
       requestRoute: async function() {
-        console.log("requesting route")
+        console.debug("requesting route")
         // Make initial post request to initiate route calculation
         let _this = this;
         let route = _this.routeRequestConfig();
         await axios.post('http://localhost:8000/api/route', route,
           {headers: {'Content-Type': 'application/json'}})
         .then(function (response) {
-          console.log(response)
+          console.debug(response)
           if (Object.hasOwn(response.data, 'json')){
-            console.log(response)
+            console.debug(response)
             route.json = response.data.json;
             route.status = "SUCCESS";
-            console.log("Route status: "+ route.status)
+            console.debug("Route status: "+ route.status)
           }else if (Object.hasOwn(response.data, "status-url")){
             let status_url = response.data["status-url"];
             route.status_url = status_url;
             route.status = "PENDING";
             
-            console.log("Setting interval")
+            console.debug("Setting interval")
 
             // set up periodic status request if route pending
             route.status_handle = setInterval(function(){_this.requestStatus(route)}, 5000);
@@ -134,12 +134,17 @@ export default {
         })
       },
       requestStatus: async function (route) {
-        console.log("requesting route status: " + route.status_url)
+        console.debug("requesting route status: " + route.status_url)
         await axios.get(route.status_url)
           .then(function (response){
+            console.debug(response.data)
             route.status = response.data.status;
             if (Object.hasOwn(response.data, "json") && response.data.status == "SUCCESS"){
               route.json = response.data.json;
+            }
+
+            if (Object.hasOwn(response.data, "error") && response.data.status == "FAILURE"){
+              route.error = response.data.error;
             }
 
             // stop polling for status if it isn't still calculating
