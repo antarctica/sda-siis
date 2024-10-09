@@ -20,21 +20,23 @@ function ZoomControl() {
       direction="column"
       className={css({
         boxShadow: 'md',
-        bg: 'grayscale.200',
-        borderColor: 'grayscale.400',
+        bg: 'bg.base',
+        borderColor: 'bg.base.border',
         borderWidth: 'thin',
       })}
     >
       <MapButton
         icon={<SvgIcon name="icon-add" size={12} />}
         aria-label="Zoom In"
+        disableTooltip
         isDisabled={canZoomIn ? undefined : true}
         onPress={() => widget.zoomIn()}
       />
-      <Divider w="full" thickness={'thin'} color="grayscale.400"></Divider>
+      <Divider w="full" thickness={'thin'} color="bg.base.border"></Divider>
       <MapButton
         icon={<SvgIcon name="icon-subtract" size={12} />}
         aria-label="Zoom Out"
+        disableTooltip
         isDisabled={canZoomOut ? undefined : true}
         onPress={() => widget.zoomOut()}
       />

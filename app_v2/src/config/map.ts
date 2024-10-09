@@ -1,8 +1,5 @@
 import Basemap from '@arcgis/core/Basemap';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import EsriMap from '@arcgis/core/Map';
-
-import { ASSETFIELDNAME, ASSETLAYERMAPID, ASSETLAYERPORTALID } from './assetLayer';
 
 enum BasemapRegion {
   ANTARCTIC = 'ANTARCTIC',
@@ -17,7 +14,7 @@ enum BasemapRegion {
 const BASEMAP_CONFIG: Record<BasemapRegion, { basemap: Basemap; initialZoom: number }> = {
   [BasemapRegion.ANTARCTIC]: {
     basemap: new Basemap({ portalItem: { id: '435e23642bf94b83b07d1d3fc0c5c9d5' } }),
-    initialZoom: 13,
+    initialZoom: 5,
   },
   [BasemapRegion.ARCTIC]: {
     basemap: new Basemap({ portalItem: { id: 'beee46578bc44e0bb47901f04400588a' } }),
@@ -75,54 +72,16 @@ export function getBasemapConfig(center: [number, number]): {
  * @param {string} assetId - the id of the asset
  * @returns {EsriMap} an EsriMap instance
  */
-export function getMap(
-  center: [number, number],
-  assetId: string,
-): {
+export function getMap(): {
   map: EsriMap;
   initialZoom: number;
 } {
-  const { basemap, initialZoom } = getBasemapConfig(center);
+  const { basemap, initialZoom } = getBasemapConfig([0, -90]);
 
   return {
     map: new EsriMap({
       basemap,
-      layers: [getAssetFeatureLayer(assetId)],
     }),
     initialZoom,
   };
-}
-
-let cachedFeatureLayer: __esri.FeatureLayer | undefined;
-
-/**
- * Returns a cached FeatureLayer instance for the given asset ID.
- *
- * @param {string} assetId - The ID of the asset to filter on the layer
- * @returns {FeatureLayer} A cached FeatureLayer instance
- */
-export function getAssetFeatureLayer(assetId: string): FeatureLayer {
-  if (cachedFeatureLayer) {
-    // Update the filter if the assetId has changed
-    // cachedFeatureLayer.featureEffect.filter.where = `${ASSETFIELDNAME} = '${assetId}'`;
-
-    return cachedFeatureLayer;
-  }
-
-  cachedFeatureLayer = new FeatureLayer({
-    id: ASSETLAYERMAPID,
-    portalItem: {
-      id: ASSETLAYERPORTALID,
-    },
-    definitionExpression: `${ASSETFIELDNAME} = '${assetId}'`,
-
-    // featureEffect: new FeatureEffect({
-    //   filter: new FeatureFilter({
-    //     where: `${ASSETFIELDNAME} = '${assetId}'`,
-    //   }),
-    //   excludedEffect: 'opacity(40%) grayscale(50%)',
-    // }),
-  });
-
-  return cachedFeatureLayer;
 }

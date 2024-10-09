@@ -11,7 +11,7 @@ export const insetFocusRing = defineUtility({
     return {
       outlineColor: 'ActiveBorder',
       outlineWidth: 'thin',
-      outlineOffset: '[-4px]',
+      outlineOffset: '-2px',
     };
   },
 });

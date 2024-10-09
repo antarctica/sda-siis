@@ -1,27 +1,44 @@
 import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 
-import React from 'react';
+import { Flex } from '@styled-system/jsx';
 
-import { ASSETFIELDNAME } from '@/config/assetLayer';
-import { getAssetFeatureLayer } from '@/config/map';
-import { useAssetLocation } from '@/hooks/useAssetLocation';
-import { Route } from '@/routes/__root';
-
-import LoadingScrim from '../LoadingScrim';
 import { Map } from '../Map/Map';
+import Sidebar from '../Sidebar';
+import { SideBarProvider } from '../Sidebar/SideBarProvider';
+import { SidebarItem } from '../Sidebar/types';
+import SvgIcon from '../SvgIcon';
+import { ThemeProvider } from '../Theme/ThemeContext';
+
+const testItems: SidebarItem[] = [
+  {
+    id: '1',
+    title: 'Item 1',
+    icon: <SvgIcon name="icon-zoom-to" size={16} />,
+    position: 'top',
+    type: 'panel',
+    component: () => <div>Panel 1</div>,
+  },
+  {
+    id: '2',
+    title: 'Item 2',
+    icon: <SvgIcon name="icon-search-globe" size={16} />,
+    position: 'top',
+    type: 'panel',
+    component: () => <div>Panel 2</div>,
+  },
+];
 
 export function App() {
-  const { asset_id } = Route.useSearch();
-  const { data } = useAssetLocation(getAssetFeatureLayer(asset_id), ASSETFIELDNAME, asset_id);
-
-  const center: [number, number] | undefined = React.useMemo(() => {
-    return data ? [data.longitude, data.latitude] : undefined;
-  }, [data]);
-
   return (
     <>
-      {data && <Map assetId={asset_id} center={center}></Map>}
-      <LoadingScrim isLoading={!data} />
+      <ThemeProvider>
+        <SideBarProvider items={testItems}>
+          <Flex w={'full'} h={'full'}>
+            <Sidebar></Sidebar>
+            <Map></Map>
+          </Flex>
+        </SideBarProvider>
+      </ThemeProvider>
     </>
   );
 }

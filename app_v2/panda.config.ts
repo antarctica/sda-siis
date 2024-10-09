@@ -1,6 +1,6 @@
 import { defineConfig } from '@pandacss/dev';
 
-import { colorsTokens, semanticColorTokens } from './panda.config/colors';
+import { basColorTokens, semanticColorTokens, siisColorTokens } from './panda.config/colors';
 import { insetFocusRing } from './panda.config/utilities/focusring.utility';
 
 export default defineConfig({
@@ -21,9 +21,21 @@ export default defineConfig({
       overflow: 'hidden',
     },
     body: {
+      height: '100%',
+      width: '100%',
       bg: '{colors.htmlBackground}',
+      color: 'fg',
       overflow: 'hidden',
+      fontFamily: '{fonts.openSans}',
     },
+    '#root': {
+      height: '100%',
+      width: '100%',
+    },
+  },
+
+  globalVars: {
+    '--font-open-sans': 'Open Sans Variable, sans-serif',
   },
 
   utilities: {
@@ -41,7 +53,12 @@ export default defineConfig({
       updated.theme.semanticTokens ??= {};
 
       // Only add those from your custom preset
-      updated.theme.tokens.colors = colorsTokens;
+      updated.theme.tokens.colors = { ...basColorTokens, ...siisColorTokens };
+      updated.theme.tokens.fonts = {
+        openSans: {
+          value: 'var(--font-open-sans)',
+        },
+      };
       updated.theme.semanticTokens.colors = semanticColorTokens;
       return updated;
     },

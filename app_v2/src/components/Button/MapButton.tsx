@@ -13,12 +13,13 @@ export function MapButton(
       <Box
         className={css({
           boxShadow: 'md',
-          bg: 'grayscale.200',
-          borderColor: 'grayscale.400',
+          bg: 'bg.base',
+          borderColor: 'bg.base.border',
           borderWidth: 'thin',
         })}
       >
         <IconButton
+          disableTooltip
           {...props}
           className={css({
             md: {

@@ -31,19 +31,31 @@ type IconName =
   | 'icon-add-layer'
   | 'icon-page-share'
   | 'icon-zoom-to'
-  | 'icon-check-circle';
+  | 'icon-send-message'
+  | 'icon-check-circle'
+  | 'icon-measure'
+  | 'icon-map-polygon'
+  | 'icon-map-polyline'
+  | 'icon-trash'
+  | 'icon-info';
 
-interface IconProps {
+interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: IconName;
   size?: number | string;
   color?: string;
-  className?: string;
-  style?: React.CSSProperties;
 }
 
 const SvgIcon: React.FC<IconProps> = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ name, size = 12, color = 'currentColor', className, style }, ref) => (
-    <svg ref={ref} className={className} width={size} height={size} fill={color} style={style}>
+  ({ name, size = 12, color = 'currentColor', className, style, ...props }, ref) => (
+    <svg
+      ref={ref}
+      className={className}
+      width={size}
+      height={size}
+      fill={color}
+      style={style}
+      {...props}
+    >
       <use xlinkHref={`/svg/sprites.svg#${name}`} />
     </svg>
   ),
