@@ -37,7 +37,10 @@ type IconName =
   | 'icon-map-polygon'
   | 'icon-map-polyline'
   | 'icon-trash'
-  | 'icon-info';
+  | 'icon-info'
+  | 'icon-settings'
+  | 'icon-globe'
+  | 'icon-fullscreen';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: IconName;

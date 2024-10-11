@@ -1,3 +1,4 @@
+/* eslint-disable @pandacss/no-hardcoded-color */
 import { cva } from '@styled-system/css';
 
 export const buttonRecipe = cva({
@@ -6,6 +7,7 @@ export const buttonRecipe = cva({
     alignItems: 'center',
     textDecoration: 'none',
     cursor: 'pointer',
+    height: 'fit',
   },
   variants: {
     variant: {
@@ -13,34 +15,38 @@ export const buttonRecipe = cva({
         border: 'none',
         _hover: {
           cursor: 'pointer',
-          bg: '[black/8]',
+          bg: 'siis_greyAlpha.a3',
           _dark: {
-            bg: '[white/10]',
+            bg: 'siis_darkgreyAlpha.a3',
           },
         },
         _active: {
-          bg: '[black/12]',
+          bg: 'siis_greyAlpha.a4',
           _dark: {
-            bg: '[white/12]',
+            bg: 'siis_darkgreyAlpha.a4',
           },
         },
       },
     },
     size: {
       sm: {
-        fontSize: 'sm',
-        p: '1',
+        fontSize: 'xs',
+        py: '0.5',
+        px: '1',
         gap: '1',
+        borderRadius: 'xs',
       },
       md: {
         fontSize: 'md',
-        p: '2',
+        p: '1.5',
         gap: '2',
+        borderRadius: 'sm',
       },
       lg: {
         fontSize: 'lg',
-        p: '2.5',
+        p: '2',
         gap: '2',
+        borderRadius: 'sm',
       },
     },
     isDisabled: {

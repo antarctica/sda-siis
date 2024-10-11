@@ -21,7 +21,7 @@ export default tseslint.config({
     pluginReact.configs.flat['jsx-runtime'],
     tseslint.configs.eslintRecommended,
     ...tseslint.configs.recommended,
-    // @ts-expect-error eslint-plugin-react-hooks is not typed correctly
+    // @ts-expect-error - incorrect types
     ...compat.config(reactHooks.configs.recommended),
   ],
   languageOptions: {
@@ -40,7 +40,7 @@ export default tseslint.config({
   rules: {
     ...panda.configs.recommended.rules,
     '@pandacss/no-debug': 'off',
-    '@pandacss/no-margin-properties': 'warn',
+    '@pandacss/no-margin-properties': 'off',
     '@pandacss/no-hardcoded-color': ['error', { noOpacity: true }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'prettier/prettier': [

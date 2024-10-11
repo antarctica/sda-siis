@@ -2,9 +2,8 @@ import HomeVM from '@arcgis/core/widgets/Home/HomeViewModel';
 import * as React from 'react';
 
 import { useCurrentMapView, useWatchState } from '@/arcgis/hooks';
-
-import { MapButton } from '../../Button/MapButton';
-import SvgIcon from '../../SvgIcon';
+import { MapButton } from '@/components/Button';
+import SvgIcon from '@/components/SvgIcon';
 
 function HomeControl() {
   const mapView = useCurrentMapView();

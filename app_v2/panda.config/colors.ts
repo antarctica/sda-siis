@@ -1,9 +1,6 @@
 import { defineSemanticTokens, defineTokens } from '@pandacss/dev';
 
 export const basColorTokens = defineTokens.colors({
-  transparent: { value: 'transparent' },
-  white: { value: '#ffffff' },
-  black: { value: '#000000' },
   bas_grayscale: {
     DEFAULT: {
       description: 'The default grayscale color used in the UI.',
@@ -206,14 +203,14 @@ export const siisColorTokens = defineTokens.colors({
     2: { value: '#fdf7fc' },
     3: { value: '#fceaf9' },
     4: { value: '#fadef5' },
-    5: { value: '#f5d0ef' },
-    6: { value: '#eec0e7' },
-    7: { value: '#e4abdb' },
-    8: { value: '#d78ecd' },
-    9: { value: '#912b88' },
-    10: { value: '#801878' },
-    11: { value: '#9f3995' },
-    12: { value: '#591553' },
+    5: { value: '#f4d0ee' },
+    6: { value: '#edc1e5' },
+    7: { value: '#e3acda' },
+    8: { value: '#d691cc' },
+    9: { value: '#9f3995' },
+    10: { value: '#8f2986' },
+    11: { value: '#a13b97' },
+    12: { value: '#591853' },
   },
   siis_purpleAlpha: {
     a1: { value: '#ff00aa03' },
@@ -285,6 +282,18 @@ export const siisColorTokens = defineTokens.colors({
 });
 
 export const semanticColorTokens = defineSemanticTokens.colors({
+  app: {
+    white: {
+      value: {
+        base: '#FFFFFF',
+      },
+    },
+    black: {
+      value: {
+        base: '#000000',
+      },
+    },
+  },
   htmlBackground: {
     value: {
       base: '#EEEEEE',
@@ -292,9 +301,19 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     },
   },
   fg: {
-    value: {
-      base: '{colors.siis_grey.12}',
-      _dark: '{colors.siis_green.9}',
+    DEFAULT: {
+      value: {
+        base: '{colors.siis_grey.12}',
+        _dark: '{colors.siis_green.9}',
+      },
+    },
+    accent: {
+      DEFAULT: {
+        value: {
+          base: '{colors.siis_purple}',
+          _dark: '#FFFFFF',
+        },
+      },
     },
   },
   bg: {
@@ -314,7 +333,7 @@ export const semanticColorTokens = defineSemanticTokens.colors({
       active: {
         value: {
           base: '{colors.siis_grey.4}',
-          _dark: '{colors.siis_darkgrey.5}',
+          _dark: '{colors.siis_darkgrey.4}',
         },
       },
       border: {

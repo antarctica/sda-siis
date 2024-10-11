@@ -34,6 +34,10 @@ const sidebarButtonRecipe = sva({
       alignItems: 'center',
       opacity: 0.8,
     },
+    title: {
+      textStyle: 'body',
+      fontWeight: 'medium',
+    },
   },
 
   variants: {
@@ -95,7 +99,7 @@ export const SidebarButton = React.forwardRef<HTMLButtonElement, ButtonProps>(fu
   ref,
 ) {
   return (
-    <TooltipTrigger delay={500}>
+    <TooltipTrigger delay={800}>
       <ButtonPrimitive
         ref={ref}
         className={composeRenderProps(className, (className, renderProps) =>

@@ -18,14 +18,15 @@ export type IconButtonProps = React.ComponentProps<typeof ButtonPrimitive> &
     icon: React.ReactNode;
     'aria-label': string;
     disableTooltip?: boolean;
+    tooltipPlacement?: 'top' | 'right' | 'bottom' | 'left';
   };
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function Button(
-  { icon: Icon, className, disableTooltip, ...restProps }: IconButtonProps,
+  { icon: Icon, className, disableTooltip, tooltipPlacement, ...restProps }: IconButtonProps,
   ref,
 ) {
   return (
-    <TooltipTrigger delay={500}>
+    <TooltipTrigger delay={800}>
       <ButtonPrimitive
         ref={ref}
         className={composeRenderProps(className, (className, renderProps) => {
@@ -36,7 +37,9 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(f
       >
         {Icon}
       </ButtonPrimitive>
-      {!disableTooltip && <Tooltip placement={'right'}>{restProps['aria-label']}</Tooltip>}
+      {!disableTooltip && (
+        <Tooltip placement={tooltipPlacement ?? 'right'}>{restProps['aria-label']}</Tooltip>
+      )}
     </TooltipTrigger>
   );
 });

@@ -1,5 +1,6 @@
-import { sva } from '@styled-system/css';
-import { Flex } from '@styled-system/jsx';
+import { css, sva } from '@styled-system/css';
+import { Divider, Flex } from '@styled-system/jsx';
+import React from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
 import Panel from '../Panel';
@@ -13,6 +14,7 @@ const sidebarStyles = sva({
   slots: ['wrapper', 'buttonGroup', 'buttonGroupItem'],
   base: {
     wrapper: {
+      zIndex: 1,
       height: 'full',
       display: 'flex',
       flexDirection: 'column',
@@ -27,20 +29,15 @@ const sidebarStyles = sva({
       borderRightStyle: 'solid',
       borderRightColor: 'bg.base.border',
     },
+
     buttonGroup: {
       display: 'flex',
       flexDirection: 'column',
       gap: '4',
       width: 'full',
     },
-    buttonGroupItem: {
-      borderTopWidth: 'thin',
-      borderStyle: 'solid',
-      borderColor: 'bg.base.border',
-      _last: {
-        borderBottomWidth: 'thin',
-      },
 
+    buttonGroupItem: {
       transitionProperty: '[width, max-width]',
       transitionDuration: 'slow',
     },
@@ -49,22 +46,22 @@ const sidebarStyles = sva({
     collapsed: {
       true: {
         wrapper: {
-          maxWidth: '[var(--sidebar-collapsed-width, 48px)]',
-          width: '[var(--sidebar-collapsed-width, 48px)]',
+          maxWidth: '[var(--sidebar-collapsed-width, 3rem)]',
+          width: '[var(--sidebar-collapsed-width, 3rem)]',
         },
         buttonGroupItem: {
-          maxWidth: '[var(--sidebar-collapsed-width, 48px)]',
-          width: '[var(--sidebar-collapsed-width, 48px)]',
+          maxWidth: '[var(--sidebar-collapsed-width, 3rem)]',
+          width: '[var(--sidebar-collapsed-width, 3rem)]',
         },
       },
       false: {
         wrapper: {
-          maxWidth: '[var(--sidebar-expanded-width, 200px)]',
-          width: '[var(--sidebar-expanded-width, 200px)]',
+          maxWidth: '[var(--sidebar-expanded-width, 12rem)]',
+          width: '[var(--sidebar-expanded-width, 12rem)]',
         },
         buttonGroupItem: {
-          maxWidth: '[var(--sidebar-expanded-width, 200px)]',
-          width: '[var(--sidebar-expanded-width, 200px)]',
+          maxWidth: '[var(--sidebar-expanded-width, 12rem)]',
+          width: '[var(--sidebar-expanded-width, 12rem)]',
         },
         button: {
           paddingInlineEnd: '4',
@@ -75,6 +72,7 @@ const sidebarStyles = sva({
 });
 
 function Sidebar() {
+  const sidebarButtonRefs = React.useRef<Record<string, HTMLButtonElement>>({});
   const isCollapsed = useSidebarIsCollapsed();
   const activeItem = useSidebarActiveItem();
   const items = useSidebarItems();
@@ -84,18 +82,33 @@ function Sidebar() {
     collapsed: isCollapsed,
   });
 
+  const closePanel = React.useCallback(() => {
+    if (activeItem) {
+      sidebarButtonRefs.current[activeItem.id]?.focus();
+    }
+    actorRef.send({ type: 'ITEMS.CLOSE_ALL' });
+  }, [actorRef, activeItem]);
+
   const Component = activeItem?.component;
   const topItems = items.filter((item) => item.position === 'top');
   const bottomItems = items.filter((item) => item.position === 'bottom');
 
   return (
-    <Flex zIndex={1}>
+    <Flex
+      zIndex={1}
+      className={css({
+        _light: {
+          shadow: '2xl',
+        },
+      })}
+    >
       <aside className={wrapper}>
         <nav className={buttonGroup}>
           <ul>
             {topItems.map((item) => (
-              <li key={item.id} className={buttonGroupItem}>
+              <li key={item.id}>
                 <SidebarButton
+                  ref={(ref) => (sidebarButtonRefs.current[item.id] = ref!)}
                   collapsed={isCollapsed}
                   active={item.id === activeItem?.id}
                   title={item.title}
@@ -108,6 +121,11 @@ function Sidebar() {
                     }
                   }}
                 ></SidebarButton>
+                <Divider
+                  orientation={'horizontal'}
+                  thickness={'thin'}
+                  color={'bg.base.border'}
+                ></Divider>
               </li>
             ))}
           </ul>
@@ -117,6 +135,7 @@ function Sidebar() {
             {bottomItems.map((item) => (
               <li key={item.id} className={buttonGroupItem}>
                 <SidebarButton
+                  ref={(ref) => (sidebarButtonRefs.current[item.id] = ref!)}
                   collapsed={isCollapsed}
                   active={item.id === activeItem?.id}
                   title={item.title}
@@ -125,10 +144,20 @@ function Sidebar() {
                     actorRef.send({ type: 'ITEMS.SET_ACTIVE', id: item.id });
                   }}
                 ></SidebarButton>
+                <Divider
+                  orientation={'horizontal'}
+                  thickness={'thin'}
+                  color={'bg.base.border'}
+                ></Divider>
               </li>
             ))}
             <li key={'theme-toggler'} className={buttonGroupItem}>
               <ThemeToggler isCollapsed={isCollapsed}></ThemeToggler>
+              <Divider
+                orientation={'horizontal'}
+                thickness={'thin'}
+                color={'bg.base.border'}
+              ></Divider>
             </li>
             <li key={'collapse'} className={buttonGroupItem}>
               <CollapseToggle
@@ -143,7 +172,7 @@ function Sidebar() {
         </nav>
       </aside>
       {Component && (
-        <Panel title={activeItem?.title}>
+        <Panel onClose={closePanel} title={activeItem?.title}>
           <Component />
         </Panel>
       )}

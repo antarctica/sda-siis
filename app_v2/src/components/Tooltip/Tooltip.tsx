@@ -1,4 +1,4 @@
-import { sva } from '@styled-system/css';
+import { css, sva } from '@styled-system/css';
 import React from 'react';
 import {
   OverlayArrow,
@@ -6,70 +6,108 @@ import {
   TooltipProps as AriaTooltipProps,
 } from 'react-aria-components';
 
-export interface TooltipProps extends Omit<AriaTooltipProps, 'children' | 'placement'> {
+export interface TooltipProps extends Omit<AriaTooltipProps, 'children'> {
   children: React.ReactNode;
-  placement: 'top' | 'right' | 'bottom' | 'left';
 }
 
 const tooltipRecipe = sva({
-  slots: ['root', 'arrow'],
+  className: 'tooltip',
+  slots: ['root', 'arrow', 'container'],
   base: {
     root: {
+      '&[data-entering]': {
+        opacity: 0,
+        animationName: 'fadeIn',
+        animationDuration: '100ms',
+        animationFillMode: 'forwards',
+        animationTimingFunction: 'ease-out',
+      },
+
+      '&[data-exiting]': {
+        opacity: 0,
+        animationName: 'fadeOut',
+        animationDuration: '100ms',
+        animationFillMode: 'forwards',
+        animationTimingFunction: 'ease-out',
+      },
+    },
+    container: {
+      position: 'relative',
       fontSize: 'sm',
-      bg: 'bg.base',
-      py: '0.5',
+      py: '1',
       px: '2',
-      borderWidth: 'thin',
-      borderColor: 'bg.base.border',
       borderRadius: 'sm',
-      _light: {
-        shadow: 'sm',
+      _dark: {
+        bg: 'bg.base',
+        color: 'fg',
+        borderColor: 'bg.base.border',
+        borderWidth: 'thin',
+      },
+      _light: { bg: 'siis_purple', color: 'app.white', shadow: 'sm' },
+
+      '[data-placement="top"] &': {
+        animationName: 'slideInBottom',
+        animationDuration: '50ms',
+        animationFillMode: 'forwards',
+        animationTimingFunction: 'ease-out',
+      },
+      '[data-placement="right"] &': {
+        animationName: 'slideInLeft',
+        animationDuration: '50ms',
+        animationFillMode: 'forwards',
+        animationTimingFunction: 'ease-out',
+      },
+      '[data-placement="bottom"] &': {
+        animationName: 'slideInTop',
+        animationDuration: '50ms',
+        animationFillMode: 'forwards',
+        animationTimingFunction: 'ease-out',
+      },
+      '[data-placement="left"] &': {
+        animationName: 'slideInRight',
+        animationDuration: '50ms',
+        animationFillMode: 'forwards',
+        animationTimingFunction: 'ease-out',
       },
     },
     arrow: {
-      fill: 'siis_grey.10',
-      _dark: {
-        fill: 'siis_darkgrey.6',
+      '[data-placement=top] &': {
+        transform: 'rotate(180deg)',
       },
-    },
-  },
-  variants: {
-    placement: {
-      top: {
-        arrow: {
-          transform: 'rotate(180deg)',
-        },
+      '[data-placement="right"] &': {
+        transform: 'rotate(-90deg) translate(0, 5px)',
       },
-      right: {
-        arrow: {
-          transform: 'rotate(90deg)',
-        },
+      '[data-placement="bottom"] &': {
+        transform: 'rotate(0deg)',
       },
-      bottom: {
-        arrow: {
-          transform: 'rotate(0deg)',
-        },
+      '[data-placement="left"] &': {
+        transform: 'rotate(90deg)',
       },
-      left: {
-        arrow: {
-          transform: 'rotate(-90deg)',
-        },
-      },
+      _light: { fill: 'siis_purple' },
+      _dark: { fill: 'bg.base.border' },
     },
   },
 });
 
 export function Tooltip({ children, ...props }: TooltipProps) {
-  const { root, arrow } = tooltipRecipe(props);
-
+  const { root, arrow, container } = tooltipRecipe();
   return (
     <AriaTooltip {...props} offset={10} className={root}>
-      <OverlayArrow>
-        <svg width={8} height={8} viewBox="0 0 8 8" className={arrow}>
-          <path d="M0 0 L4 4 L8 0" />
-        </svg>
-      </OverlayArrow>
-      {children}
+      <div className={container}>
+        <OverlayArrow>
+          <svg className={arrow} width="16" height="6" xmlns="http://www.w3.org/2000/svg">
+            <path
+              className={css({
+                _light: {
+                  filter: '[drop-shadow( 0 1px 2px rgb(0 0 0 / 0.1))]',
+                },
+              })}
+              d="M0 6s1.796-.013 4.67-3.615C5.851.9 6.93.006 8 0c1.07-.006 2.148.887 3.343 2.385C14.233 6.005 16 6 16 6H0z"
+            ></path>
+          </svg>
+        </OverlayArrow>
+        {children}
+      </div>
     </AriaTooltip>
   );
 }

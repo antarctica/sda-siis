@@ -46,6 +46,10 @@ export function DarkModeSwitch({
       <mask id={uniqueMaskId}>
         <rect x="0" y="0" width="100%" height="100%" fill="white" />
         <motion.circle
+          initial={{
+            cx: checked ? '50%' : '100%',
+            cy: checked ? '23%' : '0%',
+          }}
           animate={{
             cx: checked ? '50%' : '100%',
             cy: checked ? '23%' : '0%',
@@ -54,21 +58,27 @@ export function DarkModeSwitch({
           fill="black"
         />
       </mask>
-
       <motion.circle
-        cx="12"
-        cy="12"
-        fill={checked ? moonColor : sunColor}
-        animate={{
+        initial={{
+          cx: 12,
+          cy: 12,
           r: checked ? 9 : 5,
         }}
+        animate={{
+          cx: 12,
+          cy: 12,
+          r: checked ? 9 : 5,
+        }}
+        fill={checked ? moonColor : sunColor}
         mask={`url(#${uniqueMaskId})`}
       />
+
       <motion.g
         stroke="currentColor"
         animate={{
           opacity: checked ? 0 : 1,
         }}
+        opacity={0}
       >
         <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" />
         <path d="M6.343 17.657l-1.414 1.414" />

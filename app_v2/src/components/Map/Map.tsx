@@ -5,7 +5,7 @@ import React from 'react';
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import { getMap } from '@/config/map';
 
-import ZoomControl from '../map-controls/ZoomControl';
+import ZoomControl from './map-controls/ZoomControl';
 
 export function Map() {
   const { map, initialZoom } = React.useMemo(() => {

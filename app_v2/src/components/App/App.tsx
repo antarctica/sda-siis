@@ -2,6 +2,10 @@ import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 
 import { Flex } from '@styled-system/jsx';
 
+import useIsMobile from '@/hooks/useIsMobile';
+
+import Drawer from '../Drawer';
+import Header from '../Header';
 import { Map } from '../Map/Map';
 import Sidebar from '../Sidebar';
 import { SideBarProvider } from '../Sidebar/SideBarProvider';
@@ -29,13 +33,17 @@ const testItems: SidebarItem[] = [
 ];
 
 export function App() {
+  const isMobile = useIsMobile();
   return (
     <>
       <ThemeProvider>
         <SideBarProvider items={testItems}>
-          <Flex w={'full'} h={'full'}>
-            <Sidebar></Sidebar>
-            <Map></Map>
+          <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+            <Header></Header>
+            <Flex w={'full'} flexGrow={1}>
+              {isMobile ? <Drawer /> : <Sidebar />}
+              <Map></Map>
+            </Flex>
           </Flex>
         </SideBarProvider>
       </ThemeProvider>
