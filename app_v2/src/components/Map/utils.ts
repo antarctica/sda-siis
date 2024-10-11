@@ -1,13 +1,11 @@
 import Polygon from '@arcgis/core/geometry/Polygon';
 
-import { ASSETLAYERMAPID } from '@/config/assetLayer';
-
 import arcadeAntarticHeading from '../../config/arcade/arcadeAntarcticHeading?raw';
 
 export async function applySymbolRotationCorrection(center: [number, number], map: __esri.MapView) {
   // if using the Antarctic basemap, apply the arcade antarctic heading correction.
   if (center[1] < -60) {
-    const FeatureLayer = map.map.findLayerById(ASSETLAYERMAPID) as __esri.FeatureLayer;
+    const FeatureLayer = map.map.findLayerById('ASSETLAYERMAPID') as __esri.FeatureLayer;
     const featureLayerView = await map.whenLayerView(FeatureLayer);
 
     const { renderer } = featureLayerView.layer;
