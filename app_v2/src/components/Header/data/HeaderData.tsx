@@ -1,16 +1,12 @@
 import { Divider, Flex } from '@styled-system/jsx';
 
-import DataGrid from '../DataGrid';
+import DataGrid from '../../DataGrid';
+import { ProjectionData } from './ProjectionData';
 
 export function HeaderData() {
   return (
     <Flex gap="4" h="full" alignItems="center" shrink={1} minW="0" overflowX={'auto'}>
-      <DataGrid
-        data={[
-          { label: 'PROJECTION', value: 'Antarctic Polar Stereographic' },
-          { label: 'VIEW SCALE', value: '1:10000000' },
-        ]}
-      ></DataGrid>
+      <ProjectionData />
       <Divider
         h={'full'}
         orientation={'vertical'}

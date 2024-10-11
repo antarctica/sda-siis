@@ -14,7 +14,7 @@ export function Map() {
 
   return (
     <Box w={'full'} h={'full'} position={'relative'}>
-      <ArcMapView map={map} zoom={initialZoom}>
+      <ArcMapView id="map" map={map} zoom={initialZoom}>
         <ArcgisPlacement position="bottom-right">
           <ZoomControl />
         </ArcgisPlacement>

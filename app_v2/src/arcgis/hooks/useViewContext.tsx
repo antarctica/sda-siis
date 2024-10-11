@@ -25,6 +25,11 @@ export function useViews(): ViewCollection {
   return mapsWithCurrent;
 }
 
+export function useViewById<View extends MapView | SceneView>(id: string): View | undefined {
+  const views = useViews();
+  return views[id] as View | undefined;
+}
+
 export function useCurrentView(defaultView?: MapView | SceneView): MapView | SceneView {
   const { current: view } = useViews();
 

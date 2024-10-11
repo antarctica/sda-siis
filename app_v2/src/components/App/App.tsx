@@ -2,6 +2,7 @@ import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 
 import { Flex } from '@styled-system/jsx';
 
+import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Drawer from '../Drawer';
@@ -37,15 +38,17 @@ export function App() {
   return (
     <>
       <ThemeProvider>
-        <SideBarProvider items={testItems}>
-          <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
-            <Header></Header>
-            <Flex w={'full'} flexGrow={1}>
-              {isMobile ? <Drawer /> : <Sidebar />}
-              <Map></Map>
+        <ArcViewProvider>
+          <SideBarProvider items={testItems}>
+            <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+              <Header />
+              <Flex w={'full'} flexGrow={1}>
+                {isMobile ? <Drawer /> : <Sidebar />}
+                <Map />
+              </Flex>
             </Flex>
-          </Flex>
-        </SideBarProvider>
+          </SideBarProvider>
+        </ArcViewProvider>
       </ThemeProvider>
     </>
   );

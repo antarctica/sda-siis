@@ -81,7 +81,7 @@ const tooltipRecipe = sva({
         transform: 'rotate(0deg)',
       },
       '[data-placement="left"] &': {
-        transform: 'rotate(90deg)',
+        transform: 'rotate(90deg) translate(0, 5px)',
       },
       _light: { fill: 'siis_purple' },
       _dark: { fill: 'bg.base.border' },

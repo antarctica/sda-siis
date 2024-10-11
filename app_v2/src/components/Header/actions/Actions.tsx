@@ -2,10 +2,11 @@ import { Divider, Flex } from '@styled-system/jsx';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
-import { IconButton } from '../Button';
-import SvgIcon from '../SvgIcon';
+import { IconButton } from '../../Button';
+import SvgIcon from '../../SvgIcon';
+import { FullScreen } from './FullScreen';
 
-function Action(
+export function Action(
   props: Pick<React.ComponentProps<typeof IconButton>, 'icon' | 'aria-label' | 'onPress'>,
 ) {
   return (
@@ -27,13 +28,7 @@ export function Actions() {
 
   return (
     <Flex gap="3" h="full" pr="1" alignItems="center">
-      {!isMobile && (
-        <Action
-          icon={<SvgIcon name="icon-fullscreen" size={20} />}
-          aria-label={'Full Screen'}
-          onPress={() => {}}
-        ></Action>
-      )}
+      {!isMobile && <FullScreen />}
       <Action
         icon={<SvgIcon name="icon-settings" size={20} />}
         aria-label={'Settings'}

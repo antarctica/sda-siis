@@ -4,8 +4,8 @@ import { Divider, Flex } from '@styled-system/jsx';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import MobileSideMenu from '../MobileSideMenu';
-import { Actions } from './Actions';
-import { HeaderData } from './HeaderData';
+import { Actions } from './actions/Actions';
+import { HeaderData } from './data/HeaderData';
 import { Title } from './Title';
 
 const headerStyles = cva({
