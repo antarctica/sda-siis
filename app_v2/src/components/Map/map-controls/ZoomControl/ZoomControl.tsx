@@ -23,6 +23,10 @@ function ZoomControl() {
         borderColor: 'bg.base.border',
         borderWidth: 'thin',
         borderRadius: 'md',
+        display: {
+          base: 'none',
+          md: 'flex',
+        },
       })}
     >
       <MapButton

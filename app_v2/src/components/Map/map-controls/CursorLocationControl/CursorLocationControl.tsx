@@ -13,13 +13,16 @@ const cursorLocationControlStyle = sva({
   slots: ['wrapper', 'format', 'value'],
   base: {
     wrapper: {
+      display: {
+        base: 'none',
+        md: 'flex',
+      },
       bg: 'bg.base',
       h: '6',
       gap: '2',
       p: '2',
       alignItems: 'center',
       fontSize: 'xs',
-      display: 'flex',
       borderRadius: 'sm',
       fontWeight: 'semibold',
       boxShadow: 'md',
