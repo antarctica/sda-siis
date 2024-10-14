@@ -18,9 +18,10 @@ const cursorLocationControlStyle = sva({
         md: 'flex',
       },
       bg: 'bg.base',
-      h: '6',
+
       gap: '2',
-      p: '2',
+      px: '2',
+      py: '1',
       alignItems: 'center',
       fontSize: 'xs',
       borderRadius: 'sm',
