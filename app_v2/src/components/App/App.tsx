@@ -2,7 +2,6 @@ import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 
 import { Flex } from '@styled-system/jsx';
 import { I18nProvider } from 'react-aria-components';
-import { LocalizedStringProvider } from 'react-aria-components/i18n';
 
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
 import useIsMobile from '@/hooks/useIsMobile';
@@ -40,7 +39,6 @@ export function App() {
   return (
     <>
       <I18nProvider locale={'en'}>
-        <LocalizedStringProvider locale={'en'} />
         <ThemeProvider>
           <ArcViewProvider>
             <SideBarProvider items={testItems}>

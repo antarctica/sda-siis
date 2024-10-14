@@ -8,7 +8,7 @@ import { useSidebarActiveItem } from '../Sidebar/SidebarHooks';
 import { SidebarContext } from '../Sidebar/SideBarProvider';
 
 const drawerRecipe = sva({
-  slots: ['root', 'title', 'handle', 'content'],
+  slots: ['root', 'title', 'description', 'handle', 'content'],
   base: {
     content: {
       position: 'fixed',
@@ -22,6 +22,9 @@ const drawerRecipe = sva({
       flexDirection: 'column',
     },
     title: {
+      srOnly: true,
+    },
+    description: {
       srOnly: true,
     },
     handle: {
@@ -39,7 +42,7 @@ const snapPoints = [0.4, 0.6];
 
 function Drawer() {
   const [snap, setSnap] = React.useState<number | string | null>(snapPoints[0]);
-  const { content, handle, title } = drawerRecipe();
+  const { content, handle, title, description } = drawerRecipe();
   const { layout, panelContent } = panelStyles();
   const activeItem = useSidebarActiveItem();
   const actorRef = SidebarContext.useActorRef();
@@ -66,6 +69,10 @@ function Drawer() {
         <DrawerPrimitive.Content className={content}>
           <DrawerPrimitive.Handle className={handle} />
           <DrawerPrimitive.Title className={title}>{activeItem.title}</DrawerPrimitive.Title>
+          <DrawerPrimitive.Description className={description}>
+            {/* Todo make this included in the item definition */}
+            {activeItem.title} workflow panel
+          </DrawerPrimitive.Description>
           <article
             className={layout}
             style={{ height: `${parseFloat(snap?.toString() ?? '0') * 100}%` }}

@@ -300,6 +300,12 @@ export const semanticColorTokens = defineSemanticTokens.colors({
       _dark: '#333333',
     },
   },
+  scaleBar: {
+    value: {
+      base: '{colors.fg.accent}',
+      _dark: '{colors.fg}',
+    },
+  },
   fg: {
     DEFAULT: {
       value: {

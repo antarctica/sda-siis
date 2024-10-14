@@ -22,22 +22,29 @@ function ZoomControl() {
         bg: 'bg.base',
         borderColor: 'bg.base.border',
         borderWidth: 'thin',
+        borderRadius: 'md',
       })}
     >
       <MapButton
-        icon={<SvgIcon name="icon-add" size={12} />}
+        icon={<SvgIcon name="icon-add" size={16} />}
         aria-label="Zoom In"
         disableTooltip
         isDisabled={canZoomIn ? undefined : true}
         onPress={() => widget.zoomIn()}
+        className={css({
+          borderBottomRadius: '[0]',
+        })}
       />
       <Divider w="full" thickness={'thin'} color="bg.base.border"></Divider>
       <MapButton
-        icon={<SvgIcon name="icon-subtract" size={12} />}
+        icon={<SvgIcon name="icon-subtract" size={16} />}
         aria-label="Zoom Out"
         disableTooltip
         isDisabled={canZoomOut ? undefined : true}
         onPress={() => widget.zoomOut()}
+        className={css({
+          borderTopRadius: '[0]',
+        })}
       />
     </Flex>
   );

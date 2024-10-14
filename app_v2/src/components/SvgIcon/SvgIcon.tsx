@@ -1,3 +1,4 @@
+import { css, cx } from '@styled-system/css';
 import React from 'react';
 
 type IconName =
@@ -51,8 +52,9 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
 const SvgIcon: React.FC<IconProps> = React.forwardRef<SVGSVGElement, IconProps>(
   ({ name, size = 12, color = 'currentColor', className, style, ...props }, ref) => (
     <svg
+      aria-hidden
       ref={ref}
-      className={className}
+      className={cx(css({ userSelect: 'none' }), className)}
       width={size}
       height={size}
       fill={color}

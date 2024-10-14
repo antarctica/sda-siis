@@ -6,6 +6,8 @@ import {
   TooltipProps as AriaTooltipProps,
 } from 'react-aria-components';
 
+import useIsMobile from '@/hooks/useIsMobile';
+
 export interface TooltipProps extends Omit<AriaTooltipProps, 'children'> {
   children: React.ReactNode;
 }
@@ -91,6 +93,10 @@ const tooltipRecipe = sva({
 
 export function Tooltip({ children, ...props }: TooltipProps) {
   const { root, arrow, container } = tooltipRecipe();
+  const isMobile = useIsMobile();
+  if (isMobile) {
+    return null;
+  }
   return (
     <AriaTooltip {...props} offset={10} className={root}>
       <div className={container}>
