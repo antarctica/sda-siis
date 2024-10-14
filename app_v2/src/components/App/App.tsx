@@ -4,6 +4,7 @@ import { Flex } from '@styled-system/jsx';
 import { I18nProvider } from 'react-aria-components';
 
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
+import { ProjectionProvider } from '@/arcgis/projection/ProjectionProvider';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Drawer from '../Drawer';
@@ -40,17 +41,19 @@ export function App() {
     <>
       <I18nProvider locale={'en'}>
         <ThemeProvider>
-          <ArcViewProvider>
-            <SideBarProvider items={testItems}>
-              <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
-                <Header />
-                <Flex w={'full'} flexGrow={1}>
-                  {isMobile ? <Drawer /> : <Sidebar />}
-                  <Map />
+          <ProjectionProvider>
+            <ArcViewProvider>
+              <SideBarProvider items={testItems}>
+                <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+                  <Header />
+                  <Flex w={'full'} flexGrow={1}>
+                    {isMobile ? <Drawer /> : <Sidebar />}
+                    <Map />
+                  </Flex>
                 </Flex>
-              </Flex>
-            </SideBarProvider>
-          </ArcViewProvider>
+              </SideBarProvider>
+            </ArcViewProvider>
+          </ProjectionProvider>
         </ThemeProvider>
       </I18nProvider>
     </>
