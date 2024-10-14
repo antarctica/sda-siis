@@ -1,6 +1,8 @@
 import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 
 import { Flex } from '@styled-system/jsx';
+import { I18nProvider } from 'react-aria-components';
+import { LocalizedStringProvider } from 'react-aria-components/i18n';
 
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
 import useIsMobile from '@/hooks/useIsMobile';
@@ -37,19 +39,22 @@ export function App() {
   const isMobile = useIsMobile();
   return (
     <>
-      <ThemeProvider>
-        <ArcViewProvider>
-          <SideBarProvider items={testItems}>
-            <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
-              <Header />
-              <Flex w={'full'} flexGrow={1}>
-                {isMobile ? <Drawer /> : <Sidebar />}
-                <Map />
+      <I18nProvider locale={'en'}>
+        <LocalizedStringProvider locale={'en'} />
+        <ThemeProvider>
+          <ArcViewProvider>
+            <SideBarProvider items={testItems}>
+              <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+                <Header />
+                <Flex w={'full'} flexGrow={1}>
+                  {isMobile ? <Drawer /> : <Sidebar />}
+                  <Map />
+                </Flex>
               </Flex>
-            </Flex>
-          </SideBarProvider>
-        </ArcViewProvider>
-      </ThemeProvider>
+            </SideBarProvider>
+          </ArcViewProvider>
+        </ThemeProvider>
+      </I18nProvider>
     </>
   );
 }

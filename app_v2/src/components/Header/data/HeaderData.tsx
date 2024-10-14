@@ -1,7 +1,7 @@
 import { Divider, Flex } from '@styled-system/jsx';
 
-import DataGrid from '../../DataGrid';
 import { ProjectionData } from './ProjectionData';
+import { TemporalData } from './TemporalData';
 
 export function HeaderData() {
   return (
@@ -13,12 +13,7 @@ export function HeaderData() {
         thickness={'thin'}
         color="bg.base.border"
       ></Divider>
-      <DataGrid
-        data={[
-          { label: 'UTC', value: '13/09/2024 16:04:32' },
-          { label: 'LOCAL', value: '13/09/2024 19:04:32 (UTC +3)' },
-        ]}
-      ></DataGrid>
+      <TemporalData />
     </Flex>
   );
 }

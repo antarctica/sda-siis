@@ -3,7 +3,7 @@ import React from 'react';
 
 interface Item {
   label: string;
-  value: string;
+  value: string | React.ReactNode;
 }
 
 const datagridRecipe = sva({
