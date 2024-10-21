@@ -10,7 +10,7 @@ const generateDateTimeString = ({
   timeStyle: Intl.DateTimeFormatOptions['timeStyle'] | 'none';
 }): string => {
   const isoString = date.toISOString();
-  const [isoDate, isoTime] = isoString.split('T');
+  const [isoDate = '', isoTime = ''] = isoString.split('T');
 
   if (dateStyle === 'none' && timeStyle === 'none') {
     return '';

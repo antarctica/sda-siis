@@ -11,7 +11,6 @@ function HomeControl() {
   const isDisabled = useWatchState(() => widget.state === 'disabled') ?? false;
   return (
     <MapButton
-      includeBorder
       icon={<SvgIcon name="icon-home" size={12} />}
       aria-label="Home"
       isDisabled={isDisabled}

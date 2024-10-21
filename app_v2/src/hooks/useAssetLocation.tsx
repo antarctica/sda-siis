@@ -19,7 +19,7 @@ export function useAssetLocation(
         return null;
       }
 
-      return result.features[0].geometry as __esri.Point;
+      return result.features[0]!.geometry as __esri.Point;
     } catch (e) {
       console.error(e);
       return null;

@@ -39,9 +39,8 @@ const drawerRecipe = sva({
 });
 
 const snapPoints = [0.4, 0.6];
-
 function Drawer() {
-  const [snap, setSnap] = React.useState<number | string | null>(snapPoints[0]);
+  const [snap, setSnap] = React.useState<number | string | null>(snapPoints[0] ?? null);
   const { content, handle, title, description } = drawerRecipe();
   const { layout, panelContent } = panelStyles();
   const activeItem = useSidebarActiveItem();
