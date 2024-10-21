@@ -13,12 +13,9 @@ const cursorLocationControlStyle = sva({
   slots: ['wrapper', 'format', 'value'],
   base: {
     wrapper: {
-      display: {
-        base: 'none',
-        md: 'flex',
-      },
+      display: 'flex',
       bg: 'bg.base',
-
+      cursor: 'pointer',
       gap: '2',
       px: '2',
       py: '1',

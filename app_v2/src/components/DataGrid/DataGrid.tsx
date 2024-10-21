@@ -11,9 +11,9 @@ const datagridRecipe = sva({
   base: {
     gridContainer: {
       display: 'grid',
-      gridTemplateColumns: '[auto auto]',
+      gridTemplateColumns: '[min-content min-content]',
       gridTemplateRows: '[min-content min-content]',
-      columnGap: '2',
+      columnGap: '4',
       alignItems: 'center',
       fontSize: 'sm',
       textWrap: 'nowrap',
@@ -21,6 +21,7 @@ const datagridRecipe = sva({
     label: {
       fontWeight: 'bold',
       color: 'fg.accent',
+      textTransform: 'uppercase',
     },
     value: {
       fontSize: 'md',
@@ -29,7 +30,7 @@ const datagridRecipe = sva({
   },
 });
 
-export default function DataGrid({ data }: { data: [Item] | [Item, Item] }) {
+export default function DataGrid({ data }: { data: Item[] }) {
   const { gridContainer, label, value } = datagridRecipe();
   return (
     <dl className={gridContainer}>

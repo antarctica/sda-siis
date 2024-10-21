@@ -24,9 +24,6 @@ export function Title() {
         margin={false}
         className={css({
           color: 'fg',
-          _dark: {
-            color: 'fg.accent',
-          },
         })}
       >
         SIIS

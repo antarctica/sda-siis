@@ -27,6 +27,21 @@ export const buttonRecipe = cva({
           },
         },
       },
+      mapButton: {
+        bg: 'bg.base',
+        _hover: {
+          bg: 'siis_grey.3',
+          _dark: {
+            bg: 'siis_darkgrey.3',
+          },
+        },
+        _active: {
+          bg: 'siis_grey.4',
+          _dark: {
+            bg: 'siis_darkgrey.4',
+          },
+        },
+      },
     },
     size: {
       sm: {

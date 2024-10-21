@@ -18,11 +18,12 @@ const sidebarButtonRecipe = sva({
       flexDirection: 'row',
       textWrap: 'nowrap',
       width: 'full',
+      bg: 'bg.sidebar',
       _hover: {
-        bg: 'bg.base.hover',
+        bg: 'bg.sidebar.hover',
       },
       _active: {
-        bg: 'bg.base.active',
+        bg: 'bg.sidebar.active',
       },
     },
     icon: {
@@ -32,11 +33,10 @@ const sidebarButtonRecipe = sva({
       flexShrink: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      opacity: 0.8,
     },
     title: {
       textStyle: 'body',
-      fontWeight: 'medium',
+      fontWeight: 'normal',
     },
   },
 
@@ -69,17 +69,13 @@ const sidebarButtonRecipe = sva({
     active: {
       true: {
         root: {
-          bg: 'bg.base.active',
+          bg: 'bg.sidebar.active',
+          color: 'fg.accent',
           _hover: {
-            bg: 'bg.base.active',
-          },
-          _active: {
-            bg: 'bg.base',
+            bg: 'bg.sidebar.active',
           },
         },
-        icon: {
-          opacity: 1,
-        },
+        icon: {},
       },
     },
   },

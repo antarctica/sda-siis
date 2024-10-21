@@ -14,7 +14,7 @@ export function ThemeToggler({ isCollapsed }: { isCollapsed: boolean }) {
       title={'Toggle Theme'}
       icon={
         <DarkModeSwitch
-          moonColor="#3ee738"
+          moonColor="white"
           sunColor="black"
           checked={currentTheme === 'dark'}
           size={16}

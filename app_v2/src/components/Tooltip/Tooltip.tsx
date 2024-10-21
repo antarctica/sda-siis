@@ -39,13 +39,13 @@ const tooltipRecipe = sva({
       py: '1',
       px: '2',
       borderRadius: 'sm',
+      borderWidth: 'thin',
       _dark: {
         bg: 'bg.base',
         color: 'fg',
-        borderColor: 'bg.base.border',
-        borderWidth: 'thin',
+        borderColor: 'fg.accent',
       },
-      _light: { bg: 'siis_purple', color: 'app.white', shadow: 'sm' },
+      _light: { bg: 'siis_purple', borderColor: 'fg.accent', color: 'app.white', shadow: 'sm' },
 
       '[data-placement="top"] &': {
         animationName: 'slideInBottom',
@@ -86,7 +86,7 @@ const tooltipRecipe = sva({
         transform: 'rotate(90deg) translate(0, 5px)',
       },
       _light: { fill: 'siis_purple' },
-      _dark: { fill: 'bg.base.border' },
+      _dark: { fill: 'fg.accent' },
     },
   },
 });

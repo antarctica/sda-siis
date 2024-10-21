@@ -303,21 +303,27 @@ export const semanticColorTokens = defineSemanticTokens.colors({
   scaleBar: {
     value: {
       base: '{colors.fg.accent}',
-      _dark: '{colors.fg}',
+      _dark: '{colors.siis_green.9}',
     },
   },
   fg: {
     DEFAULT: {
       value: {
         base: '{colors.siis_grey.12}',
-        _dark: '{colors.siis_green.9}',
+        _dark: '#FFFFFF',
+      },
+    },
+    subdued: {
+      value: {
+        base: '{colors.siis_grey.11}',
+        _dark: '{colors.siis_darkgrey.11}',
       },
     },
     accent: {
       DEFAULT: {
         value: {
           base: '{colors.siis_purple}',
-          _dark: '#FFFFFF',
+          _dark: '{colors.siis_green.9}',
         },
       },
     },
@@ -348,6 +354,26 @@ export const semanticColorTokens = defineSemanticTokens.colors({
             base: '{colors.siis_grey.6}',
             _dark: '{colors.siis_darkgrey.7}',
           },
+        },
+      },
+    },
+    sidebar: {
+      DEFAULT: {
+        value: {
+          base: '{colors.siis_grey.3}',
+          _dark: '{colors.siis_darkgrey.3}',
+        },
+      },
+      hover: {
+        value: {
+          base: '{colors.siis_grey.2}',
+          _dark: '{colors.siis_darkgrey.2}',
+        },
+      },
+      active: {
+        value: {
+          base: '{colors.siis_grey.1}',
+          _dark: '{colors.siis_darkgrey.1}',
         },
       },
     },

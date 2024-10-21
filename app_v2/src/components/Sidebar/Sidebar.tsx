@@ -19,7 +19,7 @@ const sidebarStyles = sva({
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      bg: 'bg.base',
+      bg: 'bg.sidebar',
       overflowX: 'hidden',
       flexGrow: 0,
       flexShrink: 0,

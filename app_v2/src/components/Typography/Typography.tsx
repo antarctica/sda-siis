@@ -42,6 +42,9 @@ const typographyRecipe = cva({
       'heading-3': {
         textStyle: 'heading3',
       },
+      'heading-4': {
+        textStyle: 'heading4',
+      },
     },
 
     textPosition: {

@@ -6,7 +6,9 @@ import React from 'react';
 
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import { getMap } from '@/config/map';
+import useIsMobile from '@/hooks/useIsMobile';
 
+import { SensorInfo } from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import ScaleControl from './map-controls/ScaleControl';
 import ZoomControl from './map-controls/ZoomControl';
@@ -32,16 +34,23 @@ export function Map() {
     return getMap();
   }, []);
 
+  const isMobile = useIsMobile();
+
   return (
     <Box w={'full'} h={'full'} position={'relative'} className={mapStyles()}>
       <ArcMapView id="map" map={map} zoom={initialZoom}>
-        <ArcgisPlacement position="bottom-right">
-          <ZoomControl />
+        {!isMobile && (
+          <ArcgisPlacement position="bottom-right">
+            <ZoomControl />
+          </ArcgisPlacement>
+        )}
+        <ArcgisPlacement position="top-right">
+          <SensorInfo />
         </ArcgisPlacement>
         <ArcgisPlacement position="bottom-left">
           <Flex direction={'column'} gap={'2'}>
             <ScaleControl />
-            <CursorLocationControl />
+            {!isMobile && <CursorLocationControl />}
           </Flex>
         </ArcgisPlacement>
       </ArcMapView>

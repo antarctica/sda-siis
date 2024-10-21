@@ -23,10 +23,6 @@ function ZoomControl() {
         borderColor: 'bg.base.border',
         borderWidth: 'thin',
         borderRadius: 'md',
-        display: {
-          base: 'none',
-          md: 'flex',
-        },
       })}
     >
       <MapButton
@@ -35,6 +31,8 @@ function ZoomControl() {
         disableTooltip
         isDisabled={canZoomIn ? undefined : true}
         onPress={() => widget.zoomIn()}
+        variant="surface"
+        isContainer={false}
         className={css({
           borderBottomRadius: '[0]',
         })}
@@ -46,6 +44,8 @@ function ZoomControl() {
         disableTooltip
         isDisabled={canZoomOut ? undefined : true}
         onPress={() => widget.zoomOut()}
+        variant="mapButton"
+        isContainer={false}
         className={css({
           borderTopRadius: '[0]',
         })}
