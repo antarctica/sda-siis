@@ -3,7 +3,6 @@ import * as React from 'react';
 
 const typographyRecipe = cva({
   base: {
-    color: 'fg',
     textStyle: 'body',
   },
   variants: {
@@ -14,7 +13,7 @@ const typographyRecipe = cva({
     },
     bold: {
       true: {
-        fontWeight: 'bold',
+        fontWeight: 'semibold',
       },
     },
     italic: {

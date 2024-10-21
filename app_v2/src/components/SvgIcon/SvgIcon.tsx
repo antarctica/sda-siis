@@ -42,7 +42,11 @@ type IconName =
   | 'icon-settings'
   | 'icon-globe'
   | 'icon-fullscreen'
-  | 'icon-ship';
+  | 'icon-ship'
+  | 'icon-follow'
+  | 'icon-follow-off'
+  | 'icon-target'
+  | 'icon-focus-item';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: IconName;

@@ -10,10 +10,19 @@ import {
 } from '@/api/useShipSensorData';
 import { decimalToDMS } from '@/utils/formatCoordinates';
 
+import Badge from '../Badge';
 import { IconButton, MapButton } from '../Button';
 import DataGrid from '../DataGrid';
 import SvgIcon from '../SvgIcon';
 import Typography, { Heading } from '../Typography';
+
+function OfflineBadge() {
+  return (
+    <Badge variant="error" className={css({ fontSize: 'sm' })}>
+      Offline
+    </Badge>
+  );
+}
 
 export function SensorInfo() {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -81,35 +90,44 @@ export function SensorInfo() {
             </Heading>
             <DataGrid
               data={[
-                { label: 'Speed', value: speedOnline ? `${speed} knots` : 'Offline' },
-                { label: 'Heading', value: headingOnline ? `${heading}°` : 'Offline' },
-                { label: 'Depth', value: depthOnline ? `${depth} meters` : 'Offline' },
+                {
+                  label: 'Speed',
+                  value: speedOnline ? `${speed} knots` : <OfflineBadge />,
+                },
+                {
+                  label: 'Heading',
+                  value: headingOnline ? `${heading}°` : <OfflineBadge />,
+                },
+                {
+                  label: 'Depth',
+                  value: depthOnline ? `${depth} meters` : <OfflineBadge />,
+                },
               ]}
             />
           </Box>
           <Divider orientation="horizontal" color="bg.base.border" />
           <Flex gap="2" pl="2" justifyContent={'space-between'} align="center" w="full">
-            {positionOnline && (
-              <>
-                <Typography bold>
-                  {decimalToDMS(latitude ?? 0, true)}, {decimalToDMS(longitude ?? 0, false)}
-                </Typography>
-              </>
+            {positionOnline ? (
+              <Typography bold>
+                {decimalToDMS(latitude ?? 0, true)}, {decimalToDMS(longitude ?? 0, false)}
+              </Typography>
+            ) : (
+              <Badge variant="error">No position data</Badge>
             )}
             <Flex align="center">
               <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />
               <IconButton
                 variant="surface"
-                icon={<SvgIcon name="icon-ship" size={16} />}
+                icon={<SvgIcon name="icon-zoom-to" size={16} />}
                 tooltipPlacement="bottom"
-                aria-label="Copy coordinates"
+                aria-label="Zoom to ship position"
               />
               <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />
               <IconButton
                 variant="surface"
                 tooltipPlacement="bottom"
-                icon={<SvgIcon name="icon-ship" size={16} />}
-                aria-label="Copy coordinates"
+                icon={<SvgIcon name="icon-follow" size={16} />}
+                aria-label="Follow ship position"
               />
             </Flex>
           </Flex>

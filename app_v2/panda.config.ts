@@ -28,6 +28,9 @@ export default defineConfig({
       color: 'fg',
       overflow: 'hidden',
       fontFamily: '{fonts.openSans}',
+      _dark: {
+        '--calcite-color-brand': '{colors.fg.accent}',
+      },
       '--calcite-color-brand': '{colors.fg}',
     },
     'body:has(dialog[open])': {
@@ -57,7 +60,6 @@ export default defineConfig({
 
   globalVars: {
     '--font-open-sans': 'Open Sans Variable, sans-serif',
-    '--calcite-color-brand': '{colors.fg}',
   },
 
   utilities: {

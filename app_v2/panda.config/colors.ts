@@ -26,6 +26,7 @@ export const basColorTokens = defineTokens.colors({
   },
   bas_orange: {
     DEFAULT: { value: '#F47738' },
+    lightest: { value: '#FFDDCD' },
     lighter: { value: '#FBD1BB' },
     light: { value: '#F8A47A' },
     base: { value: '#F47738' },
@@ -34,6 +35,7 @@ export const basColorTokens = defineTokens.colors({
   },
   bas_aircraftRed: {
     DEFAULT: { value: '#CC0033' },
+    lightest: { value: '#FFCCCA' },
     lighter: { value: '#EEA8BA' },
     light: { value: '#DD5476' },
     base: { value: '#CC0033' },
@@ -89,6 +91,8 @@ export const basColorTokens = defineTokens.colors({
     darker: { value: '#0F3043' },
   },
   bas_blue: {
+    DEFAULT: { value: '#003A5D' },
+    lightest: { value: '#C8ECFF' },
     lighter: { value: '#A8BCC8' },
     light: { value: '#547B92' },
     base: { value: '#003A5D' },
@@ -97,6 +101,7 @@ export const basColorTokens = defineTokens.colors({
     backlog: { value: '#2E358B' },
   },
   bas_turquoise: {
+    DEFAULT: { value: '#28A197' },
     lighter: { value: '#B6DFDC' },
     light: { value: '#6FC0B9' },
     base: { value: '#28A197' },
@@ -325,6 +330,49 @@ export const semanticColorTokens = defineSemanticTokens.colors({
           base: '{colors.siis_purple}',
           _dark: '{colors.siis_green.9}',
         },
+      },
+    },
+  },
+  error: {
+    fg: {
+      value: {
+        base: '{colors.bas_aircraftRed}',
+        _dark: '{colors.bas_aircraftRed.lightest}',
+      },
+    },
+    bg: {
+      value: {
+        base: '{colors.bas_aircraftRed.lightest}',
+        _dark: '{colors.bas_aircraftRed.dark/70}',
+      },
+    },
+  },
+  warning: {
+    fg: {
+      value: {
+        base: '{colors.bas_orange.dark}',
+        _dark: '{colors.bas_orange.lightest}',
+      },
+    },
+    bg: {
+      value: {
+        base: '{colors.bas_orange.lightest}',
+        _dark: '{colors.bas_orange.dark/70}',
+      },
+    },
+  },
+
+  info: {
+    fg: {
+      value: {
+        base: '{colors.bas_blue.base}',
+        _dark: '{colors.bas_blue.lightest}',
+      },
+    },
+    bg: {
+      value: {
+        base: '{colors.bas_blue.lightest}',
+        _dark: '{colors.bas_blue.base/70}',
       },
     },
   },
