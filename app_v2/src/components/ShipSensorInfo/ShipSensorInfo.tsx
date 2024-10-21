@@ -1,56 +1,12 @@
 import { css } from '@styled-system/css';
-import { Box, Divider, Flex } from '@styled-system/jsx';
 import { useState } from 'react';
 
-import {
-  useShipDepth,
-  useShipHeading,
-  useShipPosition,
-  useShipSpeed,
-} from '@/api/useShipSensorData';
-import { decimalToDMS } from '@/utils/formatCoordinates';
-
-import Badge from '../Badge';
-import { IconButton, MapButton } from '../Button';
-import DataGrid from '../DataGrid';
+import { MapButton } from '../Button';
 import SvgIcon from '../SvgIcon';
-import Typography, { Heading } from '../Typography';
+import SensorInfoPanel from './SensorInfoPanel';
 
-function OfflineBadge() {
-  return (
-    <Badge variant="error" className={css({ fontSize: 'sm' })}>
-      Offline
-    </Badge>
-  );
-}
-
-export function SensorInfo() {
+function SensorInfo() {
   const [isExpanded, setIsExpanded] = useState(true);
-  const {
-    latitude,
-    longitude,
-    isOnline: positionOnline,
-    // isLoading: positionLoading,
-    // isError: positionError,
-  } = useShipPosition();
-  const {
-    speed,
-    isOnline: speedOnline,
-    // isLoading: speedLoading,
-    // isError: speedError,
-  } = useShipSpeed();
-  const {
-    heading,
-    isOnline: headingOnline,
-    // isLoading: headingLoading,
-    // isError: headingError,
-  } = useShipHeading();
-  const {
-    depth,
-    isOnline: depthOnline,
-    // isLoading: depthLoading,
-    // isError: depthError,
-  } = useShipDepth();
 
   const toggleSensorInfo = () => setIsExpanded(!isExpanded);
 
@@ -73,66 +29,7 @@ export function SensorInfo() {
           ...(isExpanded ? { shadow: '[none]' } : {}),
         })}
       />
-      {isExpanded && (
-        <div
-          id="sensor-info-panel"
-          className={css({
-            borderWidth: 'thin',
-            borderColor: 'bg.base.border',
-            borderRadius: 'md',
-            bg: 'bg.base',
-            shadow: 'md',
-          })}
-        >
-          <Box p="2">
-            <Heading as="h2" heading="heading-4" className={css({ pr: '10' })}>
-              RRS Sir David Attenborough
-            </Heading>
-            <DataGrid
-              data={[
-                {
-                  label: 'Speed',
-                  value: speedOnline ? `${speed} knots` : <OfflineBadge />,
-                },
-                {
-                  label: 'Heading',
-                  value: headingOnline ? `${heading}°` : <OfflineBadge />,
-                },
-                {
-                  label: 'Depth',
-                  value: depthOnline ? `${depth} meters` : <OfflineBadge />,
-                },
-              ]}
-            />
-          </Box>
-          <Divider orientation="horizontal" color="bg.base.border" />
-          <Flex gap="2" pl="2" justifyContent={'space-between'} align="center" w="full">
-            {positionOnline ? (
-              <Typography bold>
-                {decimalToDMS(latitude ?? 0, true)}, {decimalToDMS(longitude ?? 0, false)}
-              </Typography>
-            ) : (
-              <Badge variant="error">No position data</Badge>
-            )}
-            <Flex align="center">
-              <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />
-              <IconButton
-                variant="surface"
-                icon={<SvgIcon name="icon-zoom-to" size={16} />}
-                tooltipPlacement="bottom"
-                aria-label="Zoom to ship position"
-              />
-              <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />
-              <IconButton
-                variant="surface"
-                tooltipPlacement="bottom"
-                icon={<SvgIcon name="icon-follow" size={16} />}
-                aria-label="Follow ship position"
-              />
-            </Flex>
-          </Flex>
-        </div>
-      )}
+      {isExpanded && <SensorInfoPanel />}
     </div>
   );
 }

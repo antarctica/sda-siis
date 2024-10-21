@@ -8,7 +8,7 @@ import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import { getMap } from '@/config/map';
 import useIsMobile from '@/hooks/useIsMobile';
 
-import { SensorInfo } from '../ShipSensorInfo';
+import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import ScaleControl from './map-controls/ScaleControl';
 import ZoomControl from './map-controls/ZoomControl';
