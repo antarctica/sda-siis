@@ -15,6 +15,8 @@ interface SensorData {
   depth_online: boolean;
 }
 
+type SensorStatus = 'FULLY_ONLINE' | 'PARTIALLY_ONLINE' | 'OFFLINE' | 'ERROR';
+
 const fetcher = async (url: string): Promise<SensorData> => {
   const params = new URLSearchParams({
     service: 'WFS',
@@ -46,54 +48,81 @@ const fetcher = async (url: string): Promise<SensorData> => {
 };
 
 export function useSensorData() {
-  const { data, error } = useSWR<SensorData>(`${OGC_ENDPOINT}/geoserver/siis/ows`, fetcher, {
-    refreshInterval: REFETCH_INTERVAL,
-  });
+  const { data, error, isLoading } = useSWR<SensorData>(
+    `${OGC_ENDPOINT}/geoserver/siis/ows`,
+    fetcher,
+    {
+      refreshInterval: REFETCH_INTERVAL,
+    },
+  );
+
+  const getSensorStatus = (): SensorStatus => {
+    if (error) return 'ERROR';
+    if (!data) return 'OFFLINE';
+
+    const onlineStatuses = [
+      data.pos_online,
+      data.speed_online,
+      data.heading_online,
+      data.depth_online,
+    ];
+
+    if (onlineStatuses.every((status) => status)) return 'FULLY_ONLINE';
+    if (onlineStatuses.some((status) => status)) return 'PARTIALLY_ONLINE';
+    return 'OFFLINE';
+  };
+
+  const sensorStatus = getSensorStatus();
 
   return {
     sensorData: data,
-    isLoading: !error && !data,
+    isLoading,
     isError: error,
+    sensorStatus,
   };
 }
 
 export function useShipPosition() {
-  const { sensorData, isLoading, isError } = useSensorData();
+  const { sensorData, isLoading, isError, sensorStatus } = useSensorData();
   return {
     latitude: sensorData?.latitude ?? null,
     longitude: sensorData?.longitude ?? null,
     isOnline: sensorData?.pos_online ?? false,
     isLoading,
     isError,
+    sensorStatus,
   };
 }
 
 export function useShipSpeed() {
-  const { sensorData, isLoading, isError } = useSensorData();
+  const { sensorData, isLoading, isError, sensorStatus } = useSensorData();
   return {
     speed: sensorData?.speed ?? null,
     isOnline: sensorData?.speed_online ?? false,
     isLoading,
     isError,
+    sensorStatus,
   };
 }
 
 export function useShipHeading() {
-  const { sensorData, isLoading, isError } = useSensorData();
+  const { sensorData, isLoading, isError, sensorStatus } = useSensorData();
   return {
     heading: sensorData?.heading ?? null,
     isOnline: sensorData?.heading_online ?? false,
     isLoading,
     isError,
+    sensorStatus,
   };
 }
 
 export function useShipDepth() {
-  const { sensorData, isLoading, isError } = useSensorData();
+  const { sensorData, isLoading, isError, sensorStatus } = useSensorData();
   return {
     depth: sensorData?.depth ?? null,
     isOnline: sensorData?.depth_online ?? false,
     isLoading,
     isError,
+    sensorStatus,
   };
 }

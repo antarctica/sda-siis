@@ -1,9 +1,43 @@
 import { css } from '@styled-system/css';
 import { useState } from 'react';
 
+import { useSensorData } from '@/api/useShipSensorData';
+
 import { MapButton } from '../Button';
+import PulsatingDot from '../PulsatingDot';
 import SvgIcon from '../SvgIcon';
 import SensorInfoPanel from './SensorInfoPanel';
+
+function SensorStatusDot() {
+  const { sensorStatus, isLoading } = useSensorData();
+
+  if (isLoading) return null;
+
+  const getVariant = (status: string) => {
+    switch (status) {
+      case 'ERROR':
+      case 'OFFLINE':
+        return 'error';
+      case 'PARTIALLY_ONLINE':
+        return 'warning';
+      default:
+        return 'success';
+    }
+  };
+
+  return (
+    <PulsatingDot
+      className={css({
+        position: 'absolute',
+        top: '0',
+        right: '0',
+      })}
+      radius={3}
+      weight={6}
+      variant={getVariant(sensorStatus)}
+    />
+  );
+}
 
 function SensorInfo() {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -29,6 +63,7 @@ function SensorInfo() {
           ...(isExpanded ? { shadow: '[none]' } : {}),
         })}
       />
+      <SensorStatusDot />
       {isExpanded && <SensorInfoPanel />}
     </div>
   );
