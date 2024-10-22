@@ -52,17 +52,17 @@ const cursorLocationControlStyle = sva({
     Format: {
       DMS: {
         wrapper: {
-          w: '[250px]',
+          w: '64',
         },
       },
       DD: {
         wrapper: {
-          w: '[165px]',
+          w: '44',
         },
       },
       DDM: {
         wrapper: {
-          w: '[230px]',
+          w: '60',
         },
       },
     },
