@@ -1,5 +1,3 @@
-import { Point } from '@arcgis/core/geometry';
-
 import { MapCRS } from '@/types';
 
 /**
@@ -45,24 +43,11 @@ export function calculateBearing(x1: number, y1: number, x2: number, y2: number)
  */
 export function calculateProjectedBearingToPole(
   position: { latitude: number; longitude: number },
-  project: typeof __esri.projection.project,
   projection: MapCRS.ANTARCTIC | MapCRS.ARCTIC,
 ): number {
-  const sourcePoint = new Point({
-    latitude: position.latitude,
-    longitude: position.longitude,
-    spatialReference: { wkid: 4326 }, // WGS84
-  });
-
-  const targetSR =
-    projection === MapCRS.ANTARCTIC
-      ? { wkid: 3031 } // Antarctic Polar Stereographic
-      : { wkid: 3413 }; // Arctic Polar Stereographic
-
-  const projectedPoint = project(sourcePoint, targetSR) as __esri.Point;
-  const bearing = calculateBearing(projectedPoint.x, projectedPoint.y, 0, 0);
-
-  return (bearing + 360) % 360; // Normalize to 0-360 range
+  const bearing = position.longitude;
+  const centralMeridianCorrection = projection === MapCRS.ANTARCTIC ? 0 : -45;
+  return (bearing + centralMeridianCorrection + 360) % 360; // Normalize to 0-360 range
 }
 
 /**
@@ -77,18 +62,15 @@ export function calculateProjectedBearingToPole(
 export function calculateCorrectedHeading(
   position: { latitude: number; longitude: number },
   heading: number,
-  project: typeof __esri.projection.project,
   projection: MapCRS,
   symbolRotationToUp: number = 0,
 ): number {
   if (projection === MapCRS.MERCATOR) {
     return (heading + symbolRotationToUp) % 360;
   }
-  const bearingToPole = calculateProjectedBearingToPole(position, project, projection);
-  const bearingToNorth =
-    projection === MapCRS.ARCTIC ? bearingToPole : (bearingToPole - 180 + 360) % 360;
+  const bearingToPole = calculateProjectedBearingToPole(position, projection);
 
-  return (heading + bearingToNorth + 360) % 360;
+  return (heading + bearingToPole + 360) % 360;
 }
 
 /**

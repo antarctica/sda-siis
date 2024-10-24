@@ -27,13 +27,12 @@ export const REF_ID_ATTRIBUTE = 'refId';
 export function getShipSymbol(
   position: { latitude: number; longitude: number },
   heading: number,
-  project: typeof __esri.projection.project,
   mapCRS: MapCRS,
   scale: number,
   minScale: number = 32,
   maxScale: number = 10,
 ) {
-  const symbolRotation = calculateCorrectedHeading(position, heading, project, mapCRS);
+  const symbolRotation = calculateCorrectedHeading(position, heading, mapCRS);
   const clampedSize = createSmoothScaledSymbolSize(scale, minScale, maxScale);
   return new CIMSymbol({
     data: {
@@ -71,7 +70,6 @@ export function setOrUpdateShipGraphic(
   graphicsLayer: __esri.GraphicsLayer,
   position: { latitude: number; longitude: number },
   heading: number,
-  project: typeof __esri.projection.project,
   mapCRS: MapCRS,
   scale: number,
 ) {
@@ -79,7 +77,7 @@ export function setOrUpdateShipGraphic(
     (g) => g.getAttribute(REF_ID_ATTRIBUTE) === SHIP_GRAPHIC_ID,
   );
 
-  const shipSymbol = getShipSymbol(position, heading, project, mapCRS, scale);
+  const shipSymbol = getShipSymbol(position, heading, mapCRS, scale);
 
   if (shipGraphic) {
     // Update existing ship graphic
