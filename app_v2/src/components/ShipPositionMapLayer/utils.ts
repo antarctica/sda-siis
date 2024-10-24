@@ -148,7 +148,10 @@ export function setOrUpdateShipBufferGraphics(
           );
           if (existingFeature) {
             existingFeature.geometry = newGraphic.geometry;
-            existingFeature.attributes = newGraphic.attributes;
+            existingFeature.attributes = {
+              ObjectID: existingFeature.getObjectId(),
+              ...existingFeature.attributes,
+            };
             return existingFeature;
           }
           return newGraphic;
