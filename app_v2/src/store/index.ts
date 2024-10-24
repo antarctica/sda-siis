@@ -1,7 +1,11 @@
 import type { ReducersMapObject } from '@reduxjs/toolkit';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-const staticReducers = {};
+import shipReducer from './features/shipSlice';
+
+const staticReducers = {
+  ship: shipReducer,
+};
 
 const asyncReducers = {};
 

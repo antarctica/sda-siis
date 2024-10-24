@@ -2,10 +2,12 @@ import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 
 import { Flex } from '@styled-system/jsx';
 import { I18nProvider } from 'react-aria-components';
+import { Provider as ReduxProvider } from 'react-redux';
 
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
 import { ProjectionProvider } from '@/arcgis/projection/ProjectionProvider';
 import useIsMobile from '@/hooks/useIsMobile';
+import store from '@/store';
 
 import Drawer from '../Drawer';
 import Header from '../Header';
@@ -40,21 +42,23 @@ export function App() {
   return (
     <>
       <I18nProvider locale={'en'}>
-        <ThemeProvider>
-          <ProjectionProvider>
-            <ArcViewProvider>
-              <SideBarProvider items={testItems}>
-                <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
-                  <Header />
-                  <Flex w={'full'} flexGrow={1}>
-                    {isMobile ? <Drawer /> : <Sidebar />}
-                    <Map />
+        <ReduxProvider store={store}>
+          <ThemeProvider>
+            <ProjectionProvider>
+              <ArcViewProvider>
+                <SideBarProvider items={testItems}>
+                  <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+                    <Header />
+                    <Flex w={'full'} flexGrow={1}>
+                      {isMobile ? <Drawer /> : <Sidebar />}
+                      <Map />
+                    </Flex>
                   </Flex>
-                </Flex>
-              </SideBarProvider>
-            </ArcViewProvider>
-          </ProjectionProvider>
-        </ThemeProvider>
+                </SideBarProvider>
+              </ArcViewProvider>
+            </ProjectionProvider>
+          </ThemeProvider>
+        </ReduxProvider>
       </I18nProvider>
     </>
   );

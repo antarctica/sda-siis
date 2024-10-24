@@ -3,6 +3,8 @@ import { Divider, Flex } from '@styled-system/jsx';
 
 import { useShipPosition } from '@/api/useShipSensorData';
 import { useCurrentMapView } from '@/arcgis/hooks';
+import { selectFollowShip, setFollowShip } from '@/store/features/shipSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { decimalToDMS } from '@/utils/formatCoordinates';
 
 import { IconButton } from '../Button';
@@ -18,6 +20,8 @@ function PositionInfo() {
     isError: positionError,
   } = useShipPosition();
   const mapView = useCurrentMapView();
+  const followShip = useAppSelector(selectFollowShip);
+  const dispatch = useAppDispatch();
 
   return (
     <Flex gap="2" pl="2" justifyContent={'space-between'} align="center" w="full">
@@ -49,8 +53,9 @@ function PositionInfo() {
         <IconButton
           variant="surface"
           tooltipPlacement="bottom"
-          icon={<SvgIcon name="icon-follow" size={16} />}
-          aria-label="Follow ship position"
+          icon={<SvgIcon name={followShip ? 'icon-follow-off' : 'icon-follow'} size={16} />}
+          aria-label={followShip ? 'Stop following ship' : 'Follow ship position'}
+          onPress={() => dispatch(setFollowShip(!followShip))}
         />
       </Flex>
     </Flex>
