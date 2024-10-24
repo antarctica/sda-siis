@@ -71,7 +71,7 @@ const cursorLocationControlStyle = sva({
 
 function CursorLocationControl() {
   const mapView = useCurrentMapView();
-  const { project } = React.useContext(ProjectionContext)!;
+  const { project } = React.useContext(ProjectionContext);
   const [lat, setLat] = React.useState<number | undefined>();
   const [lon, setLon] = React.useState<number | undefined>();
   const [format, setFormat] = React.useState<'DD' | 'DMS' | 'DDM'>('DD');
@@ -80,11 +80,11 @@ function CursorLocationControl() {
   const latestRequestId = React.useRef(0);
 
   const updateCoordinates = React.useCallback(
-    async (point: __esri.Point) => {
+    (point: __esri.Point) => {
       const currentRequestId = ++latestRequestId.current;
 
       try {
-        const projectedPoint = (await project(point, SpatialReference.WGS84)) as __esri.Point;
+        const projectedPoint = project(point, SpatialReference.WGS84) as __esri.Point;
 
         // Only update if this is still the latest request
         if (currentRequestId === latestRequestId.current) {

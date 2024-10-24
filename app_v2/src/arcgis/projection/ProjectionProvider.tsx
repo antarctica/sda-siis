@@ -1,38 +1,37 @@
 import * as ProjectionEngine from '@arcgis/core/geometry/projection.js';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 type ProjectionContextValue = {
   isLoaded: boolean;
-  project: (
-    point: __esri.Point,
-    to: __esri.SpatialReference,
-    geographicTransformation?: __esri.GeographicTransformation,
-  ) => Promise<__esri.Geometry | __esri.Geometry[]>;
+  project: typeof ProjectionEngine.project;
 };
 
-export const ProjectionContext = React.createContext<ProjectionContextValue | undefined>(undefined);
+export const ProjectionContext = React.createContext<ProjectionContextValue>({
+  isLoaded: false,
+  project: () => {
+    throw new Error('Projection engine not loaded');
+  },
+});
 
 export function ProjectionProvider({ children }: React.PropsWithChildren) {
-  React.useEffect(() => {
-    ProjectionEngine.load();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    ProjectionEngine.load().then(() => setIsLoaded(true));
   }, []);
 
-  const project = React.useCallback(
-    async (
-      point: __esri.Point,
-      to: __esri.SpatialReference,
-      geographicTransformation?: __esri.GeographicTransformation,
-    ) => {
-      if (!ProjectionEngine.isLoaded()) {
-        await ProjectionEngine.load();
+  const safeProject = useCallback(
+    (...args: Parameters<typeof ProjectionEngine.project>) => {
+      if (!isLoaded) {
+        throw new Error('Projection engine not loaded');
       }
-      return ProjectionEngine.project(point, to, geographicTransformation);
+      return ProjectionEngine.project(...args);
     },
-    [],
+    [isLoaded],
   );
 
   return (
-    <ProjectionContext.Provider value={{ isLoaded: ProjectionEngine.isLoaded(), project }}>
+    <ProjectionContext.Provider value={{ isLoaded, project: safeProject }}>
       {children}
     </ProjectionContext.Provider>
   );

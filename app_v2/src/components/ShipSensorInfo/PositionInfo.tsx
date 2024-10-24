@@ -1,10 +1,7 @@
 import { Point } from '@arcgis/core/geometry';
-import Graphic from '@arcgis/core/Graphic';
-import { SimpleMarkerSymbol } from '@arcgis/core/symbols';
 import { Divider, Flex } from '@styled-system/jsx';
 
 import { useShipPosition } from '@/api/useShipSensorData';
-import { ArcGraphicsLayer } from '@/arcgis/ArcLayer/generated/ArcGraphicsLayer';
 import { useCurrentMapView } from '@/arcgis/hooks';
 import { decimalToDMS } from '@/utils/formatCoordinates';
 
@@ -29,21 +26,6 @@ function PositionInfo() {
           <Typography bold>
             {decimalToDMS(latitude ?? 0, true)}, {decimalToDMS(longitude ?? 0, false)}
           </Typography>
-          <ArcGraphicsLayer
-            id="graphics-layer"
-            graphics={[
-              new Graphic({
-                geometry: new Point({
-                  latitude: latitude ?? 0,
-                  longitude: longitude ?? 0,
-                }),
-                symbol: new SimpleMarkerSymbol({
-                  color: 'red',
-                  size: 10,
-                }),
-              }),
-            ]}
-          ></ArcGraphicsLayer>
         </>
       ) : (
         <StatusBadge variant="error">No position data</StatusBadge>

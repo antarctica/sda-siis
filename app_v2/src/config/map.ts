@@ -1,4 +1,5 @@
 import Basemap from '@arcgis/core/Basemap';
+import MapImageLayer from '@arcgis/core/layers/MapImageLayer';
 import EsriMap from '@arcgis/core/Map';
 
 enum BasemapRegion {
@@ -77,10 +78,14 @@ export function getMap(): {
   initialZoom: number;
 } {
   const { basemap, initialZoom } = getBasemapConfig([0, -90]);
+  const layer = new MapImageLayer({
+    url: 'https://gis.ngdc.noaa.gov/arcgis/rest/services/antarctic/graticule/MapServer',
+  });
 
   return {
     map: new EsriMap({
       basemap,
+      layers: [layer],
     }),
     initialZoom,
   };

@@ -8,6 +8,7 @@ import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import { getMap } from '@/config/map';
 import useIsMobile from '@/hooks/useIsMobile';
 
+import ShipPositionMapLayer from '../ShipPositionMapLayer';
 import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import ScaleControl from './map-controls/ScaleControl';
@@ -53,6 +54,7 @@ export function Map() {
             {!isMobile && <CursorLocationControl />}
           </Flex>
         </ArcgisPlacement>
+        <ShipPositionMapLayer />
       </ArcMapView>
     </Box>
   );

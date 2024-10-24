@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-const REFETCH_INTERVAL = 3000; // 3 seconds
+export const SHIP_SENSOR_REFRESH_INTERVAL = 3000; // 3 seconds
 const OGC_ENDPOINT = import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT;
 
 interface SensorData {
@@ -52,7 +52,7 @@ export function useSensorData() {
     `${OGC_ENDPOINT}/geoserver/siis/ows`,
     fetcher,
     {
-      refreshInterval: REFETCH_INTERVAL,
+      refreshInterval: SHIP_SENSOR_REFRESH_INTERVAL,
     },
   );
 
