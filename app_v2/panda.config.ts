@@ -27,7 +27,7 @@ export default defineConfig({
       bg: '{colors.htmlBackground}',
       color: 'fg',
       overflow: 'hidden',
-      fontFamily: '{fonts.openSans}',
+      fontFamily: '{fonts.inter}',
       _dark: {
         '--calcite-color-brand': '{colors.fg.accent}',
       },
@@ -59,7 +59,7 @@ export default defineConfig({
   },
 
   globalVars: {
-    '--font-open-sans': 'Open Sans Variable, sans-serif',
+    '--font-inter': 'Inter Variable, sans-serif',
   },
 
   utilities: {
@@ -71,8 +71,8 @@ export default defineConfig({
     extend: {
       tokens: {
         fonts: {
-          openSans: {
-            value: 'var(--font-open-sans)',
+          inter: {
+            value: 'var(--font-inter)',
           },
         },
       },

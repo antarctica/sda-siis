@@ -7,7 +7,7 @@ defineMapElements(window, {
 });
 
 // Supports weights 300-800
-import '@fontsource-variable/open-sans/wght.css';
+import '@fontsource-variable/inter';
 
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
