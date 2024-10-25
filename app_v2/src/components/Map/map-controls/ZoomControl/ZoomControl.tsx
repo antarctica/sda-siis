@@ -4,8 +4,8 @@ import { Divider, Flex } from '@styled-system/jsx';
 import * as React from 'react';
 
 import { useCurrentMapView, useWatchState } from '@/arcgis/hooks';
-import { MapButton } from '@/components/Button';
-import SvgIcon from '@/components/SvgIcon';
+import { MapButton } from '@/components/common/Button';
+import SvgIcon from '@/components/common/SvgIcon';
 
 function ZoomControl() {
   const mapView = useCurrentMapView();

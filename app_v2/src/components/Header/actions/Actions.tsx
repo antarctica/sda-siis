@@ -1,9 +1,9 @@
 import { Divider, Flex } from '@styled-system/jsx';
 
+import { IconButton } from '@/components/common/Button';
 import useIsMobile from '@/hooks/useIsMobile';
 
-import { IconButton } from '../../Button';
-import SvgIcon from '../../SvgIcon';
+import SvgIcon from '../../common/SvgIcon';
 import { FullScreen } from './FullScreen';
 
 export function Action(

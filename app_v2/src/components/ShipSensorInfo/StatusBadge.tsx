@@ -1,6 +1,6 @@
 import { css } from '@styled-system/css';
 
-import Badge from '../Badge';
+import Badge from '@/components/common/Badge';
 
 function StatusBadge({
   variant,

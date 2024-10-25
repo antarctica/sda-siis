@@ -4,14 +4,15 @@ import { css } from '@styled-system/css';
 import { Divider, Flex } from '@styled-system/jsx';
 import React from 'react';
 
-import { IconButton } from '../Button';
+import { IconButton } from '@/components/common/Button';
+
+import SvgIcon from '../common/SvgIcon';
+import { Heading } from '../common/Typography';
 import { Title } from '../Header/Title';
 import MobileDialog from '../MobileDialog';
 import { SidebarButton } from '../Sidebar/actions/SidebarButton';
 import { useSidebarItems } from '../Sidebar/SidebarHooks';
 import { SidebarContext } from '../Sidebar/SideBarProvider';
-import SvgIcon from '../SvgIcon';
-import { Heading } from '../Typography';
 
 export default function MobileSideMenu() {
   const items = useSidebarItems();

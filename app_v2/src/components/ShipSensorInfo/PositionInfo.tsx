@@ -3,13 +3,13 @@ import { Divider, Flex } from '@styled-system/jsx';
 
 import { useShipPosition } from '@/api/useShipSensorData';
 import { useCurrentMapView } from '@/arcgis/hooks';
+import { IconButton } from '@/components/common/Button';
 import { selectFollowShip, setFollowShip } from '@/store/features/shipSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { decimalToDMS } from '@/utils/formatCoordinates';
 
-import { IconButton } from '../Button';
-import SvgIcon from '../SvgIcon';
-import Typography from '../Typography';
+import SvgIcon from '../common/SvgIcon';
+import Typography from '../common/Typography';
 import StatusBadge from './StatusBadge';
 
 function PositionInfo() {
@@ -46,7 +46,7 @@ function PositionInfo() {
               latitude: latitude ?? 0,
               longitude: longitude ?? 0,
             });
-            mapView?.goTo({ target: point, zoom: 10 });
+            mapView?.goTo({ target: point, scale: 500000 });
           }}
         />
         <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />

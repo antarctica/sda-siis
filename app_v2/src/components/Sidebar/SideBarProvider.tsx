@@ -18,7 +18,6 @@ export function SideBarProvider({
   const [state] = useLocalStorage(SIDEBAR_COLLAPSED_KEY, false);
   return (
     <SidebarContext.Provider
-      logic={sideBarMachine}
       options={{
         snapshot: sideBarMachine.resolveState({
           value: state ? 'Collapsed' : 'Expanded',

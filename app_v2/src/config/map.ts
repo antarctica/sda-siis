@@ -1,5 +1,6 @@
 import Basemap from '@arcgis/core/Basemap';
 import MapImageLayer from '@arcgis/core/layers/MapImageLayer';
+import WMSLayer from '@arcgis/core/layers/WMSLayer';
 import EsriMap from '@arcgis/core/Map';
 
 enum BasemapRegion {
@@ -77,15 +78,29 @@ export function getMap(): {
   map: EsriMap;
   initialZoom: number;
 } {
-  const { basemap, initialZoom } = getBasemapConfig([0, -90]);
+  const { initialZoom } = getBasemapConfig([0, -90]);
+
+  const baseCoast = new WMSLayer({
+    url: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/geoserver/siis/wms`,
+    sublayers: [{ name: 'siis:base_s' }],
+    spatialReference: {
+      wkid: 3031,
+    },
+  });
+
   const layer = new MapImageLayer({
     url: 'https://gis.ngdc.noaa.gov/arcgis/rest/services/antarctic/graticule/MapServer',
   });
 
   return {
     map: new EsriMap({
-      basemap,
-      layers: [layer],
+      basemap: new Basemap({
+        baseLayers: [],
+        spatialReference: {
+          wkid: 3031,
+        },
+      }),
+      layers: [baseCoast, layer],
     }),
     initialZoom,
   };

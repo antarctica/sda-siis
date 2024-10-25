@@ -1,4 +1,4 @@
-import { IconButton } from '@/components/Button';
+import { IconButton } from '@/components/common/Button';
 
 type HeaderActionProps = {
   icon: React.ReactElement;

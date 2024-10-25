@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from 'react-aria-components';
 
-import Tooltip from '../../Tooltip';
+import Tooltip from '@/components/common/Tooltip';
 
 const sidebarButtonRecipe = sva({
   slots: ['root', 'icon', 'title'],

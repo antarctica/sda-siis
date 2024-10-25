@@ -1,5 +1,5 @@
-import DataGrid from '@/components/DataGrid';
-import DateTime from '@/components/DateTime';
+import DataGrid from '@/components/common/DataGrid';
+import DateTime from '@/components/common/DateTime';
 import useTime from '@/hooks/useTime';
 
 function getUTCLabel(offset: number): string {

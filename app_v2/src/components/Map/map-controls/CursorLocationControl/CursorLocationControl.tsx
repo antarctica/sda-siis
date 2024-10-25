@@ -1,6 +1,6 @@
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
-import { css, cx, sva } from '@styled-system/css';
-import { Divider } from '@styled-system/jsx';
+import { cx, sva } from '@styled-system/css';
+import { Divider, VisuallyHidden } from '@styled-system/jsx';
 import React from 'react';
 import { Button } from 'react-aria-components';
 
@@ -139,18 +139,14 @@ function CursorLocationControl() {
         return cx(wrapper);
       }}
     >
-      <span
-        className={css({
-          srOnly: true,
-        })}
-      >
+      <VisuallyHidden>
         Toggle format to{' '}
         {format === 'DD'
           ? 'Degrees Minutes Seconds'
           : format === 'DMS'
             ? 'Degrees Decimal Minutes'
             : 'Decimal Degrees'}
-      </span>
+      </VisuallyHidden>
 
       <span className={cursorLocationControlStyle().value}> {formattedLatLon}</span>
       <Divider orientation="vertical" display={'inline-block'} />

@@ -3,8 +3,8 @@ import { Flex } from '@styled-system/jsx';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
+import { Heading } from '../common/Typography';
 import SIISLogo from '../SIISLogo';
-import { Heading } from '../Typography';
 
 export function Title() {
   const isMobile = useIsMobile();

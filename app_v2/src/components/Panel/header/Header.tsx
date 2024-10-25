@@ -1,5 +1,5 @@
-import SvgIcon from '@/components/SvgIcon';
-import { Heading } from '@/components/Typography';
+import SvgIcon from '@/components/common/SvgIcon';
+import { Heading } from '@/components/common/Typography';
 
 import { panelStyles } from '../panelRecipe';
 import { HeaderAction } from './Action';

@@ -3,8 +3,8 @@ import { Box } from '@styled-system/jsx';
 
 import { useShipDepth, useShipHeading, useShipSpeed } from '@/api/useShipSensorData';
 
-import DataGrid from '../DataGrid';
-import { Heading } from '../Typography';
+import DataGrid from '../common/DataGrid';
+import { Heading } from '../common/Typography';
 import StatusBadge from './StatusBadge';
 
 function ShipInfo() {

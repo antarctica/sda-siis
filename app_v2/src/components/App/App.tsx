@@ -7,25 +7,27 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
 import { ProjectionProvider } from '@/arcgis/projection/ProjectionProvider';
 import useIsMobile from '@/hooks/useIsMobile';
+import MapLayers from '@/panels/MapLayers';
 import store from '@/store';
 
+import SvgIcon from '../common/SvgIcon';
 import Drawer from '../Drawer';
 import Header from '../Header';
+import { LayerManagerProvider } from '../LayerManager/LayerManagerProvider';
 import { Map } from '../Map/Map';
 import Sidebar from '../Sidebar';
 import { SideBarProvider } from '../Sidebar/SideBarProvider';
 import { SidebarItem } from '../Sidebar/types';
-import SvgIcon from '../SvgIcon';
 import { ThemeProvider } from '../Theme/ThemeContext';
 
-const testItems: SidebarItem[] = [
+const appPanels: SidebarItem[] = [
   {
-    id: '1',
-    title: 'Item 1',
-    icon: <SvgIcon name="icon-zoom-to" size={16} />,
+    id: 'map-layers',
+    title: 'Map Layers',
+    icon: <SvgIcon name="icon-layers" size={16} />,
     position: 'top',
     type: 'panel',
-    component: () => <div>Panel 1</div>,
+    component: () => <MapLayers />,
   },
   {
     id: '2',
@@ -46,15 +48,17 @@ export function App() {
           <ThemeProvider>
             <ProjectionProvider>
               <ArcViewProvider>
-                <SideBarProvider items={testItems}>
-                  <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
-                    <Header />
-                    <Flex w={'full'} flexGrow={1}>
-                      {isMobile ? <Drawer /> : <Sidebar />}
-                      <Map />
+                <LayerManagerProvider>
+                  <SideBarProvider items={appPanels}>
+                    <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+                      <Header />
+                      <Flex w={'full'} flexGrow={1}>
+                        {isMobile ? <Drawer /> : <Sidebar />}
+                        <Map />
+                      </Flex>
                     </Flex>
-                  </Flex>
-                </SideBarProvider>
+                  </SideBarProvider>
+                </LayerManagerProvider>
               </ArcViewProvider>
             </ProjectionProvider>
           </ThemeProvider>

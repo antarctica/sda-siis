@@ -1,6 +1,6 @@
 import { ActorRefFrom } from 'xstate';
 
-import SvgIcon from '@/components/SvgIcon';
+import SvgIcon from '@/components/common/SvgIcon';
 
 import { sideBarMachine } from '../sidebarMachine';
 import { SidebarButton } from './SidebarButton';

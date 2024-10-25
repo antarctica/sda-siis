@@ -1,6 +1,6 @@
 import { useWatchState } from '@/arcgis/hooks';
 import { useViewById } from '@/arcgis/hooks/useViewContext';
-import DataGrid from '@/components/DataGrid';
+import DataGrid from '@/components/common/DataGrid';
 import { useFormatNumber } from '@/hooks/useFormatNumber';
 
 const SPATIAL_REFERENCE_NAMES: Record<string, string> = {

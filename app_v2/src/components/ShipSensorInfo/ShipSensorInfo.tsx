@@ -2,10 +2,10 @@ import { css } from '@styled-system/css';
 import { useState } from 'react';
 
 import { useSensorData } from '@/api/useShipSensorData';
+import { MapButton } from '@/components/common/Button';
 
-import { MapButton } from '../Button';
-import PulsatingDot from '../PulsatingDot';
-import SvgIcon from '../SvgIcon';
+import PulsatingDot from '../common/PulsatingDot';
+import SvgIcon from '../common/SvgIcon';
 import SensorInfoPanel from './SensorInfoPanel';
 
 function SensorStatusDot() {

@@ -3,9 +3,10 @@ import { Flex } from '@styled-system/jsx';
 import { motion } from 'framer-motion';
 import * as React from 'react';
 
-import { IconButton } from '../Button';
-import SvgIcon from '../SvgIcon';
-import { Heading } from '../Typography';
+import { IconButton } from '@/components/common/Button';
+
+import SvgIcon from '../common/SvgIcon';
+import { Heading } from '../common/Typography';
 
 interface MobileSideDialogProps {
   isOpen: boolean;

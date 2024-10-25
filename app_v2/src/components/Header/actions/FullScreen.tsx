@@ -1,5 +1,5 @@
+import SvgIcon from '@/components/common/SvgIcon';
 import { Action } from '@/components/Header/actions/Actions';
-import SvgIcon from '@/components/SvgIcon';
 
 export function FullScreen() {
   return (
