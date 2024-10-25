@@ -220,11 +220,11 @@ export interface components {
       /** @description Geoserver layer name */
       gs_layername?: string;
       /** @description Geoserver WMS endpoint - temporary for testing */
-      gs_tempWMSendpoint?: string;
+      gs_wmsendpoint?: string;
       /** @description Geoserver WFS endpoint - temporary for testing */
-      gs_tempWFSendpoint?: string;
+      gs_wfsendpoint?: string;
       /** @description Geoserver WMTS endpoint - temporary for testing */
-      gs_tempWMTSendpoint?: string;
+      gs_wmtsendpoint?: string;
       types?: components['schemas']['type'][];
       /** @description Array of timestamps available */
       timestamps?: string;
@@ -332,7 +332,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['product'];
+          'application/json': components['schemas']['products'];
         };
       };
     };
@@ -355,7 +355,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['product'];
+          'application/json': components['schemas']['products'];
         };
       };
     };

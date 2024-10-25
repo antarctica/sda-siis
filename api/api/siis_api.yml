@@ -39,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/product"
+                $ref: "#/components/schemas/products"
 
   /products/{code}:
     get:
@@ -61,7 +61,7 @@ paths:
           content:
             application/json:          
               schema:
-                $ref: "#/components/schemas/product"
+                $ref: "#/components/schemas/products"
 
   /products/{code}/granules:
     get:
@@ -382,13 +382,13 @@ components:
         gs_layername:
           type: string
           description: Geoserver layer name
-        gs_tempWMSendpoint:
+        gs_wmsendpoint:
           type: string
           description: Geoserver WMS endpoint - temporary for testing
-        gs_tempWFSendpoint:
+        gs_wfsendpoint:
           type: string
           description: Geoserver WFS endpoint - temporary for testing
-        gs_tempWMTSendpoint:
+        gs_wmtsendpoint:
           type: string
           description: Geoserver WMTS endpoint - temporary for testing
         types:
