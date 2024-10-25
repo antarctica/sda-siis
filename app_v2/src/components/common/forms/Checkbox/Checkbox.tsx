@@ -12,8 +12,18 @@ const checkboxRootRecipe = cva({
     gap: '2',
     alignItems: 'center',
     cursor: 'pointer',
-    color: 'fg.accent',
+
     transition: 'all',
+  },
+  variants: {
+    isFocusVisible: {
+      true: {
+        insetFocusRing: true,
+      },
+      false: {
+        insetFocusRing: false,
+      },
+    },
   },
 });
 
@@ -64,7 +74,7 @@ const checkRecipe = sva({
       true: {
         check: {
           display: 'block',
-          bg: 'fg.accent/80',
+          bg: 'bg.accent.soft',
         },
       },
     },
@@ -77,7 +87,7 @@ const checkRecipe = sva({
         check: {
           w: '3',
           h: '3',
-          bg: 'fg.accent',
+          bg: 'bg.accent',
         },
       },
     },

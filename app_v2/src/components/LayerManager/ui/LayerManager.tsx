@@ -1,10 +1,11 @@
 import * as Accordion from '@radix-ui/react-accordion';
+import { css } from '@styled-system/css';
 import React from 'react';
 
 import { useTopLevelLayers } from '../hooks/selectors';
 import { LayerManagerContext } from '../LayerManagerProvider';
 import { LayerGroupMachineActor, LayerType } from '../machines/types';
-import LayerGroupAccordionItem from './LayerGroupAccordionItem';
+import LayerGroupItem from './LayerGroupItem';
 
 const initialTestLayerConfig: {
   layerId: string;
@@ -51,7 +52,7 @@ const initialTestLayerConfig: {
     layer: {
       id: '4',
     },
-    index: 1,
+    index: 0,
   },
   {
     layerId: '5',
@@ -82,24 +83,25 @@ function LayerManager() {
   }, [layerManagerActor]);
 
   return (
-    <Accordion.Root type="single" collapsible>
-      {topLevelLayers.map((layers) => {
-        const snapshot = (layers.layerActor as LayerGroupMachineActor).getSnapshot();
-        return (
-          <LayerGroupAccordionItem
-            label={snapshot.context.layerName}
-            id={snapshot.context.layerId}
-            activeLayersNumber={3}
-            groupToggle={true}
-            groupToggleProps={{
-              rounded: true,
-            }}
-            key={snapshot.context.layerId}
-          >
-            Hello World
-          </LayerGroupAccordionItem>
-        );
+    <Accordion.Root
+      type="single"
+      collapsible
+      className={css({
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2',
       })}
+    >
+      {topLevelLayers
+        .map((layers) => {
+          return (
+            <LayerGroupItem
+              layerGroupActor={layers.layerActor as LayerGroupMachineActor}
+              key={layers.layerActor.id}
+            />
+          );
+        })
+        .reverse()}
     </Accordion.Root>
   );
 }
