@@ -3,17 +3,17 @@ import { cx, sva } from '@styled-system/css';
 import { Divider, VisuallyHidden } from '@styled-system/jsx';
 import { token } from '@styled-system/tokens';
 import { useSelector } from '@xstate/react';
-import React from 'react';
 
 import Checkbox from '@/components/common/forms/Checkbox';
 import SvgIcon from '@/components/common/SvgIcon';
 import Typography, { Heading } from '@/components/common/Typography';
 
+import { useEnabledChildCount } from '../hooks/useEnabledChildCount';
 import { LayerGroupMachineActor, LayerMachineActor } from '../machines/types';
 import { LayerItem } from './LayerItem';
 
 const accordionItemRecipe = sva({
-  slots: ['root', 'header', 'trigger', 'title', 'badge', 'content', 'caret'],
+  slots: ['root', 'header', 'trigger', 'title', 'badge', 'content', 'layer-list', 'caret'],
   base: {
     root: {},
     header: {
@@ -53,6 +53,11 @@ const accordionItemRecipe = sva({
     content: {
       pr: '2',
     },
+    'layer-list': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '4',
+    },
     caret: {
       _groupExpanded: {
         transform: 'rotate(180deg)',
@@ -62,35 +67,22 @@ const accordionItemRecipe = sva({
 });
 
 function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachineActor }) {
-  const { root, header, trigger, title, badge, content, caret } = accordionItemRecipe();
+  const {
+    root,
+    header,
+    trigger,
+    title,
+    badge,
+    content,
+    'layer-list': layerList,
+    caret,
+  } = accordionItemRecipe();
   const layerId = layerGroupActor.id;
   const layerName = useSelector(layerGroupActor, ({ context }) => context.layerName);
   const childLayerOrder = useSelector(layerGroupActor, ({ context }) => context.childLayerOrder);
   const children = useSelector(layerGroupActor, ({ context }) => context.children);
-
-  const [enabledChildLayerCount, setEnabledChildLayerCount] = React.useState(0);
-  React.useEffect(() => {
-    function countEnabledChildren() {
-      return children.filter((child) =>
-        (child as LayerMachineActor).getSnapshot().matches('enabled'),
-      ).length;
-    }
-
-    setEnabledChildLayerCount(countEnabledChildren());
-
-    const subscriptions = children.map((child) =>
-      (child as LayerMachineActor).subscribe(() => {
-        setEnabledChildLayerCount(countEnabledChildren());
-      }),
-    );
-
-    return () => {
-      subscriptions.forEach(({ unsubscribe }) => unsubscribe());
-    };
-  }, [children]);
-
+  const enabledChildLayerCount = useEnabledChildCount(children as LayerMachineActor[]);
   const enabled = useSelector(layerGroupActor, (state) => state.matches('enabled'));
-
   const orderedChildLayerActors = childLayerOrder.map((layerId) => {
     const childLayerActor = children.find((c) => c.id === layerId);
     return childLayerActor as LayerMachineActor;
@@ -125,9 +117,11 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
         )}
       </div>
       <Accordion.Content className={content}>
-        {orderedChildLayerActors
-          .map((child) => <LayerItem layerActor={child} key={child.id} />)
-          .reverse()}
+        <ul className={layerList}>
+          {orderedChildLayerActors
+            .map((child) => <LayerItem layerActor={child} key={child.id} />)
+            .reverse()}
+        </ul>
       </Accordion.Content>
     </Accordion.Item>
   );

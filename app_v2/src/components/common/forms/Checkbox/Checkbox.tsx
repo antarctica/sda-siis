@@ -12,8 +12,6 @@ const checkboxRootRecipe = cva({
     gap: '2',
     alignItems: 'center',
     cursor: 'pointer',
-
-    transition: 'all',
   },
   variants: {
     isFocusVisible: {

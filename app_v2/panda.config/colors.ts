@@ -298,7 +298,154 @@ export const semanticColorTokens = defineSemanticTokens.colors({
         base: '#000000',
       },
     },
+    grey: {
+      1: {
+        value: {
+          base: '{colors.siis_grey.1}',
+          _dark: '{colors.siis_darkgrey.1}',
+        },
+      },
+      2: {
+        value: {
+          base: '{colors.siis_grey.2}',
+          _dark: '{colors.siis_darkgrey.2}',
+        },
+      },
+      3: {
+        value: {
+          base: '{colors.siis_grey.3}',
+          _dark: '{colors.siis_darkgrey.3}',
+        },
+      },
+      4: {
+        value: {
+          base: '{colors.siis_grey.4}',
+          _dark: '{colors.siis_darkgrey.4}',
+        },
+      },
+      5: {
+        value: {
+          base: '{colors.siis_grey.5}',
+          _dark: '{colors.siis_darkgrey.5}',
+        },
+      },
+      6: {
+        value: {
+          base: '{colors.siis_grey.6}',
+          _dark: '{colors.siis_darkgrey.6}',
+        },
+      },
+      7: {
+        value: {
+          base: '{colors.siis_grey.7}',
+          _dark: '{colors.siis_darkgrey.7}',
+        },
+      },
+      8: {
+        value: {
+          base: '{colors.siis_grey.8}',
+          _dark: '{colors.siis_darkgrey.8}',
+        },
+      },
+      9: {
+        value: {
+          base: '{colors.siis_grey.9}',
+          _dark: '{colors.siis_darkgrey.9}',
+        },
+      },
+      10: {
+        value: {
+          base: '{colors.siis_grey.10}',
+          _dark: '{colors.siis_darkgrey.10}',
+        },
+      },
+      11: {
+        value: {
+          base: '{colors.siis_grey.11}',
+          _dark: '{colors.siis_darkgrey.11}',
+        },
+      },
+      12: {
+        value: {
+          base: '{colors.siis_grey.12}',
+          _dark: '{colors.siis_darkgrey.12}',
+        },
+      },
+      a1: {
+        value: {
+          base: '{colors.siis_greyAlpha.a1}',
+          _dark: '{colors.siis_darkgreyAlpha.a1}',
+        },
+      },
+      a2: {
+        value: {
+          base: '{colors.siis_greyAlpha.a2}',
+          _dark: '{colors.siis_darkgreyAlpha.a2}',
+        },
+      },
+      a3: {
+        value: {
+          base: '{colors.siis_greyAlpha.a3}',
+          _dark: '{colors.siis_darkgreyAlpha.a3}',
+        },
+      },
+      a4: {
+        value: {
+          base: '{colors.siis_greyAlpha.a4}',
+          _dark: '{colors.siis_darkgreyAlpha.a4}',
+        },
+      },
+      a5: {
+        value: {
+          base: '{colors.siis_greyAlpha.a5}',
+          _dark: '{colors.siis_darkgreyAlpha.a5}',
+        },
+      },
+      a6: {
+        value: {
+          base: '{colors.siis_greyAlpha.a6}',
+          _dark: '{colors.siis_darkgreyAlpha.a6}',
+        },
+      },
+      a7: {
+        value: {
+          base: '{colors.siis_greyAlpha.a7}',
+          _dark: '{colors.siis_darkgreyAlpha.a7}',
+        },
+      },
+      a8: {
+        value: {
+          base: '{colors.siis_greyAlpha.a8}',
+          _dark: '{colors.siis_darkgreyAlpha.a8}',
+        },
+      },
+      a9: {
+        value: {
+          base: '{colors.siis_greyAlpha.a9}',
+          _dark: '{colors.siis_darkgreyAlpha.a9}',
+        },
+      },
+      a10: {
+        value: {
+          base: '{colors.siis_greyAlpha.a10}',
+          _dark: '{colors.siis_darkgreyAlpha.a10}',
+        },
+      },
+      a11: {
+        value: {
+          base: '{colors.siis_greyAlpha.a11}',
+          _dark: '{colors.siis_darkgreyAlpha.a11}',
+        },
+      },
+      a12: {
+        value: {
+          base: '{colors.siis_greyAlpha.a12}',
+          _dark: '{colors.siis_darkgreyAlpha.a12}',
+        },
+      },
+    },
   },
+
   accent: {
     DEFAULT: {
       value: {

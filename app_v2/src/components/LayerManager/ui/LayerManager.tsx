@@ -84,8 +84,7 @@ function LayerManager() {
 
   return (
     <Accordion.Root
-      type="single"
-      collapsible
+      type="multiple"
       className={css({
         display: 'flex',
         flexDirection: 'column',

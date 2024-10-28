@@ -9,8 +9,8 @@ export const insetFocusRing = defineUtility({
         outline: 'none',
       };
     return {
-      outlineColor: token('colors.accent'),
-      outlineWidth: 'thin',
+      outlineColor: token('colors.fg'),
+      outlineWidth: '[2px]',
       outlineOffset: '-2px',
       outlineStyle: 'solid',
     };
