@@ -33,7 +33,7 @@ const appPanels: SidebarItem[] = [
   {
     id: 'drawing',
     title: 'Drawing',
-    icon: <SvgIcon name="icon-measure" size={16} />,
+    icon: <SvgIcon name="icon-map-polyline" size={16} />,
     position: 'top',
     type: 'panel',
     component: () => <Drawing />,
