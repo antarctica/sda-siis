@@ -12,6 +12,7 @@ import { useAPI } from '@/api/api';
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import useIsMobile from '@/hooks/useIsMobile';
 
+import { useAddLayer } from '../LayerManager/hooks/useAddLayer';
 import ShipPositionMapLayer from '../ShipPositionMapLayer';
 import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
@@ -36,6 +37,7 @@ const mapStyles = cva({
 
 export function Map() {
   const [map, setMap] = React.useState<EsriMap>();
+  const addLayer = useAddLayer();
   const { data } = useAPI('/products', {
     params: {
       query: { hemi: 'S' },
@@ -60,6 +62,7 @@ export function Map() {
             id: layer.gs_layername,
             styleId: `${layer.style}.${'night'}`,
           },
+          title: layer.label,
         });
         layers.push(wmtsLayer);
       }
@@ -71,12 +74,31 @@ export function Map() {
             wkid: 3031,
           },
         }),
-        layers,
       });
+
+      addLayer(map, {
+        layerData: null,
+        layerId: 'reference',
+        layerName: 'Reference',
+        layerType: 'layerGroup',
+
+        parentId: null,
+      });
+
+      for (const layer of layers) {
+        addLayer(map, {
+          layerData: layer,
+          layerId: layer.id,
+          layerName: layer.title,
+          layerType: 'layer',
+          parentId: 'reference',
+          opacity: 1,
+        });
+      }
 
       setMap(map);
     }
-  }, [data]);
+  }, [data, addLayer]);
 
   const isMobile = useIsMobile();
 

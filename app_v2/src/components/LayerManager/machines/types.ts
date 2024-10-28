@@ -10,7 +10,7 @@ export interface BaseLayerConfig<T> {
   layerId: string;
   layerName: string;
   parentId: string | null;
-  layer: T;
+  layerData: T;
 }
 
 export interface LayerConfig<T> extends BaseLayerConfig<T> {
@@ -69,6 +69,7 @@ export type LayerManagerEvent<T> =
   | {
       type: 'LAYER.ADD';
       layerConfig: LayerConfig<T> | LayerGroupConfig<T>;
+      visible?: boolean;
       index?: number;
     }
   | { type: 'LAYER.REMOVE'; layerId: string }
@@ -99,7 +100,7 @@ export type LayerActor = LayerMachineActor | LayerGroupMachineActor;
 
 // Utility types
 export type MapLayer<T> = {
-  layer: T;
+  layerData: T;
   layerActor: LayerActor;
 };
 

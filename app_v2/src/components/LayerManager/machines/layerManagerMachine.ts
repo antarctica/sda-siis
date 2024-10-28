@@ -75,7 +75,7 @@ export function createLayerManagerMachine<T>() {
       // Layer management actions
       'Add new layer': assign(({ context, event, spawn, self }) => {
         assertEvent(event, 'LAYER.ADD');
-        const { layerConfig, index } = event;
+        const { layerConfig, index, visible } = event;
         const { childLayerOrder, allowNestedGroupLayers } = context;
 
         if (
@@ -122,11 +122,15 @@ export function createLayerManagerMachine<T>() {
           });
         }
 
+        if (visible === true) {
+          newLayer.send({ type: 'LAYER.ENABLED' });
+        }
+
         return parentRef
           ? addLayerToParent(
               context.layers,
               {
-                layer: layerConfig.layer,
+                layerData: layerConfig.layerData,
                 layerActor: newLayer,
               },
               parentRef,
@@ -135,7 +139,7 @@ export function createLayerManagerMachine<T>() {
           : addLayerToTopLevel(
               context.layers,
               {
-                layer: layerConfig.layer,
+                layerData: layerConfig.layerData,
                 layerActor: newLayer,
               },
               childLayerOrder,
@@ -227,6 +231,15 @@ export function createLayerManagerMachine<T>() {
           type: 'Update layer order',
           params: ({ context }) => ({
             layerOrder: getFlatLayerOrder<T>(context.layers, context.childLayerOrder),
+          }),
+        },
+      },
+      'LAYER.UPDATE_OPACITY': {
+        actions: {
+          type: 'Update layer opacity',
+          params: ({ event }) => ({
+            layerId: event.layerId,
+            opacity: event.opacity,
           }),
         },
       },

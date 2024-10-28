@@ -44,6 +44,7 @@ export const layerMachine = setup({
       });
     },
     'Change Layer Opacity': enqueueActions(({ event, context, enqueue }) => {
+      console.log('Change Layer Opacity', event);
       assertEvent(event, 'LAYER.SET_OPACITY');
       enqueue(() =>
         context.layerManagerRef.send({
@@ -71,7 +72,6 @@ export const layerMachine = setup({
     }),
   },
 }).createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QBsCGBPMAnAxAGQEEBNAUQCUA6AZRIBUB9AeQAUCBhASVqIG0AGALqJQABwD2sAJYAXSWIB2wkAA9EATgAcGigEY+AVn1qdAFgBMANgDs+nToA0IdIg0XdOs5YDMZvl+sm-gC+QY5omLiEpJQ0DLQcALIk9BwAcgBijPxCSCDiUrIKSqoIFn4UFhqW+nxWOvpWVmr6js4Iru6eJiZ8apWB+iYhYRjYFGDyqABGyJD4xOQUACIcVAQAQngkS9lK+TJyirklFvUUZvpermaaJoaurYgmfRXXanWGmhfDIOFjE9NZhAKAA3SRSGZgHCsMgkVK0CgACQ4SyWcN2uX2hSOoBKOi8aj4FEMFjUBPMXhMVi8LSciAsJjcajMGlsl0ZRhMGh+fyw40mkOBAAtJBAIBNoQRYfCKAA1VYcTYkDGiCQHIrHRD44wUQmU-x8AxmGwWR4IfQWfS6a42Dw6KyWtQ80Z8iDgwFzKKLOEbLY7QR7NXY4r0s4XK4WG4aO76B5082s873TS9LTdMwhUIgeRicXwXK8wMFQ4hhAAWh0ajNZipxOMah6fAslT4piGWd5-I9ECL6pxKhcsYotT6ZNMXnqdzNXiadcrjebGlb3WdES7gtB4MkkN7wc1CEJbhHpIngUntLath0c+ZXL4S487ZGa4BG5FYomu5L+50DLMFA0RoqWjDRKx0aMzUMK1LG6ZobDMGcNCdDsXQoN1YG7L8NVxRAbjNExwPOBkqVMDQfDsLxVzGdDuwod9xX7LFvxwhBGkgmoiNghp9AQqwkMzIIgA */
   id: 'layer',
   description: 'A machine that represents a layer on the map.',
   context: ({ input }) => ({
