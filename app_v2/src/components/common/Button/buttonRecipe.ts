@@ -11,6 +11,30 @@ export const buttonRecipe = cva({
   },
   variants: {
     variant: {
+      primary: {
+        bg: 'app.accent',
+        color: 'app.white',
+        _dark: {
+          color: 'app.black',
+        },
+        _hover: {
+          bg: 'app.accent.10',
+        },
+        _active: {
+          filter: '[brightness(0.92) saturate(1.1)]',
+        },
+      },
+      outline: {
+        borderWidth: 'thin',
+        borderStyle: 'solid',
+        borderColor: 'app.accent',
+        _hover: {
+          bg: 'app.accent.a2',
+        },
+        _active: {
+          bg: 'app.accent.a3',
+        },
+      },
       surface: {
         border: 'none',
         _hover: {
@@ -27,6 +51,7 @@ export const buttonRecipe = cva({
           },
         },
       },
+
       mapButton: {
         bg: 'bg.base',
         _hover: {

@@ -1,6 +1,8 @@
 import { defineConfig } from '@pandacss/dev';
 
-import { basColorTokens, semanticColorTokens, siisColorTokens } from './panda.config/colors';
+import { basColorTokens } from './panda.config/basColors';
+import { semanticColorTokens } from './panda.config/semanticColors';
+import { siisColorTokens } from './panda.config/siisColors';
 import { textTokens } from './panda.config/textstyles';
 import { insetFocusRing } from './panda.config/utilities/focusring.utility';
 

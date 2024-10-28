@@ -7,6 +7,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
 import { ProjectionProvider } from '@/arcgis/projection/ProjectionProvider';
 import useIsMobile from '@/hooks/useIsMobile';
+import Drawing from '@/panels/Drawing';
 import MapLayers from '@/panels/MapLayers';
 import store from '@/store';
 
@@ -30,12 +31,12 @@ const appPanels: SidebarItem[] = [
     component: () => <MapLayers />,
   },
   {
-    id: '2',
-    title: 'Item 2',
-    icon: <SvgIcon name="icon-search-globe" size={16} />,
+    id: 'drawing',
+    title: 'Drawing',
+    icon: <SvgIcon name="icon-measure" size={16} />,
     position: 'top',
     type: 'panel',
-    component: () => <div>Panel 2</div>,
+    component: () => <Drawing />,
   },
 ];
 
