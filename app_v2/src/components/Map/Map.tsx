@@ -13,6 +13,7 @@ import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import { useAddLayer } from '../LayerManager/hooks/useAddLayer';
+import { useResetLayers } from '../LayerManager/hooks/useResetLayers';
 import ShipPositionMapLayer from '../ShipPositionMapLayer';
 import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
@@ -38,6 +39,7 @@ const mapStyles = cva({
 export function Map() {
   const [map, setMap] = React.useState<EsriMap>();
   const addLayer = useAddLayer();
+  const resetLayers = useResetLayers();
   const { data } = useAPI('/products', {
     params: {
       query: { hemi: 'S' },
@@ -97,8 +99,11 @@ export function Map() {
       }
 
       setMap(map);
+      return () => {
+        resetLayers();
+      };
     }
-  }, [data, addLayer]);
+  }, [data, addLayer, resetLayers]);
 
   const isMobile = useIsMobile();
 

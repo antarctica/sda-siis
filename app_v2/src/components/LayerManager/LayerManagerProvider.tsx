@@ -8,6 +8,7 @@ export type LayerData = __esri.Layer | null;
 export const LayerManagerContext = createActorContext(createLayerManagerMachine<LayerData>());
 
 export function LayerManagerProvider({ children }: { children: React.ReactNode }) {
+  console.log('render LayerManagerProvider');
   return (
     <LayerManagerContext.Provider
       logic={createLayerManagerMachine<LayerData>().provide({

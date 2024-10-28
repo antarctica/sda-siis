@@ -1,6 +1,7 @@
 import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 
 import { Flex } from '@styled-system/jsx';
+import React from 'react';
 import { I18nProvider } from 'react-aria-components';
 import { Provider as ReduxProvider } from 'react-redux';
 
@@ -40,31 +41,43 @@ const appPanels: SidebarItem[] = [
   },
 ];
 
-export function App() {
-  const isMobile = useIsMobile();
+const Providers = React.memo(({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <I18nProvider locale={'en'}>
         <ReduxProvider store={store}>
           <ThemeProvider>
-            <ProjectionProvider>
-              <ArcViewProvider>
-                <LayerManagerProvider>
-                  <SideBarProvider items={appPanels}>
-                    <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
-                      <Header />
-                      <Flex w={'full'} flexGrow={1}>
-                        {isMobile ? <Drawer /> : <Sidebar />}
-                        <Map />
-                      </Flex>
-                    </Flex>
-                  </SideBarProvider>
-                </LayerManagerProvider>
-              </ArcViewProvider>
-            </ProjectionProvider>
+            <LayerManagerProvider>
+              <ProjectionProvider>
+                <ArcViewProvider>
+                  <SideBarProvider items={appPanels}>{children}</SideBarProvider>
+                </ArcViewProvider>
+              </ProjectionProvider>
+            </LayerManagerProvider>
           </ThemeProvider>
         </ReduxProvider>
       </I18nProvider>
     </>
+  );
+});
+
+function AppContent() {
+  const isMobile = useIsMobile();
+  return (
+    <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+      <Header />
+      <Flex w={'full'} flexGrow={1}>
+        {isMobile ? <Drawer /> : <Sidebar />}
+        <Map />
+      </Flex>
+    </Flex>
+  );
+}
+
+export function App() {
+  return (
+    <Providers>
+      <AppContent />
+    </Providers>
   );
 }
