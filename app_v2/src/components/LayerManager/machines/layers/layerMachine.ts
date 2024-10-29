@@ -54,7 +54,7 @@ export const layerMachine = setup({
         }),
       );
       enqueue.assign({
-        opacity: context.opacity,
+        opacity: event.opacity,
       });
     }),
     'Change Layer Time Info': enqueueActions(({ event, context, enqueue }) => {

@@ -35,7 +35,7 @@ export function LayerItem({ layerActor }: { layerActor: LayerMachineActor }) {
         minValue={0}
         maxValue={100}
         step={1}
-        defaultValue={opacity * 100}
+        value={opacity * 100}
         onChange={(value) => {
           layerActor.send({
             type: 'LAYER.SET_OPACITY',
