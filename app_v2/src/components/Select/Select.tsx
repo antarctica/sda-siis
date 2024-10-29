@@ -45,6 +45,7 @@ const selectRecipe = sva({
       borderStyle: 'solid',
       bg: 'bg.popover',
       borderRadius: 'sm',
+      shadow: 'sm',
     },
     dropdownContainer: {
       _focusVisible: {
@@ -53,17 +54,24 @@ const selectRecipe = sva({
     },
 
     button: {
+      border: 'none',
+      bg: 'bg.surface',
+      py: '1.5',
+      px: '2',
+      pr: '3',
+      _placeholder: {
+        textStyle: 'description',
+        color: 'fg.muted',
+      },
       outline: 'none',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       width: 'full',
       height: 'full',
-      px: '2',
-      py: '1.5',
-      bg: 'bg.surface',
     },
     fieldGroup: {
+      h: '9',
       _focusVisible: {
         insetFocusRing: true,
       },
@@ -147,7 +155,7 @@ function SelectButton() {
             textOverflow: 'ellipsis',
           })}
         />
-        <SvgIcon name="icon-chevron-down" size={12} className="w-4" />
+        <SvgIcon name="icon-chevron-down" size={12} />
       </Button>
     </FieldGroup>
   );

@@ -4,7 +4,6 @@ export const fieldGroupRecipe = cva({
   base: {
     display: 'flex',
     alignItems: 'center',
-    height: '9',
     overflow: 'hidden',
     borderWidth: 'thin',
     borderColor: 'bg.base.border',

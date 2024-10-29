@@ -3,6 +3,7 @@ import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 import { Flex } from '@styled-system/jsx';
 import React from 'react';
 import { I18nProvider } from 'react-aria-components';
+import { LocalizedStringProvider } from 'react-aria-components/i18n';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
@@ -44,7 +45,8 @@ const appPanels: SidebarItem[] = [
 const Providers = React.memo(({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <I18nProvider locale={'en'}>
+      <I18nProvider locale={'en-GB'}>
+        <LocalizedStringProvider locale={'en-GB'} />
         <ReduxProvider store={store}>
           <ThemeProvider>
             <LayerManagerProvider>

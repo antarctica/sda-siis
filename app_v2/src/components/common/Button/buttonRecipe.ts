@@ -20,6 +20,12 @@ export const buttonRecipe = cva({
         _active: {
           filter: '[brightness(0.92) saturate(1.1)]',
         },
+        _disabled: {
+          _hover: {
+            bg: 'app.accent.a7',
+          },
+          bg: 'app.accent.a7',
+        },
       },
       outline: {
         borderWidth: 'thin',
@@ -91,7 +97,6 @@ export const buttonRecipe = cva({
     },
     isDisabled: {
       true: {
-        color: 'bas_grayscale.400',
         _hover: {
           cursor: 'not-allowed',
         },
