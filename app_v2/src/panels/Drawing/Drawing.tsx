@@ -1,11 +1,26 @@
-import { useDrawSingleGraphic } from '@/arcgis/hooks/useGraphicSketch';
+import { css } from '@styled-system/css';
+import { Flex } from '@styled-system/jsx';
+
+import { useDrawSingleGraphic } from '@/arcgis/hooks/useDrawSingleGraphic';
 import { useViewById } from '@/arcgis/hooks/useViewContext';
 import { Button } from '@/components/common/Button';
+import TextField from '@/components/common/forms/TextField/TextField';
+import { Select, SelectItem } from '@/components/Select/Select';
 
 function Drawing() {
   const mapView = useViewById('map');
   if (!mapView) return null;
-  return <DrawModeButton mapView={mapView as __esri.MapView} />;
+  return (
+    <Flex gap="2" direction="column">
+      <DrawModeButton mapView={mapView as __esri.MapView} />
+      <TextField label="Draw a line" placeholder="Draw a line" />
+      <Select label="Select a shape">
+        <SelectItem value={{ type: 'line' }}>Line</SelectItem>
+        <SelectItem value={{ type: 'point' }}>Point</SelectItem>
+        <SelectItem value={{ type: 'polygon' }}>Polygon</SelectItem>
+      </Select>
+    </Flex>
+  );
 }
 
 function DrawModeButton({ mapView }: { mapView: __esri.MapView }) {
@@ -14,7 +29,9 @@ function DrawModeButton({ mapView }: { mapView: __esri.MapView }) {
   return (
     <Button
       variant={activeDrawMode === 'polyline' ? 'primary' : 'outline'}
+      size="lg"
       onPress={() => create('polyline')}
+      className={css({ width: 'fit' })}
     >
       Draw Line
     </Button>

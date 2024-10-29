@@ -40,12 +40,14 @@ function PositionInfo() {
         aria-label="Ship position toolbar"
         className={css({ alignItems: 'center', display: 'flex' })}
       >
-        <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />
+        <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
         <IconButton
           variant="surface"
           icon={<SvgIcon name="icon-zoom-to" size={16} />}
           tooltipPlacement="bottom"
+          size="lg"
           aria-label="Zoom to ship position"
+          className={css({ px: '2.5' })}
           onPress={() => {
             const point = new Point({
               latitude: latitude ?? 0,
@@ -54,8 +56,10 @@ function PositionInfo() {
             mapView?.goTo({ target: point, scale: 500000 });
           }}
         />
-        <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />
+        <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
         <IconButton
+          size="lg"
+          className={css({ px: '2.5' })}
           variant="surface"
           tooltipPlacement="bottom"
           icon={<SvgIcon name={followShip ? 'icon-follow-off' : 'icon-follow'} size={16} />}

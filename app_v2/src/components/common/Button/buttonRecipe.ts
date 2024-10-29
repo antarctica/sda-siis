@@ -13,10 +13,7 @@ export const buttonRecipe = cva({
     variant: {
       primary: {
         bg: 'app.accent',
-        color: 'app.white',
-        _dark: {
-          color: 'app.black',
-        },
+        color: 'fg.accent.contrast',
         _hover: {
           bg: 'app.accent.10',
         },
@@ -74,16 +71,19 @@ export const buttonRecipe = cva({
         py: '0.5',
         px: '1',
         gap: '1',
+        h: '6',
         borderRadius: 'xs',
       },
       md: {
         fontSize: 'md',
         p: '1.5',
         gap: '2',
+        h: '8',
         borderRadius: 'sm',
       },
       lg: {
         fontSize: 'lg',
+        h: '10',
         p: '2',
         gap: '2',
         borderRadius: 'sm',

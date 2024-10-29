@@ -5,28 +5,50 @@ export const textTokens = defineTextStyles({
     description: 'The base font style',
     value: {
       fontWeight: '400',
-      fontSize: '{fontSizes.md}',
+      fontSize: 'md',
+    },
+  },
+  label: {
+    description: 'The label font style for field inputs',
+    value: {
+      fontWeight: '400',
+      fontSize: 'sm',
+      textTransform: 'uppercase',
+    },
+  },
+  description: {
+    description: 'The description font style for field inputs',
+    value: {
+      fontWeight: '400',
+      fontSize: 'sm',
+    },
+  },
+  validationError: {
+    description: 'The error font style',
+    value: {
+      fontSize: 'sm',
+      fontWeight: '400',
     },
   },
   heading1: {
     description: 'The largest text style in the system, used for main titles on the page.',
     value: {
       fontWeight: '600',
-      fontSize: { base: '{fontSizes.2xl}', md: '{fontSizes.3xl}' },
+      fontSize: { base: 'xl', md: '3xl' },
     },
   },
   heading2: {
     description: 'The second largest text style in the system, used for sub-headings',
     value: {
       fontWeight: '600',
-      fontSize: { base: '{fontSizes.xl}', md: '{fontSizes.2xl}' },
+      fontSize: { base: 'xl', md: '2xl' },
     },
   },
   heading3: {
     description: 'The third largest heading style in the system, used for sub-sub-headings',
     value: {
       fontWeight: '600',
-      fontSize: { base: '{fontSizes.lg}', md: '{fontSizes.xl}' },
+      fontSize: { base: 'lg', md: 'xl' },
     },
   },
   heading4: {
@@ -34,14 +56,14 @@ export const textTokens = defineTextStyles({
       'The smallest heading style in the system, used for minor headings for example in the footer',
     value: {
       fontWeight: '600',
-      fontSize: { base: '{fontSizes.md}', md: '{fontSizes.lg}' },
+      fontSize: { base: 'md', md: 'lg' },
     },
   },
   caption: {
     description: 'caption style',
     value: {
       fontWeight: '400',
-      fontSize: { base: '{fontSizes.xs}', md: '{fontSizes.sm}' },
+      fontSize: { base: 'xs', md: 'sm' },
     },
   },
 });

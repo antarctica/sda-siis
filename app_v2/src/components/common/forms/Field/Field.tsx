@@ -1,93 +1,79 @@
-'use client';
+import { cx } from '@styled-system/css';
+import {
+  composeRenderProps,
+  FieldError as RACFieldError,
+  FieldErrorProps,
+  Group,
+  GroupProps,
+  Input as RACInput,
+  InputProps,
+  Label as RACLabel,
+  LabelProps,
+  TextArea as RACTextArea,
+  TextAreaProps,
+  TextProps,
+} from 'react-aria-components';
 
-import { cva, cx } from '@styled-system/css';
-import { Label as RACLabel, LabelProps } from 'react-aria-components';
-
-const labelRecipe = cva({
-  base: {
-    textTransform: 'uppercase',
-    fontSize: 'sm',
-  },
-});
+import Typography from '../../Typography';
+import { fieldBorderRecipe, inputRecipe, textAreaRecipe } from './styles';
+import { fieldGroupRecipe } from './styles';
+import { descriptionRecipe, validationErrorRecipe } from './styles';
+import { labelRecipe } from './styles';
 
 export function Label(props: LabelProps) {
   return <RACLabel {...props} className={cx(labelRecipe(), props.className)} />;
 }
 
-// export function Description(props: TextProps) {
-//   return (
-//     <Text
-//       {...props}
-//       slot="description"
-//       className={customTwMerge('text-body-sm', props.className)}
-//     />
-//   );
-// }
+export function Description(props: TextProps) {
+  return (
+    <Typography
+      {...props}
+      slot="description"
+      className={cx(descriptionRecipe(), props.className)}
+    />
+  );
+}
 
-// export function FieldError(props: FieldErrorProps) {
-//   return (
-//     <RACFieldError
-//       {...props}
-//       className={composeTailwindRenderProps(
-//         props.className,
-//         'text-body-sm text-red-500 forced-colors:text-[Mark]',
-//       )}
-//     />
-//   );
-// }
+export function FieldError(props: FieldErrorProps) {
+  return (
+    <RACFieldError
+      {...props}
+      className={composeRenderProps(props.className, (className) =>
+        cx(validationErrorRecipe(), className),
+      )}
+    />
+  );
+}
 
-// export const fieldBorderStyles = customTV({
-//   variants: {
-//     isFocusWithin: {
-//       false: 'border-primary-blue',
-//       true: 'border-primary-blue ',
-//     },
-//     isInvalid: {
-//       true: 'border-red-600',
-//     },
-//     isDisabled: {
-//       true: 'border-primary-blue-surface',
-//     },
-//   },
-// });
+export function FieldGroup(props: GroupProps) {
+  return (
+    <Group
+      {...props}
+      className={composeRenderProps(props.className, (className, renderProps) =>
+        cx(fieldGroupRecipe(renderProps), fieldBorderRecipe(renderProps), className),
+      )}
+    />
+  );
+}
 
-// export const fieldGroupStyles = customTV({
-//   extend: insetfocusRing,
-//   base: 'group flex items-center h-9 bg-dark-blue border overflow-hidden',
-//   variants: fieldBorderStyles.variants,
-// });
+export function Input(props: InputProps) {
+  return (
+    <RACInput
+      {...props}
+      className={composeRenderProps(props.className, (className, renderProps) =>
+        cx(inputRecipe(renderProps), className),
+      )}
+    />
+  );
+}
 
-// export function FieldGroup(props: GroupProps) {
-//   return (
-//     <Group
-//       {...props}
-//       className={composeRenderProps(props.className, (className, renderProps) =>
-//         fieldGroupStyles({ ...renderProps, className }),
-//       )}
-//     />
-//   );
-// }
-
-// export function Input(props: InputProps) {
-//   return (
-//     <RACInput
-//       {...props}
-//       className={composeTailwindRenderProps(
-//         props.className,
-//         'bg-transparent placeholder:text-primary-blue placeholder:text-body-xs border-none',
-//       )}
-//     />
-//   );
-// }
-
-// export function TextArea(props: TextAreaProps) {
-//   return (
-//     <RACTextArea
-//       {...props}
-//       className={composeTailwindRenderProps(
-//         props.className,
-//         'bg-transparent placeholder:text-primary-blue placeholder:text-body-xs border-none',
-//       )}
-//     />
-//   );
-// }
+export function TextArea(props: TextAreaProps) {
+  return (
+    <RACTextArea
+      {...props}
+      className={composeRenderProps(props.className, (className, renderProps) =>
+        cx(textAreaRecipe(renderProps), className),
+      )}
+    />
+  );
+}

@@ -331,7 +331,7 @@ export const semanticColorTokens = defineSemanticTokens.colors({
         _dark: '#FFFFFF',
       },
     },
-    subdued: {
+    muted: {
       value: {
         base: '{colors.app.grey.11}',
         _dark: '{colors.app.grey.11}',
@@ -342,6 +342,12 @@ export const semanticColorTokens = defineSemanticTokens.colors({
         value: {
           base: '{colors.app.accent}',
           _dark: '{colors.app.accent}',
+        },
+      },
+      contrast: {
+        value: {
+          base: '{colors.app.white}',
+          _dark: '{colors.app.black}',
         },
       },
     },
@@ -457,6 +463,34 @@ export const semanticColorTokens = defineSemanticTokens.colors({
         value: {
           base: '{colors.app.grey.2}',
           _dark: '{colors.app.grey.2}',
+        },
+      },
+    },
+    popover: {
+      DEFAULT: {
+        value: {
+          base: '{colors.app.grey.3}',
+          _dark: '{colors.app.grey.3}',
+        },
+      },
+      hover: {
+        value: {
+          base: '{colors.app.grey.5}',
+          _dark: '{colors.app.grey.5}',
+        },
+      },
+    },
+    surface: {
+      DEFAULT: {
+        value: {
+          base: '{colors.app.grey.a2}',
+          _dark: '{colors.app.grey.a2}',
+        },
+      },
+      accent: {
+        value: {
+          base: '{colors.app.accent.a2}',
+          _dark: '{colors.app.accent.a2}',
         },
       },
     },
