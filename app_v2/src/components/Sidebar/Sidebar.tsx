@@ -1,6 +1,7 @@
 import { css, sva } from '@styled-system/css';
 import { Divider, Flex } from '@styled-system/jsx';
 import React from 'react';
+import { Group, Toolbar } from 'react-aria-components';
 import { useLocalStorage } from 'usehooks-ts';
 
 import Panel from '../Panel';
@@ -102,75 +103,81 @@ function Sidebar() {
         },
       })}
     >
-      <aside className={wrapper}>
-        <nav className={buttonGroup}>
-          <ul>
-            {topItems.map((item) => (
-              <li key={item.id}>
-                <SidebarButton
-                  ref={(ref) => (sidebarButtonRefs.current[item.id] = ref!)}
-                  collapsed={isCollapsed}
-                  active={item.id === activeItem?.id}
-                  title={item.title}
-                  icon={item.icon}
-                  onPress={() => {
-                    if (item.id === activeItem?.id) {
-                      actorRef.send({ type: 'ITEMS.CLOSE_ALL' });
-                    } else {
-                      actorRef.send({ type: 'ITEMS.SET_ACTIVE', id: item.id });
-                    }
-                  }}
-                ></SidebarButton>
-                <Divider
-                  orientation={'horizontal'}
-                  thickness={'thin'}
-                  color={'bg.base.border'}
-                ></Divider>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <nav className={buttonGroup}>
-          <ul>
-            {bottomItems.map((item) => (
-              <li key={item.id} className={buttonGroupItem}>
-                <SidebarButton
-                  ref={(ref) => (sidebarButtonRefs.current[item.id] = ref!)}
-                  collapsed={isCollapsed}
-                  active={item.id === activeItem?.id}
-                  title={item.title}
-                  icon={item.icon}
-                  onPress={() => {
-                    actorRef.send({ type: 'ITEMS.SET_ACTIVE', id: item.id });
-                  }}
-                ></SidebarButton>
-                <Divider
-                  orientation={'horizontal'}
-                  thickness={'thin'}
-                  color={'bg.base.border'}
-                ></Divider>
-              </li>
-            ))}
-            <li key={'theme-toggler'} className={buttonGroupItem}>
-              <ThemeToggler isCollapsed={isCollapsed}></ThemeToggler>
-              <Divider
-                orientation={'horizontal'}
-                thickness={'thin'}
-                color={'bg.base.border'}
-              ></Divider>
-            </li>
-            <li key={'collapse'} className={buttonGroupItem}>
-              <CollapseToggle
-                actorRef={actorRef}
-                isCollapsed={isCollapsed}
-                onToggle={(collapsed) => {
-                  setState(collapsed);
-                }}
-              ></CollapseToggle>
-            </li>
-          </ul>
-        </nav>
-      </aside>
+      <Toolbar orientation="vertical" aria-label="Map">
+        <aside className={wrapper}>
+          <Group aria-label="Map workflow panels">
+            <nav className={buttonGroup}>
+              <ul>
+                {topItems.map((item) => (
+                  <li key={item.id}>
+                    <SidebarButton
+                      ref={(ref) => (sidebarButtonRefs.current[item.id] = ref!)}
+                      collapsed={isCollapsed}
+                      active={item.id === activeItem?.id}
+                      title={item.title}
+                      icon={item.icon}
+                      onPress={() => {
+                        if (item.id === activeItem?.id) {
+                          actorRef.send({ type: 'ITEMS.CLOSE_ALL' });
+                        } else {
+                          actorRef.send({ type: 'ITEMS.SET_ACTIVE', id: item.id });
+                        }
+                      }}
+                    ></SidebarButton>
+                    <Divider
+                      orientation={'horizontal'}
+                      thickness={'thin'}
+                      color={'bg.base.border'}
+                    ></Divider>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </Group>
+          <Group aria-label="actions">
+            <nav className={buttonGroup}>
+              <ul>
+                {bottomItems.map((item) => (
+                  <li key={item.id} className={buttonGroupItem}>
+                    <SidebarButton
+                      ref={(ref) => (sidebarButtonRefs.current[item.id] = ref!)}
+                      collapsed={isCollapsed}
+                      active={item.id === activeItem?.id}
+                      title={item.title}
+                      icon={item.icon}
+                      onPress={() => {
+                        actorRef.send({ type: 'ITEMS.SET_ACTIVE', id: item.id });
+                      }}
+                    ></SidebarButton>
+                    <Divider
+                      orientation={'horizontal'}
+                      thickness={'thin'}
+                      color={'bg.base.border'}
+                    ></Divider>
+                  </li>
+                ))}
+                <li key={'theme-toggler'} className={buttonGroupItem}>
+                  <ThemeToggler isCollapsed={isCollapsed}></ThemeToggler>
+                  <Divider
+                    orientation={'horizontal'}
+                    thickness={'thin'}
+                    color={'bg.base.border'}
+                  ></Divider>
+                </li>
+                <li key={'collapse'} className={buttonGroupItem}>
+                  <CollapseToggle
+                    actorRef={actorRef}
+                    isCollapsed={isCollapsed}
+                    onToggle={(collapsed) => {
+                      setState(collapsed);
+                    }}
+                  ></CollapseToggle>
+                </li>
+              </ul>
+            </nav>
+          </Group>
+        </aside>{' '}
+      </Toolbar>
       {Component && (
         <Panel onClose={closePanel} title={activeItem?.title}>
           <Component />

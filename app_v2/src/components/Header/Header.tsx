@@ -4,7 +4,7 @@ import { Divider, Flex } from '@styled-system/jsx';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import MobileSideMenu from '../MobileSideMenu';
-import { Actions } from './actions/Actions';
+import { Toolbar } from './actions/Toolbar';
 import { HeaderData } from './data/HeaderData';
 import { Title } from './Title';
 
@@ -48,7 +48,7 @@ export function Header() {
         ></Divider>
         {!isMobile && <HeaderData />}
       </Flex>
-      <Actions />
+      <Toolbar />
       {isMobile && (
         <Flex h={'full'} alignItems={'center'} justifyContent={'center'} gap={'2'}>
           <Divider

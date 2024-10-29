@@ -1,5 +1,7 @@
 import { Point } from '@arcgis/core/geometry';
+import { css } from '@styled-system/css';
 import { Divider, Flex } from '@styled-system/jsx';
+import { Toolbar } from 'react-aria-components';
 
 import { useShipPosition } from '@/api/useShipSensorData';
 import { useCurrentMapView } from '@/arcgis/hooks';
@@ -34,7 +36,10 @@ function PositionInfo() {
       ) : (
         <StatusBadge variant="error">No position data</StatusBadge>
       )}
-      <Flex align="center">
+      <Toolbar
+        aria-label="Ship position toolbar"
+        className={css({ alignItems: 'center', display: 'flex' })}
+      >
         <Divider orientation="vertical" color="bg.base.border" h="8" thickness="thin" />
         <IconButton
           variant="surface"
@@ -57,7 +62,7 @@ function PositionInfo() {
           aria-label={followShip ? 'Stop following ship' : 'Follow ship position'}
           onPress={() => dispatch(setFollowShip(!followShip))}
         />
-      </Flex>
+      </Toolbar>
     </Flex>
   );
 }
