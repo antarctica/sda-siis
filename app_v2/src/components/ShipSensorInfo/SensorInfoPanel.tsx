@@ -10,7 +10,7 @@ function SensorInfoPanel() {
       id="sensor-info-panel"
       className={css({
         borderWidth: 'thin',
-        borderColor: 'bg.base.border',
+        borderColor: 'app.accent',
         borderRadius: 'md',
         bg: 'bg.base',
         shadow: 'md',

@@ -60,7 +60,14 @@ function SensorInfo() {
           position: 'absolute',
           top: '0',
           right: '0',
-          ...(isExpanded ? { shadow: '[none]' } : {}),
+          ...(isExpanded
+            ? {
+                shadow: '[none]',
+                borderColor: 'app.accent',
+                borderStartRadius: '[0px]',
+                borderBottomRadius: '[0px]',
+              }
+            : {}),
         })}
       />
       <SensorStatusDot />
