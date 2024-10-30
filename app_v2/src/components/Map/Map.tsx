@@ -65,7 +65,9 @@ export function Map() {
             styleId: `${layer.style}.${'night'}`,
           },
           title: layer.label,
+          copyright: layer.attribution,
         });
+
         layers.push(wmtsLayer);
       }
 
