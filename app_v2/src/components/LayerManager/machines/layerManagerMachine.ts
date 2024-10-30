@@ -38,8 +38,9 @@ function addLayerToParent<T>(
   newLayer: MapLayer<T>,
   parentRef: ParentLayerActor,
   index?: number,
+  position?: 'top' | 'bottom',
 ): Partial<LayerManagerContext<T>> {
-  parentRef.send({ type: 'LAYERS.ADD_CHILD', child: newLayer.layerActor, index });
+  parentRef.send({ type: 'LAYERS.ADD_CHILD', child: newLayer.layerActor, index, position });
   return {
     layers: [...layers, newLayer],
   };
@@ -50,8 +51,9 @@ function addLayerToTopLevel<T>(
   newLayer: MapLayer<T>,
   childLayerOrder: string[],
   index?: number,
+  position?: 'top' | 'bottom',
 ): Partial<LayerManagerContext<T>> {
-  const newLayerOrder = updateLayerOrder(childLayerOrder, newLayer.layerActor.id, index);
+  const newLayerOrder = updateLayerOrder(childLayerOrder, newLayer.layerActor.id, index, position);
   return {
     layers: [...layers, newLayer],
     childLayerOrder: newLayerOrder,
@@ -75,7 +77,7 @@ export function createLayerManagerMachine<T>() {
       // Layer management actions
       'Add new layer': assign(({ context, event, spawn, self }) => {
         assertEvent(event, 'LAYER.ADD');
-        const { layerConfig, index, visible } = event;
+        const { layerConfig, index, visible, position } = event;
         const { childLayerOrder, allowNestedGroupLayers } = context;
 
         if (
@@ -135,6 +137,7 @@ export function createLayerManagerMachine<T>() {
               },
               parentRef,
               index,
+              position,
             )
           : addLayerToTopLevel(
               context.layers,
@@ -144,6 +147,7 @@ export function createLayerManagerMachine<T>() {
               },
               childLayerOrder,
               index,
+              position,
             );
       }),
       'Remove layer': assign(({ context, event }) => {

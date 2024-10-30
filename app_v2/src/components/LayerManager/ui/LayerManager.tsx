@@ -8,7 +8,7 @@ import LayerGroupItem from './LayerGroupItem';
 
 function LayerManager() {
   const topLevelLayers = useTopLevelLayers();
-  const defaultValue = React.useMemo(
+  const openPanels = React.useMemo(
     () => topLevelLayers.map((layers) => layers.layerActor.id),
     [topLevelLayers],
   );
@@ -21,7 +21,7 @@ function LayerManager() {
         flexDirection: 'column',
         gap: '2',
       })}
-      defaultValue={defaultValue}
+      defaultValue={openPanels}
     >
       {topLevelLayers
         .map((layers) => {

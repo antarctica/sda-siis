@@ -14,7 +14,7 @@ const sliderRecipe = sva({
   slots: ['root', 'label', 'output', 'interaction-container'],
   base: {
     root: {
-      gap: '2',
+      gap: '3',
       _horizontal: {
         display: 'grid',
         gridTemplateColumns: '[1fr auto]',
@@ -25,7 +25,7 @@ const sliderRecipe = sva({
         gridColumn: '2',
         alignItems: 'center',
         position: 'relative',
-        mx: '2.5',
+        mx: '2',
       },
     },
   },
@@ -38,7 +38,7 @@ const trackRecipe = cva({
     top: '[50%]',
     transform: 'translateY(-50%)',
     w: 'full',
-    h: '1',
+    h: '0.5',
     cursor: 'pointer',
   },
   variants: {
@@ -75,15 +75,15 @@ const trackRecipe = cva({
 
 const thumbRecipe = cva({
   base: {
-    w: '5',
-    h: '5',
+    w: '1',
+    h: '6',
     rounded: 'full',
     bg: 'bg.base',
     borderColor: 'bg.accent',
     borderWidth: 'medium',
     top: '[50%]',
     transform: 'translateY(-50%)',
-    cursor: 'grab',
+    cursor: 'ew-resize',
     _focusVisible: {
       insetFocusRing: true,
       outlineOffset: '0.5',
@@ -91,7 +91,7 @@ const thumbRecipe = cva({
   },
   variants: {
     isDragging: {
-      true: { bg: 'bg.accent.soft', cursor: 'grabbing' },
+      true: { bg: 'bg.accent.soft', cursor: 'ew-resize' },
     },
     isDisabled: {
       true: { cursor: 'not-allowed', borderColor: 'app.grey.8' },

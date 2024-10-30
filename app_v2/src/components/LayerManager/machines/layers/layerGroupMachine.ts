@@ -8,7 +8,7 @@ import {
   ParentEvent,
   ParentLayerActor,
 } from '../types';
-import { isValidLayerIndex } from '../utils';
+import { updateLayerOrder } from '../utils';
 
 type LayerGroupEvent = ChildEvent | ParentEvent;
 
@@ -169,19 +169,13 @@ export const layerGroupMachine = setup({
       actions: [
         assign(({ context, event }) => {
           const { childLayerOrder, children } = context;
-          const { index, child } = event;
+          const { index, child, position } = event;
 
-          let newChildLayerOrder = [...childLayerOrder];
-
-          if (index && isValidLayerIndex(index, childLayerOrder.length)) {
-            newChildLayerOrder.splice(index, 0, child.id);
-          } else {
-            newChildLayerOrder = [child.id, ...newChildLayerOrder];
-          }
+          const newOrder = updateLayerOrder(childLayerOrder, child.id, index, position);
 
           return {
             children: [...children, child],
-            childLayerOrder: newChildLayerOrder,
+            childLayerOrder: newOrder,
           };
         }),
       ],

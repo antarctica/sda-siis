@@ -71,6 +71,7 @@ export type LayerManagerEvent<T> =
       layerConfig: LayerConfig<T> | LayerGroupConfig<T>;
       visible?: boolean;
       index?: number;
+      position?: 'top' | 'bottom';
     }
   | { type: 'LAYER.REMOVE'; layerId: string }
   | { type: 'LAYER.REORDER' }
@@ -80,7 +81,12 @@ export type LayerManagerEvent<T> =
 
 export type ParentEvent =
   | { type: 'CHILD.VISIBLE'; layerId: string }
-  | { type: 'LAYERS.ADD_CHILD'; child: ChildLayerActor; index: number | undefined }
+  | {
+      type: 'LAYERS.ADD_CHILD';
+      child: ChildLayerActor;
+      index?: number;
+      position?: 'top' | 'bottom';
+    }
   | { type: 'LAYERS.REMOVE_CHILD'; id: string };
 
 export type ChildEvent =

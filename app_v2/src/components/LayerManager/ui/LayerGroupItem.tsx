@@ -118,9 +118,9 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
       </div>
       <Accordion.Content className={content}>
         <ul className={layerList}>
-          {orderedChildLayerActors
-            .map((child) => <LayerItem layerActor={child} key={child.id} />)
-            .reverse()}
+          {orderedChildLayerActors.reverse().map((child) => (
+            <LayerItem layerActor={child} key={child.id} />
+          ))}
         </ul>
       </Accordion.Content>
     </Accordion.Item>

@@ -3,14 +3,14 @@ import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 
 import { useDrawSingleGraphic } from '@/arcgis/hooks/useDrawSingleGraphic';
-import { useViewById } from '@/arcgis/hooks/useViewContext';
 import { Button } from '@/components/common/Button';
 import { DatePicker, DateRangePicker } from '@/components/common/forms/DatePicker';
 import TextField from '@/components/common/forms/TextField/TextField';
 import { Select, SelectItem } from '@/components/Select/Select';
+import { useSIISMapView } from '@/hooks/useMap';
 
 function Drawing() {
-  const mapView = useViewById('map');
+  const mapView = useSIISMapView();
   if (!mapView) return null;
   return (
     <Flex gap="2" direction="column">

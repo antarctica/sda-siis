@@ -3,3 +3,5 @@ export enum MapCRS {
   ARCTIC = 'arctic',
   MERCATOR = 'mercator',
 }
+
+export type OGCType = 'WMTS' | 'WMS' | 'WFS';

@@ -1,7 +1,5 @@
 /* eslint-disable @pandacss/no-hardcoded-color */
 import Basemap from '@arcgis/core/Basemap';
-import Layer from '@arcgis/core/layers/Layer';
-import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
 import EsriMap from '@arcgis/core/Map';
 import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { cva } from '@styled-system/css';
@@ -10,7 +8,9 @@ import React from 'react';
 
 import { useAPI } from '@/api/api';
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
+import { MAP_ID } from '@/config/constants';
 import useIsMobile from '@/hooks/useIsMobile';
+import { OGCType } from '@/types';
 
 import { useAddLayer } from '../LayerManager/hooks/useAddLayer';
 import { useResetLayers } from '../LayerManager/hooks/useResetLayers';
@@ -19,6 +19,7 @@ import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import ScaleControl from './map-controls/ScaleControl';
 import ZoomControl from './map-controls/ZoomControl';
+import { createLayer, ogcPriority } from './utils';
 
 const mapStyles = cva({
   base: {
@@ -48,29 +49,6 @@ export function Map() {
 
   React.useEffect(() => {
     if (data) {
-      const initialLayers = data.filter((product) => product.show_on_startup);
-      // const wmsLayers = initialLayers.filter(
-      //   (product) => product.types && product.types.includes('WMS'),
-      // );
-      const wmtsLayers = initialLayers
-        .filter((product) => product.types && product.types.includes('WMTS'))
-        .reverse();
-
-      const layers: Layer[] = [];
-      for (const layer of wmtsLayers) {
-        const wmtsLayer = new WMTSLayer({
-          url: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wmtsendpoint}`,
-          activeLayer: {
-            id: layer.gs_layername,
-            styleId: `${layer.style}.${'night'}`,
-          },
-          title: layer.label,
-          copyright: layer.attribution,
-        });
-
-        layers.push(wmtsLayer);
-      }
-
       const map = new EsriMap({
         basemap: new Basemap({
           baseLayers: [],
@@ -85,19 +63,28 @@ export function Map() {
         layerId: 'reference',
         layerName: 'Reference',
         layerType: 'layerGroup',
-
         parentId: null,
       });
 
-      for (const layer of layers) {
-        addLayer(map, {
-          layerData: layer,
-          layerId: layer.id,
-          layerName: layer.title,
-          layerType: 'layer',
-          parentId: 'reference',
-          opacity: 1,
-        });
+      // get the layers that should be shown on startup, sorted by default_z descending
+      const initialLayerConfig = data
+        .filter((product) => product.show_on_startup)
+        .sort((a, b) => (b.default_z ?? 0) - (a.default_z ?? 0));
+
+      for (const layerConfig of initialLayerConfig) {
+        const ogcType = ogcPriority(layerConfig.types as OGCType[]);
+        if (ogcType) {
+          const newLayer = createLayer(layerConfig, ogcType);
+          if (newLayer) {
+            addLayer(map, {
+              layerData: newLayer,
+              layerId: layerConfig?.label ?? '',
+              layerName: layerConfig?.label ?? '',
+              layerType: 'layer',
+              parentId: 'reference',
+            });
+          }
+        }
       }
 
       setMap(map);
@@ -113,9 +100,9 @@ export function Map() {
     <Box w={'full'} h={'full'} position={'relative'} className={mapStyles()}>
       {map && (
         <ArcMapView
-          id="map"
+          id={MAP_ID}
           map={map}
-          scale={100000000}
+          scale={25000000}
           constraints={{ rotationEnabled: false }}
           onArcgisViewReadyChange={(event) => {
             console.log(event.target.view);

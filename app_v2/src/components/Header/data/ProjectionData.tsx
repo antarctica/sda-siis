@@ -1,7 +1,7 @@
 import { useWatchState } from '@/arcgis/hooks';
-import { useViewById } from '@/arcgis/hooks/useViewContext';
 import DataGrid from '@/components/common/DataGrid';
 import { useFormatNumber } from '@/hooks/useFormatNumber';
+import { useSIISMapView } from '@/hooks/useMap';
 
 const SPATIAL_REFERENCE_NAMES: Record<string, string> = {
   '3857': 'WGS 1984 Web Mercator',
@@ -10,7 +10,7 @@ const SPATIAL_REFERENCE_NAMES: Record<string, string> = {
 };
 
 export function ProjectionData() {
-  const mapView = useViewById('map');
+  const mapView = useSIISMapView();
   const scale = useWatchState(() => mapView?.scale, [mapView]);
   const formatScale = useFormatNumber({
     maximumSignificantDigits: 3,

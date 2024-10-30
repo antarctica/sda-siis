@@ -29,16 +29,24 @@ export function getFlatLayerOrder<T>(
   return flatOrder;
 }
 
+// The bottom-most layer has an index of 0 and is at the bottom
+// of the layer view stack on the map.
 export function updateLayerOrder(
   currentOrder: string[],
   newLayerId: string,
   index?: number,
+  position?: 'top' | 'bottom',
 ): string[] {
-  let newOrder = [...currentOrder];
+  const newOrder = [...currentOrder];
   if (index !== undefined && isValidLayerIndex(index, currentOrder.length)) {
+    // insert the new layer after the index
     newOrder.splice(index, 0, newLayerId);
+  } else if (position === 'top') {
+    // top layer goes at the end of the array
+    newOrder.push(newLayerId);
   } else {
-    newOrder = [newLayerId, ...newOrder];
+    // bottom layer goes at the beginning of the array
+    newOrder.unshift(newLayerId);
   }
   return newOrder;
 }
