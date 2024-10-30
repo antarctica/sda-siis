@@ -17,9 +17,6 @@ import { fieldBorderRecipe, inputRecipe } from '../Field/styles';
 import { CalandarPopUp, Calendar } from './Calendar';
 import { DateInput } from './DateField';
 
-export type RangeValue =
-  | { start: DateValue; end: DateValue }
-  | { start: DateValue; end: DateValue; timezone: string };
 export interface DatePickerProps extends AriaDatePickerProps<DateValue> {
   label?: string;
   description?: string;
@@ -94,6 +91,7 @@ export function DatePicker({
               slot={null}
               variant="primary"
               className={css({ w: 'full', justifyContent: 'center' })}
+              size="md"
               onPress={() => {
                 changeValue(today('UTC'));
                 setIsOpen(false);

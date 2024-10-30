@@ -5,7 +5,7 @@ import { Flex } from '@styled-system/jsx';
 import { useDrawSingleGraphic } from '@/arcgis/hooks/useDrawSingleGraphic';
 import { useViewById } from '@/arcgis/hooks/useViewContext';
 import { Button } from '@/components/common/Button';
-import { DatePicker } from '@/components/common/forms/DatePicker';
+import { DatePicker, DateRangePicker } from '@/components/common/forms/DatePicker';
 import TextField from '@/components/common/forms/TextField/TextField';
 import { Select, SelectItem } from '@/components/Select/Select';
 
@@ -22,6 +22,7 @@ function Drawing() {
         <SelectItem value={{ type: 'polygon' }}>Polygon</SelectItem>
       </Select>
       <DatePicker label="Select a date" maxValue={today('UTC')} />
+      <DateRangePicker label="Select a date range" maxRange={{ months: 1 }} />
     </Flex>
   );
 }

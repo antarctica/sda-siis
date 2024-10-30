@@ -1,4 +1,3 @@
-import { getLocalTimeZone } from '@internationalized/date';
 import { css, cva, sva } from '@styled-system/css';
 import { isToday } from 'date-fns';
 import React from 'react';
@@ -31,6 +30,9 @@ const calandarCellRecipe = cva({
     fontSize: 'sm',
     borderRadius: 'sm',
     cursor: 'pointer',
+    _hover: {
+      bg: 'app.accent.a3',
+    },
   },
   variants: {
     isFocusVisible: {
@@ -45,12 +47,18 @@ const calandarCellRecipe = cva({
       true: {
         bg: 'bg.accent',
         color: 'fg.accent.contrast',
+        _hover: {
+          bg: 'bg.accent',
+        },
       },
     },
     isUnavailable: {
       true: {
         color: 'fg.muted',
         cursor: 'not-allowed',
+        _hover: {
+          bg: 'app.grey.a4',
+        },
       },
     },
     isInvalid: {
@@ -63,6 +71,9 @@ const calandarCellRecipe = cva({
       true: {
         color: 'fg.muted',
         cursor: 'not-allowed',
+        _hover: {
+          bg: 'app.grey.a4',
+        },
       },
     },
     today: {
@@ -86,7 +97,13 @@ export function Calendar<T extends DateValue>({ errorMessage, ...props }: Calend
       <CalendarHeader />
       <CalendarGrid>
         <CalendarGridHeader />
-        <CalendarGridBody>
+        <CalendarGridBody
+          className={css({
+            '& tr:first-child td': {
+              paddingTop: '1',
+            },
+          })}
+        >
           {(date) => (
             <CalendarCell
               date={date}
@@ -110,7 +127,7 @@ export function Calendar<T extends DateValue>({ errorMessage, ...props }: Calend
                     isFocusVisible,
                     isUnavailable,
                     isInvalid,
-                    today: isToday(date.toDate(getLocalTimeZone())),
+                    today: isToday(date.toDate('UTC')),
                   })}
                 >
                   {formattedDate}
@@ -134,7 +151,6 @@ const calendarHeaderRecipe = sva({
       alignItems: 'center',
       gap: '1',
       pb: '4',
-      px: '1',
       w: 'full',
     },
     title: {
@@ -169,10 +185,17 @@ export function CalendarHeader() {
         variant="primary"
         aria-label="Previous month"
         slot={'previous'}
+        size="md"
       />
 
       <Heading className={title} />
-      <IconButton icon={ChevronRight} variant="primary" aria-label="Next month" slot={'next'} />
+      <IconButton
+        icon={ChevronRight}
+        variant="primary"
+        aria-label="Next month"
+        slot={'next'}
+        size="md"
+      />
     </header>
   );
 }
