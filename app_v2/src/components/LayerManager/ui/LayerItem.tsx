@@ -58,6 +58,7 @@ export function LayerItem({ layerActor }: { layerActor: LayerMachineActor }) {
         maxValue={100}
         step={1}
         value={opacity * 100}
+        isDisabled={!isEnabled}
         onChange={(value) => {
           layerActor.send({
             type: 'LAYER.SET_OPACITY',
