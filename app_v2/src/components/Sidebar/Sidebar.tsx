@@ -97,6 +97,7 @@ function Sidebar() {
   return (
     <Flex
       zIndex={1}
+      h={'full'}
       className={css({
         _light: {
           shadow: '2xl',

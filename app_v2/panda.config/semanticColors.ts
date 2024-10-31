@@ -352,6 +352,20 @@ export const semanticColorTokens = defineSemanticTokens.colors({
       },
     },
   },
+  success: {
+    fg: {
+      value: {
+        base: '{colors.bas_green.darker}',
+        _dark: '{colors.bas_green.lighter}',
+      },
+    },
+    bg: {
+      value: {
+        base: '{colors.bas_green.lighter}',
+        _dark: '{colors.bas_green.dark/70}',
+      },
+    },
+  },
   error: {
     fg: {
       value: {

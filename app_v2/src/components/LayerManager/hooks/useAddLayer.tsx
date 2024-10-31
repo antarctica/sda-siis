@@ -15,8 +15,8 @@ export function useAddLayer() {
 
   const addLayer = React.useCallback(
     (map: __esri.Map, config: LayerProps) => {
-      if (config.layerData) {
-        map.add(config.layerData);
+      if (config.layerData?.mapLayer) {
+        map.add(config.layerData.mapLayer);
       }
 
       layerManagerActor.send({

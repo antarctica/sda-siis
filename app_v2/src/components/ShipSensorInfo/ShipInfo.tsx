@@ -5,7 +5,7 @@ import { useShipDepth, useShipHeading, useShipSpeed } from '@/api/useShipSensorD
 
 import DataGrid from '../common/DataGrid';
 import { Heading } from '../common/Typography';
-import StatusBadge from './StatusBadge';
+import ShipSensorStatusBadge from './ShipSensorStatusBadge';
 
 function ShipInfo() {
   const { speed, isOnline: speedOnline, isError: speedError } = useShipSpeed();
@@ -23,31 +23,31 @@ function ShipInfo() {
             {
               label: 'Speed',
               value: speedError ? (
-                <StatusBadge variant="error" />
+                <ShipSensorStatusBadge variant="error" />
               ) : speedOnline ? (
                 `${speed} knots`
               ) : (
-                <StatusBadge variant="warning" />
+                <ShipSensorStatusBadge variant="warning" />
               ),
             },
             {
               label: 'Heading',
               value: headingError ? (
-                <StatusBadge variant="error" />
+                <ShipSensorStatusBadge variant="error" />
               ) : headingOnline ? (
                 `${heading}°`
               ) : (
-                <StatusBadge variant="warning" />
+                <ShipSensorStatusBadge variant="warning" />
               ),
             },
             {
               label: 'Depth',
               value: depthError ? (
-                <StatusBadge variant="error" />
+                <ShipSensorStatusBadge variant="error" />
               ) : depthOnline ? (
                 `${depth} meters`
               ) : (
-                <StatusBadge variant="warning" />
+                <ShipSensorStatusBadge variant="warning" />
               ),
             },
           ]}

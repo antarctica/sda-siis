@@ -89,41 +89,48 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
   });
 
   return (
-    <Accordion.Item value={layerId} className={root}>
-      <div className={header}>
-        <Accordion.Trigger className={cx(trigger, 'group focus-target')}>
-          <SvgIcon size={16} name="icon-chevron-up" className={caret} color={token('colors.fg')} />
-          <Heading as="h3" heading="heading-4" margin={false} className={title}>
-            {layerName}
-          </Heading>
+    <li>
+      <Accordion.Item value={layerId} className={root}>
+        <div className={header}>
+          <Accordion.Trigger className={cx(trigger, 'group focus-target')}>
+            <SvgIcon
+              size={16}
+              name="icon-chevron-up"
+              className={caret}
+              color={token('colors.fg')}
+            />
+            <Heading as="h3" heading="heading-4" margin={false} className={title}>
+              {layerName}
+            </Heading>
+            {enabledChildLayerCount > 0 && (
+              <Typography as="span" className={badge}>
+                {enabledChildLayerCount}
+                <VisuallyHidden> Active layers</VisuallyHidden>
+              </Typography>
+            )}
+            <Divider orientation="horizontal" color="bg.base.border" flex="1" />
+          </Accordion.Trigger>
           {enabledChildLayerCount > 0 && (
-            <Typography as="span" className={badge}>
-              {enabledChildLayerCount}
-              <VisuallyHidden> Active layers</VisuallyHidden>
-            </Typography>
+            <Checkbox
+              rounded
+              isSelected={enabled}
+              onChange={() => {
+                layerGroupActor.send({
+                  type: enabled ? 'LAYER.DISABLED' : 'LAYER.ENABLED',
+                });
+              }}
+            />
           )}
-          <Divider orientation="horizontal" color="bg.base.border" flex="1" />
-        </Accordion.Trigger>
-        {enabledChildLayerCount > 0 && (
-          <Checkbox
-            rounded
-            isSelected={enabled}
-            onChange={() => {
-              layerGroupActor.send({
-                type: enabled ? 'LAYER.DISABLED' : 'LAYER.ENABLED',
-              });
-            }}
-          />
-        )}
-      </div>
-      <Accordion.Content className={content}>
-        <ul className={layerList}>
-          {orderedChildLayerActors.reverse().map((child) => (
-            <LayerItem layerActor={child} key={child.id} />
-          ))}
-        </ul>
-      </Accordion.Content>
-    </Accordion.Item>
+        </div>
+        <Accordion.Content className={content}>
+          <ul className={layerList}>
+            {orderedChildLayerActors.reverse().map((child) => (
+              <LayerItem layerActor={child} key={child.id} />
+            ))}
+          </ul>
+        </Accordion.Content>
+      </Accordion.Item>
+    </li>
   );
 }
 

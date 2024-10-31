@@ -14,7 +14,7 @@ const sliderRecipe = sva({
   slots: ['root', 'label', 'output', 'interaction-container'],
   base: {
     root: {
-      gap: '3',
+      gap: '1',
       _horizontal: {
         display: 'grid',
         gridTemplateColumns: '[1fr auto]',
@@ -26,6 +26,7 @@ const sliderRecipe = sva({
         alignItems: 'center',
         position: 'relative',
         mx: '2',
+        h: '6',
       },
     },
   },

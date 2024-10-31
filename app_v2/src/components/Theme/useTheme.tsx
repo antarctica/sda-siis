@@ -19,6 +19,7 @@ export function useTheme() {
     document.body.classList.remove('light', 'dark');
     document.body.classList.add(theme);
     document.body.setAttribute('data-color-mode', theme);
+    document.documentElement.style.colorScheme = theme;
   }, [theme]);
 
   const toggle = () => {

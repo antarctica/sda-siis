@@ -12,7 +12,7 @@ import { decimalToDMS } from '@/utils/formatCoordinates';
 
 import SvgIcon from '../common/SvgIcon';
 import Typography from '../common/Typography';
-import StatusBadge from './StatusBadge';
+import ShipSensorStatusBadge from './ShipSensorStatusBadge';
 
 function PositionInfo() {
   const {
@@ -34,7 +34,7 @@ function PositionInfo() {
           </Typography>
         </>
       ) : (
-        <StatusBadge variant="error">No position data</StatusBadge>
+        <ShipSensorStatusBadge variant="error">No position data</ShipSensorStatusBadge>
       )}
       <Toolbar
         aria-label="Ship position toolbar"

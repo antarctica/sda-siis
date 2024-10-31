@@ -3,6 +3,8 @@ import * as React from 'react';
 
 import Typography from '../Typography';
 
+export type BadgeVariant = 'error' | 'info' | 'warning' | 'success' | 'grey';
+
 const badgeRecipe = cva({
   base: {
     display: 'inline-block',
@@ -14,6 +16,8 @@ const badgeRecipe = cva({
       error: { bg: 'error.bg', color: 'error.fg' },
       info: { bg: 'info.bg', color: 'info.fg' },
       warning: { bg: 'warning.bg', color: 'warning.fg' },
+      success: { bg: 'success.bg', color: 'success.fg' },
+      grey: { bg: 'app.grey.8', color: 'app.grey.12' },
     },
   },
 });

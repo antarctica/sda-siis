@@ -6,6 +6,7 @@ import { useDrawSingleGraphic } from '@/arcgis/hooks/useDrawSingleGraphic';
 import { Button } from '@/components/common/Button';
 import { DatePicker, DateRangePicker } from '@/components/common/forms/DatePicker';
 import TextField from '@/components/common/forms/TextField/TextField';
+import { LayerStatusCircle } from '@/components/LayerStatus';
 import { Select, SelectItem } from '@/components/Select/Select';
 import { useSIISMapView } from '@/hooks/useMap';
 
@@ -23,6 +24,13 @@ function Drawing() {
       </Select>
       <DatePicker label="Select a date" maxValue={today('UTC')} />
       <DateRangePicker label="Select a date range" maxRange={{ months: 1 }} />
+      <Flex gap="2">
+        <LayerStatusCircle status="offline" />
+        <LayerStatusCircle status="online" />
+        <LayerStatusCircle status="loading" />
+        <LayerStatusCircle status="static" />
+        <LayerStatusCircle status="outdated" />
+      </Flex>
     </Flex>
   );
 }

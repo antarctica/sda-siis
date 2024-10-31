@@ -58,18 +58,8 @@ export function Map() {
         }),
       });
 
-      addLayer(map, {
-        layerData: null,
-        layerId: 'reference',
-        layerName: 'Reference',
-        layerType: 'layerGroup',
-        parentId: null,
-      });
-
       // get the layers that should be shown on startup, sorted by default_z descending
-      const initialLayerConfig = data
-        .filter((product) => product.show_on_startup)
-        .sort((a, b) => (b.default_z ?? 0) - (a.default_z ?? 0));
+      const initialLayerConfig = data.sort((a, b) => (b.default_z ?? 0) - (a.default_z ?? 0));
 
       for (const layerConfig of initialLayerConfig) {
         const ogcType = ogcPriority(layerConfig.types as OGCType[]);
@@ -77,11 +67,12 @@ export function Map() {
           const newLayer = createLayer(layerConfig, ogcType);
           if (newLayer) {
             addLayer(map, {
-              layerData: newLayer,
+              layerData: { mapLayer: newLayer, mapProduct: layerConfig },
               layerId: layerConfig?.label ?? '',
               layerName: layerConfig?.label ?? '',
               layerType: 'layer',
-              parentId: 'reference',
+              visible: layerConfig.show_on_startup ?? false,
+              parentId: null,
             });
           }
         }

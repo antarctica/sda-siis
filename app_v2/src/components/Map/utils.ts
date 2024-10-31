@@ -1,9 +1,9 @@
 import Polygon from '@arcgis/core/geometry/Polygon';
+import WFSLayer from '@arcgis/core/layers/WFSLayer';
 import WMSLayer from '@arcgis/core/layers/WMSLayer';
 import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
 
-import { OGCType } from '@/types';
-import { components } from '@/types/api';
+import { MapProduct, OGCType } from '@/types';
 
 // Prevent scrolling beyond the southern and northern poles on
 // web mercator maps
@@ -32,9 +32,7 @@ export function ogcPriority(ogcTypes: OGCType[]): OGCType | undefined {
   );
 }
 
-type LayerProps = components['schemas']['product'];
-
-export function createWMTSLayer(layer: LayerProps) {
+export function createWMTSLayer(layer: MapProduct) {
   return new WMTSLayer({
     url: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wmtsendpoint}`,
     activeLayer: {
@@ -43,10 +41,11 @@ export function createWMTSLayer(layer: LayerProps) {
     },
     title: layer.label,
     copyright: layer.attribution,
+    visible: layer.show_on_startup ?? false,
   });
 }
 
-export function createWMSLayer(layer: LayerProps) {
+export function createWMSLayer(layer: MapProduct) {
   return new WMSLayer({
     url: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wmsendpoint}`,
     title: layer.label,
@@ -62,10 +61,20 @@ export function createWMSLayer(layer: LayerProps) {
       wkid: 3031,
     },
     copyright: layer.attribution,
+    visible: layer.show_on_startup ?? false,
   });
 }
 
-export function createLayer(layer: LayerProps, ogcType: OGCType) {
+export function createWFSLayer(layer: MapProduct) {
+  return new WFSLayer({
+    url: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wfsendpoint}`,
+    title: layer.label,
+    name: layer.gs_layername,
+    visible: layer.show_on_startup ?? false,
+  });
+}
+
+export function createLayer(layer: MapProduct, ogcType: OGCType) {
   if (ogcType === 'WMTS') {
     return createWMTSLayer(layer);
   } else if (ogcType === 'WMS') {

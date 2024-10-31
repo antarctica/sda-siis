@@ -66,7 +66,7 @@ function AppContent() {
   return (
     <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
       <Header />
-      <Flex w={'full'} flexGrow={1}>
+      <Flex w={'full'} flexGrow={1} minH={'0'}>
         {isMobile ? <Drawer /> : <Sidebar />}
         <Map />
       </Flex>

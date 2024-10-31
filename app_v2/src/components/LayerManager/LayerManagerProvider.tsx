@@ -3,9 +3,11 @@ import { createActorContext } from '@xstate/react';
 import React from 'react';
 import { assertEvent } from 'xstate';
 
+import { MapProduct } from '@/types';
+
 import { createLayerManagerMachine } from './machines/layerManagerMachine';
 
-export type LayerData = __esri.Layer | null;
+export type LayerData = { mapLayer: __esri.Layer | null; mapProduct: MapProduct } | null;
 
 export const LayerManagerContext = createActorContext(createLayerManagerMachine<LayerData>());
 
@@ -19,8 +21,8 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
             const { layerId, visible } = event;
             const { layers } = context;
             const layer = layers.find((layer) => layer.layerActor.id === layerId);
-            if (layer && layer.layerData) {
-              layer.layerData.set('visible', visible);
+            if (layer && layer.layerData?.mapLayer) {
+              layer.layerData.mapLayer.set('visible', visible);
             }
           },
           'Update layer opacity': ({ event, context }) => {
@@ -28,8 +30,8 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
             const { layerId, opacity } = event;
             const { layers } = context;
             const layer = layers.find((layer) => layer.layerActor.id === layerId);
-            if (layer && layer.layerData) {
-              layer.layerData.set('opacity', opacity);
+            if (layer && layer.layerData?.mapLayer) {
+              layer.layerData.mapLayer.set('opacity', opacity);
             }
           },
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,8 +44,8 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
 
             for (const [index, layerId] of mapLayerOrder.entries()) {
               const layer = context.layers.find((layer) => layer.layerActor.id === layerId);
-              if (layer?.layerData) {
-                const mapLayer = layer.layerData;
+              if (layer && layer.layerData?.mapLayer) {
+                const { mapLayer } = layer.layerData;
                 if (mapLayer.parent instanceof EsriMap) {
                   console.log('reordering', mapLayer, index);
                   const parent = mapLayer.parent as __esri.Map;

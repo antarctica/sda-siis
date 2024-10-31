@@ -2,7 +2,7 @@ import { css } from '@styled-system/css';
 
 import Badge from '@/components/common/Badge';
 
-function StatusBadge({
+function ShipSensorStatusBadge({
   variant,
   children,
 }: {
@@ -16,4 +16,4 @@ function StatusBadge({
   );
 }
 
-export default StatusBadge;
+export default ShipSensorStatusBadge;

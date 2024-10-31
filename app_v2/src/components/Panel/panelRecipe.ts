@@ -16,8 +16,8 @@ export const panelStyles = sva({
     layout: {
       display: 'flex',
       flexDirection: 'column',
-      overflowY: 'auto',
       overflowX: 'hidden',
+      h: 'full',
     },
     header: {
       p: '3',
@@ -30,6 +30,9 @@ export const panelStyles = sva({
     },
     panelContent: {
       p: '4',
+      flexGrow: 1,
+      overflowY: 'auto',
+      minH: '0',
     },
   },
 });
