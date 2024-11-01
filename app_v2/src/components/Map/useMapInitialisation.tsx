@@ -4,17 +4,27 @@ import React from 'react';
 
 import { useProducts } from '@/api/useProducts';
 import { useAddLayer } from '@/components/LayerManager/hooks/useAddLayer';
-import { useResetLayers } from '@/components/LayerManager/hooks/useResetLayers';
 import { LayerTimeInfo } from '@/components/LayerManager/machines/types';
 import { createLayer, ogcPriority } from '@/components/Map/utils';
 import { OGCType } from '@/types';
 
+import { useTheme } from '../Theme';
+
 export function useMapInitialization() {
   const [map, setMap] = React.useState<EsriMap>();
+  const mapRef = React.useRef<EsriMap>();
+
+  const theme = useTheme();
+
   const addLayer = useAddLayer();
-  const resetLayers = useResetLayers();
+
   const { data } = useProducts();
   React.useEffect(() => {
+    if (mapRef.current) {
+      // map already initialized
+      return;
+    }
+
     if (data) {
       const map = new EsriMap({
         basemap: new Basemap({
@@ -33,8 +43,6 @@ export function useMapInitialization() {
       for (const layerConfig of initialLayerConfig) {
         const ogcType = ogcPriority(layerConfig.types as OGCType[]);
         if (ogcType) {
-          const newLayer = createLayer(layerConfig, ogcType);
-
           let timeInfo: LayerTimeInfo | undefined;
 
           if (!layerConfig.static) {
@@ -46,6 +54,7 @@ export function useMapInitialization() {
               };
             }
           }
+          const newLayer = createLayer(layerConfig, ogcType, theme.currentTheme, timeInfo);
 
           if (newLayer) {
             addLayer(map, {
@@ -61,12 +70,10 @@ export function useMapInitialization() {
         }
       }
 
+      mapRef.current = map;
       setMap(map);
-      return () => {
-        resetLayers();
-      };
     }
-  }, [addLayer, data, resetLayers]);
+  }, [addLayer, data, theme]);
 
   return map;
 }

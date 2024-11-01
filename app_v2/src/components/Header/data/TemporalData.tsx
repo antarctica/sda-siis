@@ -16,14 +16,16 @@ export function TemporalData() {
       data={[
         {
           label: 'UTC',
-          value: <DateTime date={time} dateStyle="medium" timeStyle="medium" timeZone="UTC" />,
+          value: (
+            <DateTime date={time.toDate()} dateStyle="medium" timeStyle="medium" timeZone="UTC" />
+          ),
         },
         {
           label: 'LOCAL',
           value: (
             <>
               <DateTime
-                date={time}
+                date={time.toDate()}
                 dateStyle="medium"
                 timeStyle="medium"
                 timeZone="UTC"

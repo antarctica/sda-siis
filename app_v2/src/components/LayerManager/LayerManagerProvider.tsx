@@ -1,4 +1,5 @@
 import EsriMap from '@arcgis/core/Map';
+import TimeExtent from '@arcgis/core/TimeExtent';
 import { createActorContext } from '@xstate/react';
 import React from 'react';
 import { assertEvent } from 'xstate';
@@ -6,6 +7,7 @@ import { assertEvent } from 'xstate';
 import { MapProduct } from '@/types';
 
 import { createLayerManagerMachine } from './machines/layerManagerMachine';
+import { isSingleTimeInfo } from './machines/types';
 
 export type LayerData = { mapLayer: __esri.Layer | null; mapProduct: MapProduct } | null;
 
@@ -52,6 +54,25 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
                   parent.reorder(mapLayer, index);
                   console.log(parent.allLayers.toArray().map((layer) => layer.title));
                 }
+              }
+            }
+          },
+          'Update layer time info': ({ event, context }) => {
+            assertEvent(event, 'LAYER.UPDATE_TIME_INFO');
+            const { layerId, timeInfo } = event;
+            const layer = context.layers.find((layer) => layer.layerActor.id === layerId);
+            if (layer && layer.layerData?.mapLayer) {
+              if (isSingleTimeInfo(timeInfo)) {
+                // generate a range over the entire day of the timeInfo.value
+                const start = new Date(timeInfo.value);
+                start.setHours(0, 0, 0, 0);
+                const end = new Date(timeInfo.value);
+                end.setHours(23, 59, 59, 999);
+                const timeExtent = new TimeExtent({
+                  start,
+                  end,
+                });
+                layer.layerData.mapLayer.set('timeExtent', timeExtent);
               }
             }
           },

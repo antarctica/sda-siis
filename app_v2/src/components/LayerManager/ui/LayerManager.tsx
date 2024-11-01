@@ -36,7 +36,7 @@ function LayerManager() {
             }
             return <LayerItem {...(layer as ManagedLayer<LayerData>)} key={layer.layerActor.id} />;
           })
-          .reverse()}{' '}
+          .reverse()}
       </ul>
     </Accordion.Root>
   );

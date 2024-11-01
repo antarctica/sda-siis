@@ -13,10 +13,12 @@ import { LayerMachineActor } from '../machines/types';
 //   there be some way of disambiguating between granules?
 
 function LayerDatePicker({
+  isDisabled,
   siisCode,
   layerActor,
   defaultValue,
 }: {
+  isDisabled: boolean;
   siisCode: string;
   layerActor: LayerMachineActor;
   defaultValue?: Date;
@@ -59,6 +61,7 @@ function LayerDatePicker({
     <DatePicker
       label="Select Date"
       navButtonsEnabled
+      isDisabled={isDisabled}
       maxValue={maxDate}
       defaultValue={defaultValue ? fromDate(defaultValue, 'UTC') : undefined}
       validDates={dateValues}

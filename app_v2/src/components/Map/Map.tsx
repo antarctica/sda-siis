@@ -12,6 +12,7 @@ import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import ScaleControl from './map-controls/ScaleControl';
 import ZoomControl from './map-controls/ZoomControl';
+import { SynchroniseLayerTheme } from './synchronisation/SynchroniseLayerTheme';
 import { useMapInitialization } from './useMapInitialisation';
 
 const mapStyles = cva({
@@ -61,6 +62,7 @@ export function Map() {
             </Flex>
           </ArcgisPlacement>
           <ShipPositionMapLayer />
+          <SynchroniseLayerTheme />
         </ArcMapView>
       )}
     </Box>

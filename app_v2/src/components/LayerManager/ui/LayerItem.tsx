@@ -9,7 +9,7 @@ import { LayerStatusBadge, LayerStatusCircle } from '@/components/LayerStatus';
 import { LayerStatus } from '@/types';
 
 import { LayerData } from '../LayerManagerProvider';
-import { ManagedLayer } from '../machines/types';
+import { isSingleTimeInfo, ManagedLayer } from '../machines/types';
 import LayerDatePicker from './LayerDatePicker';
 
 function getLayerStatus(layerData: LayerData): LayerStatus {
@@ -54,8 +54,9 @@ export function LayerItem({ layerActor, layerData }: ManagedLayer<LayerData>) {
           <LayerStatusBadge status={status} />
         </Flex>
       </Checkbox>
-      {timeInfo && timeInfo.type === 'single' && (
+      {isSingleTimeInfo(timeInfo) && (
         <LayerDatePicker
+          isDisabled={!isEnabled}
           siisCode={layerData?.mapProduct?.code ?? ''}
           layerActor={layerActor}
           defaultValue={timeInfo.value}

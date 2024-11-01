@@ -105,6 +105,7 @@ export function DatePicker({
         changeValue={changeValue}
         value={value}
         validDates={validDates}
+        isDisabled={props.isDisabled}
       />
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
@@ -146,11 +147,13 @@ function DatePickerInputGroup({
   changeValue,
   value,
   validDates,
+  isDisabled,
 }: {
   navButtonsEnabled?: boolean;
   changeValue: (value: DateValue) => void;
   value: DatePickerProps['value'];
   validDates?: DateValue[];
+  isDisabled?: boolean;
 }) {
   const orderedValidDates = React.useMemo(() => {
     if (validDates) {
@@ -166,7 +169,7 @@ function DatePickerInputGroup({
     return orderedValidDates.findIndex((date) => isSameDay(date, value));
   }, [value, orderedValidDates]);
 
-  const navDisabled = currentDateIndex === -1;
+  const navDisabled = currentDateIndex === -1 || isDisabled;
 
   return (
     <FieldGroup
@@ -228,6 +231,7 @@ function DatePickerInputGroup({
           aria-label="Open calendar"
           size="md"
           variant="surface"
+          isDisabled={isDisabled}
         />
       </Flex>
     </FieldGroup>

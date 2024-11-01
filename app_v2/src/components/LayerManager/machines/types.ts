@@ -25,20 +25,30 @@ export interface LayerGroupConfig<T> extends BaseLayerConfig<T> {
 }
 
 // Time-related types
-export type LayerTimeInfo = {
-  type: 'single' | 'range';
+export interface SingleTimeInfo extends BaseTimeInfo {
+  type: 'single';
+  value: Date;
+}
+
+export function isSingleTimeInfo(timeInfo?: LayerTimeInfo): timeInfo is SingleTimeInfo {
+  return timeInfo?.type === 'single';
+}
+
+export interface RangeTimeInfo extends BaseTimeInfo {
+  type: 'range';
+  start: Date;
+  end: Date;
+}
+
+export function isRangeTimeInfo(timeInfo?: LayerTimeInfo): timeInfo is RangeTimeInfo {
+  return timeInfo?.type === 'range';
+}
+
+export interface BaseTimeInfo {
   precision: 'date' | 'datetime';
-} & (
-  | {
-      type: 'single';
-      value: Date;
-    }
-  | {
-      type: 'range';
-      start: Date;
-      end: Date;
-    }
-);
+}
+
+export type LayerTimeInfo = BaseTimeInfo & (SingleTimeInfo | RangeTimeInfo);
 
 // Context types
 export interface LayerContextBase {

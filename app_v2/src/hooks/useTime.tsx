@@ -1,19 +1,20 @@
+import { now } from '@internationalized/date';
 import React from 'react';
 import { useInterval } from 'usehooks-ts';
 
 function useTime(refreshCycle = 1000) {
-  const [time, setTime] = React.useState(new Date());
+  const [time, setTime] = React.useState(() => now('UTC'));
 
   useInterval(() => {
-    setTime(new Date());
+    setTime(now('UTC'));
   }, refreshCycle);
 
   // Sync with system clock on first render
   React.useEffect(() => {
-    const now = new Date();
-    const timeToNextSecond = 1000 - now.getMilliseconds();
+    const currentTime = now('UTC');
+    const timeToNextSecond = 1000 - currentTime.millisecond;
     const timer = setTimeout(() => {
-      setTime(new Date());
+      setTime(now('UTC'));
     }, timeToNextSecond);
 
     return () => clearTimeout(timer);

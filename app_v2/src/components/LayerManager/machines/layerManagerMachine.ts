@@ -238,6 +238,15 @@ export function createLayerManagerMachine<T>() {
           }),
         },
       },
+      'LAYER.UPDATE_TIME_INFO': {
+        actions: {
+          type: 'Update layer time info',
+          params: ({ event }) => ({
+            layerId: event.layerId,
+            timeInfo: event.timeInfo,
+          }),
+        },
+      },
       'LAYER.ADD': {
         actions: ['Add new layer', 'Raise layer order changed'],
       },

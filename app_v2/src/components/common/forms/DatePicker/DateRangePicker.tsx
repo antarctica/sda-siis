@@ -23,9 +23,6 @@ import { CalandarPopUp } from './Calendar';
 import { DateInput } from './DateField';
 import { RangeCalendar } from './RangeCalendar';
 
-export type RangeValue =
-  | { start: DateValue; end: DateValue }
-  | { start: DateValue; end: DateValue; timezone: string };
 export interface DateRangePickerProps extends AriaDateRangePickerProps<DateValue> {
   label?: string;
   description?: string;

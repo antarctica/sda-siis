@@ -3,7 +3,7 @@ import { useTernaryDarkMode } from 'usehooks-ts';
 
 import { ThemeContext } from './ThemeContext';
 
-type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark';
 
 const THEME_STORAGE_KEY = `${import.meta.env.VITE_CACHE_ID}:theme`;
 
