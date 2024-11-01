@@ -24,8 +24,9 @@ export const GLOBAL_EXTENT = new Polygon({
 
 export function ogcPriority(ogcTypes: OGCType[]): OGCType | undefined {
   // return the most preferrable OGC type
-  // priority order: WMTS, WMS, WFS
+  // priority order: WMS-T, WMTS, WMS, WFS
   return (
+    ogcTypes.find((ogcType) => ogcType === 'WMS-T') ??
     ogcTypes.find((ogcType) => ogcType === 'WMTS') ??
     ogcTypes.find((ogcType) => ogcType === 'WMS') ??
     ogcTypes.find((ogcType) => ogcType === 'WFS')
@@ -75,9 +76,13 @@ export function createWFSLayer(layer: MapProduct) {
 }
 
 export function createLayer(layer: MapProduct, ogcType: OGCType) {
-  if (ogcType === 'WMTS') {
-    return createWMTSLayer(layer);
-  } else if (ogcType === 'WMS') {
-    return createWMSLayer(layer);
+  switch (ogcType) {
+    case 'WMTS':
+      return createWMTSLayer(layer);
+    case 'WMS':
+    case 'WMS-T':
+      return createWMSLayer(layer);
+    case 'WFS':
+      return createWFSLayer(layer);
   }
 }

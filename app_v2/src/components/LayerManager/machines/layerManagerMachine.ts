@@ -4,24 +4,23 @@ import { layerGroupMachine } from './layers/layerGroupMachine';
 import { layerMachine } from './layers/layerMachine';
 import {
   isLayerGroupMachine,
-  LayerActor,
   LayerGroupContext,
   LayerGroupMachineActor,
   LayerManagerEvent,
   LayerTimeInfo,
-  MapLayer,
+  ManagedItem,
   ParentLayerActor,
 } from './types';
 import { getFlatLayerOrder, updateLayerOrder } from './utils';
 
 interface LayerManagerContext<T> {
-  layers: MapLayer<T>[];
+  layers: ManagedItem<T>[];
   childLayerOrder: string[];
   allowNestedGroupLayers: boolean;
 }
 
 function findParentLayerGroupActor<T>(
-  layers: MapLayer<T>[],
+  layers: ManagedItem<T>[],
   parentId: string,
 ): LayerGroupMachineActor | null {
   const layer = layers.find((layer) => layer.layerActor.id === parentId);
@@ -34,8 +33,8 @@ function findParentLayerGroupActor<T>(
 }
 
 function addLayerToParent<T>(
-  layers: MapLayer<T>[],
-  newLayer: MapLayer<T>,
+  layers: ManagedItem<T>[],
+  newLayer: ManagedItem<T>,
   parentRef: ParentLayerActor,
   index?: number,
   position?: 'top' | 'bottom',
@@ -47,8 +46,8 @@ function addLayerToParent<T>(
 }
 
 function addLayerToTopLevel<T>(
-  layers: MapLayer<T>[],
-  newLayer: MapLayer<T>,
+  layers: ManagedItem<T>[],
+  newLayer: ManagedItem<T>,
   childLayerOrder: string[],
   index?: number,
   position?: 'top' | 'bottom',
@@ -103,9 +102,9 @@ export function createLayerManagerMachine<T>() {
           return {};
         }
 
-        let newLayer: LayerActor;
+        let newManagedLayer: ManagedItem<T>;
         if (layerConfig.layerType === 'layerGroup') {
-          newLayer = spawn('layerGroupMachine', {
+          const newLayer = spawn('layerGroupMachine', {
             id: layerConfig.layerId,
             input: {
               layerManagerRef: self,
@@ -113,8 +112,13 @@ export function createLayerManagerMachine<T>() {
               ...layerConfig,
             },
           });
+          newManagedLayer = {
+            type: 'layerGroup',
+            layerData: layerConfig.layerData,
+            layerActor: newLayer,
+          };
         } else {
-          newLayer = spawn('layerMachine', {
+          const newLayer = spawn('layerMachine', {
             id: layerConfig.layerId,
             input: {
               layerManagerRef: self,
@@ -122,33 +126,20 @@ export function createLayerManagerMachine<T>() {
               ...layerConfig,
             },
           });
+          newManagedLayer = {
+            type: 'layer',
+            layerData: layerConfig.layerData,
+            layerActor: newLayer,
+          };
         }
 
         if (visible === true) {
-          newLayer.send({ type: 'LAYER.ENABLED' });
+          newManagedLayer.layerActor.send({ type: 'LAYER.ENABLED' });
         }
 
         return parentRef
-          ? addLayerToParent(
-              context.layers,
-              {
-                layerData: layerConfig.layerData,
-                layerActor: newLayer,
-              },
-              parentRef,
-              index,
-              position,
-            )
-          : addLayerToTopLevel(
-              context.layers,
-              {
-                layerData: layerConfig.layerData,
-                layerActor: newLayer,
-              },
-              childLayerOrder,
-              index,
-              position,
-            );
+          ? addLayerToParent(context.layers, newManagedLayer, parentRef, index, position)
+          : addLayerToTopLevel(context.layers, newManagedLayer, childLayerOrder, index, position);
       }),
       'Remove layer': assign(({ context, event }) => {
         assertEvent(event, 'LAYER.REMOVE');

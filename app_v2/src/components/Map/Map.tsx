@@ -1,25 +1,18 @@
 /* eslint-disable @pandacss/no-hardcoded-color */
-import Basemap from '@arcgis/core/Basemap';
-import EsriMap from '@arcgis/core/Map';
 import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { cva } from '@styled-system/css';
 import { Box, Flex } from '@styled-system/jsx';
-import React from 'react';
 
-import { useAPI } from '@/api/api';
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import { MAP_ID } from '@/config/constants';
 import useIsMobile from '@/hooks/useIsMobile';
-import { OGCType } from '@/types';
 
-import { useAddLayer } from '../LayerManager/hooks/useAddLayer';
-import { useResetLayers } from '../LayerManager/hooks/useResetLayers';
 import ShipPositionMapLayer from '../ShipPositionMapLayer';
 import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import ScaleControl from './map-controls/ScaleControl';
 import ZoomControl from './map-controls/ZoomControl';
-import { createLayer, ogcPriority } from './utils';
+import { useMapInitialization } from './useMapInitialisation';
 
 const mapStyles = cva({
   base: {
@@ -38,53 +31,7 @@ const mapStyles = cva({
 });
 
 export function Map() {
-  const [map, setMap] = React.useState<EsriMap>();
-  const addLayer = useAddLayer();
-  const resetLayers = useResetLayers();
-  const { data } = useAPI('/products', {
-    params: {
-      query: { hemi: 'S' },
-    },
-  });
-
-  React.useEffect(() => {
-    if (data) {
-      const map = new EsriMap({
-        basemap: new Basemap({
-          baseLayers: [],
-          spatialReference: {
-            wkid: 3031,
-          },
-        }),
-      });
-
-      // get the layers that should be shown on startup, sorted by default_z descending
-      const initialLayerConfig = data.sort((a, b) => (b.default_z ?? 0) - (a.default_z ?? 0));
-
-      for (const layerConfig of initialLayerConfig) {
-        const ogcType = ogcPriority(layerConfig.types as OGCType[]);
-        if (ogcType) {
-          const newLayer = createLayer(layerConfig, ogcType);
-          if (newLayer) {
-            addLayer(map, {
-              layerData: { mapLayer: newLayer, mapProduct: layerConfig },
-              layerId: layerConfig?.label ?? '',
-              layerName: layerConfig?.label ?? '',
-              layerType: 'layer',
-              visible: layerConfig.show_on_startup ?? false,
-              parentId: null,
-            });
-          }
-        }
-      }
-
-      setMap(map);
-      return () => {
-        resetLayers();
-      };
-    }
-  }, [data, addLayer, resetLayers]);
-
+  const map = useMapInitialization();
   const isMobile = useIsMobile();
 
   return (

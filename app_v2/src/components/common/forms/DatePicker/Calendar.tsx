@@ -54,7 +54,8 @@ const calandarCellRecipe = cva({
     },
     isUnavailable: {
       true: {
-        color: 'fg.muted',
+        opacity: '0.5',
+        color: 'error.fg',
         cursor: 'not-allowed',
         _hover: {
           bg: 'app.grey.a4',
@@ -227,7 +228,7 @@ export function CalendarGridHeader() {
 
 const calandarDialogRecipe = cva({
   base: {
-    borderColor: 'bg.base.border',
+    borderColor: 'app.accent',
     borderWidth: 'thin',
     borderStyle: 'solid',
     bg: 'bg.popover',

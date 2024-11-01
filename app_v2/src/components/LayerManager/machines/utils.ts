@@ -1,11 +1,11 @@
-import { LayerGroupContext, MapLayer } from './types';
+import { LayerGroupContext, ManagedItem } from './types';
 
 export function isValidLayerIndex(index: number, length: number): boolean {
   return index >= 0 && index <= length;
 }
 
 export function getFlatLayerOrder<T>(
-  layers: MapLayer<T>[],
+  layers: ManagedItem<T>[],
   topLevelLayerOrder: string[],
 ): string[] {
   const flatOrder: string[] = [];
@@ -53,9 +53,9 @@ export function updateLayerOrder(
 
 export function getTopLevelLayersInOrder<T>(
   layerOrder: string[],
-  layers: MapLayer<T>[],
-): MapLayer<T>[] {
+  layers: ManagedItem<T>[],
+): ManagedItem<T>[] {
   return layerOrder
     .map((layerId) => layers.find((l) => l.layerActor.id === layerId))
-    .filter((layer): layer is MapLayer<T> => layer !== undefined);
+    .filter((layer): layer is ManagedItem<T> => layer !== undefined);
 }

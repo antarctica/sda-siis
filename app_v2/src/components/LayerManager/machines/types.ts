@@ -105,10 +105,19 @@ export type LayerGroupMachineActor = ActorRefFrom<typeof layerGroupMachine>;
 export type LayerActor = LayerMachineActor | LayerGroupMachineActor;
 
 // Utility types
-export type MapLayer<T> = {
+export type ManagedLayer<T> = {
+  type: 'layer';
   layerData: T;
-  layerActor: LayerActor;
+  layerActor: LayerMachineActor;
 };
+
+export type ManagedLayerGroup<T> = {
+  type: 'layerGroup';
+  layerData: T;
+  layerActor: LayerGroupMachineActor;
+};
+
+export type ManagedItem<T> = ManagedLayer<T> | ManagedLayerGroup<T>;
 
 // Type guards
 export function isLayerMachine(layer: LayerActor): layer is LayerMachineActor {

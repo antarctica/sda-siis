@@ -3,8 +3,8 @@ import { createQueryHook } from 'swr-openapi';
 
 import { paths } from '@/types/api';
 
-const client = createClient<paths>({
+export const apiClient = createClient<paths>({
   baseUrl: import.meta.env.VITE_SERVICE_API_ENDPOINT,
 });
 
-export const useAPI = createQueryHook(client, 'api');
+export const useAPI = createQueryHook(apiClient, 'api');
