@@ -12,7 +12,7 @@ import { useShipBufferGraphic } from './useShipBufferGraphic';
 import { useShipLocationGraphic } from './useShipLocationGraphic';
 import { REF_ID_ATTRIBUTE } from './utils';
 
-function ShipPositionMapLayer() {
+function ShipPositionLayer() {
   const [graphicsLayer, setGraphicsLayer] = React.useState<__esri.GraphicsLayer>();
   const [featureLayer, setFeatureLayer] = React.useState<__esri.FeatureLayer>();
   const { latitude, longitude } = useShipPosition();
@@ -128,4 +128,4 @@ function ShipPositionMapLayer() {
   );
 }
 
-export default ShipPositionMapLayer;
+export default ShipPositionLayer;

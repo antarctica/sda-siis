@@ -6,7 +6,7 @@ import { CIMSymbol } from '@arcgis/core/symbols';
 import shipIcon from '/Ship.png?url';
 import { MapCRS } from '@/types';
 
-import { calculateCorrectedHeading, createSmoothScaledSymbolSize } from '../../utils/mapUtils';
+import { calculateCorrectedHeading, createSmoothScaledSymbolSize } from '../../../../utils/mapUtils';
 
 const SHIP_GRAPHIC_ID = 'ship-graphic';
 export const REF_ID_ATTRIBUTE = 'refId';

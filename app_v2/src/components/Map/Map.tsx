@@ -1,4 +1,5 @@
 /* eslint-disable @pandacss/no-hardcoded-color */
+import { SpatialReference } from '@arcgis/core/geometry';
 import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { cva } from '@styled-system/css';
 import { Box, Flex } from '@styled-system/jsx';
@@ -7,8 +8,9 @@ import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import { MAP_ID } from '@/config/constants';
 import useIsMobile from '@/hooks/useIsMobile';
 
-import ShipPositionMapLayer from '../ShipPositionMapLayer';
 import SensorInfo from '../ShipSensorInfo';
+import GraticuleLayer from './layers/GraticuleLayer';
+import ShipPositionLayer from './layers/ShipPositionLayer';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import MapRotationControl from './map-controls/MapRotationControl';
 import ScaleControl from './map-controls/ScaleControl';
@@ -65,7 +67,18 @@ export function Map() {
               {!isMobile && <CursorLocationControl />}
             </Flex>
           </ArcgisPlacement>
-          <ShipPositionMapLayer />
+          <ShipPositionLayer />
+          <GraticuleLayer
+            id="graticule-layer"
+            spatialReference={
+              new SpatialReference({
+                wkid: 3031,
+              })
+            }
+            opacity={0.5}
+            latitudeInterval={5}
+            maxLatitude={-50}
+          />
           <SynchroniseLayerTheme />
         </ArcMapView>
       )}
