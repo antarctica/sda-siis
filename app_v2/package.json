@@ -6,13 +6,15 @@
   "scripts": {
     "prepare": "panda codegen && cd .. && husky install app_v2/.husky",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && npm run build-docs",
     "lint": "eslint . --fix",
     "studio": "panda studio",
     "preview": "vite preview",
     "new-component": "new-component",
     "check-types": "tsc --noemit -p tsconfig.json",
-    "generate-api-types": "openapi-typescript ../api/api/siis_api.yml -o ./src/types/api.d.ts && npm run lint"
+    "generate-api-types": "openapi-typescript ../api/api/siis_api.yml -o ./src/types/api.d.ts && npm run lint",
+    "generate-docs": "openapi-to-md ../api/api/siis_api.yml ../docs/api.md",
+    "build-docs": "npm run generate-docs && jsonschema2md -d ./docs/schemas -o ./docs/api"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": "eslint --fix"
@@ -72,6 +74,7 @@
     "husky": "^8.0.0",
     "jsdom": "^24.0.0",
     "lint-staged": "^15.2.7",
+    "openapi-to-md": "^1.0.24",
     "openapi-typescript": "^7.4.1",
     "prettier": "^3.3.3",
     "typescript": "^5.6.3",
