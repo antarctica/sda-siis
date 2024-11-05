@@ -18,6 +18,9 @@ export interface GraticuleLayerProperties extends __esri.GraphicsLayerProperties
   lineWidth?: number;
 }
 
+const MIN_LATITUDE = -89;
+const MAX_LATITUDE = 89;
+
 @subclass('custom.GraticuleLayer')
 export class GraticuleLayer extends GraphicsLayer {
   @property()
@@ -70,10 +73,14 @@ export class GraticuleLayer extends GraphicsLayer {
   private createGraticule(): void {
     // Create latitude lines
     for (
-      let lat = Math.max(-89, this.minLatitude);
-      lat <= Math.min(89, this.maxLatitude);
-      lat += this.latitudeInterval
+      let lat = Math.max(MIN_LATITUDE, this.minLatitude);
+      lat <= Math.min(MAX_LATITUDE, this.maxLatitude);
+      lat += 1
     ) {
+      if (lat % this.latitudeInterval !== 0) {
+        continue;
+      }
+
       const points = [];
       for (let lon = -180; lon <= 180; lon += 1) {
         const point = new Point({
@@ -105,8 +112,8 @@ export class GraticuleLayer extends GraphicsLayer {
     for (let lon = -180; lon <= 180; lon += this.longitudeInterval) {
       const points = [];
       for (
-        let lat = Math.max(-89, this.minLatitude);
-        lat <= Math.min(89, this.maxLatitude);
+        let lat = Math.max(MIN_LATITUDE, this.minLatitude);
+        lat <= Math.min(MAX_LATITUDE, this.maxLatitude);
         lat += 1
       ) {
         const point = new Point({
