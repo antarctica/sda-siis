@@ -26,14 +26,21 @@ export function useShipLocationGraphic(
       currentMapView.goTo({ target });
     }
 
-    setOrUpdateShipGraphic(graphicsLayer, position, heading ?? 0, mapCRS, currentMapView.scale);
+    setOrUpdateShipGraphic(
+      graphicsLayer,
+      position,
+      heading ?? 0,
+      mapCRS,
+      currentMapView.rotation,
+      currentMapView.scale,
+    );
   }, [graphicsLayer, position, heading, mapCRS, currentMapView, followShip]);
 
   useWatchEffect(
-    () => currentMapView?.scale,
-    (scale) => {
-      if (graphicsLayer && position && scale) {
-        setOrUpdateShipGraphic(graphicsLayer, position, heading ?? 0, mapCRS, scale);
+    () => [currentMapView?.scale, currentMapView?.rotation],
+    ([scale, rotation]) => {
+      if (graphicsLayer && position && scale && rotation !== undefined) {
+        setOrUpdateShipGraphic(graphicsLayer, position, heading ?? 0, mapCRS, rotation, scale);
       }
     },
   );

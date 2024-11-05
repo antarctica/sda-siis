@@ -29,10 +29,11 @@ export function getShipSymbol(
   heading: number,
   mapCRS: MapCRS,
   scale: number,
+  mapRotation: number,
   minScale: number = 32,
   maxScale: number = 10,
 ) {
-  const symbolRotation = calculateCorrectedHeading(position, heading, mapCRS);
+  const symbolRotation = calculateCorrectedHeading(position, heading, mapCRS) + mapRotation;
   const clampedSize = createSmoothScaledSymbolSize(scale, minScale, maxScale);
   return new CIMSymbol({
     data: {
@@ -71,13 +72,14 @@ export function setOrUpdateShipGraphic(
   position: { latitude: number; longitude: number },
   heading: number,
   mapCRS: MapCRS,
+  mapRotation: number,
   scale: number,
 ) {
   const shipGraphic = graphicsLayer.graphics.find(
     (g) => g.getAttribute(REF_ID_ATTRIBUTE) === SHIP_GRAPHIC_ID,
   );
 
-  const shipSymbol = getShipSymbol(position, heading, mapCRS, scale);
+  const shipSymbol = getShipSymbol(position, heading, mapCRS, scale, mapRotation);
 
   if (shipGraphic) {
     // Update existing ship graphic

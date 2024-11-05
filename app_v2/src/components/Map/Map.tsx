@@ -10,6 +10,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import ShipPositionMapLayer from '../ShipPositionMapLayer';
 import SensorInfo from '../ShipSensorInfo';
 import CursorLocationControl from './map-controls/CursorLocationControl';
+import MapRotationControl from './map-controls/MapRotationControl';
 import ScaleControl from './map-controls/ScaleControl';
 import ZoomControl from './map-controls/ZoomControl';
 import { SynchroniseLayerTheme } from './synchronisation/SynchroniseLayerTheme';
@@ -49,7 +50,10 @@ export function Map() {
         >
           {!isMobile && (
             <ArcgisPlacement position="bottom-right">
-              <ZoomControl />
+              <Flex direction={'column'} gap={'2'} align={'end'}>
+                <MapRotationControl />
+                <ZoomControl />
+              </Flex>
             </ArcgisPlacement>
           )}
           <ArcgisPlacement position="top-right">

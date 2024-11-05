@@ -6,8 +6,8 @@ const mapButtonRecipe = cva({
   base: {
     bg: 'bg.base',
     md: {
-      w: '10',
-      h: '10',
+      w: '12',
+      h: '12',
     },
     mdDown: {
       w: '8',
