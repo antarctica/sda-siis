@@ -43,9 +43,9 @@ const tooltipRecipe = sva({
       _dark: {
         bg: 'bg.base',
         color: 'fg',
-        borderColor: 'fg.accent',
+        borderColor: 'app.accent',
       },
-      _light: { bg: 'siis_purple', borderColor: 'fg.accent', color: 'app.white', shadow: 'sm' },
+      _light: { bg: 'app.accent', borderColor: 'app.accent', color: 'app.white', shadow: 'sm' },
 
       '[data-placement="top"] &': {
         animationName: 'slideInBottom',
@@ -74,19 +74,17 @@ const tooltipRecipe = sva({
     },
     arrow: {
       '[data-placement=top] &': {
-        transform: 'rotate(180deg)',
+        transform: 'rotate(0deg) translate(0, -1px)',
       },
       '[data-placement="right"] &': {
-        transform: 'rotate(-90deg) translate(0, 5px)',
+        transform: 'rotate(90deg) translate(0, -1px)',
       },
       '[data-placement="bottom"] &': {
-        transform: 'rotate(0deg)',
+        transform: 'rotate(180deg) translate(0, -1px)',
       },
       '[data-placement="left"] &': {
-        transform: 'rotate(90deg) translate(0, 5px)',
+        transform: 'rotate(-90deg) translate(0, -1px)',
       },
-      _light: { fill: 'siis_purple' },
-      _dark: { fill: 'fg.accent' },
     },
   },
 });
@@ -99,21 +97,28 @@ export function Tooltip({ children, ...props }: TooltipProps) {
   }
   return (
     <AriaTooltip {...props} offset={10} className={root}>
-      <div className={container}>
-        <OverlayArrow>
-          <svg className={arrow} width="16" height="6" xmlns="http://www.w3.org/2000/svg">
-            <path
-              className={css({
-                _light: {
-                  filter: '[drop-shadow( 0 1px 2px rgb(0 0 0 / 0.1))]',
-                },
-              })}
-              d="M0 6s1.796-.013 4.67-3.615C5.851.9 6.93.006 8 0c1.07-.006 2.148.887 3.343 2.385C14.233 6.005 16 6 16 6H0z"
-            ></path>
-          </svg>
-        </OverlayArrow>
-        {children}
-      </div>
+      <div className={container}>{children}</div>{' '}
+      <OverlayArrow style={{ zIndex: 1000 }}>
+        <svg className={arrow} width={12} height={12} viewBox="0 0 8 8">
+          {/* Background triangle */}
+          <path
+            d="M0 0 L4 4 L8 0 Z"
+            className={css({
+              fill: 'app.accent',
+              _dark: { fill: 'bg.base' },
+            })}
+          />
+          {/* Angled sides only */}
+          <path
+            d="M0 0 L4 4 M4 4 L8 0"
+            className={css({
+              stroke: 'fg.accent',
+              strokeWidth: '1px',
+              _light: { display: 'none' },
+            })}
+          />
+        </svg>
+      </OverlayArrow>
     </AriaTooltip>
   );
 }
