@@ -83,6 +83,10 @@ export default {
       }
     },
 
+    beforeMount(){
+      this.getRecentRoutes();
+    },
+
     watch: {
       
       choose_polarroute_start: function () {
@@ -97,12 +101,16 @@ export default {
     },
 
     methods: {
+
+
       routeRequestConfig(){
         return {
           "start": {"latitude": this.polarroute_coords.start.lat, "longitude": this.polarroute_coords.start.lon},
           "end": {"latitude": this.polarroute_coords.end.lat, "longitude": this.polarroute_coords.end.lon},
         }
       },
+
+
       requestRoute: async function() {
         console.debug("requesting route")
         // Make initial post request to initiate route calculation
@@ -125,7 +133,7 @@ export default {
             console.debug("Setting interval")
 
             // set up periodic status request if route pending
-            route.status_handle = setInterval(function(){_this.requestStatus(route)}, 5000);
+            route.status_handle = setInterval(function(){_this.requestStatus(route)}, this.statusUpdateFrequency*1000);
           }
           _this.routes.push(route); // add route to list
         })
@@ -133,6 +141,8 @@ export default {
           console.error(error);
         })
       },
+
+
       requestStatus: async function (route) {
         console.debug("requesting route status: " + route.status_url)
         await axios.get(route.status_url)
@@ -141,6 +151,10 @@ export default {
             route.status = response.data.status;
             if (Object.hasOwn(response.data, "json") && response.data.status == "SUCCESS"){
               route.json = response.data.json;
+            }
+
+            if (Object.hasOwn(response.data, "json_unsmoothed")){
+              route.json = response.data.json_unsmoothed;
             }
 
             if (Object.hasOwn(response.data, "error") && response.data.status == "FAILURE"){
@@ -153,7 +167,19 @@ export default {
             }
           })
           .catch(error => console.error(error))
-      }
+      },
+
+
+      getRecentRoutes: async function () {
+        let _this = this;
+        console.debug("requesting recent routes")
+        await axios.get('http://localhost:8000/api/recent_routes')
+        .then(function (response){
+            console.debug(response.data)
+            _this.routes = response.data;
+          })
+          .catch(error => console.error(error))
+      },
     }
 }
 </script>
