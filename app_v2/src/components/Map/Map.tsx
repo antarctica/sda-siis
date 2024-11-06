@@ -69,9 +69,11 @@ export function Map() {
           <ShipPositionLayer />
           <LabelledGraticuleLayer
             id="graticule-layer"
-            opacity={0.5}
-            latitudeInterval={5}
-            maxLatitude={-50}
+            opacity={0.75}
+            graticuleBounds={{
+              minLatitude: -89,
+              maxLatitude: -50,
+            }}
           />
           <SynchroniseLayerTheme />
         </ArcMapView>

@@ -1,4 +1,5 @@
 /* eslint-disable react/no-is-mounted */
+import Color from '@arcgis/core/Color';
 import { property, subclass } from '@arcgis/core/core/accessorSupport/decorators';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import { SpatialReference } from '@arcgis/core/geometry';
@@ -10,30 +11,51 @@ import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
 import MapView from '@arcgis/core/views/MapView';
 
 export interface LabelledGraticuleLayerProperties extends __esri.FeatureLayerProperties {
-  latitudeInterval?: number;
-  longitudeInterval?: number;
-  minLatitude?: number;
-  maxLatitude?: number;
-  lineColor?: number[];
-  lineWidth?: number;
-  labelColor?: number[];
-  scaleIntervals?: {
-    minScale: number;
-    maxScale: number;
-    latInterval: number;
-    lonInterval: number;
-  }[];
+  graticuleBounds?: GraticuleBounds;
+  graticuleStyle?: {
+    line?: {
+      color?: __esri.Color;
+      width?: number;
+    };
+    label?: {
+      color?: __esri.Color;
+      font?: {
+        family?: string;
+        size?: number;
+      };
+      haloColor?: __esri.Color;
+      haloSize?: number;
+    };
+  };
+  scaleIntervals?: ScaleInterval[];
 }
 
-const MIN_LATITUDE = -89;
-const MAX_LATITUDE = 89;
+type GraticuleBounds = {
+  minLatitude: number;
+  maxLatitude: number;
+};
 
-const DEFAULT_SCALE_INTERVALS: {
+type GraticuleStyle = {
+  line: { color: __esri.Color; width: number };
+  label: {
+    color: __esri.Color;
+    font: { family: string; size: number };
+    haloColor: __esri.Color;
+    haloSize: number;
+  };
+};
+
+type ScaleInterval = {
   minScale: number;
   maxScale: number;
   latInterval: number;
   lonInterval: number;
-}[] = [
+};
+
+const MIN_LATITUDE = -89;
+const MAX_LATITUDE = 89;
+
+const DEFAULT_SCALE_INTERVALS = [
   {
     minScale: Infinity,
     maxScale: 20000000,
@@ -60,134 +82,232 @@ const DEFAULT_SCALE_INTERVALS: {
   },
 ];
 
+/**
+ * Initialize properties for the LabelledGraticuleLayer
+ * @param properties - The properties to initialize
+ * @returns The initialized properties
+ */
+function initializeProperties(properties?: LabelledGraticuleLayerProperties): {
+  graticuleBounds: GraticuleBounds;
+  graticuleStyle: GraticuleStyle;
+  scaleIntervals: ScaleInterval[];
+} {
+  // Initialize graticuleBounds
+  const graticuleBounds = {
+    minLatitude: properties?.graticuleBounds?.minLatitude ?? MIN_LATITUDE,
+    maxLatitude: properties?.graticuleBounds?.maxLatitude ?? MAX_LATITUDE,
+  };
+
+  // Initialize style
+  const graticuleStyle = {
+    line: {
+      color: properties?.graticuleStyle?.line?.color ?? new Color([128, 128, 128, 1]),
+      width: properties?.graticuleStyle?.line?.width ?? 1,
+    },
+    label: {
+      color: properties?.graticuleStyle?.label?.color ?? new Color([196, 196, 196, 1]),
+      font: {
+        family: properties?.graticuleStyle?.label?.font?.family ?? 'sans-serif',
+        size: properties?.graticuleStyle?.label?.font?.size ?? 9,
+      },
+      haloColor: properties?.graticuleStyle?.label?.haloColor ?? new Color([0, 0, 0, 0.7]),
+      haloSize: properties?.graticuleStyle?.label?.haloSize ?? 0.1,
+    },
+  };
+
+  // Initialize scaleIntervals
+  const scaleIntervals = properties?.scaleIntervals ?? DEFAULT_SCALE_INTERVALS;
+
+  return { graticuleBounds, graticuleStyle, scaleIntervals };
+}
+
+/**
+ * Generate features for the LabelledGraticuleLayer
+ * @param graticuleBounds - The graticule bounds
+ * @param scaleIntervals - The scale intervals
+ * @returns The generated features
+ */
+function generateFeatures(
+  graticuleBounds: { minLatitude: number; maxLatitude: number },
+  scaleIntervals: {
+    minScale: number;
+    maxScale: number;
+    latInterval: number;
+    lonInterval: number;
+  }[],
+): Graphic[] {
+  const features: Graphic[] = [];
+  let objectId = 1;
+
+  const minLat = Math.max(MIN_LATITUDE, graticuleBounds.minLatitude);
+  const maxLat = Math.min(MAX_LATITUDE, graticuleBounds.maxLatitude);
+
+  scaleIntervals.forEach(({ latInterval, lonInterval }) => {
+    // Generate latitude lines
+    const latitudeFeatures = generateLatitudeLines(
+      latInterval,
+      lonInterval,
+      minLat,
+      maxLat,
+      objectId,
+    );
+    features.push(...latitudeFeatures);
+    objectId += latitudeFeatures.length;
+
+    // Generate longitude lines
+    const longitudeFeatures = generateLongitudeLines(
+      latInterval,
+      lonInterval,
+      minLat,
+      maxLat,
+      objectId,
+    );
+    features.push(...longitudeFeatures);
+    objectId += longitudeFeatures.length;
+  });
+
+  return features;
+}
+
+/**
+ * Generate latitude lines for the LabelledGraticuleLayer
+ * @param latInterval - The latitude interval
+ * @param lonInterval - The longitude interval
+ * @param minLat - The minimum latitude
+ * @param maxLat - The maximum latitude
+ * @param startObjectId - The starting object ID
+ * @returns The generated latitude lines
+ */
+function generateLatitudeLines(
+  latInterval: number,
+  lonInterval: number,
+  minLat: number,
+  maxLat: number,
+  startObjectId: number,
+): Graphic[] {
+  const features: Graphic[] = [];
+  let objectId = startObjectId;
+
+  const latitudesToDraw = new Set<number>();
+
+  // Add min and max boundaries
+  latitudesToDraw.add(minLat);
+  latitudesToDraw.add(maxLat);
+
+  // Generate latitude lines within bounds
+  for (let lat = 90; lat >= -90; lat -= latInterval) {
+    if (lat >= minLat && lat <= maxLat) {
+      latitudesToDraw.add(lat);
+    }
+  }
+
+  // Draw each latitude line
+  latitudesToDraw.forEach((lat) => {
+    const segments = [
+      { start: -180, end: -90 },
+      { start: -90, end: 0 },
+      { start: 0, end: 90 },
+      { start: 90, end: 180 },
+    ];
+
+    segments.forEach((segment) => {
+      const points = [];
+      for (let lon = segment.start; lon <= segment.end; lon += 0.5) {
+        points.push([lon, lat]);
+      }
+
+      features.push(
+        new Graphic({
+          geometry: new Polyline({
+            paths: [points],
+            spatialReference: SpatialReference.WGS84,
+          }),
+          attributes: {
+            ObjectID: objectId++,
+            label: `${Math.abs(lat)}°${lat >= 0 ? 'N' : 'S'}`,
+            latInterval,
+            lonInterval,
+          },
+        }),
+      );
+    });
+  });
+
+  return features;
+}
+
+/**
+ * Generate longitude lines for the LabelledGraticuleLayer
+ * @param latInterval - The latitude interval
+ * @param lonInterval - The longitude interval
+ * @param minLat - The minimum latitude
+ * @param maxLat - The maximum latitude
+ * @param startObjectId - The starting object ID
+ * @returns The generated longitude lines
+ */
+function generateLongitudeLines(
+  latInterval: number,
+  lonInterval: number,
+  minLat: number,
+  maxLat: number,
+  startObjectId: number,
+): Graphic[] {
+  const features: Graphic[] = [];
+  let objectId = startObjectId;
+
+  for (let lon = -180; lon <= 180; lon += lonInterval) {
+    const points = [];
+    for (let lat = minLat; lat <= maxLat; lat += 1) {
+      points.push([lon, lat]);
+    }
+
+    features.push(
+      new Graphic({
+        geometry: new Polyline({
+          paths: [points],
+          spatialReference: SpatialReference.WGS84,
+        }),
+        attributes: {
+          ObjectID: objectId++,
+          label: `${Math.abs(lon)}°${lon >= 0 ? 'E' : 'W'}`,
+          latInterval,
+          lonInterval,
+        },
+      }),
+    );
+  }
+
+  return features;
+}
+
+/**
+ * The LabelledGraticuleLayer class
+ */
 @subclass('custom.LabelledGraticuleLayer')
 export class LabelledGraticuleLayer extends FeatureLayer {
   @property()
-  latitudeInterval = 10;
+  graticuleBounds: GraticuleBounds;
 
   @property()
-  longitudeInterval = 10;
+  graticuleStyle: GraticuleStyle;
 
   @property()
-  minLatitude = -89;
-
-  @property()
-  maxLatitude = 89;
-
-  @property()
-  lineColor = [128, 128, 128, 1];
-
-  @property()
-  lineWidth = 1;
-
-  @property()
-  labelColor = [196, 196, 196, 1];
-
-  @property()
-  scaleIntervals = DEFAULT_SCALE_INTERVALS;
+  scaleIntervals: ScaleInterval[];
 
   private viewWatcher: IHandle | null = null;
 
   constructor(properties?: LabelledGraticuleLayerProperties) {
-    // Create features for all intervals
-    const features: Graphic[] = [];
-    let objectId = 1;
+    // Initialize properties with defaults using external helper functions
+    const defaultProperties = initializeProperties(properties);
 
-    // Generate features for each interval in scaleIntervals
-    (properties?.scaleIntervals ?? DEFAULT_SCALE_INTERVALS).forEach(
-      ({ latInterval, lonInterval }) => {
-        // Create latitude lines
-        const minLat = Math.max(MIN_LATITUDE, properties?.minLatitude ?? MIN_LATITUDE);
-        const maxLat = Math.min(MAX_LATITUDE, properties?.maxLatitude ?? MAX_LATITUDE);
-
-        // Calculate the starting points for the interval lines from 90 and -90
-        const latitudesToDraw = new Set<number>();
-
-        // Add min and max boundaries
-        latitudesToDraw.add(minLat);
-        latitudesToDraw.add(maxLat);
-
-        // Find the first interval line below 90 that's within bounds
-        let lat = 90;
-        while (lat >= minLat) {
-          if (lat <= maxLat) {
-            latitudesToDraw.add(lat);
-          }
-          lat -= latInterval;
-        }
-
-        // Find the first interval line above -90 that's within bounds
-        lat = -90;
-        while (lat <= maxLat) {
-          if (lat >= minLat) {
-            latitudesToDraw.add(lat);
-          }
-          lat += latInterval;
-        }
-
-        // Draw each latitude line
-        latitudesToDraw.forEach((lat) => {
-          // Break latitude lines into 4 segments: -180 to -90, -90 to 0, 0 to 90, 90 to 180
-          const segments = [
-            { start: -180, end: -90 },
-            { start: -90, end: 0 },
-            { start: 0, end: 90 },
-            { start: 90, end: 180 },
-          ];
-
-          segments.forEach((segment) => {
-            const points = [];
-            for (let lon = segment.start; lon <= segment.end; lon += 0.5) {
-              points.push([lon, lat]);
-            }
-
-            features.push(
-              new Graphic({
-                geometry: new Polyline({
-                  paths: [points],
-                  spatialReference: SpatialReference.WGS84,
-                }),
-                attributes: {
-                  ObjectID: objectId++,
-                  label: `${Math.abs(lat)}°${lat >= 0 ? 'N' : 'S'}`,
-                  latInterval,
-                  lonInterval,
-                },
-              }),
-            );
-          });
-        });
-
-        // Create longitude lines
-        for (let lon = -180; lon <= 180; lon += lonInterval) {
-          const points = [];
-          for (
-            let lat = Math.max(-89, properties?.minLatitude ?? -89);
-            lat <= Math.min(89, properties?.maxLatitude ?? 89);
-            lat += 1
-          ) {
-            points.push([lon, lat]);
-          }
-
-          features.push(
-            new Graphic({
-              geometry: new Polyline({
-                paths: [points],
-                spatialReference: SpatialReference.WGS84,
-              }),
-              attributes: {
-                ObjectID: objectId++,
-                label: `${Math.abs(lon)}°${lon >= 0 ? 'E' : 'W'}`,
-                latInterval,
-                lonInterval,
-              },
-            }),
-          );
-        }
-      },
+    // Generate features
+    const features = generateFeatures(
+      defaultProperties.graticuleBounds,
+      defaultProperties.scaleIntervals,
     );
 
     super({
+      ...properties,
       source: features,
       fields: [
         {
@@ -215,8 +335,8 @@ export class LabelledGraticuleLayer extends FeatureLayer {
       geometryType: 'polyline',
       renderer: new SimpleRenderer({
         symbol: new SimpleLineSymbol({
-          color: properties?.lineColor ?? [196, 196, 196, 1],
-          width: properties?.lineWidth ?? 1,
+          color: defaultProperties.graticuleStyle.line.color,
+          width: defaultProperties.graticuleStyle.line.width,
         }),
       }),
       labelingInfo: [
@@ -226,13 +346,13 @@ export class LabelledGraticuleLayer extends FeatureLayer {
           },
           symbol: {
             type: 'text',
-            color: properties?.labelColor ?? [196, 196, 196, 1],
+            color: defaultProperties.graticuleStyle.label.color,
             font: {
-              family: 'sans-serif',
-              size: 9,
+              family: defaultProperties.graticuleStyle.label.font.family,
+              size: defaultProperties.graticuleStyle.label.font.size,
             },
-            haloColor: [0, 0, 0, 0.7],
-            haloSize: 0.1,
+            haloColor: defaultProperties.graticuleStyle.label.haloColor,
+            haloSize: defaultProperties.graticuleStyle.label.haloSize,
           },
           labelPlacement: 'center-along',
           repeatLabelDistance: 500,
@@ -241,20 +361,18 @@ export class LabelledGraticuleLayer extends FeatureLayer {
         },
       ],
       spatialReference: SpatialReference.WGS84,
-
-      ...properties,
     });
 
-    if (properties) {
-      this.latitudeInterval = properties.latitudeInterval ?? this.latitudeInterval;
-      this.longitudeInterval = properties.longitudeInterval ?? this.longitudeInterval;
-      this.minLatitude = properties.minLatitude ?? this.minLatitude;
-      this.maxLatitude = properties.maxLatitude ?? this.maxLatitude;
-      this.lineColor = properties.lineColor ?? this.lineColor;
-      this.lineWidth = properties.lineWidth ?? this.lineWidth;
-      this.labelColor = properties.labelColor ?? this.labelColor;
-    }
+    // Assign properties to the class instance
+    this.graticuleBounds = defaultProperties.graticuleBounds;
+    this.graticuleStyle = defaultProperties.graticuleStyle;
+    this.scaleIntervals = defaultProperties.scaleIntervals;
 
+    // Set up event handlers
+    this.setupEventHandlers();
+  }
+
+  private setupEventHandlers(): void {
     this.on('layerview-create', (event) => {
       const { view } = event;
       if (this.viewWatcher) {
@@ -262,7 +380,6 @@ export class LabelledGraticuleLayer extends FeatureLayer {
       }
 
       if (view && view instanceof MapView) {
-        console.log(event.layerView);
         this.viewWatcher = reactiveUtils.watch(
           () => view.scale,
           () => {
