@@ -81,10 +81,16 @@ export default {
           statusUpdateFrequency: 10, // seconds
           routes: [],
           favourites: [
-              {"name": "Falklands", "lat": -51.731, "lon": -57.706},
-              {"name": "Signy", "lat": -60.720, "lon": -45.480},
-              {"name": "Rothera", "lat": -67.764, "lon": -68.02},
-        ]
+            {"name": "Bird Island", "lat": -54.025, "lon": -38.044},
+            {"name": "Falklands", "lat": -51.731, "lon": -57.706},
+            {"name": "Halley", "lat": -75.059, "lon": -25.84},
+            {"name": "Harwich", "lat": 51.949, "lon": 1.255},
+            {"name": "King Edward Point", "lat": -54.22, "lon": -36.433},
+            {"name": "Ny-Ålesund", "lat": 78.929, "lon": 11.928},
+            {"name": "Rosyth", "lat": 56.017, "lon": -3.44},
+            {"name": "Rothera", "lat": -67.764, "lon": -68.02},
+            {"name": "Signy", "lat": -60.72, "lon": -45.48},
+          ]
         }
     },
 
