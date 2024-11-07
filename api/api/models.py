@@ -22,6 +22,7 @@ class Granule(db.Model):
     ts_gsingest = db.Column(db.DateTime())
     status = db.Column(db.String())
     geom_extent = db.Column(db.String())
+    geojson_extent = db.Column(db.JSON())
 
 
 class GranuleSchema(ma.SQLAlchemySchema):
@@ -47,6 +48,7 @@ class GranuleSchema(ma.SQLAlchemySchema):
     ts_gsingest = ma.auto_field()
     status = ma.auto_field()
     geom_extent = ma.auto_field()
+    geojson_extent = ma.auto_field()
 
 
 class Product(db.Model):

@@ -41,6 +41,7 @@ export default defineConfig({
     '#root': {
       height: '100%',
       width: '100%',
+      position: 'fixed',
     },
     'dialog:modal': {
       maxWidth: '100vw',

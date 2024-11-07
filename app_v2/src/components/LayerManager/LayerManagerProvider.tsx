@@ -36,7 +36,7 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
               layer.layerData.mapLayer.set('opacity', opacity);
             }
           },
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
           'Update layer order': ({ context }, params: { layerOrder: string[] }) => {
             const { layerOrder } = params;
             const mapLayerOrder = layerOrder.filter((layerId) => {

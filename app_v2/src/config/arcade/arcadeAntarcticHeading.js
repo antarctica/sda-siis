@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 // Function to convert degrees to radians
 function toRadians(degrees) {
   return degrees * (PI / 180);

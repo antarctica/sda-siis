@@ -10,7 +10,7 @@ defineMapElements(window, {
 import '@fontsource-variable/inter';
 
 import { createRouter, RouterProvider } from '@tanstack/react-router';
-import { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // Import the generated route tree
@@ -32,8 +32,8 @@ if (!rootElement) throw new Error('No root element found');
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <StrictMode>
+    <React.StrictMode>
       <RouterProvider router={router} />
-    </StrictMode>,
+    </React.StrictMode>,
   );
 }

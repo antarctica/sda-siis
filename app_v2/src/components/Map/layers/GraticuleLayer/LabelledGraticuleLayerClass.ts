@@ -1,4 +1,3 @@
-/* eslint-disable react/no-is-mounted */
 import Color from '@arcgis/core/Color';
 import { property, subclass } from '@arcgis/core/core/accessorSupport/decorators';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';

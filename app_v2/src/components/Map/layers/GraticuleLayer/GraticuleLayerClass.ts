@@ -1,5 +1,3 @@
-/* eslint-disable react/no-is-mounted */
-
 import { property, subclass } from '@arcgis/core/core/accessorSupport/decorators';
 import { Point, SpatialReference } from '@arcgis/core/geometry';
 import Polyline from '@arcgis/core/geometry/Polyline';

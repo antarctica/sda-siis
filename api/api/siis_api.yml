@@ -501,6 +501,23 @@ components:
         geom_extent:
           type: string
           description: product footprint   
+        geojson_extent:
+          type: object
+          description: product footprint in GeoJSON format (MultiPolygon)
+          properties:
+            type:
+              type: string
+              enum: ['MultiPolygon']
+            coordinates:
+              type: array
+              items:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
 
     granules:
       type: array

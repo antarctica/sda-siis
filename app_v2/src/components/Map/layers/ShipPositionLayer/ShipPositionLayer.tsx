@@ -74,7 +74,7 @@ function ShipPositionLayer() {
         renderer={
           new SimpleRenderer({
             symbol: new SimpleLineSymbol({
-              color: new Color([0, 0, 0, 0.4]),
+              color: new Color([255, 0, 0, 0.4]),
               style: 'dash',
               width: 1,
             }),
@@ -85,12 +85,11 @@ function ShipPositionLayer() {
           {
             symbol: {
               type: 'text',
-              color: new Color([0, 0, 0, 0.4]),
+              color: new Color([255, 0, 0, 0.8]),
 
               font: {
                 family: 'Ubuntu Mono',
                 size: 8,
-                weight: 'bold',
               },
             },
             labelPlacement: 'center-along',
@@ -105,7 +104,7 @@ function ShipPositionLayer() {
           {
             symbol: {
               type: 'text',
-              color: new Color([0, 0, 0, 0.4]),
+              color: new Color([255, 0, 0, 0.8]),
 
               font: {
                 family: 'Ubuntu Mono',

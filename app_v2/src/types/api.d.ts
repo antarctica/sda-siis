@@ -294,6 +294,12 @@ export interface components {
       status?: string;
       /** @description product footprint */
       geom_extent?: string;
+      /** @description product footprint in GeoJSON format (MultiPolygon) */
+      geojson_extent?: {
+        /** @enum {string} */
+        type?: 'MultiPolygon';
+        coordinates?: number[][][][];
+      };
     };
     granules: components['schemas']['granule'][];
     kv: {

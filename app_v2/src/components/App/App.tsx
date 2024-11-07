@@ -64,7 +64,7 @@ const Providers = React.memo(({ children }: { children: React.ReactNode }) => {
 function AppContent() {
   const isMobile = useIsMobile();
   return (
-    <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'}>
+    <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'} overflow={'hidden'}>
       <Header />
       <Flex w={'full'} flexGrow={1} minH={'0'}>
         {isMobile ? <Drawer /> : <Sidebar />}

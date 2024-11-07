@@ -252,6 +252,11 @@ date?: string
   status?: string
   // product footprint
   geom_extent?: string
+  // product footprint in GeoJSON format (MultiPolygon)
+  geojson_extent: {
+    type?: enum[MultiPolygon]
+    coordinates?: number[][][][]
+  }
 }[]
 ```
 
@@ -317,6 +322,11 @@ date?: string
   status?: string
   // product footprint
   geom_extent?: string
+  // product footprint in GeoJSON format (MultiPolygon)
+  geojson_extent: {
+    type?: enum[MultiPolygon]
+    coordinates?: number[][][][]
+  }
 }[]
 ```
 
@@ -368,6 +378,11 @@ Read one granule record
   status?: string
   // product footprint
   geom_extent?: string
+  // product footprint in GeoJSON format (MultiPolygon)
+  geojson_extent: {
+    type?: enum[MultiPolygon]
+    coordinates?: number[][][][]
+  }
 }
 ```
 
@@ -772,6 +787,11 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   status?: string
   // product footprint
   geom_extent?: string
+  // product footprint in GeoJSON format (MultiPolygon)
+  geojson_extent: {
+    type?: enum[MultiPolygon]
+    coordinates?: number[][][][]
+  }
 }
 ```
 
@@ -809,6 +829,11 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   status?: string
   // product footprint
   geom_extent?: string
+  // product footprint in GeoJSON format (MultiPolygon)
+  geojson_extent: {
+    type?: enum[MultiPolygon]
+    coordinates?: number[][][][]
+  }
 }[]
 ```
 

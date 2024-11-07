@@ -1,11 +1,12 @@
 import Basemap from '@arcgis/core/Basemap';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import EsriMap from '@arcgis/core/Map';
 import React from 'react';
 
 import { useProducts } from '@/api/useProducts';
 import { useAddLayer } from '@/components/LayerManager/hooks/useAddLayer';
 import { LayerTimeInfo } from '@/components/LayerManager/machines/types';
-import { createLayer, ogcPriority } from '@/components/Map/utils';
+import { createImageryFootprintLayer, createOGCLayer, ogcPriority } from '@/components/Map/utils';
 import { OGCType } from '@/types';
 
 import { useTheme } from '../Theme';
@@ -45,6 +46,7 @@ export function useMapInitialization() {
         if (ogcType) {
           let timeInfo: LayerTimeInfo | undefined;
 
+          let newLayer: __esri.Layer | undefined;
           if (!layerConfig.static) {
             if (layerConfig.render_exclusive && layerConfig.latestDate) {
               timeInfo = {
@@ -52,9 +54,45 @@ export function useMapInitialization() {
                 precision: 'date',
                 value: layerConfig.latestDate.toDate(),
               };
+              newLayer = createOGCLayer(
+                layerConfig,
+                ogcType,
+                theme.currentTheme,
+                layerConfig.show_on_startup ?? false,
+                timeInfo,
+              );
             }
+            if (!layerConfig.render_exclusive) {
+              const footprintLayer = createImageryFootprintLayer(
+                layerConfig,
+                layerConfig.granules,
+                layerConfig.show_on_startup ?? false,
+              );
+              reactiveUtils.on(
+                () => footprintLayer.subLayers,
+                'after-add',
+                (event) => {
+                  const { layer, id } = event.item as { layer: __esri.Layer; id: string };
+                  addLayer(map, {
+                    layerData: { mapLayer: layer, mapProduct: layerConfig },
+                    layerId: id,
+                    layerName: layerConfig?.label ?? 'Hello World',
+                    layerType: 'layer',
+                    visible: true,
+                    parentId: null,
+                  });
+                },
+              );
+              newLayer = footprintLayer;
+            }
+          } else {
+            newLayer = createOGCLayer(
+              layerConfig,
+              ogcType,
+              theme.currentTheme,
+              layerConfig.show_on_startup ?? false,
+            );
           }
-          const newLayer = createLayer(layerConfig, ogcType, theme.currentTheme, timeInfo);
 
           if (newLayer) {
             addLayer(map, {

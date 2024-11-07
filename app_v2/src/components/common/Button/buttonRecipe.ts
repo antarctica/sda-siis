@@ -1,4 +1,3 @@
-/* eslint-disable @pandacss/no-hardcoded-color */
 import { cva } from '@styled-system/css';
 
 export const buttonRecipe = cva({
