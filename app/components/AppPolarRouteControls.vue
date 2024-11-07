@@ -37,6 +37,23 @@
         </select>
 
       <button title="Request Route" v-on:click="requestRoute()">Get Route</button>
+
+      <table v-if="routes.length > 0">
+        <tr>
+          <td><strong>start</strong></td>
+          <td><strong>end</strong></td>
+          <td><strong>status</strong></td>
+          <td><strong>info</strong></td>
+        </tr>
+
+        <tr v-for="route in routes">
+          <td>{{ formatNumber(route.start_lat) }}, {{ formatNumber(route.start_lon) }}</td>
+          <td>{{ formatNumber(route.end_lon) }}, {{ formatNumber(route.end_lon) }}</td>
+          <td><span :title="getRouteInfoText(route)">{{ route.status }}</span></td>
+          <td><span :title="getRouteInfoText(route)">{{ route.info ? '!' : '' }}</span></td>
+        </tr>
+      </table>
+
     </fieldset>
 </section>
 </template>
@@ -61,7 +78,7 @@ export default {
 
     data() {
         return {
-          statusUpdateFrequency: 30, // seconds
+          statusUpdateFrequency: 10, // seconds
           routes: [],
           favourites: [
               {"name": "Falklands", "lat": -51.731, "lon": -57.706},
@@ -102,11 +119,28 @@ export default {
 
     methods: {
 
+      formatNumber (num) {
+        return parseFloat(num).toFixed(2)
+      },
+
+      getRouteInfoText(route) {
+        let text = ""
+        if (route.info){
+          if (route.info.info){
+            text += "INFO: " + route.info.info;
+          } else if (route.info.error) {
+            text += "ERROR: " + route.info.error;
+          }
+          return text
+        }
+      },
 
       routeRequestConfig(){
         return {
-          "start": {"latitude": this.polarroute_coords.start.lat, "longitude": this.polarroute_coords.start.lon},
-          "end": {"latitude": this.polarroute_coords.end.lat, "longitude": this.polarroute_coords.end.lon},
+          "start_lat": this.polarroute_coords.start.lat,
+          "start_lon": this.polarroute_coords.start.lon,
+          "end_lat": this.polarroute_coords.end.lat,
+          "end_lon": this.polarroute_coords.end.lon,
         }
       },
 
