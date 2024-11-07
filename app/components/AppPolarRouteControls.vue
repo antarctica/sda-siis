@@ -47,8 +47,8 @@
         </tr>
 
         <tr v-for="route in routes">
-          <td>{{ formatNumber(route.start_lat) }}, {{ formatNumber(route.start_lon) }}</td>
-          <td>{{ formatNumber(route.end_lon) }}, {{ formatNumber(route.end_lon) }}</td>
+          <td><span :title="route.start_name ? getRouteCoordText(route.start_lat, route.start_lon) : ''">{{ route.start_name ? route.start_name : getRouteCoordText(route.start_lat, route.start_lon) }}</span></td>
+          <td><span :title="route.end_name ? getRouteCoordText(route.end_lat, route.end_lon) : ''">{{ route.end_name ? route.end_name : getRouteCoordText(route.end_lat, route.end_lon) }}</span></td>
           <td><span :title="getRouteInfoText(route)">{{ route.status }}</span></td>
           <td><span :title="getRouteInfoText(route)">{{ route.info ? '!' : '' }}</span></td>
         </tr>
@@ -123,6 +123,10 @@ export default {
         return parseFloat(num).toFixed(2)
       },
 
+      getRouteCoordText (lat, lon) {
+        return this.formatNumber(lat) + ", " + this.formatNumber(lon);
+      },
+
       getRouteInfoText(route) {
         let text = ""
         if (route.info){
@@ -141,6 +145,8 @@ export default {
           "start_lon": this.polarroute_coords.start.lon,
           "end_lat": this.polarroute_coords.end.lat,
           "end_lon": this.polarroute_coords.end.lon,
+          "start_name": this.polarroute_coords.start.name,
+          "end_name": this.polarroute_coords.end.name,
         }
       },
 
