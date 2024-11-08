@@ -4,13 +4,14 @@
     <span>Use PolarRoute to calculate the optimal route between two points.</span>
     
     <fieldset id="app-polarroute-control-request">
-        <label for="start-point-select">Start</label>
+        <div><label for="start-point-select">Start</label></div>
         
-        <button title="Choose on map"
+        <div><button title="Choose on map"
         v-on:click="choose_polarroute_start = !choose_polarroute_start"
         :class="choose_polarroute_start ? 'activated': null"
-        >Choose start on map</button>
+        >Choose start on map</button></div>
 
+        <div>
         <select name="start" id="start-point-select"
         @input="event => polarroute_coords.start = locations.filter(obj => {return obj.name === event.target.value})[0]">
           <option value="">or from list</option>
@@ -18,16 +19,18 @@
             v-for="loc in locations"
             >{{ loc.name }}</option>
         </select>
-
+      </div>
 
         <!-- TODO reduce duplication here -->
-        <label for="end-point-select">End</label>
+        <div><label for="end-point-select">End</label></div>
         
-        <button title="Choose on map"
+      
+        <div><button title="Choose on map"
         v-on:click="choose_polarroute_end = !choose_polarroute_end"
         :class="choose_polarroute_end ? 'activated': null"
-        >Choose end on map</button>
+        >Choose end on map</button></div>
 
+        <div>
         <select name="end" id="end-point-select"
         @input="event => polarroute_coords.end = locations.filter(obj => {return obj.name === event.target.value})[0]">
           <option value="">or from list</option>
@@ -35,9 +38,12 @@
             v-for="loc in locations"
             >{{ loc.name }}</option>
         </select>
+      </div>
 
-      <button title="Request Route" v-on:click="requestRoute()">Get Route</button>
+      <div><button title="Request Route" v-on:click="requestRoute()">Get Route</button></div>
+      </fieldset>
 
+      <div>
       <table v-if="routes.length > 0">
         <tr>
           <td><strong>start</strong></td>
@@ -54,7 +60,8 @@
         </tr>
       </table>
 
-    </fieldset>
+      <span v-else>{{ serviceStatusText }}</span>
+       </div>
 </section>
 </template>
 
@@ -80,6 +87,7 @@ export default {
         return {
           statusUpdateFrequency: 10, // seconds
           routes: [],
+          serviceStatusText: "Contacting route server..",
           favourites: [
             {"name": "Bird Island", "lat": -54.025, "lon": -38.044},
             {"name": "Falklands", "lat": -51.731, "lon": -57.706},
@@ -121,12 +129,23 @@ export default {
       polarroute_coords: function () {
           this.$emit('update:polarroute_coords', this.polarroute_coords);
         },
+      routes: function () {
+        this.$emit('update:routes', this.routes);
+      }
     },
 
     methods: {
 
       formatNumber (num) {
         return parseFloat(num).toFixed(2)
+      },
+
+      addRoute (route) {
+        this.routes.push(route);
+      },
+
+      updateServiceStatusText (text) {
+        this.serviceStatusText = text;
       },
 
       getRouteCoordText (lat, lon) {
@@ -181,7 +200,7 @@ export default {
             // set up periodic status request if route pending
             route.status_handle = setInterval(function(){_this.requestStatus(route)}, this.statusUpdateFrequency*1000);
           }
-          _this.routes.push(route); // add route to list
+          _this.addRoute(route); // add route to list
         })
         .catch(function (error) {
           console.error(error);
@@ -223,8 +242,14 @@ export default {
         .then(function (response){
             console.debug(response.data)
             _this.routes = response.data;
+            if (_this.routes.length == 0) {
+              _this.updateServiceStatusText("No routes from last day.");
+            }
           })
-          .catch(error => console.error(error))
+        .catch(function(error) {
+          console.error(error);
+          _this.updateServiceStatusText("Route server unavailable.");
+        })
       },
     }
 }

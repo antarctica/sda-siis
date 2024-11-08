@@ -314,7 +314,8 @@ export default {
     'reference_feature',
     'choose_polarroute_start',
     'choose_polarroute_end',
-    'polarroute_coords'
+    'polarroute_coords',
+    'routes'
   ],
 
   computed: {
@@ -495,7 +496,7 @@ export default {
         let _this = this;
         
         // no need to transform coords if chosen from map
-        if (polarroute_coords.start.name != "user") {
+        if (polarroute_coords.start.name != null) {
           // add points chosen by dropdown to the map
           let coordinates = transform([polarroute_coords.start.lon, polarroute_coords.start.lat], 'EPSG:4326', _this.crs);
           _this.polarroute_vl_start = [{
@@ -507,7 +508,7 @@ export default {
         }
 
         // TODO tidy up this logic and reduce duplication
-        if (polarroute_coords.end.name != "user") {
+        if (polarroute_coords.end.name != null) {
           // add points chosen by dropdown to the map
           let coordinates = transform([polarroute_coords.end.lon, polarroute_coords.end.lat], 'EPSG:4326', _this.crs);
           _this.polarroute_vl_end = [{
@@ -806,7 +807,7 @@ export default {
       let _this = this;
       let coords_4326 = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
        _this.polarroute_coords.start = {
-        "name": "user",
+        "name": null,
         "lat": coords_4326[1],
         "lon": coords_4326[0]
        }
@@ -818,7 +819,7 @@ export default {
       let _this = this;
       let coords_4326 = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
        _this.polarroute_coords.end = {
-        "name": "user",
+        "name": null,
         "lat": coords_4326[1],
         "lon": coords_4326[0]
        }

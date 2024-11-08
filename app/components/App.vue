@@ -30,6 +30,7 @@
         :choose_polarroute_start="choose_polarroute_start"
         :choose_polarroute_end="choose_polarroute_end"
         :polarroute_coords="polarroute_coords"
+        :routes="routes"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature_vertexes="whenDrawnFeatureVertexesChanges"
@@ -38,6 +39,7 @@
         v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
         v-on:update:choose_polarroute_end="whenPolarRouteChooseEndChanges"
         v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
+        v-on:update:routes="routes"
         ></app-map>
       <app-product-switcher
         :display_ui="display_ui"
@@ -95,6 +97,7 @@
         v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
         v-on:update:choose_polarroute_end="whenPolarRouteChooseEndChanges"
         v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
+        v-on:update:routes="whenRoutesChange"
         ></app-polarroute-controls>
         <app-sensor-metadata
         :display_ui="display_ui"
@@ -163,6 +166,7 @@ export default Vue.extend({
       choose_polarroute_start: false,
       choose_polarroute_end: false,
       polarroute_coords: {"start": {}, "end": {}},
+      routes: []
     }
   },
 
@@ -302,6 +306,9 @@ export default Vue.extend({
     },
     whenPolarRouteCoordsChange: function ($event) {
       this.polarroute_coords = $event;
+    },
+    whenRoutesChange: function ($event) {
+      this.routes = $event;
     }
   }
 });
