@@ -236,8 +236,11 @@ export interface components {
       static?: boolean;
       /** @description Default time filter in hours applied on granules for app rendering */
       default_timeframe?: number;
-      /** @description Status of product feed, based on status of granules {offline|pending|processing|online} */
-      status?: string;
+      /**
+       * @description Status of product feed, based on status of granules
+       * @enum {string}
+       */
+      status?: 'offline' | 'online' | 'loading' | 'static' | 'outdated' | 'error';
       /** @description Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required */
       render_exclusive?: boolean;
       /** @description Indicated availability of a corresponding high-resolution granule */
@@ -290,8 +293,21 @@ export interface components {
       ts_downloaded?: string;
       /** @description Timestamp of successful ship-side GeoServer ingest */
       ts_gsingest?: string;
-      /** @description Status of granule availability on vessel {offline|pending|processing|online} */
-      status?: string;
+      /**
+       * @description Status of granule availability on vessel
+       * @enum {string}
+       */
+      status?:
+        | 'offline'
+        | 'online'
+        | 'loading'
+        | 'static'
+        | 'outdated'
+        | 'error'
+        | 'hr_requested'
+        | 'hr_pending'
+        | 'hr_processing'
+        | 'hr_online';
       /** @description product footprint */
       geom_extent?: string;
       /** @description product footprint in GeoJSON format (MultiPolygon) */

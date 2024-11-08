@@ -74,7 +74,7 @@ function ShipPositionLayer() {
         renderer={
           new SimpleRenderer({
             symbol: new SimpleLineSymbol({
-              color: new Color([255, 0, 0, 0.4]),
+              color: new Color([255, 0, 0, 0.8]),
               style: 'dash',
               width: 1,
             }),
@@ -85,15 +85,18 @@ function ShipPositionLayer() {
           {
             symbol: {
               type: 'text',
-              color: new Color([255, 0, 0, 0.8]),
+              color: new Color([255, 0, 0, 1]),
 
               font: {
                 family: 'Ubuntu Mono',
                 size: 8,
               },
+
+              yoffset: 2,
             },
-            labelPlacement: 'center-along',
+
             repeatLabel: false,
+            deconflictionStrategy: 'none',
             where: 'minutes >= 60',
             labelExpressionInfo: {
               expression: 'return $feature.label',
@@ -104,22 +107,24 @@ function ShipPositionLayer() {
           {
             symbol: {
               type: 'text',
-              color: new Color([255, 0, 0, 0.8]),
+              color: new Color([255, 0, 0, 1]),
 
               font: {
                 family: 'Ubuntu Mono',
                 size: 8,
-                weight: 'bold',
+                weight: 'normal',
               },
+              yoffset: 2,
             },
-            labelPlacement: 'center-along',
+            deconflictionStrategy: 'none',
+
             repeatLabel: false,
             where: 'minutes < 60',
             labelExpressionInfo: {
               expression: 'return $feature.label',
             },
             maxScale: 0,
-            minScale: 500000,
+            minScale: 400000,
           },
         ]}
       />

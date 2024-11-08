@@ -71,6 +71,10 @@ export class ImageryFootprintLayer extends FeatureLayer {
   private clickHandler: IHandle | null = null;
   private hoverHandler: IHandle | null = null;
 
+  private onMapHandler: IHandle | null = null;
+  private offMapHandler: IHandle | null = null;
+  private activeHover: boolean = true;
+
   private highlightedFootprint: ImageryFootprint | null = null;
   private highlightHandle: IHandle | null = null;
 
@@ -153,6 +157,8 @@ export class ImageryFootprintLayer extends FeatureLayer {
           layer: wmsLayer,
           id: attributes.footprintId,
         });
+
+        view.goTo(firstLayerGraphic.geometry);
       }
     });
 
@@ -161,6 +167,22 @@ export class ImageryFootprintLayer extends FeatureLayer {
       () => view,
       'pointer-move',
       (event) => this.hoverHitTest(event, view, layerView),
+    );
+
+    // Set up off map handler
+    this.offMapHandler = reactiveUtils.on(
+      () => view,
+      'pointer-leave',
+      () => {
+        this.activeHover = false;
+      },
+    );
+
+    // Set up on map handler
+    this.onMapHandler = reactiveUtils.on(
+      () => view,
+      'pointer-enter',
+      () => (this.activeHover = true),
     );
   }
 
@@ -172,6 +194,14 @@ export class ImageryFootprintLayer extends FeatureLayer {
     if (this.hoverHandler) {
       this.hoverHandler.remove();
       this.hoverHandler = null;
+    }
+    if (this.offMapHandler) {
+      this.offMapHandler.remove();
+      this.offMapHandler = null;
+    }
+    if (this.onMapHandler) {
+      this.onMapHandler.remove();
+      this.onMapHandler = null;
     }
   }
 
@@ -200,7 +230,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
     ) => {
       const firstLayerGraphic = await this.getFirstGraphicFromHitTest(mapView, event);
 
-      if (firstLayerGraphic) {
+      if (firstLayerGraphic && this.activeHover) {
         if (this.highlightedFootprint !== firstLayerGraphic) {
           mapView.container.style.cursor = 'pointer';
           this.highlightHandle?.remove();

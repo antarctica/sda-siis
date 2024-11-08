@@ -8,7 +8,12 @@ export enum MapCRS {
 
 export type OGCType = 'WMTS' | 'WMS' | 'WMS-T' | 'WFS';
 
+export type LayerDisplayMode =
+  | 'Static' // Non-temporal data
+  | 'SingleTimeSlice' // Time-enabled data where only one time slice can be shown
+  | 'MultipleTimeSliceCollection'; // Time-enabled data where multiple time slices can be shown as footprints
+
 export type MapProduct = components['schemas']['product'];
 export type MapGranule = components['schemas']['granule'];
-
-export type LayerStatus = 'offline' | 'online' | 'loading' | 'static' | 'outdated' | 'error';
+export type LayerStatus = components['schemas']['product']['status'];
+export type GranuleStatus = components['schemas']['granule']['status'];

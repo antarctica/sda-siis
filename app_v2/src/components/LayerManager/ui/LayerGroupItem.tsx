@@ -10,6 +10,7 @@ import Typography, { Heading } from '@/components/common/Typography';
 
 import { useEnabledChildCount } from '../hooks/useEnabledChildCount';
 import { LayerGroupMachineActor, LayerMachineActor } from '../machines/types';
+import { LayerItem } from './LayerItem';
 
 const accordionItemRecipe = sva({
   slots: ['root', 'header', 'trigger', 'title', 'badge', 'content', 'layer-list', 'caret'],
@@ -78,14 +79,14 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
   } = accordionItemRecipe();
   const layerId = layerGroupActor.id;
   const layerName = useSelector(layerGroupActor, ({ context }) => context.layerName);
-  // const childLayerOrder = useSelector(layerGroupActor, ({ context }) => context.childLayerOrder);
+  const childLayerOrder = useSelector(layerGroupActor, ({ context }) => context.childLayerOrder);
   const children = useSelector(layerGroupActor, ({ context }) => context.children);
   const enabledChildLayerCount = useEnabledChildCount(children as LayerMachineActor[]);
   const enabled = useSelector(layerGroupActor, (state) => state.matches('enabled'));
-  // const orderedChildLayerActors = childLayerOrder.map((layerId) => {
-  //   const childLayerActor = children.find((c) => c.id === layerId);
-  //   return childLayerActor as LayerMachineActor;
-  // });
+  const orderedChildLayerActors = childLayerOrder.map((layerId) => {
+    const childLayerActor = children.find((c) => c.id === layerId);
+    return childLayerActor as LayerMachineActor;
+  });
 
   return (
     <li>
@@ -123,9 +124,9 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
         </div>
         <Accordion.Content className={content}>
           <ul className={layerList}>
-            {/* {orderedChildLayerActors.reverse().map((child) => (
-              <LayerItem {...(child as ManagedLayer<LayerData>)} key={child.id} />
-            ))} */}
+            {orderedChildLayerActors.reverse().map((child) => (
+              <LayerItem layerActor={child} key={child.id} />
+            ))}
           </ul>
         </Accordion.Content>
       </Accordion.Item>

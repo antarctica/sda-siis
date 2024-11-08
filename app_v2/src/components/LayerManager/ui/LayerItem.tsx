@@ -6,31 +6,21 @@ import Checkbox from '@/components/common/forms/Checkbox';
 import Slider from '@/components/common/forms/Slider';
 import Typography from '@/components/common/Typography';
 import { LayerStatusBadge, LayerStatusCircle } from '@/components/LayerStatus';
-import { LayerStatus } from '@/types';
 
-import { LayerData } from '../LayerManagerProvider';
-import { isSingleTimeInfo, ManagedLayer } from '../machines/types';
+import { useLayerStatus } from '../hooks/selectors';
+import { isSingleTimeInfo, LayerMachineActor } from '../machines/types';
 import LayerDatePicker from './LayerDatePicker';
 
-function getLayerStatus(layerData: LayerData): LayerStatus {
-  const mapProduct = layerData?.mapProduct;
-  if (mapProduct) {
-    if (mapProduct.static) {
-      return 'static';
-    }
-    return mapProduct.status as LayerStatus;
-  }
-  return 'offline';
-}
-
-export function LayerItem({ layerActor, layerData }: ManagedLayer<LayerData>) {
+export function LayerItem({ layerActor }: { layerActor: LayerMachineActor }) {
   const { layerName, opacity, timeInfo } = useSelector(layerActor, ({ context }) => ({
     layerName: context.layerName,
     opacity: context.opacity,
     timeInfo: context.timeInfo,
   }));
+
+  const status = useLayerStatus(layerActor.id);
+
   const isEnabled = useSelector(layerActor, (state) => state.matches('enabled'));
-  const status = getLayerStatus(layerData);
 
   return (
     <li className={css({ display: 'flex', flexDirection: 'column', gap: '2' })}>
@@ -46,10 +36,17 @@ export function LayerItem({ layerActor, layerData }: ManagedLayer<LayerData>) {
           justifyContent: 'space-between',
         })}
       >
-        <Flex gap="2" alignItems="center" grow={1} justifyContent="space-between">
-          <Flex gap="2" alignItems="center">
+        <Flex gap="2" w="full" alignItems="center" justifyContent="space-between">
+          <Flex gap="2" grow={1} minW="0" alignItems="center">
             <LayerStatusCircle status={status} />
-            <Typography>{layerName} </Typography>
+            <Typography
+              className={css({
+                overflow: 'hidden',
+                wordBreak: 'break-all',
+              })}
+            >
+              {layerName}
+            </Typography>
           </Flex>
           <LayerStatusBadge status={status} />
         </Flex>
@@ -57,7 +54,7 @@ export function LayerItem({ layerActor, layerData }: ManagedLayer<LayerData>) {
       {isSingleTimeInfo(timeInfo) && (
         <LayerDatePicker
           isDisabled={!isEnabled}
-          siisCode={layerData?.mapProduct?.code ?? ''}
+          siisCode={layerActor.id}
           layerActor={layerActor}
           defaultValue={timeInfo.value}
         />

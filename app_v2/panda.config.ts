@@ -33,7 +33,7 @@ export default defineConfig({
       _dark: {
         '--calcite-color-brand': '{colors.fg.accent}',
       },
-      '--calcite-color-brand': '{colors.fg}',
+      '--calcite-color-brand': '{colors.fg.accent}',
     },
     'body:has(dialog[open])': {
       overflow: 'hidden',

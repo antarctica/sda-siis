@@ -5,7 +5,7 @@ import WMSLayer from '@arcgis/core/layers/WMSLayer';
 import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
 import TimeExtent from '@arcgis/core/TimeExtent.js';
 
-import { MapGranule, MapProduct, OGCType } from '@/types';
+import { LayerDisplayMode, MapGranule, MapProduct, OGCType } from '@/types';
 
 import { isSingleTimeInfo, LayerTimeInfo } from '../LayerManager/machines/types';
 import { Theme } from '../Theme/useTheme';
@@ -161,4 +161,10 @@ export function createOGCLayer(
 
 export function convertThemeToStyle(theme: Theme) {
   return theme === 'dark' ? 'night' : 'day';
+}
+
+export function getLayerDisplayMode(layer: MapProduct): LayerDisplayMode {
+  if (layer.static) return 'Static';
+  if (layer.render_exclusive) return 'SingleTimeSlice';
+  return 'MultipleTimeSliceCollection';
 }

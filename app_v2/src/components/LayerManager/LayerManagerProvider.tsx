@@ -4,12 +4,15 @@ import { createActorContext } from '@xstate/react';
 import React from 'react';
 import { assertEvent } from 'xstate';
 
-import { MapProduct } from '@/types';
+import { LayerDisplayMode, LayerStatus } from '@/types';
 
 import { createLayerManagerMachine } from './machines/layerManagerMachine';
 import { isSingleTimeInfo } from './machines/types';
 
-export type LayerData = { mapLayer: __esri.Layer | null; mapProduct: MapProduct } | null;
+export type LayerData = {
+  mapLayer: __esri.Layer | null;
+  params: { style?: string; status: LayerStatus; displayMode?: LayerDisplayMode };
+} | null;
 
 export const LayerManagerContext = createActorContext(createLayerManagerMachine<LayerData>());
 

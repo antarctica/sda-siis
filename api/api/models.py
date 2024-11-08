@@ -2,7 +2,28 @@ from datetime import datetime
 from config import db, ma
 from sqlalchemy import true
 from marshmallow import fields
+from enum import Enum
 
+
+class LayerStatus(str, Enum):
+    offline = 'offline'
+    online = 'online'
+    loading = 'loading'
+    static = 'static'
+    outdated = 'outdated'
+    error = 'error'
+
+class GranuleStatus(str, Enum):
+    offline = 'offline'
+    online = 'online'
+    loading = 'loading'
+    static = 'static'
+    outdated = 'outdated'
+    error = 'error'
+    hr_requested = 'hr_requested'
+    hr_pending = 'hr_pending'
+    hr_processing = 'hr_processing'
+    hr_online = 'hr_online'
 
 class Granule(db.Model):
     __tablename__ = "granule"
@@ -20,7 +41,7 @@ class Granule(db.Model):
     ts_dlrequest = db.Column(db.DateTime())
     ts_downloaded = db.Column(db.DateTime())
     ts_gsingest = db.Column(db.DateTime())
-    status = db.Column(db.String())
+    status = db.Column(db.Enum(GranuleStatus))
     geom_extent = db.Column(db.String())
     geojson_extent = db.Column(db.JSON())
 

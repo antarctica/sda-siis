@@ -32,6 +32,7 @@ export const panelStyles = sva({
       p: '4',
       flexGrow: 1,
       overflowY: 'auto',
+      overflowX: 'hidden',
       minH: '0',
     },
   },

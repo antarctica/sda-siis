@@ -17,7 +17,7 @@ export function SynchroniseLayerTheme() {
       if (layerData?.mapLayer instanceof WMSLayer) {
         layerData.mapLayer.set('customLayerParameters', {
           ...layerData.mapLayer.customLayerParameters,
-          STYLES: `${layerData.mapProduct.style}.${convertThemeToStyle(theme.currentTheme)}`,
+          STYLES: `${layerData.params?.style}.${convertThemeToStyle(theme.currentTheme)}`,
         });
       }
     }

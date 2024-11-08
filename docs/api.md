@@ -100,8 +100,8 @@ hemi?: enum[N, n, S, s]
   static?: boolean
   // Default time filter in hours applied on granules for app rendering
   default_timeframe?: integer
-  // Status of product feed, based on status of granules {offline|pending|processing|online}
-  status?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
@@ -171,8 +171,8 @@ Read one product definition
   static?: boolean
   // Default time filter in hours applied on granules for app rendering
   default_timeframe?: integer
-  // Status of product feed, based on status of granules {offline|pending|processing|online}
-  status?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
@@ -248,8 +248,8 @@ date?: string
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel {offline|pending|processing|online}
-  status?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
@@ -318,8 +318,8 @@ date?: string
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel {offline|pending|processing|online}
-  status?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
@@ -374,8 +374,8 @@ Read one granule record
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel {offline|pending|processing|online}
-  status?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
@@ -650,8 +650,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   static?: boolean
   // Default time filter in hours applied on granules for app rendering
   default_timeframe?: integer
-  // Status of product feed, based on status of granules {offline|pending|processing|online}
-  status?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
@@ -734,8 +734,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   static?: boolean
   // Default time filter in hours applied on granules for app rendering
   default_timeframe?: integer
-  // Status of product feed, based on status of granules {offline|pending|processing|online}
-  status?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
@@ -783,8 +783,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel {offline|pending|processing|online}
-  status?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
@@ -825,8 +825,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel {offline|pending|processing|online}
-  status?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)

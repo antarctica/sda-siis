@@ -49,8 +49,8 @@ export function LayerStatusCircle({ status }: { status: LayerStatus }) {
   return <Circle className={statusCircleRecipe({ status })} size={'4'}></Circle>;
 }
 
-export function LayerStatusBadge({ status }: { status: LayerStatus }) {
-  const badgeVariant: Record<LayerStatus, BadgeVariant> = {
+export function LayerStatusBadge({ status = 'static' }: { status?: LayerStatus }) {
+  const badgeVariant: Record<Exclude<LayerStatus, undefined>, BadgeVariant> = {
     offline: 'error',
     error: 'error',
     online: 'success',
@@ -58,6 +58,7 @@ export function LayerStatusBadge({ status }: { status: LayerStatus }) {
     static: 'info',
     outdated: 'grey',
   };
+
   return (
     <Badge
       className={css({

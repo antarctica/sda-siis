@@ -3,8 +3,7 @@ import { css } from '@styled-system/css';
 import React from 'react';
 
 import { useTopLevelLayers } from '../hooks/selectors';
-import { LayerData } from '../LayerManagerProvider';
-import { LayerGroupMachineActor, ManagedLayer } from '../machines/types';
+import { LayerGroupMachineActor } from '../machines/types';
 import LayerGroupItem from './LayerGroupItem';
 import { LayerItem } from './LayerItem';
 
@@ -26,7 +25,7 @@ function LayerManager() {
       >
         {topLevelLayers
           .map((layer) => {
-            if (layer.layerActor.getSnapshot().context.layerType === 'layerGroup') {
+            if (layer.type === 'layerGroup') {
               return (
                 <LayerGroupItem
                   layerGroupActor={layer.layerActor as LayerGroupMachineActor}
@@ -34,7 +33,7 @@ function LayerManager() {
                 />
               );
             }
-            return <LayerItem {...(layer as ManagedLayer<LayerData>)} key={layer.layerActor.id} />;
+            return <LayerItem layerActor={layer.layerActor} key={layer.layerActor.id} />;
           })
           .reverse()}
       </ul>
