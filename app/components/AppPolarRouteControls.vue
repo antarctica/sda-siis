@@ -52,7 +52,7 @@
           <td><strong>info</strong></td>
         </tr>
 
-        <tr v-for="route in routes">
+        <tr v-for="route in routes" :key="route.id">
           <td><span :title="route.start_name ? getRouteCoordText(route.start_lat, route.start_lon) : ''">{{ route.start_name ? route.start_name : getRouteCoordText(route.start_lat, route.start_lon) }}</span></td>
           <td><span :title="route.end_name ? getRouteCoordText(route.end_lat, route.end_lon) : ''">{{ route.end_name ? route.end_name : getRouteCoordText(route.end_lat, route.end_lon) }}</span></td>
           <td><span :title="getRouteInfoText(route)">{{ route.status }}</span></td>
@@ -188,6 +188,7 @@ export default {
           {headers: {'Content-Type': 'application/json'}})
         .then(function (response) {
           console.debug(response)
+          route.id = response.data.id;
           if (Object.hasOwn(response.data, 'json')){
             console.debug(response)
             route.json = response.data.json;
@@ -201,8 +202,11 @@ export default {
             console.debug("Setting interval")
 
             // set up periodic status request if route pending
-            route.status_handle = setInterval(function(){_this.requestStatus(route)}, this.statusUpdateFrequency*1000);
+            route.status_handle = setInterval(function(){_this.requestStatus(route)}, _this.statusUpdateFrequency*1000);
+          }else{
+            route.status = response.data.status;
           }
+          route.info = response.data.info;
           _this.addRoute(route); // add route to list
         })
         .catch(function (error) {
