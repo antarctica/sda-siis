@@ -103,6 +103,9 @@ export default {
     },
 
     computed: {
+      polarroute_server_endpoint: function () {
+        return process.env.POLARROUTE_SERVER_ENDPOINT;
+      },
       locations() {
         let l = JSON.parse(JSON.stringify(this.favourites)); // Hacky deep clone
         l.unshift({
@@ -181,7 +184,7 @@ export default {
         // Make initial post request to initiate route calculation
         let _this = this;
         let route = _this.routeRequestConfig();
-        await axios.post('http://localhost:8000/api/route', route,
+        await axios.post(_this.polarroute_server_endpoint + '/api/route', route,
           {headers: {'Content-Type': 'application/json'}})
         .then(function (response) {
           console.debug(response)
@@ -238,7 +241,7 @@ export default {
       getRecentRoutes: async function () {
         let _this = this;
         console.debug("requesting recent routes")
-        await axios.get('http://localhost:8000/api/recent_routes')
+        await axios.get(_this.polarroute_server_endpoint + '/api/recent_routes')
         .then(function (response){
             console.debug(response.data)
             _this.routes = response.data;
