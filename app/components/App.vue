@@ -88,6 +88,7 @@
         ></app-granule-metadata>
         <app-polarroute-controls
         v-if="show_polarroute"
+        :display_ui="display_ui"
         :debug_mode="debug_mode"
         :polarroute_coords="polarroute_coords"
         :choose_polarroute_start="choose_polarroute_start"

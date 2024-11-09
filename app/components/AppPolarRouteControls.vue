@@ -1,5 +1,5 @@
 <template>
-<section class="app-panel app-polarroute-controls">
+<section class="app-panel app-polarroute-controls" :class="{hidden: hide_ui}">
     <h1>PolarRoute</h1>
     <span>Use PolarRoute to calculate the optimal route between two points.</span>
     
@@ -46,13 +46,13 @@
       <div>
       <table v-if="routes.length > 0">
         <tr>
-          <td><strong>start</strong></td>
-          <td><strong>end</strong></td>
-          <td><strong>status</strong></td>
-          <td><strong>info</strong></td>
+          <td><strong>Start</strong></td>
+          <td><strong>End</strong></td>
+          <td><strong>Status</strong></td>
+          <td><strong>Info</strong></td>
         </tr>
 
-        <tr v-for="route in routes" :key="route.id">
+        <tr v-for="route in routes" :key="route.id"  v-on:click="route.show=!route.show" :class="route.show ? 'shown-route' : ''">
           <td><span :title="route.start_name ? getRouteCoordText(route.start_lat, route.start_lon) : ''">{{ route.start_name ? route.start_name : getRouteCoordText(route.start_lat, route.start_lon) }}</span></td>
           <td><span :title="route.end_name ? getRouteCoordText(route.end_lat, route.end_lon) : ''">{{ route.end_name ? route.end_name : getRouteCoordText(route.end_lat, route.end_lon) }}</span></td>
           <td><span :title="getRouteInfoText(route)">{{ route.status }}</span></td>
@@ -76,6 +76,7 @@ export default {
 
     props: [
         'debug_mode',
+        'display_ui',
         'polarroute_coords',
         'ship_position_lon',
         'ship_position_lat',
@@ -103,6 +104,9 @@ export default {
     },
 
     computed: {
+      hide_ui: function() {
+        return !this.display_ui;
+      },
       polarroute_server_endpoint: function () {
         return process.env.POLARROUTE_SERVER_ENDPOINT;
       },
@@ -118,7 +122,7 @@ export default {
     },
 
     beforeMount(){
-      this.getRecentRoutes();
+      this.requestRecentRoutes();
     },
 
     watch: {
@@ -167,6 +171,16 @@ export default {
         }
       },
 
+      getRouteProperties(route, idx){
+        let features = [];
+        if (route.hasOwnProperty('json')) {
+            route_json = route.json;
+        }else if (route.hasOwnProperty('json_unsmoothed')){
+          route_json = route.json_unsmoothed;
+        }
+        return route_json[idx][0]['features'][0]['properties'];
+      },
+
       routeRequestConfig(){
         return {
           "start_lat": this.polarroute_coords.start.lat,
@@ -193,6 +207,7 @@ export default {
             console.debug(response)
             route.json = response.data.json;
             route.status = "SUCCESS";
+            route.show = true;
             console.debug("Route status: "+ route.status)
           }else if (Object.hasOwn(response.data, "status-url")){
             let status_url = response.data["status-url"];
@@ -221,6 +236,7 @@ export default {
           .then(function (response){
             console.debug(response.data)
             route.status = response.data.status;
+            route.show = true;
             if (Object.hasOwn(response.data, "json") && response.data.status == "SUCCESS"){
               route.json = response.data.json;
             }
@@ -231,6 +247,7 @@ export default {
 
             if (Object.hasOwn(response.data, "error") && response.data.status == "FAILURE"){
               route.error = response.data.error;
+              route.show = false;
             }
 
             // stop polling for status if it isn't still calculating
@@ -242,20 +259,28 @@ export default {
       },
 
 
-      getRecentRoutes: async function () {
+      requestRecentRoutes: async function () {
         let _this = this;
         console.debug("requesting recent routes")
         await axios.get(_this.polarroute_server_endpoint + '/api/recent_routes')
         .then(function (response){
             console.debug(response.data)
             _this.routes = response.data;
+
+            console.debug('routes')
+            console.debug(_this.routes)
+            
+            _this.routes.forEach(route => {
+              Vue.set(route, 'show', false); // set watchers
+            });
+
             if (_this.routes.length == 0) {
               _this.updateServiceStatusText("No routes from last day.");
             }
           })
         .catch(function(error) {
           console.error(error);
-          _this.updateServiceStatusText("Route server unavailable.");
+          _this.updateServiceStatusText("An error occurred.\nRoute server may be unavailable.");
         })
       },
     }
@@ -289,4 +314,9 @@ export default {
     border-style: double;
     border-radius: 4px;
   }
+
+  .shown-route {
+    background-color: #999;
+  }
+
 </style>

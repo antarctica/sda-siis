@@ -183,6 +183,17 @@
           </vl-style>
         </vl-interaction-draw>
 
+        <vl-layer-vector :zIndex=990>
+          <vl-source-vector
+          v-for="route in routes.filter((route) => route.show === true)"
+          :features="getRouteFeatures(route)"
+          >
+          </vl-source-vector>
+          <vl-style>
+            <vl-style-stroke color="green" :width="3"></vl-style-stroke>
+          </vl-style>
+        </vl-layer-vector>
+
       </template>
     </vl-map>
 
@@ -824,6 +835,30 @@ export default {
         "lon": coords_4326[0]
        }
       _this.$emit("update:polarroute_coords", _this.polarroute_coords);
+    },
+    getRouteFeatures: function(route) {
+      let features = [];
+      let _this = this;
+      if (route.hasOwnProperty('json')) {
+        if (route.json != null){
+          features = JSON.parse(JSON.stringify(route.json[0][0]['features']));
+        }
+      }else if (route.hasOwnProperty('json_unsmoothed')){
+        if (route.json_unsmoothed != null){
+          features = JSON.parse(JSON.stringify(route.json_unsmoothed[0][0]['features']));
+        }
+      }
+
+      if (features.length > 0) {
+        let transformed_coordinates = []
+        for (let coordinate of features[0]['geometry']['coordinates']) {
+          console.log(coordinate)
+          let transformed_coordinate = transform(coordinate, 'EPSG:4326', _this.crs);
+          transformed_coordinates.push(transformed_coordinate);
+        }
+        features[0]['geometry']['coordinates'] = transformed_coordinates;
+      }
+      return features
     },
     exportDrawnFeature: function() {
       if (Object.keys(this.drawn_feature).length === 0) {
