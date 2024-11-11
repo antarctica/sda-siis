@@ -69,7 +69,7 @@ export function LayerItem({
         <LayerDateRangePicker
           isDisabled={!isEnabled}
           layerActor={layerActor}
-          maxDate={today('')}
+          maxDate={today('UTC')}
           defaultValue={
             timeInfo.start
               ? { start: fromDate(timeInfo.start, 'UTC'), end: fromDate(timeInfo.end, 'UTC') }
