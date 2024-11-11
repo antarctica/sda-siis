@@ -1,5 +1,5 @@
 import * as Accordion from '@radix-ui/react-accordion';
-import { cx, sva } from '@styled-system/css';
+import { css, cx, sva } from '@styled-system/css';
 import { Divider, VisuallyHidden } from '@styled-system/jsx';
 import { token } from '@styled-system/tokens';
 import { useSelector } from '@xstate/react';
@@ -21,7 +21,7 @@ const accordionItemRecipe = sva({
       display: 'flex',
       alignItems: 'center',
       gap: '2',
-      h: '12',
+      h: '8',
       '&:has(.focus-target:focus-visible)': {
         insetFocusRing: true,
       },
@@ -36,6 +36,8 @@ const accordionItemRecipe = sva({
     },
     title: {
       textWrap: 'nowrap',
+      fontSize: 'md',
+      fontWeight: 'normal',
     },
     badge: {
       h: '3',
@@ -76,7 +78,14 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
   const enabled = useSelector(layerGroupActor, (state) => state.matches('enabled'));
 
   return (
-    <li>
+    <li
+      className={css({
+        px: '2',
+        py: '1',
+        borderRadius: 'sm',
+        bg: 'bg.surface',
+      })}
+    >
       <Accordion.Item value={layerId} className={root}>
         <div className={header}>
           <Accordion.Trigger className={cx(trigger, 'group focus-target')}>

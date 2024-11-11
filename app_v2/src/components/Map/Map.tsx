@@ -69,6 +69,7 @@ export function Map() {
           <ShipPositionLayer />
           <LabelledGraticuleLayer
             id="graticule-layer"
+            title="Graticule"
             opacity={0.75}
             graticuleBounds={{
               minLatitude: -89,

@@ -34,6 +34,7 @@ function ShipPositionLayer() {
             setGraphicsLayer(ev.layerView.layer as __esri.GraphicsLayer);
           },
         }}
+        title="Ship Position"
       />
       <ArcFeatureLayer
         eventHandlers={{
@@ -43,7 +44,7 @@ function ShipPositionLayer() {
         }}
         source={[]}
         id="feature-layers"
-        title="buffer"
+        title="Ship Position Buffer"
         fields={[
           {
             name: 'ObjectID',

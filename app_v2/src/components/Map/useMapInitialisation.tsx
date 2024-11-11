@@ -13,13 +13,20 @@ import {
   getLayerDisplayMode,
   ogcPriority,
 } from '@/components/Map/utils';
+import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
+import { useFormatDate } from '@/hooks/useFormatDate';
 import { OGCType } from '@/types';
+import { safeParseUTC } from '@/utils/dateUtils';
 
 import { useTheme } from '../Theme';
 
 export function useMapInitialization() {
   const [map, setMap] = React.useState<EsriMap>();
   const mapRef = React.useRef<EsriMap>();
+  const dateFormatter = useFormatDate({
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
 
   const theme = useTheme();
 
@@ -149,8 +156,8 @@ export function useMapInitialization() {
                   status: layerConfig.status,
                 },
               },
-              layerId: `${layerId}-footprint`,
-              layerName: `Footprints`,
+              layerId: `${layerId}-${FOOTPRINT_LAYER_NAME_SUFFIX}`,
+              layerName: `${layerConfig?.label} Footprints`,
               layerType: 'layer',
               visible: layerConfig.show_on_startup ?? false,
               parentId: layerId,
@@ -161,7 +168,16 @@ export function useMapInitialization() {
               () => footprintLayer.subLayers,
               'after-add',
               (event) => {
-                const { layer } = event.item as { layer: __esri.Layer; id: string };
+                const { layer, timestamp } = event.item as {
+                  layer: __esri.Layer;
+                  id: string;
+                  timestamp: string;
+                };
+
+                const utcDate = safeParseUTC(timestamp);
+                if (!utcDate) return;
+                const layerName = dateFormatter.format(utcDate.toDate());
+
                 addLayer(map, {
                   layerData: {
                     mapLayer: layer,
@@ -171,7 +187,7 @@ export function useMapInitialization() {
                     },
                   },
                   layerId: `${layerId}-${layer.title}`,
-                  layerName: layer.title,
+                  layerName,
                   layerType: 'layer',
                   visible: true,
                   parentId: layerId,
@@ -186,7 +202,7 @@ export function useMapInitialization() {
       mapRef.current = map;
       setMap(map);
     }
-  }, [addLayer, data, theme]);
+  }, [addLayer, data, theme, dateFormatter]);
 
   return map;
 }

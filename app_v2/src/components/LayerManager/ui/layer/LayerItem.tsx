@@ -1,10 +1,10 @@
 import { fromDate, today } from '@internationalized/date';
-import { css } from '@styled-system/css';
+import { css, cva } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import { useSelector } from '@xstate/react';
 
 import Checkbox from '@/components/common/forms/Checkbox';
-import Slider from '@/components/common/forms/Slider';
+// import Slider from '@/components/common/forms/Slider';
 import Typography from '@/components/common/Typography';
 import { LayerStatusBadge, LayerStatusCircle } from '@/components/LayerStatus';
 
@@ -13,24 +13,61 @@ import { isRangeTimeInfo, isSingleTimeInfo, LayerMachineActor } from '../../mach
 import LayerDatePicker from './LayerDatePicker';
 import LayerDateRangePicker from './LayerDateRangePicker';
 
+const layerItemRecipe = cva({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2',
+    px: '2',
+    py: '1',
+    borderRadius: 'sm',
+  },
+  variants: {
+    isEnabled: {
+      true: {
+        bg: 'bg.surface.accent',
+      },
+      false: {
+        bg: 'bg.surface',
+      },
+    },
+    inGroup: {
+      true: {
+        bg: 'bg.surface.accent',
+      },
+    },
+  },
+  compoundVariants: [
+    {
+      isEnabled: false,
+      inGroup: true,
+      css: {
+        bg: 'transparent',
+      },
+    },
+  ],
+});
+
 export function LayerItem({
   layerActor,
   includeStatus = true,
+  inGroup = false,
 }: {
   layerActor: LayerMachineActor;
   includeStatus?: boolean;
+  inGroup?: boolean;
 }) {
   const { layerName, opacity, timeInfo } = useSelector(layerActor, ({ context }) => ({
     layerName: context.layerName,
     opacity: context.opacity,
     timeInfo: context.timeInfo,
   }));
-
+  console.log(opacity);
   const status = useLayerStatus(layerActor.id);
   const isEnabled = useSelector(layerActor, (state) => state.matches('enabled'));
 
   return (
-    <li className={css({ display: 'flex', flexDirection: 'column', gap: '2' })}>
+    <li className={layerItemRecipe({ isEnabled, inGroup })}>
       <Checkbox
         onChange={() => {
           layerActor.send({
@@ -49,7 +86,6 @@ export function LayerItem({
             <Typography
               className={css({
                 overflow: 'hidden',
-                wordBreak: 'break-all',
               })}
             >
               {layerName}
@@ -58,14 +94,14 @@ export function LayerItem({
           {includeStatus && <LayerStatusBadge status={status} />}
         </Flex>
       </Checkbox>
-      {isSingleTimeInfo(timeInfo) && (
+      {isSingleTimeInfo(timeInfo) && isEnabled && (
         <LayerDatePicker
           isDisabled={!isEnabled}
           layerActor={layerActor}
           defaultValue={timeInfo.value ? fromDate(timeInfo.value, 'UTC') : undefined}
         />
       )}
-      {isRangeTimeInfo(timeInfo) && (
+      {isRangeTimeInfo(timeInfo) && isEnabled && (
         <LayerDateRangePicker
           isDisabled={!isEnabled}
           layerActor={layerActor}
@@ -77,7 +113,7 @@ export function LayerItem({
           }
         />
       )}
-      <Slider
+      {/* <Slider
         label="Opacity"
         minValue={0}
         maxValue={100}
@@ -90,7 +126,7 @@ export function LayerItem({
             opacity: value / 100,
           });
         }}
-      />
+      /> */}
     </li>
   );
 }

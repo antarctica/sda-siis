@@ -1,11 +1,11 @@
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
+import { token } from '@styled-system/tokens';
 
 import { Heading } from '@/components/common/Typography';
+import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
 
 import { useLayerDisplayMode } from '../../hooks/selectors';
-import { LayerManagerContext } from '../../LayerManagerProvider';
 import { LayerGroupMachineActor, LayerMachineActor } from '../../machines/types';
 import { LayerItem } from '../layer/LayerItem';
 
@@ -41,46 +41,51 @@ function MultipleTimeSliceCollectionContent({
 }: {
   orderedChildLayerActors: LayerMachineActor[];
 }) {
-  // get all of the layers for the current child layer actors
-  const layers = LayerManagerContext.useSelector(({ context }) => {
-    const layerIds = orderedChildLayerActors.map((layer) => layer.id);
-    return context.layers.filter((layer) => layerIds.includes(layer.layerActor.id));
-  });
+  const footprintLayer = orderedChildLayerActors.find((layer) =>
+    layer.id.endsWith(FOOTPRINT_LAYER_NAME_SUFFIX),
+  );
 
-  const footprintLayer = layers.find((layer) => layer.layerData?.mapLayer instanceof FeatureLayer);
   if (!footprintLayer) {
     return null;
   }
-  const otherLayers = layers.filter((layer) => layer !== footprintLayer);
+
+  const otherLayers = orderedChildLayerActors.filter((layer) => layer !== footprintLayer);
 
   return (
     <Flex direction="column" gap="2">
-      <div>
-        <Heading heading="heading-3" as="h3">
-          Time Slices
-        </Heading>
-        <ul>
-          {otherLayers.map((layer) => (
-            <LayerItem
-              layerActor={layer.layerActor as LayerMachineActor}
-              key={layer.layerActor.id}
-              includeStatus={false}
-            />
-          ))}
-        </ul>
-      </div>
-      <div>
-        <Heading heading="heading-3" as="h3">
-          Footprints
-        </Heading>
-
-        <ul>
-          <LayerItem
-            layerActor={footprintLayer.layerActor as LayerMachineActor}
-            key={footprintLayer.layerActor.id}
-          />
-        </ul>
-      </div>
+      <ul>
+        <LayerItem
+          inGroup
+          layerActor={footprintLayer as LayerMachineActor}
+          key={footprintLayer.id}
+        />
+      </ul>
+      {otherLayers.length > 0 && (
+        <div>
+          <Heading
+            heading="body"
+            as="h4"
+            textPosition="end"
+            style={
+              {
+                '--typography-bar': token('colors.fg.muted'),
+              } as React.CSSProperties
+            }
+          >
+            Active Imagery Granules
+          </Heading>
+          <ul>
+            {otherLayers.map((layer) => (
+              <LayerItem
+                inGroup
+                layerActor={layer as LayerMachineActor}
+                key={layer.id}
+                includeStatus={false}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
     </Flex>
   );
 }

@@ -39,6 +39,7 @@ export const buttonRecipe = cva({
       },
       surface: {
         border: 'none',
+
         _hover: {
           cursor: 'pointer',
           bg: 'siis_greyAlpha.a3',
@@ -99,6 +100,7 @@ export const buttonRecipe = cva({
         _hover: {
           cursor: 'not-allowed',
         },
+        color: 'app.grey.a10',
       },
     },
     isFocusVisible: {

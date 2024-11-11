@@ -56,7 +56,7 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
               if (layer && layer.layerData?.mapLayer) {
                 const { mapLayer } = layer.layerData;
                 if (mapLayer.parent instanceof EsriMap) {
-                  console.log('reordering', mapLayer, index);
+                  console.log(mapLayer.parent.allLayers.toArray().map((layer) => layer.title));
                   const parent = mapLayer.parent as __esri.Map;
                   parent.reorder(mapLayer, index);
                   console.log(parent.allLayers.toArray().map((layer) => layer.title));

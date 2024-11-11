@@ -1,5 +1,6 @@
 import * as Accordion from '@radix-ui/react-accordion';
 import { css } from '@styled-system/css';
+import { Divider } from '@styled-system/jsx';
 import React from 'react';
 
 import { useTopLevelLayers } from '../hooks/selectors';
@@ -20,22 +21,25 @@ function LayerManager() {
         className={css({
           display: 'flex',
           flexDirection: 'column',
-          gap: '4',
+          gap: '2',
         })}
       >
-        {topLevelLayers
-          .map((layer) => {
-            if (layer.type === 'layerGroup') {
-              return (
-                <LayerGroupItem
-                  layerGroupActor={layer.layerActor as LayerGroupMachineActor}
-                  key={layer.layerActor.id}
-                />
-              );
-            }
-            return <LayerItem layerActor={layer.layerActor} key={layer.layerActor.id} />;
-          })
-          .reverse()}
+        {topLevelLayers.reverse().map((layer, index) => {
+          const item =
+            layer.type === 'layerGroup' ? (
+              <LayerGroupItem
+                layerGroupActor={layer.layerActor as LayerGroupMachineActor}
+                key={layer.layerActor.id}
+              />
+            ) : (
+              <React.Fragment key={`${layer.layerActor.id}-wrapper`}>
+                {index > 0 && <Divider color="bg.base.border" />}
+                <LayerItem layerActor={layer.layerActor} />
+              </React.Fragment>
+            );
+
+          return item;
+        })}
       </ul>
     </Accordion.Root>
   );

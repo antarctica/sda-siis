@@ -1,6 +1,7 @@
 import { defineTokens } from '@pandacss/dev';
 
 export const siisColorTokens = defineTokens.colors({
+  transparent: { value: 'transparent' },
   siis_grey: {
     1: { value: '#fcfcfd' },
     2: { value: '#f9f9fb' },

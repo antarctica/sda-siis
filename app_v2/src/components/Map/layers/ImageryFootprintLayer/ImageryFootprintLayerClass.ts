@@ -65,6 +65,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
   @property({ readOnly: true })
   subLayers: Collection<{
     layer: WMSLayer;
+    timestamp: string;
     id: number;
   }> = new Collection();
 
@@ -121,6 +122,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
       spatialReference: SpatialReference.WGS84,
       popupEnabled: false,
       ...properties,
+      title: `${properties.title} Footprints`,
     });
     this.applyEdits({ addFeatures: properties.footprints });
 
@@ -188,6 +190,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
 
         this.subLayers.add({
           layer: wmsLayer,
+          timestamp: attributes.timestamp,
           id: attributes.footprintId,
         });
 

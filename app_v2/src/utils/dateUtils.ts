@@ -14,11 +14,22 @@ export type RangeValue =
  * Safely parses a date string to a UTC date, handling various formats.
  * Returns undefined if parsing fails.
  *
- * @param dateString - The date string to parse
+ * @param dateInput - The date input to parse
  * @returns CalendarDateTime | undefined
  */
-export function safeParseUTC(dateString: string): ZonedDateTime | undefined {
+export function safeParseUTC(dateInput: string | number): ZonedDateTime | undefined {
   try {
+    // Handle timestamp number
+    if (typeof dateInput === 'number') {
+      const date = new Date(dateInput);
+      if (isValid(date)) {
+        return parseAbsolute(date.toISOString(), 'UTC');
+      }
+      return undefined;
+    }
+
+    // Handle string (existing logic)
+    const dateString = dateInput;
     // First try: Direct parseAbsolute with Z
     try {
       return parseAbsolute(dateString + 'Z', 'UTC');

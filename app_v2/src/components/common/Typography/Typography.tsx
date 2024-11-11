@@ -44,6 +44,9 @@ const typographyRecipe = cva({
       'heading-4': {
         textStyle: 'heading4',
       },
+      body: {
+        textStyle: 'body',
+      },
     },
 
     textPosition: {
@@ -53,7 +56,7 @@ const typographyRecipe = cva({
           content: "''",
           display: 'block',
           height: '0.5',
-          backgroundColor: 'fg',
+          backgroundColor: 'bg.base.border',
           width: 'full',
         },
       },
@@ -63,7 +66,7 @@ const typographyRecipe = cva({
           content: "''",
           display: 'block',
           height: '0.5',
-          backgroundColor: 'fg',
+          backgroundColor: 'bg.base.border',
           width: 'full',
         },
       },
@@ -72,8 +75,8 @@ const typographyRecipe = cva({
         '&::before': {
           content: "''",
           display: 'block',
-          height: '0.5',
-          backgroundColor: 'fg',
+          height: '[1px]',
+          backgroundColor: 'bg.base.border',
           width: 'full',
         },
       },
@@ -155,7 +158,7 @@ export function Heading({
   children,
   ...props
 }: TypographyProps & {
-  heading: 'heading-1' | 'heading-2' | 'heading-3' | 'heading-4' | 'heading-mega';
+  heading: 'heading-1' | 'heading-2' | 'heading-3' | 'heading-4' | 'heading-mega' | 'body';
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }) {
   return (

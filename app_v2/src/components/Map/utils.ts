@@ -107,7 +107,7 @@ export function createWFSLayer(layer: MapProduct, visible: boolean) {
 }
 
 export function createImageryFootprints(granules: MapGranule[]): ImageryFootprint[] {
-  const footprints = granules.map(({ geojson_extent, filename_dl, timestamp, id }) => {
+  const footprints = granules.map(({ geojson_extent, timestamp, id }) => {
     if (!geojson_extent || !geojson_extent.coordinates) return;
 
     // Create a Polygon from GeoJSON
@@ -117,7 +117,7 @@ export function createImageryFootprints(granules: MapGranule[]): ImageryFootprin
     });
 
     const attributes: ImageryFootprintAttributes = {
-      title: filename_dl ?? '',
+      title: timestamp ?? '',
       timestamp: timestamp ?? '',
       footprintId: id ?? 0,
     };
@@ -139,6 +139,7 @@ export function createImageryFootprintLayer(
   const footprints = createImageryFootprints(granules);
 
   return new ImageryFootprintLayer({
+    title: layer.label,
     footprints: footprints.filter(Boolean) as ImageryFootprint[],
     wmsLayerName: layer.gs_layername ?? '',
     wmsUrl: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wmsendpoint}`,
