@@ -74,10 +74,10 @@ paths:
       parameters:
         - name: code
           in: path
-          description: SIIS product code of the granlues to get
+          description: SIIS product code of the granules to get
           schema:
             type: string
-          required: True
+          required: true
         - name: limit
           in: query
           description: maximum number of results to return
@@ -93,10 +93,16 @@ paths:
             type: number
         - name: date
           in: query
-          description: filters returned granules by acquisition date
+          description: filters returned granules by acquisition date (YYYY-MM-DD)
           required: false
           schema:
-              type: string
+            type: string
+        - name: date_range
+          in: query
+          description: filters returned granules by date range (YYYY-MM-DD/YYYY-MM-DD)
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Successfully read granules from granule data operation
@@ -128,10 +134,16 @@ paths:
             type: number
         - name: date
           in: query
-          description: filters returned granules by acquisition date
+          description: filters returned granules by acquisition date (YYYY-MM-DD)
           required: false
           schema:
-              type: string
+            type: string
+        - name: date_range
+          in: query
+          description: filters returned granules by date range (YYYY-MM-DD/YYYY-MM-DD)
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Successfully read granule set operation
@@ -456,21 +468,24 @@ components:
 
     granule:
       type: object
+      required:
+        - id
       properties:
         id:
-          type: integer
+          type: string
           description: Granule UUID
         productcode:
           type: string
           description: SIIS product code
         timestamp:
           type: string
+          format: date-time
           description: Timestamp of granule
         downloadable:
           type: integer
           description: Downloadable
         downloaded:
-          type: string
+          type: integer
           description: Downloaded to local
         filename_dl:
           type: string
@@ -486,15 +501,19 @@ components:
           description: Filename of product after extraction
         ts_catingest:
           type: string
+          format: date-time
           description: Timestamp of ingestion into shore-side catalogue
         ts_dlrequest:
           type: string
+          format: date-time
           description: Timestamp of download request to shore-side
         ts_downloaded:
           type: string
+          format: date-time
           description: Timestamp of finished download ship-side
         ts_gsingest:
           type: string
+          format: date-time
           description: Timestamp of successful ship-side GeoServer ingest
         status:
           type: string

@@ -4,10 +4,14 @@ import { createActorContext } from '@xstate/react';
 import React from 'react';
 import { assertEvent } from 'xstate';
 
+import { fetchGranulesForProduct } from '@/api/api';
 import { LayerDisplayMode, LayerStatus } from '@/types';
+import { formatDateToYYYYMMDD } from '@/utils/dateUtils';
 
+import { ImageryFootprintLayer } from '../Map/layers/ImageryFootprintLayer/ImageryFootprintLayerClass';
+import { createImageryFootprints } from '../Map/utils';
 import { createLayerManagerMachine } from './machines/layerManagerMachine';
-import { isSingleTimeInfo } from './machines/types';
+import { isRangeTimeInfo, isSingleTimeInfo } from './machines/types';
 
 export type LayerData = {
   mapLayer: __esri.Layer | null;
@@ -64,7 +68,8 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
             assertEvent(event, 'LAYER.UPDATE_TIME_INFO');
             const { layerId, timeInfo } = event;
             const layer = context.layers.find((layer) => layer.layerActor.id === layerId);
-            if (layer && layer.layerData?.mapLayer) {
+            const mapLayer = layer?.layerData?.mapLayer;
+            if (mapLayer) {
               if (isSingleTimeInfo(timeInfo)) {
                 // generate a range over the entire day of the timeInfo.value
                 const start = new Date(timeInfo.value);
@@ -75,7 +80,26 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
                   start,
                   end,
                 });
-                layer.layerData.mapLayer.set('timeExtent', timeExtent);
+                mapLayer.set('timeExtent', timeExtent);
+              }
+              if (isRangeTimeInfo(timeInfo)) {
+                if (mapLayer instanceof ImageryFootprintLayer) {
+                  const startDataYYMMDD = formatDateToYYYYMMDD(timeInfo.start);
+                  const endDataYYMMDD = formatDateToYYYYMMDD(timeInfo.end);
+                  const productId = layer.layerActor.getSnapshot().context.parentRef?.id;
+                  if (productId) {
+                    fetchGranulesForProduct(productId, `${startDataYYMMDD}/${endDataYYMMDD}`).then(
+                      (granules) => {
+                        const imageryFootprints = createImageryFootprints(granules);
+                        mapLayer.imageryFootprints.splice(
+                          0,
+                          mapLayer.imageryFootprints.length,
+                          ...imageryFootprints,
+                        );
+                      },
+                    );
+                  }
+                }
               }
             }
           },

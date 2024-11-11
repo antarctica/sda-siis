@@ -25,8 +25,8 @@ const sliderRecipe = sva({
         gridColumn: '2',
         alignItems: 'center',
         position: 'relative',
-        mx: '2',
-        h: '6',
+        mx: '1',
+        h: '4',
       },
     },
   },
@@ -39,7 +39,7 @@ const trackRecipe = cva({
     top: '[50%]',
     transform: 'translateY(-50%)',
     w: 'full',
-    h: '0.5',
+    h: '1',
     cursor: 'pointer',
   },
   variants: {
@@ -77,7 +77,7 @@ const trackRecipe = cva({
 const thumbRecipe = cva({
   base: {
     w: '1',
-    h: '6',
+    h: '4',
     rounded: 'full',
     bg: 'bg.base',
     borderColor: 'bg.accent',

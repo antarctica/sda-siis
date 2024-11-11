@@ -214,6 +214,10 @@ maxage?: number
 date?: string
 ```
 
+```ts
+date_range?: string
+```
+
 #### Responses
 
 - 200 Successfully read granules from granule data operation
@@ -282,6 +286,10 @@ maxage?: number
 
 ```ts
 date?: string
+```
+
+```ts
+date_range?: string
 ```
 
 #### Responses

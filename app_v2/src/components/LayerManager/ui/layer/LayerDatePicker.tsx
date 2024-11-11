@@ -1,11 +1,11 @@
-import { fromDate } from '@internationalized/date';
+import { DateValue } from '@internationalized/date';
 import React from 'react';
 
 import { useAPI } from '@/api/api';
 import { DatePicker } from '@/components/common/forms/DatePicker';
 import { safeParseUTC } from '@/utils/dateUtils';
 
-import { LayerMachineActor } from '../machines/types';
+import { LayerMachineActor } from '../../machines/types';
 
 // Todo:
 // - At the moment the date picker will only allow one granule per day to be selected.
@@ -14,18 +14,16 @@ import { LayerMachineActor } from '../machines/types';
 
 function LayerDatePicker({
   isDisabled,
-  siisCode,
   layerActor,
   defaultValue,
 }: {
   isDisabled: boolean;
-  siisCode: string;
   layerActor: LayerMachineActor;
-  defaultValue?: Date;
+  defaultValue?: DateValue;
 }) {
   const { data } = useAPI('/products/{code}/granules', {
     params: {
-      path: { code: siisCode },
+      path: { code: layerActor.id },
       query: {
         maxage: 365 * 24, // 1 year in hours,
       },
@@ -63,7 +61,7 @@ function LayerDatePicker({
       navButtonsEnabled
       isDisabled={isDisabled}
       maxValue={maxDate}
-      defaultValue={defaultValue ? fromDate(defaultValue, 'UTC') : undefined}
+      defaultValue={defaultValue}
       validDates={dateValues}
       granularity="day"
       onChange={(value) => {

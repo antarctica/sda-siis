@@ -1,3 +1,4 @@
+import { fromDate, today } from '@internationalized/date';
 import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import { useSelector } from '@xstate/react';
@@ -7,11 +8,18 @@ import Slider from '@/components/common/forms/Slider';
 import Typography from '@/components/common/Typography';
 import { LayerStatusBadge, LayerStatusCircle } from '@/components/LayerStatus';
 
-import { useLayerStatus } from '../hooks/selectors';
-import { isSingleTimeInfo, LayerMachineActor } from '../machines/types';
+import { useLayerStatus } from '../../hooks/selectors';
+import { isRangeTimeInfo, isSingleTimeInfo, LayerMachineActor } from '../../machines/types';
 import LayerDatePicker from './LayerDatePicker';
+import LayerDateRangePicker from './LayerDateRangePicker';
 
-export function LayerItem({ layerActor }: { layerActor: LayerMachineActor }) {
+export function LayerItem({
+  layerActor,
+  includeStatus = true,
+}: {
+  layerActor: LayerMachineActor;
+  includeStatus?: boolean;
+}) {
   const { layerName, opacity, timeInfo } = useSelector(layerActor, ({ context }) => ({
     layerName: context.layerName,
     opacity: context.opacity,
@@ -19,7 +27,6 @@ export function LayerItem({ layerActor }: { layerActor: LayerMachineActor }) {
   }));
 
   const status = useLayerStatus(layerActor.id);
-
   const isEnabled = useSelector(layerActor, (state) => state.matches('enabled'));
 
   return (
@@ -38,7 +45,7 @@ export function LayerItem({ layerActor }: { layerActor: LayerMachineActor }) {
       >
         <Flex gap="2" w="full" alignItems="center" justifyContent="space-between">
           <Flex gap="2" grow={1} minW="0" alignItems="center">
-            <LayerStatusCircle status={status} />
+            {includeStatus && <LayerStatusCircle status={status} />}
             <Typography
               className={css({
                 overflow: 'hidden',
@@ -48,15 +55,26 @@ export function LayerItem({ layerActor }: { layerActor: LayerMachineActor }) {
               {layerName}
             </Typography>
           </Flex>
-          <LayerStatusBadge status={status} />
+          {includeStatus && <LayerStatusBadge status={status} />}
         </Flex>
       </Checkbox>
       {isSingleTimeInfo(timeInfo) && (
         <LayerDatePicker
           isDisabled={!isEnabled}
-          siisCode={layerActor.id}
           layerActor={layerActor}
-          defaultValue={timeInfo.value}
+          defaultValue={timeInfo.value ? fromDate(timeInfo.value, 'UTC') : undefined}
+        />
+      )}
+      {isRangeTimeInfo(timeInfo) && (
+        <LayerDateRangePicker
+          isDisabled={!isEnabled}
+          layerActor={layerActor}
+          maxDate={today('')}
+          defaultValue={
+            timeInfo.start
+              ? { start: fromDate(timeInfo.start, 'UTC'), end: fromDate(timeInfo.end, 'UTC') }
+              : undefined
+          }
         />
       )}
       <Slider

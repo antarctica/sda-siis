@@ -106,11 +106,7 @@ export function createWFSLayer(layer: MapProduct, visible: boolean) {
   });
 }
 
-export function createImageryFootprintLayer(
-  layer: MapProduct,
-  granules: MapGranule[],
-  visible: boolean,
-) {
+export function createImageryFootprints(granules: MapGranule[]): ImageryFootprint[] {
   const footprints = granules.map(({ geojson_extent, filename_dl, timestamp, id }) => {
     if (!geojson_extent || !geojson_extent.coordinates) return;
 
@@ -124,7 +120,6 @@ export function createImageryFootprintLayer(
       title: filename_dl ?? '',
       timestamp: timestamp ?? '',
       footprintId: id ?? 0,
-      wmsUrl: layer.gs_wmsendpoint ?? '',
     };
 
     return new Graphic({
@@ -132,6 +127,16 @@ export function createImageryFootprintLayer(
       attributes,
     }) as ImageryFootprint;
   });
+
+  return footprints.filter(Boolean) as ImageryFootprint[];
+}
+
+export function createImageryFootprintLayer(
+  layer: MapProduct,
+  granules: MapGranule[],
+  visible: boolean,
+) {
+  const footprints = createImageryFootprints(granules);
 
   return new ImageryFootprintLayer({
     footprints: footprints.filter(Boolean) as ImageryFootprint[],

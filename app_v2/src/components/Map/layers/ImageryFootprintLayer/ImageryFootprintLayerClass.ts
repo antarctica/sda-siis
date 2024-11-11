@@ -12,7 +12,7 @@ import MapView from '@arcgis/core/views/MapView';
 import { throttleAsync } from '@/utils/throttle';
 
 export interface ImageryFootprintLayerProperties extends __esri.FeatureLayerProperties {
-  footprints: ImageryFootprint[];
+  footprints: Collection<ImageryFootprint> | ImageryFootprint[];
   fillSymbol?: __esri.SimpleFillSymbol;
   wmsLayerName: string;
   wmsUrl: string;
@@ -33,9 +33,9 @@ export type ImageryFootprintAttributes = {
 export type ImageryFootprint = PolygonGraphic<ImageryFootprintAttributes>;
 
 const DEFAULT_FILL_SYMBOL = new SimpleFillSymbol({
-  color: new Color([0, 0, 0, 0.1]),
+  color: new Color([255, 129, 50, 0.2]),
   outline: {
-    color: new Color([255, 255, 255, 0.4]),
+    color: new Color([255, 129, 50, 0.5]),
     width: 1,
   },
 });
@@ -45,6 +45,14 @@ const DEFAULT_FILL_SYMBOL = new SimpleFillSymbol({
  */
 @subclass('custom.ImageryFootprintLayer')
 export class ImageryFootprintLayer extends FeatureLayer {
+  private _footprints: Collection<ImageryFootprint> = new Collection();
+  private lastEditOperation: Promise<void | __esri.EditsResult> = Promise.resolve();
+
+  @property({ readOnly: true })
+  get imageryFootprints(): Collection<ImageryFootprint> {
+    return this._footprints;
+  }
+
   @property()
   style: __esri.SimpleFillSymbol;
 
@@ -80,12 +88,17 @@ export class ImageryFootprintLayer extends FeatureLayer {
 
   constructor(properties: ImageryFootprintLayerProperties) {
     super({
-      source: properties.footprints,
+      source: [],
       fields: [
+        {
+          name: 'objectid',
+          alias: 'Object ID',
+          type: 'oid',
+        },
         {
           name: 'footprintId',
           alias: 'Granule ID',
-          type: 'oid',
+          type: 'string',
         },
         {
           name: 'title',
@@ -98,7 +111,8 @@ export class ImageryFootprintLayer extends FeatureLayer {
           type: 'date',
         },
       ],
-      objectIdField: 'footprintId',
+      refreshInterval: 0.001,
+      objectIdField: 'objectid',
       outFields: ['*'],
       geometryType: 'polygon',
       renderer: new SimpleRenderer({
@@ -108,10 +122,29 @@ export class ImageryFootprintLayer extends FeatureLayer {
       popupEnabled: false,
       ...properties,
     });
+    this.applyEdits({ addFeatures: properties.footprints });
 
     this.style = properties.fillSymbol ?? DEFAULT_FILL_SYMBOL;
     this.wmsLayerName = properties.wmsLayerName;
     this.wmsUrl = properties.wmsUrl;
+
+    this._footprints = new Collection(properties.footprints);
+
+    this._footprints.on('after-changes', () => {
+      this.lastEditOperation = this.lastEditOperation
+        .then(async () => {
+          const currentFeatures = await this.queryFeatures({ where: '1=1' });
+          const newFeatures = this._footprints;
+
+          return this.applyEdits({
+            deleteFeatures: currentFeatures.features,
+            addFeatures: newFeatures,
+          });
+        })
+        .catch((error) => {
+          console.error('Error applying edits:', error);
+        });
+    });
 
     // Set up event handlers
     this.on('layerview-create', (event) => {
@@ -149,7 +182,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
             start: new Date(attributes.timestamp),
             end: new Date(attributes.timestamp),
           },
-          opacity: 0.9,
+
           visible: true,
         });
 

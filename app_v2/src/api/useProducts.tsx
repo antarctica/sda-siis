@@ -4,40 +4,12 @@ import useSWRImmutable from 'swr/immutable';
 import { MapGranule, MapProduct } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';
 
-import { apiClient } from './api';
+import { fetchGranulesForProduct, fetchProducts } from './api';
 
 type ProductWithGranules = MapProduct & {
   granules: MapGranule[];
   latestDate?: ZonedDateTime;
 };
-
-async function fetchProducts(hemi: 'N' | 'S'): Promise<MapProduct[]> {
-  const { data: products, error } = await apiClient.GET('/products', {
-    params: {
-      query: { hemi },
-    },
-  });
-
-  if (error || !products) {
-    console.error('Failed to fetch products:', error);
-    return [];
-  }
-
-  return products; // Return all products, including static ones
-}
-
-async function fetchGranulesForProduct(code: string): Promise<MapGranule[]> {
-  const { data, error } = await apiClient.GET('/products/{code}/granules', {
-    params: { path: { code } },
-  });
-
-  if (error) {
-    console.error(`Failed to fetch granules for product ${code}:`, error);
-    return [];
-  }
-
-  return data || [];
-}
 
 async function fetcher(): Promise<{ products: ProductWithGranules[] }> {
   try {

@@ -4,8 +4,8 @@ import React from 'react';
 
 import { useTopLevelLayers } from '../hooks/selectors';
 import { LayerGroupMachineActor } from '../machines/types';
-import LayerGroupItem from './LayerGroupItem';
-import { LayerItem } from './LayerItem';
+import { LayerItem } from './layer/LayerItem';
+import LayerGroupItem from './layerGroup/LayerGroupItem';
 
 function LayerManager() {
   const topLevelLayers = useTopLevelLayers();

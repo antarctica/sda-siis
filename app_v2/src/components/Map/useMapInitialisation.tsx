@@ -1,6 +1,7 @@
 import Basemap from '@arcgis/core/Basemap';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import EsriMap from '@arcgis/core/Map';
+import { today } from '@internationalized/date';
 import React from 'react';
 
 import { useProducts } from '@/api/useProducts';
@@ -111,6 +112,14 @@ export function useMapInitialization() {
             }
             break;
           case 'MultipleTimeSliceCollection':
+            const timeInfo: LayerTimeInfo = {
+              type: 'range',
+              precision: 'date',
+              start: today('UTC')
+                .subtract({ days: (layerConfig.default_timeframe ?? 0) % 24 })
+                .toDate('UTC'),
+              end: today('UTC').toDate('UTC'),
+            };
             addLayer(map, {
               layerData: {
                 mapLayer: null,
@@ -143,8 +152,9 @@ export function useMapInitialization() {
               layerId: `${layerId}-footprint`,
               layerName: `Footprints`,
               layerType: 'layer',
-              visible: true,
+              visible: layerConfig.show_on_startup ?? false,
               parentId: layerId,
+              timeInfo,
             });
 
             reactiveUtils.on(
@@ -165,6 +175,7 @@ export function useMapInitialization() {
                   layerType: 'layer',
                   visible: true,
                   parentId: layerId,
+                  position: 'top',
                 });
               },
             );

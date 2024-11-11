@@ -389,12 +389,14 @@ export interface operations {
         limit?: number;
         /** @description maximum age of granule since generation/acquisiton in hours */
         maxage?: number;
-        /** @description filters returned granules by acquisition date */
+        /** @description filters returned granules by acquisition date (YYYY-MM-DD) */
         date?: string;
+        /** @description filters returned granules by date range (YYYY-MM-DD/YYYY-MM-DD) */
+        date_range?: string;
       };
       header?: never;
       path: {
-        /** @description SIIS product code of the granlues to get */
+        /** @description SIIS product code of the granules to get */
         code: string;
       };
       cookie?: never;
@@ -419,8 +421,10 @@ export interface operations {
         limit?: number;
         /** @description maximum age of granule since generation/acquisiton in hours */
         maxage?: number;
-        /** @description filters returned granules by acquisition date */
+        /** @description filters returned granules by acquisition date (YYYY-MM-DD) */
         date?: string;
+        /** @description filters returned granules by date range (YYYY-MM-DD/YYYY-MM-DD) */
+        date_range?: string;
       };
       header?: never;
       path?: never;

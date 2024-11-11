@@ -1,4 +1,4 @@
-import { LayerGroupContext, ManagedItem } from './types';
+import { ChildLayerActor, LayerGroupContext, ManagedItem } from './types';
 
 export function isValidLayerIndex(index: number, length: number): boolean {
   return index >= 0 && index <= length;
@@ -58,4 +58,13 @@ export function getTopLevelLayersInOrder<T>(
   return layerOrder
     .map((layerId) => layers.find((l) => l.layerActor.id === layerId))
     .filter((layer): layer is ManagedItem<T> => layer !== undefined);
+}
+
+export function getLayerGroupChildrenInOrder(
+  childLayerOrder: string[],
+  layers: ChildLayerActor[],
+): ChildLayerActor[] {
+  return childLayerOrder
+    .map((layerId) => layers.find((l) => l.id === layerId))
+    .filter((layer): layer is ChildLayerActor => layer !== undefined);
 }

@@ -28,7 +28,6 @@ class GranuleStatus(str, Enum):
 class Granule(db.Model):
     __tablename__ = "granule"
     uuid = db.Column(db.String(), primary_key=True)
-    # id = db.Column(db.String(), primary_key=True)
     productcode = db.Column(db.String())
     timestamp = db.Column(db.DateTime())
     downloadable = db.Column(db.Integer())
@@ -75,7 +74,6 @@ class GranuleSchema(ma.SQLAlchemySchema):
 class Product(db.Model):
     __tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True)
-    #    code = db.Column(db.String(), db.ForeignKey('granule.productcode'))
     code = db.Column(db.String())
     label = db.Column(db.String())
     attribution = db.Column(db.String())
