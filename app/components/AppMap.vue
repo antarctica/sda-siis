@@ -178,20 +178,33 @@
           >
           <vl-style>
             <vl-style-circle :radius="5">
-            <vl-style-fill color="red"></vl-style-fill>
+              <vl-style-fill color="red"></vl-style-fill>
             </vl-style-circle>
           </vl-style>
         </vl-interaction-draw>
 
+        <!-- fuel-optimised route -->
         <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
           <vl-source-vector
-          :features="getRouteFeatures(route)"
+          :features="getRouteFeatures(route,1)"
+          >
+          </vl-source-vector>
+          <vl-style>
+            <vl-style-stroke color="red" :width="3"></vl-style-stroke>
+          </vl-style>
+        </vl-layer-vector>
+
+        <!-- time-optimised route -->
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+          <vl-source-vector
+          :features="getRouteFeatures(route,0)"
           >
           </vl-source-vector>
           <vl-style>
             <vl-style-stroke color="green" :width="3"></vl-style-stroke>
           </vl-style>
         </vl-layer-vector>
+
         <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
           <vl-source-vector
               :features="getRouteStart(route)"
@@ -857,16 +870,21 @@ export default {
        }
       _this.$emit("update:polarroute_coords", _this.polarroute_coords);
     },
-    getRouteFeatures: function(route) {
+    /**
+     * 
+     * @param route array of route objects
+     * @param idx index of array to return features for (usually, 0: time-optimised, 1: fuel-optimised)
+     */
+    getRouteFeatures: function(route, idx) {
       let features = [];
       let _this = this;
       if (route.hasOwnProperty('json')) {
         if (route.json != null){
-          features = JSON.parse(JSON.stringify(route.json[0][0]['features']));
+          features = JSON.parse(JSON.stringify(route.json[idx][0]['features']));
         }
       }else if (route.hasOwnProperty('json_unsmoothed')){
         if (route.json_unsmoothed != null){
-          features = JSON.parse(JSON.stringify(route.json_unsmoothed[0][0]['features']));
+          features = JSON.parse(JSON.stringify(route.json_unsmoothed[idx][0]['features']));
         }
       }
 
@@ -881,7 +899,7 @@ export default {
       return features
     },
     getRouteStart: function(route) {
-      let full_route = this.getRouteFeatures(route);
+      let full_route = this.getRouteFeatures(route,0);
       return [{
         "type": "Feature",
         "properties": {},
@@ -892,7 +910,7 @@ export default {
         }];
     },
     getRouteEnd: function(route) {
-      let full_route = this.getRouteFeatures(route);
+      let full_route = this.getRouteFeatures(route,0);
       let coordinates = full_route[0].geometry.coordinates;
       return [{
         "type": "Feature",
