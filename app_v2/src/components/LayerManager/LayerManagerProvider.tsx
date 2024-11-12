@@ -48,7 +48,7 @@ export const LayerManagerProvider = React.memo(({ children }: { children: React.
             const { layerOrder } = params;
             const mapLayerOrder = layerOrder.filter((layerId) => {
               const layer = context.layers.find((layer) => layer.layerActor.id === layerId);
-              return !!layer?.layerData;
+              return !!layer?.layerData?.mapLayer;
             });
 
             for (const [index, layerId] of mapLayerOrder.entries()) {

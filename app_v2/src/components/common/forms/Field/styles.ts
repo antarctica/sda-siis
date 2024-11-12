@@ -54,7 +54,7 @@ export const inputRecipe = cva({
   base: {
     h: '9',
     border: 'none',
-    bg: 'bg.surface',
+    bg: 'app.grey.3',
     py: '1.5',
     px: '2',
     _placeholder: {
@@ -66,7 +66,7 @@ export const inputRecipe = cva({
 
 export const textAreaRecipe = cva({
   base: {
-    bg: 'bg.surface',
+    bg: 'app.grey.3',
     py: '1.5',
     px: '2',
     _placeholder: {

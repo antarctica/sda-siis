@@ -26,6 +26,7 @@ export const buttonRecipe = cva({
           bg: 'app.accent.a7',
         },
       },
+
       outline: {
         borderWidth: 'thin',
         borderStyle: 'solid',
@@ -71,6 +72,7 @@ export const buttonRecipe = cva({
         },
       },
     },
+    isSelected: { true: {} },
     size: {
       sm: {
         fontSize: 'xs',
@@ -117,6 +119,23 @@ export const buttonRecipe = cva({
       },
     },
   },
+
+  compoundVariants: [
+    {
+      variant: ['outline'],
+      isSelected: true,
+      css: {
+        bg: 'app.accent',
+        color: 'fg.accent.contrast',
+        _hover: {
+          bg: 'app.accent.10',
+        },
+        _active: {
+          filter: '[brightness(0.92) saturate(1.1)]',
+        },
+      },
+    },
+  ],
 
   defaultVariants: {
     size: 'lg',

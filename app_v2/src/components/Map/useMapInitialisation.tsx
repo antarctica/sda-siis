@@ -123,7 +123,7 @@ export function useMapInitialization() {
               type: 'range',
               precision: 'date',
               start: today('UTC')
-                .subtract({ days: (layerConfig.default_timeframe ?? 0) % 24 })
+                .subtract({ days: Math.ceil((layerConfig.default_timeframe ?? 0) / 24) })
                 .toDate('UTC'),
               end: today('UTC').toDate('UTC'),
             };

@@ -53,9 +53,7 @@ const accordionItemRecipe = sva({
       justifyContent: 'center',
       fontSize: '2xs',
     },
-    content: {
-      pr: '2',
-    },
+    content: {},
 
     caret: {
       _groupExpanded: {
