@@ -183,7 +183,7 @@
           </vl-style>
         </vl-interaction-draw>
 
-        <vl-layer-vector zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
           <vl-source-vector
           :features="getRouteFeatures(route)"
           >
@@ -191,6 +191,28 @@
           <vl-style>
             <vl-style-stroke color="green" :width="3"></vl-style-stroke>
           </vl-style>
+        </vl-layer-vector>
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+          <vl-source-vector
+              :features="getRouteStart(route)"
+            >
+            <vl-style>
+              <vl-style-circle :radius="5">
+              <vl-style-fill color="green"></vl-style-fill>
+              </vl-style-circle>
+            </vl-style>
+          </vl-source-vector>
+        </vl-layer-vector>
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+          <vl-source-vector
+              :features="getRouteEnd(route)"
+            >
+            <vl-style>
+              <vl-style-circle :radius="5">
+              <vl-style-fill color="red"></vl-style-fill>
+              </vl-style-circle>
+            </vl-style>
+          </vl-source-vector>
         </vl-layer-vector>
 
       </template>
@@ -851,13 +873,35 @@ export default {
       if (features.length > 0) {
         let transformed_coordinates = []
         for (let coordinate of features[0]['geometry']['coordinates']) {
-          console.log(coordinate)
           let transformed_coordinate = transform(coordinate, 'EPSG:4326', _this.crs);
           transformed_coordinates.push(transformed_coordinate);
         }
         features[0]['geometry']['coordinates'] = transformed_coordinates;
       }
       return features
+    },
+    getRouteStart: function(route) {
+      let full_route = this.getRouteFeatures(route);
+      return [{
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": full_route[0].geometry.coordinates[0],
+          "type": "Point"
+          }
+        }];
+    },
+    getRouteEnd: function(route) {
+      let full_route = this.getRouteFeatures(route);
+      let coordinates = full_route[0].geometry.coordinates;
+      return [{
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": coordinates[coordinates.length - 1],
+          "type": "Point"
+          }
+        }];
     },
     exportDrawnFeature: function() {
       if (Object.keys(this.drawn_feature).length === 0) {
