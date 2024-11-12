@@ -6,10 +6,18 @@
     <fieldset id="app-polarroute-control-request">
         <div><label for="start-point-select">Start</label></div>
         
-        <div><button title="Choose on map"
-        v-on:click="choose_polarroute_start = !choose_polarroute_start"
-        :class="choose_polarroute_start ? 'activated': null"
-        >Choose start on map</button></div>
+        <div>
+          <button title="Choose on map"
+          v-on:click="choose_polarroute_start = !choose_polarroute_start"
+          :class="choose_polarroute_start ? 'activated': null"
+          >Choose start on map</button>
+
+          <input
+          placeholder="Name (optional)"
+          title="Give points chosen from map a convenient name."
+          v-model="polarroute_coords.start.name"
+          >
+        </div>
 
         <div>
         <select name="start" id="start-point-select"
@@ -25,10 +33,17 @@
         <div><label for="end-point-select">End</label></div>
         
       
-        <div><button title="Choose on map"
-        v-on:click="choose_polarroute_end = !choose_polarroute_end"
-        :class="choose_polarroute_end ? 'activated': null"
-        >Choose end on map</button></div>
+        <div>
+          <button title="Choose on map"
+          v-on:click="choose_polarroute_end = !choose_polarroute_end"
+          :class="choose_polarroute_end ? 'activated': null"
+          >Choose end on map</button></div>
+
+          <input
+          placeholder="Name (optional)"
+          title="Give points chosen from map a convenient name."
+          v-model="polarroute_coords.end.name"
+          >
 
         <div>
         <select name="end" id="end-point-select"
@@ -230,28 +245,22 @@ export default {
 
 
       requestRoute: async function() {
-        console.debug("requesting route")
         // Make initial post request to initiate route calculation
         let _this = this;
         let route = _this.routeRequestConfig();
         await axios.post(_this.polarroute_server_endpoint + '/api/route', route,
           {headers: {'Content-Type': 'application/json'}})
         .then(function (response) {
-          console.debug(response)
           route.id = response.data.id;
           if (Object.hasOwn(response.data, 'json')){
-            console.debug(response)
             route.json = response.data.json;
             route.status = "SUCCESS";
             route.show = true;
-            console.debug("Route status: "+ route.status)
           }else if (Object.hasOwn(response.data, "status-url")){
             let status_url = response.data["status-url"];
             route.status_url = status_url;
             route.status = "PENDING";
             
-            console.debug("Setting interval")
-
             // set up periodic status request if route pending
             route.status_handle = setInterval(function(){_this.requestStatus(route)}, _this.statusUpdateFrequency*1000);
           }else{
