@@ -57,8 +57,8 @@
           <td><span :title="route.start_name ? getRouteCoordText(route.start_lat, route.start_lon) : ''">{{ route.start_name ? route.start_name : getRouteCoordText(route.start_lat, route.start_lon) }}</span></td>
           <td><span :title="route.end_name ? getRouteCoordText(route.end_lat, route.end_lon) : ''">{{ route.end_name ? route.end_name : getRouteCoordText(route.end_lat, route.end_lon) }}</span></td>
           <td><span :title="getRouteInfoText(route)">{{ route.info ? route.status + ' (!)' : route.status}}</span></td>
-          <td><span :title="getTimeFuelTooltipText(route)">{{ formatNumber(getRouteProperties(route, 0).total_traveltime) }}</span></td> <!-- Show time from time-optimised route (0)-->
-          <td><span :title="getTimeFuelTooltipText(route)">{{ formatNumber(getRouteProperties(route, 1).total_fuel) }}</span></td> <!-- Show fuel from fuel-optimised route (0)-->
+          <td><span :title="getTimeFuelTooltipText(route)">{{ getTimeOptimisedTraveltimeText(route) }}</span></td> <!-- Show time from time-optimised route (0)-->
+          <td><span :title="getTimeFuelTooltipText(route)">{{ getFuelOptimisedFuelText(route)}}</span></td> <!-- Show fuel from fuel-optimised route (0)-->
         </tr>
       </table>
 
@@ -180,15 +180,41 @@ export default {
         }else if (route.hasOwnProperty('json_unsmoothed')){
           route_json = route.json_unsmoothed;
         }
-        return route_json[idx][0]['features'][0]['properties'];
+        if (route_json == null || route_json[idx] == undefined){
+          return null
+        }else{
+          return route_json[idx][0]['features'][0]['properties'];
+        }
       },
 
       getTimeFuelTooltipText(route) {
-        let t_route_t = this.formatNumber(this.getRouteProperties(route, 0).total_traveltime);
-        let t_route_f = this.formatNumber(this.getRouteProperties(route, 0).total_fuel);
-        let f_route_t = this.formatNumber(this.getRouteProperties(route, 1).total_traveltime);
-        let f_route_f = this.formatNumber(this.getRouteProperties(route, 1).total_fuel);
-        return `Time-optimised route\nTime: ${t_route_t} hrs; Fuel: ${t_route_f}\n\nFuel-optimised route\nTime: ${f_route_t} hrs; Fuel: ${f_route_f}`
+        if (!route.hasOwnProperty('json') || !route.hasOwnProperty('json_unsmoothed') || this.getRouteProperties(route, 0) == null){
+          return null
+        }else{
+          let t_route_t = this.formatNumber(this.getRouteProperties(route, 0).total_traveltime);
+          let t_route_f = this.formatNumber(this.getRouteProperties(route, 0).total_fuel);
+          let f_route_t = this.formatNumber(this.getRouteProperties(route, 1).total_traveltime);
+          let f_route_f = this.formatNumber(this.getRouteProperties(route, 1).total_fuel);
+          return `Time-optimised route (green)\nTime: ${t_route_t} hrs; Fuel: ${t_route_f}\n\nFuel-optimised route (red)\nTime: ${f_route_t} hrs; Fuel: ${f_route_f}`
+        }
+      },
+
+      getTimeOptimisedTraveltimeText(route){
+        let route_properties = this.getRouteProperties(route, 0);
+        if (route_properties == null){
+          return '-'
+        }else{
+          return this.formatNumber(route_properties.total_traveltime)
+        }
+      },
+
+      getFuelOptimisedFuelText(route){
+        let route_properties = this.getRouteProperties(route, 1);
+        if (route_properties == null){
+          return '-'
+        }else{
+          return this.formatNumber(route_properties.total_fuel)
+        }
       },
 
       routeRequestConfig(){
