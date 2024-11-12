@@ -241,10 +241,8 @@ export default {
 
 
       requestStatus: async function (route) {
-        console.debug("requesting route status: " + route.status_url)
         await axios.get(route.status_url)
           .then(function (response){
-            console.debug(response.data)
             route.status = response.data.status;
             route.show = true;
             if (Object.hasOwn(response.data, "json") && response.data.status == "SUCCESS"){
@@ -274,12 +272,8 @@ export default {
         console.debug("requesting recent routes")
         await axios.get(_this.polarroute_server_endpoint + '/api/recent_routes')
         .then(function (response){
-            console.debug(response.data)
             _this.routes = response.data;
 
-            console.debug('routes')
-            console.debug(_this.routes)
-            
             _this.routes.forEach(route => {
               Vue.set(route, 'show', false); // set watchers
             });
