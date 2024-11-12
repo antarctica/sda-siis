@@ -139,7 +139,8 @@
           >
           <vl-style>
             <vl-style-circle :radius="5">
-            <vl-style-fill color="green"></vl-style-fill>
+              <vl-style-fill color="#BBDAC0"></vl-style-fill>
+              <vl-style-stroke color="#379245" :width="1"></vl-style-stroke>
             </vl-style-circle>
           </vl-style>
         </vl-source-vector>
@@ -151,7 +152,8 @@
           >
           <vl-style>
             <vl-style-circle :radius="5">
-            <vl-style-fill color="green"></vl-style-fill>
+              <vl-style-fill color="#BBDAC0"></vl-style-fill>
+              <vl-style-stroke color="#379245" :width="1"></vl-style-stroke>
             </vl-style-circle>
           </vl-style>
         </vl-interaction-draw>
@@ -166,7 +168,8 @@
           >
           <vl-style>
             <vl-style-circle :radius="5">
-            <vl-style-fill color="red"></vl-style-fill>
+              <vl-style-fill color="#E4ADB3"></vl-style-fill>
+              <vl-style-stroke color="#B10E1E" :width="1"></vl-style-stroke>
             </vl-style-circle>
           </vl-style>
         </vl-source-vector>
@@ -178,7 +181,8 @@
           >
           <vl-style>
             <vl-style-circle :radius="5">
-              <vl-style-fill color="red"></vl-style-fill>
+              <vl-style-fill color="#E4ADB3"></vl-style-fill>
+              <vl-style-stroke color="#B10E1E" :width="1"></vl-style-stroke>
             </vl-style-circle>
           </vl-style>
         </vl-interaction-draw>
@@ -190,7 +194,7 @@
           >
           </vl-source-vector>
           <vl-style>
-            <vl-style-stroke color="red" :width="3"></vl-style-stroke>
+            <vl-style-stroke color="#E4ADB3" :width="2"></vl-style-stroke>
           </vl-style>
         </vl-layer-vector>
 
@@ -201,7 +205,7 @@
           >
           </vl-source-vector>
           <vl-style>
-            <vl-style-stroke color="green" :width="3"></vl-style-stroke>
+            <vl-style-stroke color="#379245" :width="2"></vl-style-stroke>
           </vl-style>
         </vl-layer-vector>
 
@@ -211,7 +215,8 @@
             >
             <vl-style>
               <vl-style-circle :radius="5">
-              <vl-style-fill color="green"></vl-style-fill>
+              <vl-style-fill color="#BBDAC0"></vl-style-fill>
+              <vl-style-stroke color="#379245" :width="1"></vl-style-stroke>
               </vl-style-circle>
             </vl-style>
           </vl-source-vector>
@@ -222,7 +227,8 @@
             >
             <vl-style>
               <vl-style-circle :radius="5">
-              <vl-style-fill color="red"></vl-style-fill>
+                <vl-style-fill color="#E4ADB3"></vl-style-fill>
+                <vl-style-stroke color="#B10E1E" :width="1"></vl-style-stroke>
               </vl-style-circle>
             </vl-style>
           </vl-source-vector>
