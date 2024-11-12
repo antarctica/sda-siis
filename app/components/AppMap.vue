@@ -183,9 +183,8 @@
           </vl-style>
         </vl-interaction-draw>
 
-        <vl-layer-vector :zIndex=990>
+        <vl-layer-vector zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
           <vl-source-vector
-          v-for="route in routes.filter((route) => route.show === true)"
           :features="getRouteFeatures(route)"
           >
           </vl-source-vector>
