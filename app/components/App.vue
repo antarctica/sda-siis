@@ -152,7 +152,7 @@ export default Vue.extend({
       map_centre: [0,0],
       show_graticule: true,
       show_measure_tool: false,
-      show_polarroute: true,
+      show_polarroute: false,
       show_ship_position: false,
       show_ship_track: false,
       ship_position_lat: 0,
