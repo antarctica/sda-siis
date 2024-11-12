@@ -49,14 +49,16 @@
           <td><strong>Start</strong></td>
           <td><strong>End</strong></td>
           <td><strong>Status</strong></td>
-          <td><strong>Info</strong></td>
+          <td><strong>Optimal Time (hrs)</strong></td>
+          <td><strong>Optimal Fuel</strong></td>
         </tr>
 
         <tr v-for="route in routes" :key="route.id"  v-on:click="route.show=!route.show" :class="route.show ? 'shown-route' : ''">
           <td><span :title="route.start_name ? getRouteCoordText(route.start_lat, route.start_lon) : ''">{{ route.start_name ? route.start_name : getRouteCoordText(route.start_lat, route.start_lon) }}</span></td>
           <td><span :title="route.end_name ? getRouteCoordText(route.end_lat, route.end_lon) : ''">{{ route.end_name ? route.end_name : getRouteCoordText(route.end_lat, route.end_lon) }}</span></td>
-          <td><span :title="getRouteInfoText(route)">{{ route.status }}</span></td>
-          <td><span :title="getRouteInfoText(route)">{{ route.info ? '!' : '' }}</span></td>
+          <td><span :title="getRouteInfoText(route)">{{ route.info ? route.status + ' (!)' : route.status}}</span></td>
+          <td><span :title="getTimeFuelTooltipText(route)">{{ formatNumber(getRouteProperties(route, 0).total_traveltime) }}</span></td> <!-- Show time from time-optimised route (0)-->
+          <td><span :title="getTimeFuelTooltipText(route)">{{ formatNumber(getRouteProperties(route, 1).total_fuel) }}</span></td> <!-- Show fuel from fuel-optimised route (0)-->
         </tr>
       </table>
 
@@ -172,13 +174,21 @@ export default {
       },
 
       getRouteProperties(route, idx){
-        let features = [];
+        let route_json = [];
         if (route.hasOwnProperty('json')) {
-            route_json = route.json;
+          route_json = route.json;
         }else if (route.hasOwnProperty('json_unsmoothed')){
           route_json = route.json_unsmoothed;
         }
         return route_json[idx][0]['features'][0]['properties'];
+      },
+
+      getTimeFuelTooltipText(route) {
+        let t_route_t = this.formatNumber(this.getRouteProperties(route, 0).total_traveltime);
+        let t_route_f = this.formatNumber(this.getRouteProperties(route, 0).total_fuel);
+        let f_route_t = this.formatNumber(this.getRouteProperties(route, 1).total_traveltime);
+        let f_route_f = this.formatNumber(this.getRouteProperties(route, 1).total_fuel);
+        return `Time-optimised route\nTime: ${t_route_t} hrs; Fuel: ${t_route_f}\n\nFuel-optimised route\nTime: ${f_route_t} hrs; Fuel: ${f_route_f}`
       },
 
       routeRequestConfig(){
