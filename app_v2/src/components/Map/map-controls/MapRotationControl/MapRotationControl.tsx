@@ -1,3 +1,4 @@
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { sva } from '@styled-system/css';
 import { motion } from 'framer-motion';
@@ -99,7 +100,11 @@ function MapRotationToggleGroup() {
           break;
       }
 
-      mapView.rotation = rotation;
+      reactiveUtils
+        .whenOnce(() => !(mapView?.interacting || mapView?.animation))
+        .then(() => {
+          mapView.rotation = rotation;
+        });
     },
     [mapView, shipHeading, latitude, longitude],
   );
