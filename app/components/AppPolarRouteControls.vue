@@ -55,8 +55,17 @@
         </select>
       </div>
 
+      <div v-if="devMode">
+        <input
+        v-model="polarroute_server_endpoint"
+        title="Custom PolarRouteServer endpoint URL"
+        />
+      </div>
+
       <div><button title="Request Route" v-on:click="requestRoute()">Get Route</button></div>
       </fieldset>
+      
+      <div><button title="Refresh Routes" v-on:click="requestRecentRoutes()">Refresh Routes</button></div>
 
       <div>
       <table v-if="routes.length > 0">
@@ -78,7 +87,7 @@
       </table>
 
       <span v-else>{{ serviceStatusText }}</span>
-       </div>
+      </div>
 </section>
 </template>
 
@@ -103,7 +112,9 @@ export default {
 
     data() {
         return {
+          devMode: false,
           statusUpdateFrequency: 10, // seconds
+          polarroute_server_endpoint: null,
           routes: [],
           serviceStatusText: "Contacting route server..",
           favourites: [
@@ -124,9 +135,6 @@ export default {
       hide_ui: function() {
         return !this.display_ui;
       },
-      polarroute_server_endpoint: function () {
-        return process.env.POLARROUTE_SERVER_ENDPOINT;
-      },
       locations() {
         let l = JSON.parse(JSON.stringify(this.favourites)); // Hacky deep clone
         l.unshift({
@@ -140,6 +148,11 @@ export default {
 
     beforeMount(){
       this.requestRecentRoutes();
+    },
+
+    mounted(){
+      this.setDevMode();
+      this.setPolarRouteServerEndpoint();
     },
 
     watch: {
@@ -159,6 +172,17 @@ export default {
     },
 
     methods: {
+
+      setDevMode () {
+        let urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('polarRouteDevMode')){
+          urlParams.get('polarRouteDevMode')
+        }
+      },
+
+      setPolarRouteServerEndpoint(){
+        this.polarroute_server_endpoint = process.env.POLARROUTE_SERVER_ENDPOINT;
+      },
 
       formatNumber (num) {
         return parseFloat(num).toFixed(2)
