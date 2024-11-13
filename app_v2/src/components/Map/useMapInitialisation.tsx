@@ -13,14 +13,14 @@ import {
   getLayerDisplayMode,
   ogcPriority,
 } from '@/components/Map/utils';
-import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
+import { FOOTPRINT_LAYER_NAME_SUFFIX, WKID_LOOKUP } from '@/config/constants';
 import { useFormatDate } from '@/hooks/useFormatDate';
-import { OGCType } from '@/types';
+import { MapCRS, OGCType } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';
 
 import { useTheme } from '../Theme';
 
-export function useMapInitialization() {
+export function useMapInitialization(crs: MapCRS) {
   const [map, setMap] = React.useState<EsriMap>();
   const mapRef = React.useRef<EsriMap>();
   const dateFormatter = useFormatDate({
@@ -32,7 +32,7 @@ export function useMapInitialization() {
 
   const addLayer = useAddLayer();
 
-  const { data } = useProducts();
+  const { data } = useProducts(crs);
   React.useEffect(() => {
     if (mapRef.current) {
       // map already initialized
@@ -44,7 +44,7 @@ export function useMapInitialization() {
         basemap: new Basemap({
           baseLayers: [],
           spatialReference: {
-            wkid: 3031,
+            wkid: WKID_LOOKUP[crs],
           },
         }),
       });
@@ -63,6 +63,7 @@ export function useMapInitialization() {
           case 'Static':
             const newLayer = createOGCLayer(
               layerConfig,
+              WKID_LOOKUP[crs],
               ogcType,
               theme.currentTheme,
               layerConfig.show_on_startup ?? false,
@@ -94,6 +95,7 @@ export function useMapInitialization() {
               };
               const newLayer = createOGCLayer(
                 layerConfig,
+                WKID_LOOKUP[crs],
                 ogcType,
                 theme.currentTheme,
                 layerConfig.show_on_startup ?? false,
@@ -202,7 +204,7 @@ export function useMapInitialization() {
       mapRef.current = map;
       setMap(map);
     }
-  }, [addLayer, data, theme, dateFormatter]);
+  }, [addLayer, data, theme, dateFormatter, crs]);
 
   return map;
 }

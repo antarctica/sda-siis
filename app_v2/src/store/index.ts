@@ -1,10 +1,12 @@
 import type { ReducersMapObject } from '@reduxjs/toolkit';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import projectionReducer from './features/projectionSlice';
 import shipReducer from './features/shipSlice';
 
 const staticReducers = {
   ship: shipReducer,
+  crs: projectionReducer,
 };
 
 const asyncReducers = {};

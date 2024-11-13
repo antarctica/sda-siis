@@ -37,6 +37,7 @@ const textFieldRecipe = cva({
     display: 'flex',
     flexDirection: 'column',
     gap: '1',
+    mb: '2',
   },
 });
 

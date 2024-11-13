@@ -58,6 +58,7 @@ export function createWMTSLayer(layer: MapProduct, currentTheme: Theme, visible:
 
 export function createWMSLayer(
   layer: MapProduct,
+  wkid: number,
   currentTheme: Theme,
   visible: boolean,
   timeInfo?: LayerTimeInfo,
@@ -88,7 +89,7 @@ export function createWMSLayer(
       STYLES: `${layer.style}.${convertThemeToStyle(currentTheme)}`,
     },
     spatialReference: {
-      wkid: 3031,
+      wkid,
     },
     copyright: layer.attribution,
     visible,
@@ -149,6 +150,7 @@ export function createImageryFootprintLayer(
 
 export function createOGCLayer(
   layer: MapProduct,
+  wkid: number,
   ogcType: OGCType,
   currentTheme: Theme,
   visible: boolean,
@@ -159,7 +161,7 @@ export function createOGCLayer(
       return createWMTSLayer(layer, currentTheme, visible);
     case 'WMS':
     case 'WMS-T':
-      return createWMSLayer(layer, currentTheme, visible, timeInfo);
+      return createWMSLayer(layer, wkid, currentTheme, visible, timeInfo);
     case 'WFS':
       return createWFSLayer(layer, visible);
   }

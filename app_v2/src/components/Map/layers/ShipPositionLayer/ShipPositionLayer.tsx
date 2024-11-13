@@ -6,20 +6,21 @@ import React from 'react';
 import { useShipPosition } from '@/api/useShipSensorData';
 import { ArcFeatureLayer } from '@/arcgis/ArcLayer/generated/ArcFeatureLayer';
 import { ArcGraphicsLayer } from '@/arcgis/ArcLayer/generated/ArcGraphicsLayer';
+import { WKID_LOOKUP } from '@/config/constants';
 import { MapCRS } from '@/types';
 
 import { useShipBufferGraphic } from './useShipBufferGraphic';
 import { useShipLocationGraphic } from './useShipLocationGraphic';
 import { REF_ID_ATTRIBUTE } from './utils';
 
-function ShipPositionLayer() {
+function ShipPositionLayer({ crs }: { crs: MapCRS }) {
   const [graphicsLayer, setGraphicsLayer] = React.useState<__esri.GraphicsLayer>();
   const [featureLayer, setFeatureLayer] = React.useState<__esri.FeatureLayer>();
   const { latitude, longitude } = useShipPosition();
   useShipLocationGraphic(
     graphicsLayer,
     latitude && longitude ? { latitude, longitude } : null,
-    MapCRS.ANTARCTIC,
+    crs,
   );
   useShipBufferGraphic(featureLayer, latitude && longitude ? { latitude, longitude } : null);
 
@@ -70,7 +71,7 @@ function ShipPositionLayer() {
         objectIdField="ObjectID"
         geometryType="polyline"
         spatialReference={{
-          wkid: 3031,
+          wkid: WKID_LOOKUP[crs],
         }}
         renderer={
           new SimpleRenderer({

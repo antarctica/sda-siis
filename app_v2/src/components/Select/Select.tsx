@@ -5,8 +5,6 @@ import {
   Button,
   composeRenderProps,
   FieldError,
-  ListBox,
-  ListBoxItem,
   Popover,
   Select as SelectPrimitive,
   SelectStateContext,
@@ -16,6 +14,7 @@ import {
 
 import { FieldGroup, Label } from '../common/forms/Field';
 import SvgIcon from '../common/SvgIcon';
+import ListBox, { ListBoxItem, ListBoxItemData } from '../ListBox';
 
 interface ISelectProps<T extends object> extends Omit<SelectProps<T>, 'children'> {
   label?: string;
@@ -26,7 +25,7 @@ interface ISelectProps<T extends object> extends Omit<SelectProps<T>, 'children'
 }
 
 const selectRecipe = sva({
-  slots: ['root', 'popover', 'dropdownContainer', 'fieldGroup', 'button', 'selectItem'],
+  slots: ['root', 'popover', 'fieldGroup', 'button'],
   base: {
     root: {
       w: 'full',
@@ -46,11 +45,6 @@ const selectRecipe = sva({
       bg: 'bg.popover',
       borderRadius: 'sm',
       shadow: 'sm',
-    },
-    dropdownContainer: {
-      _focusVisible: {
-        insetFocusRing: true,
-      },
     },
 
     button: {
@@ -79,23 +73,6 @@ const selectRecipe = sva({
         insetFocusRing: true,
       },
     },
-    selectItem: {
-      px: '2',
-      py: '1',
-      cursor: 'pointer',
-      outline: 'none',
-      _focus: {
-        bg: 'bg.popover.hover',
-      },
-      _selected: {
-        bg: 'bg.accent',
-        color: 'fg.accent.contrast',
-        _focus: {
-          bg: 'bg.accent',
-          filter: '[brightness(0.92) saturate(1.1)]',
-        },
-      },
-    },
   },
   variants: {
     open: {
@@ -105,26 +82,19 @@ const selectRecipe = sva({
         },
       },
     },
-    isFocusVisible: {
-      true: {
-        selectItem: {
-          insetFocusRing: true,
-        },
-      },
-    },
   },
 });
 
-export function Select<T extends object>({
+export function Select<T extends ListBoxItemData>({
   label,
   description,
   errorMessage,
-  children,
   items,
+  children,
   className,
   ...props
 }: ISelectProps<T>) {
-  const { root, popover, dropdownContainer } = selectRecipe();
+  const { root, popover } = selectRecipe();
   return (
     <SelectPrimitive
       {...props}
@@ -135,9 +105,7 @@ export function Select<T extends object>({
       {description && <Text slot="description">{description}</Text>}
       <FieldError>{errorMessage}</FieldError>
       <Popover offset={8} className={popover}>
-        <ListBox items={items} className={dropdownContainer}>
-          {children}
-        </ListBox>
+        <ListBox items={items}>{children}</ListBox>
       </Popover>
     </SelectPrimitive>
   );
@@ -161,14 +129,6 @@ function SelectButton() {
   );
 }
 
-export function SelectItem(props: ListBoxItemProps) {
-  return (
-    <ListBoxItem
-      {...props}
-      className={({ isFocusVisible, defaultClassName }) => {
-        const { selectItem } = selectRecipe({ isFocusVisible });
-        return cx(selectItem, defaultClassName);
-      }}
-    />
-  );
+export function SelectItem<T extends ListBoxItemData>({ children, ...props }: ListBoxItemProps<T>) {
+  return <ListBoxItem {...props}>{children}</ListBoxItem>;
 }

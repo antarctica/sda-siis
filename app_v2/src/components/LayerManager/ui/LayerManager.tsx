@@ -27,10 +27,10 @@ function LayerManager() {
         {topLevelLayers.reverse().map((layer, index) => {
           const item =
             layer.type === 'layerGroup' ? (
-              <>
+              <React.Fragment key={`${layer.layerActor.id}-wrapper`}>
                 {index > 0 && <Divider color="bg.base.border" />}
                 <LayerGroupItem layerGroupActor={layer.layerActor as LayerGroupMachineActor} />
-              </>
+              </React.Fragment>
             ) : (
               <React.Fragment key={`${layer.layerActor.id}-wrapper`}>
                 {index > 0 && <Divider color="bg.base.border" />}

@@ -6,6 +6,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 
 import { Action } from './Actions';
 import { FullScreen } from './FullScreen';
+import { SelectProjection } from './SelectProjection';
 
 const toolbarRecipe = cva({
   base: {
@@ -28,11 +29,7 @@ export function Toolbar() {
         aria-label={'Settings'}
         onPress={() => {}}
       ></Action>
-      <Action
-        icon={<SvgIcon name="icon-globe" size={20} />}
-        aria-label={'Select Projection'}
-        onPress={() => {}}
-      ></Action>
+      <SelectProjection />
       <Action
         icon={<SvgIcon name="icon-info" size={20} />}
         aria-label={'Information'}

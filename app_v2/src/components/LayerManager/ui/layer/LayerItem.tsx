@@ -27,7 +27,6 @@ const layerItemRecipe = sva({
 
       borderRadius: 'sm',
       px: '2',
-      pb: '2',
     },
   },
   variants: {

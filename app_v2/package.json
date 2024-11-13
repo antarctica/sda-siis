@@ -44,6 +44,7 @@
     "react-dom": "^18.2.0",
     "react-pro-sidebar": "^1.1.0",
     "react-redux": "^9.1.2",
+    "react-stately": "^3.33.0",
     "swr": "^2.2.5",
     "swr-openapi": "^5.0.0",
     "usehooks-ts": "^3.1.0",

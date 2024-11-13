@@ -227,7 +227,7 @@ date_range?: string
 ```ts
 {
   // Granule UUID
-  id?: integer
+  id: string
   // SIIS product code
   productcode?: string
   // Timestamp of granule
@@ -235,7 +235,7 @@ date_range?: string
   // Downloadable
   downloadable?: integer
   // Downloaded to local
-  downloaded?: string
+  downloaded?: integer
   // Filename of product for download package
   filename_dl?: string
   // Download file size
@@ -301,7 +301,7 @@ date_range?: string
 ```ts
 {
   // Granule UUID
-  id?: integer
+  id: string
   // SIIS product code
   productcode?: string
   // Timestamp of granule
@@ -309,7 +309,7 @@ date_range?: string
   // Downloadable
   downloadable?: integer
   // Downloaded to local
-  downloaded?: string
+  downloaded?: integer
   // Filename of product for download package
   filename_dl?: string
   // Download file size
@@ -357,7 +357,7 @@ Read one granule record
 ```ts
 {
   // Granule UUID
-  id?: integer
+  id: string
   // SIIS product code
   productcode?: string
   // Timestamp of granule
@@ -365,7 +365,7 @@ Read one granule record
   // Downloadable
   downloadable?: integer
   // Downloaded to local
-  downloaded?: string
+  downloaded?: integer
   // Filename of product for download package
   filename_dl?: string
   // Download file size
@@ -766,7 +766,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
 ```ts
 {
   // Granule UUID
-  id?: integer
+  id: string
   // SIIS product code
   productcode?: string
   // Timestamp of granule
@@ -774,7 +774,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
-  downloaded?: string
+  downloaded?: integer
   // Filename of product for download package
   filename_dl?: string
   // Download file size
@@ -808,7 +808,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
 ```ts
 {
   // Granule UUID
-  id?: integer
+  id: string
   // SIIS product code
   productcode?: string
   // Timestamp of granule
@@ -816,7 +816,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
-  downloaded?: string
+  downloaded?: integer
   // Filename of product for download package
   filename_dl?: string
   // Download file size

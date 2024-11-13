@@ -11,7 +11,7 @@ export const apiClient = createClient<paths>({
 
 export const useAPI = createQueryHook(apiClient, 'api');
 
-export async function fetchProducts(hemi: 'N' | 'S'): Promise<MapProduct[]> {
+export async function fetchProducts(hemi: 'N' | 'S' | undefined): Promise<MapProduct[]> {
   const { data: products, error } = await apiClient.GET('/products', {
     params: {
       query: { hemi },

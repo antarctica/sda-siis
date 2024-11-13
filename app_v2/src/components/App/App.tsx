@@ -7,10 +7,13 @@ import { Provider as ReduxProvider } from 'react-redux';
 
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
 import { ProjectionProvider } from '@/arcgis/projection/ProjectionProvider';
+import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';
 import Drawing from '@/panels/Drawing';
 import MapLayers from '@/panels/MapLayers';
 import store from '@/store';
+import { selectCurrentCRS } from '@/store/features/projectionSlice';
+import { useAppSelector } from '@/store/hooks';
 
 import SvgIcon from '../common/SvgIcon';
 import Drawer from '../Drawer';
@@ -63,12 +66,19 @@ const Providers = React.memo(({ children }: { children: React.ReactNode }) => {
 
 function AppContent() {
   const isMobile = useIsMobile();
+  useInitialCRS();
+  const crs = useAppSelector(selectCurrentCRS);
+
+  if (!crs) {
+    return null;
+  }
+
   return (
     <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'} overflow={'hidden'}>
       <Header />
       <Flex w={'full'} flexGrow={1} minH={'0'}>
         {isMobile ? <Drawer /> : <Sidebar />}
-        <Map />
+        <Map key={crs} crs={crs} />
       </Flex>
     </Flex>
   );

@@ -56,7 +56,7 @@ export function Header() {
             orientation={'vertical'}
             thickness={'thin'}
             color="bg.base.border"
-          ></Divider>{' '}
+          ></Divider>
           <MobileSideMenu />
         </Flex>
       )}

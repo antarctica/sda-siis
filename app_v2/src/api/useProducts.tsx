@@ -1,7 +1,8 @@
 import { ZonedDateTime } from '@internationalized/date';
 import useSWRImmutable from 'swr/immutable';
 
-import { MapGranule, MapProduct } from '@/types';
+import { CRS_TO_HEMISPHERE } from '@/config/constants';
+import { MapCRS, MapGranule, MapProduct } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';
 
 import { fetchGranulesForProduct, fetchProducts } from './api';
@@ -11,9 +12,10 @@ type ProductWithGranules = MapProduct & {
   latestDate?: ZonedDateTime;
 };
 
-async function fetcher(): Promise<{ products: ProductWithGranules[] }> {
+async function fetcher(crs: MapCRS): Promise<{ products: ProductWithGranules[] }> {
   try {
-    const allProducts = await fetchProducts('S');
+    const hemisphere = CRS_TO_HEMISPHERE[crs];
+    const allProducts = await fetchProducts(hemisphere);
 
     // Fetch granules for dynamic products (non-static)
     const granulePromises: Promise<ProductWithGranules>[] = allProducts
@@ -66,4 +68,5 @@ async function fetcher(): Promise<{ products: ProductWithGranules[] }> {
   }
 }
 
-export const useProducts = () => useSWRImmutable('/products', fetcher);
+export const useProducts = (crs: MapCRS) =>
+  useSWRImmutable(`/products?crs=${crs}`, () => fetcher(crs));

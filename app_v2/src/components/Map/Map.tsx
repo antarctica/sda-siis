@@ -2,10 +2,12 @@
 import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { cva } from '@styled-system/css';
 import { Box, Flex } from '@styled-system/jsx';
+import React from 'react';
 
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
-import { MAP_ID } from '@/config/constants';
+import { CRS_TO_HEMISPHERE, MAP_ID } from '@/config/constants';
 import useIsMobile from '@/hooks/useIsMobile';
+import { MapCRS } from '@/types';
 
 import SensorInfo from '../ShipSensorInfo';
 import LabelledGraticuleLayer from './layers/GraticuleLayer/LabelledGraticuleLayer';
@@ -33,9 +35,19 @@ const mapStyles = cva({
   },
 });
 
-export function Map() {
-  const map = useMapInitialization();
+export function Map({ crs }: { crs: MapCRS }) {
+  const map = useMapInitialization(crs);
   const isMobile = useIsMobile();
+  const center = React.useMemo(() => {
+    switch (crs) {
+      case MapCRS.ANTARCTIC:
+        return [0, -90];
+      case MapCRS.ARCTIC:
+        return [0, 90];
+      default:
+        return [0, 0];
+    }
+  }, [crs]);
 
   return (
     <Box w={'full'} h={'full'} position={'relative'} className={mapStyles()}>
@@ -44,10 +56,11 @@ export function Map() {
           id={MAP_ID}
           map={map}
           scale={25000000}
-          constraints={{ rotationEnabled: false }}
+          constraints={{ rotationEnabled: false, minScale: 50e6, maxScale: 10e3 }}
           onArcgisViewReadyChange={(event) => {
             console.log(event.target.view);
           }}
+          center={center}
         >
           {!isMobile && (
             <ArcgisPlacement position="bottom-right">
@@ -66,14 +79,14 @@ export function Map() {
               {!isMobile && <CursorLocationControl />}
             </Flex>
           </ArcgisPlacement>
-          <ShipPositionLayer />
+          <ShipPositionLayer crs={crs} />
           <LabelledGraticuleLayer
             id="graticule-layer"
             title="Graticule"
             opacity={0.75}
             graticuleBounds={{
-              minLatitude: -89,
-              maxLatitude: -50,
+              minLatitude: CRS_TO_HEMISPHERE[crs] === 'N' ? 50 : -89,
+              maxLatitude: CRS_TO_HEMISPHERE[crs] === 'N' ? 89 : -50,
             }}
           />
           <SynchroniseLayerTheme />
