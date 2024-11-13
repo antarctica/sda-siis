@@ -6,7 +6,7 @@ import React from 'react';
 import { useShipPosition } from '@/api/useShipSensorData';
 import { ArcFeatureLayer } from '@/arcgis/ArcLayer/generated/ArcFeatureLayer';
 import { ArcGraphicsLayer } from '@/arcgis/ArcLayer/generated/ArcGraphicsLayer';
-import { WKID_LOOKUP } from '@/config/constants';
+import { CRS_LOOKUP } from '@/config/constants';
 import { MapCRS } from '@/types';
 
 import { useShipBufferGraphic } from './useShipBufferGraphic';
@@ -71,7 +71,7 @@ function ShipPositionLayer({ crs }: { crs: MapCRS }) {
         objectIdField="ObjectID"
         geometryType="polyline"
         spatialReference={{
-          wkid: WKID_LOOKUP[crs],
+          wkid: CRS_LOOKUP[crs].wkid,
         }}
         renderer={
           new SimpleRenderer({

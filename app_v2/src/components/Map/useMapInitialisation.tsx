@@ -13,7 +13,7 @@ import {
   getLayerDisplayMode,
   ogcPriority,
 } from '@/components/Map/utils';
-import { FOOTPRINT_LAYER_NAME_SUFFIX, WKID_LOOKUP } from '@/config/constants';
+import { CRS_LOOKUP, FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
 import { useFormatDate } from '@/hooks/useFormatDate';
 import { MapCRS, OGCType } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';
@@ -44,7 +44,7 @@ export function useMapInitialization(crs: MapCRS) {
         basemap: new Basemap({
           baseLayers: [],
           spatialReference: {
-            wkid: WKID_LOOKUP[crs],
+            wkid: CRS_LOOKUP[crs].wkid,
           },
         }),
       });
@@ -63,7 +63,7 @@ export function useMapInitialization(crs: MapCRS) {
           case 'Static':
             const newLayer = createOGCLayer(
               layerConfig,
-              WKID_LOOKUP[crs],
+              CRS_LOOKUP[crs].wkid,
               ogcType,
               theme.currentTheme,
               layerConfig.show_on_startup ?? false,
@@ -95,7 +95,7 @@ export function useMapInitialization(crs: MapCRS) {
               };
               const newLayer = createOGCLayer(
                 layerConfig,
-                WKID_LOOKUP[crs],
+                CRS_LOOKUP[crs].wkid,
                 ogcType,
                 theme.currentTheme,
                 layerConfig.show_on_startup ?? false,

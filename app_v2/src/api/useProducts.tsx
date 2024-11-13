@@ -1,7 +1,7 @@
 import { ZonedDateTime } from '@internationalized/date';
 import useSWRImmutable from 'swr/immutable';
 
-import { CRS_TO_HEMISPHERE } from '@/config/constants';
+import { CRS_LOOKUP } from '@/config/constants';
 import { MapCRS, MapGranule, MapProduct } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';
 
@@ -14,7 +14,7 @@ type ProductWithGranules = MapProduct & {
 
 async function fetcher(crs: MapCRS): Promise<{ products: ProductWithGranules[] }> {
   try {
-    const hemisphere = CRS_TO_HEMISPHERE[crs];
+    const hemisphere = CRS_LOOKUP[crs].hemisphere;
     const allProducts = await fetchProducts(hemisphere);
 
     // Fetch granules for dynamic products (non-static)
