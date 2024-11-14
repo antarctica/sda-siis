@@ -120,7 +120,7 @@ export function createImageryFootprints(granules: MapGranule[]): ImageryFootprin
     const attributes: ImageryFootprintAttributes = {
       title: timestamp ?? '',
       timestamp: timestamp ?? '',
-      footprintId: id ?? 0,
+      footprintId: id ?? '',
     };
 
     return new Graphic({

@@ -24,7 +24,7 @@ interface PolygonGraphic<T extends object> extends __esri.Graphic {
 }
 
 export type ImageryFootprintAttributes = {
-  footprintId: number;
+  footprintId: string;
   title: string;
   timestamp: string;
   [key: string]: unknown;
@@ -66,14 +66,14 @@ export class ImageryFootprintLayer extends FeatureLayer {
   subLayers: Collection<{
     layer: WMSLayer;
     timestamp: string;
-    id: number;
+    id: string;
   }> = new Collection();
 
-  get selectedFootprints(): Array<number> {
+  get selectedFootprints(): Array<string> {
     return Array.from(this.subLayers.map((subLayer) => subLayer.id));
   }
 
-  private isSelectedFootprint(footprintId: number): boolean {
+  private isSelectedFootprint(footprintId: string): boolean {
     return this.subLayers.some((subLayer) => subLayer.id === footprintId);
   }
 

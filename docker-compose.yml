@@ -1,5 +1,7 @@
 ---
 version: "2"
+x-build-args: &build-args
+  DOCKER_BUILDKIT: 1
 
 services:
   rsync:
@@ -78,3 +80,29 @@ services:
       - api
       - api-kv
       - geoserver
+
+  app-v2:
+    image: docker-registry.data.bas.ac.uk/magic/siis/app-v2:latest
+    build: 
+      context: ./app_v2
+      dockerfile: Dockerfile
+      cache_from:
+        - type=registry,ref=docker-registry.data.bas.ac.uk/magic/siis/app-v2:latest
+      cache_to:
+        - type=inline
+    command: "npm run dev"
+    volumes:
+      - ./app_v2:/app
+      - /app/node_modules
+    environment:
+      HOST: 0.0.0.0
+      PORT: 5173
+      VITE_SERVICE_API_ENDPOINT: http://localhost:9001
+      VITE_SERVICE_API_KV_ENDPOINT: http://localhost:9002/kv
+      VITE_SERVICE_API_OGC_ENDPOINT: http://localhost:8080
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+      - api-kv
+      - geoserver 

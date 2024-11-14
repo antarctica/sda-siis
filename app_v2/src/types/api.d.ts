@@ -268,15 +268,18 @@ export interface components {
     products: components['schemas']['product'][];
     granule: {
       /** @description Granule UUID */
-      id?: number;
+      id: string;
       /** @description SIIS product code */
       productcode?: string;
-      /** @description Timestamp of granule */
+      /**
+       * Format: date-time
+       * @description Timestamp of granule
+       */
       timestamp?: string;
       /** @description Downloadable */
       downloadable?: number;
       /** @description Downloaded to local */
-      downloaded?: string;
+      downloaded?: number;
       /** @description Filename of product for download package */
       filename_dl?: string;
       /** @description Download file size */
@@ -285,13 +288,25 @@ export interface components {
       zipped?: number;
       /** @description Filename of product after extraction */
       productname?: string;
-      /** @description Timestamp of ingestion into shore-side catalogue */
+      /**
+       * Format: date-time
+       * @description Timestamp of ingestion into shore-side catalogue
+       */
       ts_catingest?: string;
-      /** @description Timestamp of download request to shore-side */
+      /**
+       * Format: date-time
+       * @description Timestamp of download request to shore-side
+       */
       ts_dlrequest?: string;
-      /** @description Timestamp of finished download ship-side */
+      /**
+       * Format: date-time
+       * @description Timestamp of finished download ship-side
+       */
       ts_downloaded?: string;
-      /** @description Timestamp of successful ship-side GeoServer ingest */
+      /**
+       * Format: date-time
+       * @description Timestamp of successful ship-side GeoServer ingest
+       */
       ts_gsingest?: string;
       /**
        * @description Status of granule availability on vessel
