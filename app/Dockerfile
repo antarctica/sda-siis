@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:erbium-alpine
 
 LABEL maintainer = "Felix Fennell <felnne@bas.ac.uk>"
 
