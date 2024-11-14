@@ -6,7 +6,7 @@ LABEL maintainer = "Jonathan Dawe <jonwe@bas.ac.uk>"
 WORKDIR /usr/src/app
 
 # Copy configuration files first
-COPY package*.json tsconfig*.json /usr/src/app/
+COPY package*.json tsconfig*.json eslint.config.mjs /usr/src/app/
 COPY panda.config.ts /usr/src/app/
 COPY panda.config/ /usr/src/app/panda.config/
 

@@ -11,7 +11,7 @@ import tseslint from 'typescript-eslint';
 export default [
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
-    ignores: ['**/dist/**', '**/node_modules/**', 'styled-system/**'],
+    ignores: ['**/dist/**', '**/node_modules/**', '**/styled-system/**', 'node_modules', 'dist'],
     plugins: {
       '@pandacss': panda,
       'simple-import-sort': simpleImportSort,
