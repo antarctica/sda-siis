@@ -46,7 +46,8 @@ type IconName =
   | 'icon-follow'
   | 'icon-follow-off'
   | 'icon-target'
-  | 'icon-focus-item';
+  | 'icon-focus-item'
+  | 'icon-minimise-ui';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: IconName;

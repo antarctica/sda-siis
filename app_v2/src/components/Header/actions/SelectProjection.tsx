@@ -3,8 +3,8 @@ import { DialogTrigger } from 'react-aria-components';
 
 import SvgIcon from '@/components/common/SvgIcon';
 import { Action } from '@/components/Header/actions/Actions';
-import { LayerManagerContext } from '@/components/LayerManager/LayerManagerProvider';
 import SelectionMenu, { SelectionMenuItem } from '@/components/SelectionMenu/SelectionMenu';
+import { useResetApplicationState } from '@/hooks/useResetApplicationState';
 import { selectCurrentCRS, setCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { MapCRS } from '@/types';
@@ -23,16 +23,15 @@ const items: SelectionMenuItem<MapCRS>[] = [
 export function SelectProjection() {
   const currentCRS = useAppSelector(selectCurrentCRS);
   const dispatch = useAppDispatch();
-  const layerManager = LayerManagerContext.useActorRef();
-
+  const resetApplicationState = useResetApplicationState();
   const [open, setOpen] = React.useState(false);
 
   const updateCRS = React.useCallback(
     (crs: MapCRS) => {
       dispatch(setCurrentCRS(crs));
-      layerManager.send({ type: 'RESET' });
+      resetApplicationState();
     },
-    [dispatch, layerManager],
+    [dispatch, resetApplicationState],
   );
 
   return (

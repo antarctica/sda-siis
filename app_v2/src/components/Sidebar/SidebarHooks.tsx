@@ -28,3 +28,11 @@ export const useSidebarItems = () => {
 export const useSidebarActorRef = () => {
   return SidebarContext.useActorRef();
 };
+
+export function useMinimiseSidebar() {
+  const actorRef = SidebarContext.useActorRef();
+  return () => {
+    actorRef.send({ type: 'COLLAPSE.MINIMISE' });
+    actorRef.send({ type: 'ITEMS.CLOSE_ALL' });
+  };
+}

@@ -12,6 +12,9 @@ type SidebarEvents =
       type: 'COLLAPSE.TOGGLE';
     }
   | {
+      type: 'COLLAPSE.MINIMISE';
+    }
+  | {
       type: 'ITEMS.SET_ACTIVE';
       id: string;
     }
@@ -64,6 +67,9 @@ export const sideBarMachine = setup({
     Expanded: {
       on: {
         'COLLAPSE.TOGGLE': {
+          target: 'Collapsed',
+        },
+        'COLLAPSE.MINIMISE': {
           target: 'Collapsed',
         },
       },

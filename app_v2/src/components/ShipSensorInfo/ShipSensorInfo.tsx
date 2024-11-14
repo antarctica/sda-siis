@@ -1,8 +1,10 @@
 import { css } from '@styled-system/css';
-import { useState } from 'react';
 
 import { useSensorData } from '@/api/useShipSensorData';
 import { MapButton } from '@/components/common/Button';
+import { selectSensorInfoPanelOpen } from '@/store/features/shipSlice';
+import { setSensorInfoPanelOpen } from '@/store/features/shipSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 import PulsatingDot from '../common/PulsatingDot';
 import SvgIcon from '../common/SvgIcon';
@@ -40,9 +42,9 @@ function SensorStatusDot() {
 }
 
 function SensorInfo() {
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  const toggleSensorInfo = () => setIsExpanded(!isExpanded);
+  const sensorInfoPanelOpen = useAppSelector(selectSensorInfoPanelOpen);
+  const dispatch = useAppDispatch();
+  const toggleSensorInfo = () => dispatch(setSensorInfoPanelOpen(!sensorInfoPanelOpen));
 
   return (
     <div
@@ -52,15 +54,15 @@ function SensorInfo() {
     >
       <MapButton
         icon={<SvgIcon name="icon-ship" size={16} />}
-        aria-label={isExpanded ? 'Hide ship sensor info' : 'Show ship sensor info'}
-        aria-expanded={isExpanded}
+        aria-label={sensorInfoPanelOpen ? 'Hide ship sensor info' : 'Show ship sensor info'}
+        aria-expanded={sensorInfoPanelOpen}
         aria-controls="sensor-info-panel"
         onPress={toggleSensorInfo}
         className={css({
           position: 'absolute',
           top: '0',
           right: '0',
-          ...(isExpanded
+          ...(sensorInfoPanelOpen
             ? {
                 shadow: '[none]',
                 borderColor: 'app.accent',
@@ -71,7 +73,7 @@ function SensorInfo() {
         })}
       />
       <SensorStatusDot />
-      {isExpanded && <SensorInfoPanel />}
+      {sensorInfoPanelOpen && <SensorInfoPanel />}
     </div>
   );
 }

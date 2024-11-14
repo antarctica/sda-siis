@@ -4,10 +4,12 @@ import { RootState } from '..';
 
 interface ShipState {
   followShip: boolean;
+  sensorInfoPanelOpen: boolean;
 }
 
 const initialState: ShipState = {
   followShip: false,
+  sensorInfoPanelOpen: true,
 };
 
 export const shipSlice = createSlice({
@@ -17,12 +19,20 @@ export const shipSlice = createSlice({
     setFollowShip: (state, action: PayloadAction<boolean>) => {
       state.followShip = action.payload;
     },
+    setSensorInfoPanelOpen: (state, action: PayloadAction<boolean>) => {
+      state.sensorInfoPanelOpen = action.payload;
+    },
+    reset: () => initialState,
   },
 });
 
-export const { setFollowShip } = shipSlice.actions;
+export const { setFollowShip, setSensorInfoPanelOpen, reset } = shipSlice.actions;
 
 const selectShipState = (state: RootState) => state.ship;
 export const selectFollowShip = createSelector(selectShipState, (state) => state.followShip);
+export const selectSensorInfoPanelOpen = createSelector(
+  selectShipState,
+  (state) => state.sensorInfoPanelOpen,
+);
 
 export default shipSlice.reducer;
