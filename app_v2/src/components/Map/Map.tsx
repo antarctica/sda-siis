@@ -78,10 +78,7 @@ export function Map({ crs }: { crs: MapCRS }) {
             id="graticule-layer"
             title="Graticule"
             opacity={0.75}
-            graticuleBounds={{
-              minLatitude: CRS_LOOKUP[crs].hemisphere === 'N' ? 50 : -89,
-              maxLatitude: CRS_LOOKUP[crs].hemisphere === 'N' ? 89 : -50,
-            }}
+            graticuleBounds={CRS_LOOKUP[crs].graticuleBounds}
           />
           <SynchroniseLayerTheme />
         </ArcMapView>

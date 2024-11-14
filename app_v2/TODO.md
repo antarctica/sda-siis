@@ -1,5 +1,4 @@
 # Todo:
- [ ] - Add UI to the ship loctation window to show if the ship is on the map or off the map. 
  [ ] - create hook for cleanly reseting the map layers and general app state. 
  [ ] - add layer meta data into the layer properties.
  [ ] - Add a button that minimises all of the user interface. 

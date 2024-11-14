@@ -1,18 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { useShipPosition } from '@/api/useShipSensorData';
+import { getDefaultCRSForLatitude } from '@/config/constants';
 import { setCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppDispatch } from '@/store/hooks';
-import { MapCRS } from '@/types';
-
-function determineCRS(latitude: number): MapCRS {
-  if (latitude < -55) {
-    return MapCRS.ANTARCTIC;
-  } else if (latitude > 55) {
-    return MapCRS.ARCTIC;
-  }
-  return MapCRS.MERCATOR;
-}
 
 export function useInitialCRS() {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -21,7 +12,7 @@ export function useInitialCRS() {
 
   useEffect(() => {
     if (!isLoading && !isError && latitude !== null && !isInitialized) {
-      const crs = determineCRS(latitude);
+      const crs = getDefaultCRSForLatitude(latitude);
       dispatch(setCurrentCRS(crs));
       setIsInitialized(true);
     }

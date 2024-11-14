@@ -1,29 +1,26 @@
-import { Extent, Polygon } from '@arcgis/core/geometry';
+import { Extent, Point, Polygon } from '@arcgis/core/geometry';
+import * as geometryEngine from '@arcgis/core/geometry/geometryEngine';
 
 import { MapCRS } from '@/types';
-function generateCircleRings(
-  numVertices: number,
-  radius: number,
-  center: [number, number] = [0, 0],
-): number[][] {
-  const points: number[][] = [];
-  const [centerX, centerY] = center;
-
-  // Generate points around the circle
-  for (let i = 0; i <= numVertices; i++) {
-    // Use <= to close the circle by repeating the first point
-    const angle = (i * 2 * Math.PI) / numVertices;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
-    points.push([x, y]);
-  }
-
-  return points;
-}
+import { generateCircleRings } from '@/utils/mapUtils';
 
 export const MAP_ID = 'SIIS_MAP';
 
 export const FOOTPRINT_LAYER_NAME_SUFFIX = 'Footprints';
+
+export function getDefaultCRSForLatitude(latitude: number): MapCRS {
+  if (latitude < -55) {
+    return MapCRS.ANTARCTIC;
+  } else if (latitude > 55) {
+    return MapCRS.ARCTIC;
+  }
+  return MapCRS.MERCATOR;
+}
+
+export function isPointVisibleInCRS(point: Point, crs: MapCRS): boolean {
+  const extentConstraint = CRS_LOOKUP[crs].extentConstraint;
+  return geometryEngine.contains(extentConstraint, point);
+}
 
 export const CRS_LOOKUP: Record<
   MapCRS,
@@ -32,12 +29,20 @@ export const CRS_LOOKUP: Record<
     hemisphere?: 'N' | 'S';
     center: [number, number];
     extentConstraint: Polygon | Extent;
+    graticuleBounds: {
+      minLatitude: number;
+      maxLatitude: number;
+    };
   }
 > = {
   [MapCRS.MERCATOR]: {
     wkid: 3857,
     hemisphere: undefined,
     center: [0, 0],
+    graticuleBounds: {
+      minLatitude: -90,
+      maxLatitude: 90,
+    },
     extentConstraint: new Polygon({
       rings: [
         [
@@ -48,6 +53,7 @@ export const CRS_LOOKUP: Record<
           [-20026376.39 * 16, -20048966.1],
         ],
       ],
+
       spatialReference: {
         wkid: 3857,
       },
@@ -58,6 +64,10 @@ export const CRS_LOOKUP: Record<
     wkid: 3413,
     hemisphere: 'N',
     center: [0, 90],
+    graticuleBounds: {
+      minLatitude: 50,
+      maxLatitude: 89,
+    },
     extentConstraint: new Polygon({
       rings: [generateCircleRings(64, 6291456)],
       spatialReference: {
@@ -70,6 +80,10 @@ export const CRS_LOOKUP: Record<
     wkid: 3031,
     hemisphere: 'S',
     center: [0, -90],
+    graticuleBounds: {
+      minLatitude: -89,
+      maxLatitude: -50,
+    },
     extentConstraint: new Polygon({
       rings: [generateCircleRings(64, 6291456)],
       spatialReference: {
