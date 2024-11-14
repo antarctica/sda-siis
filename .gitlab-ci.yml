@@ -55,9 +55,7 @@ black:
 
 build-app-stage:
   stage: 🏗 build
-  image:
-    name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
-    entrypoint: [""]
+  image: node:20-alpine
   variables:
     SERVICE_API_ENDPOINT: https://api.siis.sda-stage.bas.ac.uk
     SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
@@ -78,9 +76,7 @@ build-app-stage:
 
 build-app-prod:
   stage: 🏗 build
-  image:
-    name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
-    entrypoint: [""]
+  image: node:20-alpine
   variables:
     SERVICE_API_ENDPOINT: https://api.siis.sda.bas.ac.uk
     SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
@@ -103,9 +99,7 @@ build-app-prod:
 
 build-app-v2-stage:
   stage: 🏗 build
-  image:
-    name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
-    entrypoint: [""]
+  image: node:20-alpine
   variables:
     VITE_SERVICE_API_ENDPOINT: https://api.siis.sda-stage.bas.ac.uk
     VITE_SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
@@ -126,9 +120,7 @@ build-app-v2-stage:
 
 build-app-v2-prod:
   stage: 🏗 build
-  image:
-    name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
-    entrypoint: [""]
+  image: node:20-alpine
   variables:
     VITE_SERVICE_API_ENDPOINT: https://api.siis.sda.bas.ac.uk
     VITE_SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
