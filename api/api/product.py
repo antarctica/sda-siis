@@ -108,39 +108,46 @@ def read_one_granules(code, limit=None, maxage=None, date=None, date_range=None)
 
     if date_range:
         try:
-            start_date, end_date = date_range.split('/')
+            start_date, end_date = date_range.split("/")
             print(f"Received date range: {start_date} to {end_date}")
-            
+
             # Parse dates
             date_start = datetime.strptime(start_date, "%Y-%m-%d")
-            date_end = datetime.strptime(end_date, "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
-            
+            date_end = (
+                datetime.strptime(end_date, "%Y-%m-%d")
+                + timedelta(days=1)
+                - timedelta(seconds=1)
+            )
+
             # Build query with date range
             query = (
                 Granule.query.filter(Granule.productcode == code)
                 .filter(
                     Granule.timestamp.between(
                         date_start.strftime("%Y-%m-%d %H:%M:%S"),
-                        date_end.strftime("%Y-%m-%d %H:%M:%S")
+                        date_end.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 )
                 .order_by(desc(Granule.timestamp))
             )
-            
+
             if isinstance(limit, int):
                 query = query.limit(limit)
-                
+
             granule = query.all()
-            
+
         except ValueError:
             abort(404, "Date range must be in format YYYY-MM-DD/YYYY-MM-DD")
-            
+
     elif isinstance(date, str):
         # Original date filter logic
         try:
             date_start = datetime.strptime(date, "%Y-%m-%d")
         except ValueError:
-            abort(404, "Parameter date not well formatted. Use ISO string YYYY-MM-DD: {date}")
+            abort(
+                404,
+                "Parameter date not well formatted. Use ISO string YYYY-MM-DD: {date}",
+            )
 
         date_end = date_start + timedelta(days=1) - timedelta(seconds=1)
 
@@ -150,7 +157,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None, date_range=None)
                 .filter(
                     Granule.timestamp.between(
                         date_start.strftime("%Y-%m-%d %H:%M:%S"),
-                        date_end.strftime("%Y-%m-%d %H:%M:%S")
+                        date_end.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 )
                 .order_by(desc(Granule.timestamp))
@@ -163,7 +170,7 @@ def read_one_granules(code, limit=None, maxage=None, date=None, date_range=None)
                 .filter(
                     Granule.timestamp.between(
                         date_start.strftime("%Y-%m-%d %H:%M:%S"),
-                        date_end.strftime("%Y-%m-%d %H:%M:%S")
+                        date_end.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 )
                 .order_by(desc(Granule.timestamp))

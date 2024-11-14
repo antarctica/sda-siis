@@ -6,24 +6,26 @@ from enum import Enum
 
 
 class LayerStatus(str, Enum):
-    offline = 'offline'
-    online = 'online'
-    loading = 'loading'
-    static = 'static'
-    outdated = 'outdated'
-    error = 'error'
+    offline = "offline"
+    online = "online"
+    loading = "loading"
+    static = "static"
+    outdated = "outdated"
+    error = "error"
+
 
 class GranuleStatus(str, Enum):
-    offline = 'offline'
-    online = 'online'
-    loading = 'loading'
-    static = 'static'
-    outdated = 'outdated'
-    error = 'error'
-    hr_requested = 'hr_requested'
-    hr_pending = 'hr_pending'
-    hr_processing = 'hr_processing'
-    hr_online = 'hr_online'
+    offline = "offline"
+    online = "online"
+    loading = "loading"
+    static = "static"
+    outdated = "outdated"
+    error = "error"
+    hr_requested = "hr_requested"
+    hr_pending = "hr_pending"
+    hr_processing = "hr_processing"
+    hr_online = "hr_online"
+
 
 class Granule(db.Model):
     __tablename__ = "granule"
