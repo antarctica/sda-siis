@@ -39,8 +39,9 @@ export const buttonRecipe = cva({
         },
       },
       surface: {
-        border: 'none',
-
+        borderWidth: 'thin',
+        borderStyle: 'solid',
+        borderColor: 'transparent',
         _hover: {
           cursor: 'pointer',
           bg: 'siis_greyAlpha.a3',

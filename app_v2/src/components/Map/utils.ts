@@ -83,6 +83,9 @@ export function createWMSLayer(
     sublayers: [
       {
         name: layer.gs_layername,
+        title: layer.label,
+        legendEnabled: layer.haslegend,
+        legendUrl: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wmsendpoint}?service=WMS&request=GetLegendGraphic&version=1.3.0&layer=${layer.gs_layername}&style=siis:siis.sic&format=image/png&legend_options=columns:2;fontantialiasing:true;fontsize:10;`,
       },
     ],
     customLayerParameters: {
@@ -145,6 +148,7 @@ export function createImageryFootprintLayer(
     wmsLayerName: layer.gs_layername ?? '',
     wmsUrl: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wmsendpoint}`,
     visible,
+    legendEnabled: true,
   });
 }
 

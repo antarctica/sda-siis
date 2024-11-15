@@ -13,7 +13,10 @@ export const useSidebarActiveItem = () => {
     }
 
     const activeItemData = items.find((item) => item.id === state.context.activeItem);
-    if (activeItemData && activeItemData.type === 'panel') {
+    if (
+      activeItemData &&
+      (activeItemData.type === 'panel' || activeItemData.type === 'tabbed-panel')
+    ) {
       return activeItemData;
     } else {
       return null;

@@ -19,6 +19,7 @@ const sliderRecipe = sva({
         display: 'grid',
         gridTemplateColumns: '[1fr auto]',
       },
+      mb: '2',
     },
     'interaction-container': {
       _horizontal: {

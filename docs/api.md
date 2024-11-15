@@ -92,8 +92,6 @@ hemi?: enum[N, n, S, s]
   types?: string[]
   // Array of timestamps available
   timestamps?: string
-  // Does product has legend
-  haslegend?: string
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Static background product/layer without granules?
@@ -106,6 +104,8 @@ hemi?: enum[N, n, S, s]
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
   highres_available?: boolean
+  // Does product has legend
+  haslegend?: boolean
   // Holds GeoServer WMS request parameters for legend graphic styling
   legend_graphic_params?: string
   // Show product in product list by default
@@ -163,8 +163,6 @@ Read one product definition
   types?: string[]
   // Array of timestamps available
   timestamps?: string
-  // Does product has legend
-  haslegend?: string
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Static background product/layer without granules?
@@ -177,6 +175,8 @@ Read one product definition
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
   highres_available?: boolean
+  // Does product has legend
+  haslegend?: boolean
   // Holds GeoServer WMS request parameters for legend graphic styling
   legend_graphic_params?: string
   // Show product in product list by default
@@ -650,8 +650,6 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   types?: string[]
   // Array of timestamps available
   timestamps?: string
-  // Does product has legend
-  haslegend?: string
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Static background product/layer without granules?
@@ -664,6 +662,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
   highres_available?: boolean
+  // Does product has legend
+  haslegend?: boolean
   // Holds GeoServer WMS request parameters for legend graphic styling
   legend_graphic_params?: string
   // Show product in product list by default
@@ -734,8 +734,6 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   types?: string[]
   // Array of timestamps available
   timestamps?: string
-  // Does product has legend
-  haslegend?: string
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Static background product/layer without granules?
@@ -748,6 +746,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   render_exclusive?: boolean
   // Indicated availability of a corresponding high-resolution granule
   highres_available?: boolean
+  // Does product has legend
+  haslegend?: boolean
   // Holds GeoServer WMS request parameters for legend graphic styling
   legend_graphic_params?: string
   // Show product in product list by default

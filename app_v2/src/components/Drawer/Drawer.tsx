@@ -2,8 +2,7 @@ import { sva } from '@styled-system/css';
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { PanelHeader } from '../Panel/header/Header';
-import { panelStyles } from '../Panel/panelRecipe';
+import Panel from '../Panel/Panel';
 import { useSidebarActiveItem } from '../Sidebar/SidebarHooks';
 import { SidebarContext } from '../Sidebar/SideBarProvider';
 
@@ -42,18 +41,14 @@ const snapPoints = [0.4, 0.6];
 function Drawer() {
   const [snap, setSnap] = React.useState<number | string | null>(snapPoints[0] ?? null);
   const { content, handle, title, description } = drawerRecipe();
-  const { layout, panelContent } = panelStyles();
   const activeItem = useSidebarActiveItem();
   const actorRef = SidebarContext.useActorRef();
-  const uid = React.useId();
-  const describedbyId = `${uid}-content`;
   const closePanel = React.useCallback(() => {
     actorRef.send({ type: 'ITEMS.CLOSE_ALL' });
   }, [actorRef]);
 
   if (!activeItem) return null;
 
-  const Component = activeItem?.component;
   return (
     <DrawerPrimitive.Root
       modal={false}
@@ -72,14 +67,14 @@ function Drawer() {
             {/* Todo make this included in the item definition */}
             {activeItem.title} workflow panel
           </DrawerPrimitive.Description>
-          <article
-            className={layout}
-            style={{ height: `${parseFloat(snap?.toString() ?? '0') * 100}%` }}
-            id={describedbyId}
+          <Panel
+            style={{ height: `${parseFloat(snap?.toString() ?? '0') * 100}%`, width: '100%' }}
+            title={activeItem.title}
+            onClose={closePanel}
+            tabs={activeItem.type === 'tabbed-panel' ? activeItem.tabs : undefined}
           >
-            <PanelHeader title={activeItem.title} onClose={closePanel} />
-            <div className={panelContent}>{Component && <Component />}</div>
-          </article>
+            {activeItem.type === 'panel' && <activeItem.component />}
+          </Panel>
         </DrawerPrimitive.Content>
       </DrawerPrimitive.Portal>
     </DrawerPrimitive.Root>

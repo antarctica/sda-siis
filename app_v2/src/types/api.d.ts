@@ -228,8 +228,6 @@ export interface components {
       types?: components['schemas']['type'][];
       /** @description Array of timestamps available */
       timestamps?: string;
-      /** @description Does product has legend */
-      haslegend?: string;
       /** @description Hemisphere of product ('N'/'S'/'') */
       hemisphere?: string;
       /** @description Static background product/layer without granules? */
@@ -245,6 +243,8 @@ export interface components {
       render_exclusive?: boolean;
       /** @description Indicated availability of a corresponding high-resolution granule */
       highres_available?: boolean;
+      /** @description Does product has legend */
+      haslegend?: boolean;
       /** @description Holds GeoServer WMS request parameters for legend graphic styling */
       legend_graphic_params?: string;
       /** @description Show product in product list by default */

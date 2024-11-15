@@ -1,4 +1,3 @@
-/* eslint-disable @pandacss/no-hardcoded-color */
 import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { cva } from '@styled-system/css';
 import { Box, Flex } from '@styled-system/jsx';
@@ -24,10 +23,14 @@ const mapStyles = cva({
       display: 'none !important',
     },
     '& .esri-attribution': {
+      // eslint-disable-next-line @pandacss/no-hardcoded-color
       bg: 'siis_darkgreyAlpha.a12 !important',
+      // eslint-disable-next-line @pandacss/no-hardcoded-color
       color: 'fg !important',
       _dark: {
+        // eslint-disable-next-line @pandacss/no-hardcoded-color
         bg: 'siis_greyAlpha.a11 !important',
+        // eslint-disable-next-line @pandacss/no-hardcoded-color
         color: 'fg.accent !important',
       },
     },

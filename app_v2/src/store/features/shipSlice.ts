@@ -22,7 +22,7 @@ export const shipSlice = createSlice({
     setSensorInfoPanelOpen: (state, action: PayloadAction<boolean>) => {
       state.sensorInfoPanelOpen = action.payload;
     },
-    reset: () => initialState,
+    reset: (state) => ({ ...initialState, sensorInfoPanelOpen: state.sensorInfoPanelOpen }),
   },
 });
 

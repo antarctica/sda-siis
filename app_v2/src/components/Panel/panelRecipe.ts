@@ -20,7 +20,7 @@ export const panelStyles = sva({
       h: 'full',
     },
     header: {
-      p: '3',
+      px: '3',
       borderBottomWidth: 'thin',
       borderBottomStyle: 'solid',
       borderBottomColor: 'bg.base.border',

@@ -10,7 +10,7 @@ import { ProjectionProvider } from '@/arcgis/projection/ProjectionProvider';
 import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';
 import Drawing from '@/panels/Drawing';
-import MapLayers from '@/panels/MapLayers';
+import { Legend, MapLayers } from '@/panels/MapLayers';
 import store from '@/store';
 import { selectCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppSelector } from '@/store/hooks';
@@ -31,8 +31,21 @@ const appPanels: SidebarItem[] = [
     title: 'Map Layers',
     icon: <SvgIcon name="icon-layers" size={16} />,
     position: 'top',
-    type: 'panel',
-    component: () => <MapLayers />,
+    type: 'tabbed-panel',
+    tabs: [
+      {
+        id: 'map-layers',
+        title: 'Map Layers',
+        icon: <SvgIcon name="icon-layers" size={16} />,
+        component: () => <MapLayers />,
+      },
+      {
+        id: 'legend',
+        title: 'Legend',
+        icon: <SvgIcon name="icon-legend-list" size={16} />,
+        component: () => <Legend />,
+      },
+    ],
   },
   {
     id: 'drawing',

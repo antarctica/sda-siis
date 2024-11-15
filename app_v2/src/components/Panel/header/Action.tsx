@@ -1,21 +1,27 @@
-import { IconButton } from '@/components/common/Button';
+import { IconButton, IconButtonProps } from '@/components/common/Button';
 
-type HeaderActionProps = {
-  icon: React.ReactElement;
+export type HeaderActionProps = Omit<IconButtonProps, 'aria-label'> & {
+  selected?: boolean;
   title: string;
-  onClick: () => void;
-  autoFocus?: boolean;
 };
 
-export function HeaderAction({ icon, title, onClick, autoFocus = false }: HeaderActionProps) {
+export function HeaderAction({
+  icon,
+  title,
+  onPress,
+  onPressStart,
+  autoFocus = false,
+  selected = false,
+}: HeaderActionProps) {
   return (
     <IconButton
       autoFocus={autoFocus}
       size="md"
-      variant="surface"
+      variant={selected ? 'outline' : 'surface'}
       icon={icon}
       aria-label={title}
-      onPress={onClick}
+      onPress={onPress}
+      onPressStart={onPressStart}
     />
   );
 }

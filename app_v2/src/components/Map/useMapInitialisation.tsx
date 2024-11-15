@@ -25,7 +25,8 @@ export function useMapInitialization(crs: MapCRS) {
   const mapRef = React.useRef<EsriMap>();
   const dateFormatter = useFormatDate({
     dateStyle: 'medium',
-    timeStyle: 'short',
+    timeStyle: 'long',
+    timeZone: 'UTC',
   });
 
   const theme = useTheme();

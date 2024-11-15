@@ -2,24 +2,20 @@ FROM node:20-alpine
 
 LABEL maintainer = "Jonathan Dawe <jonwe@bas.ac.uk>"
 
-# Setup project
 WORKDIR /usr/src/app
 
-# Copy configuration files first
-COPY package*.json tsconfig*.json eslint.config.mjs /usr/src/app/
-COPY panda.config.ts /usr/src/app/
-COPY panda.config/ /usr/src/app/panda.config/
+# Copy and install dependencies first for better caching
+COPY package*.json tsconfig*.json eslint.config.mjs ./
+COPY panda.config.ts ./
+COPY panda.config/ ./panda.config/
 
-# Install dependencies with caching and skip husky install
 ENV HUSKY=0
 RUN --mount=type=cache,target=/root/.npm \
     npm install
 
-# Copy remaining app files
-COPY . .
+# We don't need to COPY the source code here anymore
+# as it will be mounted through volumes
 
-# Expose the port the app will run on
 EXPOSE 5173
 
-# Start the app
 CMD ["npm", "run", "dev"]

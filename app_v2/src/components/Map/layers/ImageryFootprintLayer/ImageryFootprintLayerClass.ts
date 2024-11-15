@@ -118,9 +118,12 @@ export class ImageryFootprintLayer extends FeatureLayer {
       geometryType: 'polygon',
       renderer: new SimpleRenderer({
         symbol: properties.fillSymbol ?? DEFAULT_FILL_SYMBOL,
+        label: 'Imagery Footprint',
       }),
       spatialReference: SpatialReference.WGS84,
       popupEnabled: false,
+      legendEnabled: true,
+
       ...properties,
       title: `${properties.title} Footprints`,
     });

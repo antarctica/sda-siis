@@ -37,7 +37,11 @@ export const sideBarMachine = setup({
     'Set Active Item': assign(({ event, context }) => {
       assertEvent(event, 'ITEMS.SET_ACTIVE');
 
-      if (context.items.some((item) => item.id === event.id && item.type === 'panel')) {
+      if (
+        context.items.some(
+          (item) => item.id === event.id && (item.type === 'panel' || item.type === 'tabbed-panel'),
+        )
+      ) {
         return { activeItem: event.id };
       } else {
         console.warn('Invalid item ID:', event.id);

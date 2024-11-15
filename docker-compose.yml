@@ -92,8 +92,8 @@ services:
         - type=inline
     command: "npm run dev"
     volumes:
-      - ./app_v2:/app
-      - /app/node_modules
+      - ./app_v2:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       HOST: 0.0.0.0
       PORT: 5173
@@ -105,4 +105,4 @@ services:
     depends_on:
       - api
       - api-kv
-      - geoserver 
+      - geoserver

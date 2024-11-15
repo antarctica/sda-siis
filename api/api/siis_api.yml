@@ -410,9 +410,6 @@ components:
         timestamps:
           type: string
           description: Array of timestamps available
-        haslegend:
-          type: string
-          description: Does product has legend
         hemisphere:
           type: string
           description: Hemisphere of product ('N'/'S'/'')
@@ -432,6 +429,9 @@ components:
         highres_available:
           type: boolean
           description: Indicated availability of a corresponding high-resolution granule
+        haslegend:
+          type: boolean
+          description: Does product has legend
         legend_graphic_params:
           type: string
           description: Holds GeoServer WMS request parameters for legend graphic styling

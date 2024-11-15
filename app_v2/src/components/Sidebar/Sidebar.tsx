@@ -90,7 +90,6 @@ function Sidebar() {
     actorRef.send({ type: 'ITEMS.CLOSE_ALL' });
   }, [actorRef, activeItem]);
 
-  const Component = activeItem?.component;
   const topItems = items.filter((item) => item.position === 'top');
   const bottomItems = items.filter((item) => item.position === 'bottom');
 
@@ -179,9 +178,13 @@ function Sidebar() {
           </Group>
         </aside>{' '}
       </Toolbar>
-      {Component && (
-        <Panel onClose={closePanel} title={activeItem?.title}>
-          <Component />
+      {activeItem && (
+        <Panel
+          onClose={closePanel}
+          title={activeItem.title}
+          tabs={activeItem.type === 'tabbed-panel' ? activeItem.tabs : undefined}
+        >
+          {activeItem.type === 'panel' && <activeItem.component />}
         </Panel>
       )}
     </Flex>

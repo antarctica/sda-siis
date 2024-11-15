@@ -8,6 +8,7 @@ import { Button, TooltipTrigger } from 'react-aria-components';
 import { useShipHeading, useShipPosition } from '@/api/useShipSensorData';
 import { useCurrentMapView } from '@/arcgis/hooks';
 import Tooltip from '@/components/common/Tooltip';
+import { useShipPositionWithVisibility } from '@/hooks/useShipPositionWithVisibility';
 import { MapCRS } from '@/types';
 import { calculateCorrectedHeading, calculateProjectedBearingToPole } from '@/utils/mapUtils';
 
@@ -71,6 +72,7 @@ const mapRotationStyle = sva({
 
 function MapRotationToggleGroup() {
   const [value, setValue] = React.useState<MapRotation>(MapRotation.PR_UP);
+  const { isVisible } = useShipPositionWithVisibility();
 
   const mapView = useCurrentMapView();
   const shipHeading = useShipHeading();
@@ -121,6 +123,8 @@ function MapRotationToggleGroup() {
         return 0;
     }
   };
+
+  if (!isVisible) return null;
 
   return (
     <ToggleGroup.Root

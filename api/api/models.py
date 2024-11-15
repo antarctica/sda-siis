@@ -88,26 +88,18 @@ class Product(db.Model):
     gs_wmtsendpoint = db.Column(db.String())
     types = db.Column(db.ARRAY(db.String()))
     timestamps = db.Column(db.ARRAY(db.DateTime()))
-    haslegend = db.Column(db.String())
     hemisphere = db.Column(db.String(1))
     static = db.Column(db.Boolean())
     default_timeframe = db.Column(db.Integer())
     status = db.Column(db.String())
     render_exclusive = db.Column(db.Boolean())
     highres_available = db.Column(db.Boolean())
+    haslegend = db.Column(db.Boolean())
     legend_graphic_params = db.Column(db.String())
     show_on_startup = db.Column(db.Boolean())
     default_opacity = ma.auto_field()
     default_z = db.Column(db.Integer())
     geom_extent = db.Column(db.String())
-
-    # granules = db.relationship(
-    #     'Granule',
-    #     backref = 'product',
-    #     cascade = 'all, delete',
-    #     order_by='desc(Granule.timestamp)'
-    # )
-
 
 class ProductSchema(ma.SQLAlchemyAutoSchema):
     class Meta:

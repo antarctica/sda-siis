@@ -1,26 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { useShipPosition } from '@/api/useShipSensorData';
+import { useInitialShipPosition } from '@/api/useShipSensorData';
 import { getDefaultCRSForLatitude } from '@/config/constants';
 import { setCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppDispatch } from '@/store/hooks';
+import { MapCRS } from '@/types';
 
 export function useInitialCRS() {
-  const [isInitialized, setIsInitialized] = useState(false);
-  const { latitude, isLoading, isError } = useShipPosition();
+  const [initialCRS, setInitialCRS] = useState<MapCRS | null>(null);
+  const { latitude, isLoading, isError } = useInitialShipPosition();
   const dispatch = useAppDispatch();
+  const hasProcessedPosition = useRef(false);
 
   useEffect(() => {
-    if (!isLoading && !isError && latitude !== null && !isInitialized) {
+    if (
+      !initialCRS &&
+      !hasProcessedPosition.current &&
+      !isLoading &&
+      !isError &&
+      latitude !== null
+    ) {
       const crs = getDefaultCRSForLatitude(latitude);
       dispatch(setCurrentCRS(crs));
-      setIsInitialized(true);
+      setInitialCRS(crs);
+      hasProcessedPosition.current = true;
     }
-  }, [latitude, isLoading, isError, dispatch, isInitialized]);
+  }, [isLoading, isError, latitude, dispatch, initialCRS]);
 
-  return {
-    isInitialized,
-    isLoading,
-    isError,
-  };
+  return initialCRS;
 }

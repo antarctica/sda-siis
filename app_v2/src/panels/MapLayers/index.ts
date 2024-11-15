@@ -1,2 +1,2 @@
+export * from './Legend';
 export * from './MapLayers';
-export { default } from './MapLayers';

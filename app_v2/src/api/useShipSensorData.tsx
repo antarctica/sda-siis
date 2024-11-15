@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import useSWRImmutable from 'swr/immutable';
 
 export const SHIP_SENSOR_REFRESH_INTERVAL = 3000; // 3 seconds
 const OGC_ENDPOINT = import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT;
@@ -124,5 +125,18 @@ export function useShipDepth() {
     isLoading,
     isError,
     sensorStatus,
+  };
+}
+
+export function useInitialShipPosition() {
+  const { data, isLoading, error } = useSWRImmutable<SensorData>('initialShipPosition', () =>
+    fetcher(`${OGC_ENDPOINT}/geoserver/siis/ows`),
+  );
+
+  return {
+    latitude: data?.latitude ?? null,
+    longitude: data?.longitude ?? null,
+    isLoading,
+    isError: error,
   };
 }
