@@ -77,8 +77,16 @@ export function SelectionMenu<T>({
         >
           {(item) => (
             <ListBoxItem key={item.id} id={item.id}>
-              <Flex alignItems={'center'} display={'inline-flex'} gap={'2'}>
-                {item.icon && <SvgIcon name={item.icon} size={20} />}
+              <Flex verticalAlign={'middle'} display={'inline-flex'} gap={'2'}>
+                {item.icon && (
+                  <SvgIcon
+                    className={css({
+                      alignSelf: 'center',
+                    })}
+                    name={item.icon}
+                    size={20}
+                  />
+                )}
                 {item.label}
               </Flex>
             </ListBoxItem>

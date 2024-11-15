@@ -55,7 +55,7 @@ const layerItemRecipe = sva({
       isEnabled: false,
       inGroup: true,
       css: {
-        layerToggle: {
+        wrapper: {
           bg: 'transparent',
         },
       },

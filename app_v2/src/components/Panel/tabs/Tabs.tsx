@@ -44,6 +44,7 @@ export function Tab(props: PanelTab) {
           selected={isSelected}
           icon={props.icon}
           title={props.title}
+          tooltipPlacement="bottom"
           onPressStart={(event) => {
             event.continuePropagation();
           }}

@@ -1,14 +1,10 @@
-import { createLayer } from '@/arcgis/util/createLayer';
+import { selectGraticuleVisible } from '@/store/features/appSlice';
+import { useAppSelector } from '@/store/hooks';
 
-import {
-  GraticuleLayer as GraticuleLayerClass,
-  GraticuleLayerProperties,
-} from './GraticuleLayerClass';
+import LabelledGraticuleLayer from './LabelledGraticuleLayer';
+import { LabelledGraticuleLayerProperties } from './LabelledGraticuleLayerClass';
 
-const GraticuleLayer = createLayer<
-  typeof GraticuleLayerClass,
-  GraticuleLayerProperties,
-  GraticuleLayerClass
->(GraticuleLayerClass);
-
-export default GraticuleLayer;
+export function GraticuleLayer(props: LabelledGraticuleLayerProperties) {
+  const isGraticuleVisible = useAppSelector(selectGraticuleVisible);
+  return <LabelledGraticuleLayer {...props} visible={isGraticuleVisible}></LabelledGraticuleLayer>;
+}

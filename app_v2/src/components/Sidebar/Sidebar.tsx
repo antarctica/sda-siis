@@ -7,6 +7,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import Panel from '../Panel';
 import { ThemeToggler } from '../Theme';
 import { CollapseToggle } from './actions/CollapseToggle';
+import { ShowGraticule } from './actions/ShowMapGraticule';
 import { SidebarButton } from './actions/SidebarButton';
 import { useSidebarActiveItem, useSidebarIsCollapsed, useSidebarItems } from './SidebarHooks';
 import { SIDEBAR_COLLAPSED_KEY, SidebarContext } from './SideBarProvider';
@@ -157,6 +158,12 @@ function Sidebar() {
                   </li>
                 ))}
                 <li key={'theme-toggler'} className={buttonGroupItem}>
+                  <ShowGraticule isCollapsed={isCollapsed}></ShowGraticule>
+                  <Divider
+                    orientation={'horizontal'}
+                    thickness={'thin'}
+                    color={'bg.base.border'}
+                  ></Divider>
                   <ThemeToggler isCollapsed={isCollapsed}></ThemeToggler>
                   <Divider
                     orientation={'horizontal'}

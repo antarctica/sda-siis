@@ -503,7 +503,7 @@ export const semanticColorTokens = defineSemanticTokens.colors({
       },
       accent: {
         value: {
-          base: '{colors.app.accent.a2}',
+          base: '{colors.app.accent.a3}',
           _dark: '{colors.app.accent.a2}',
         },
       },

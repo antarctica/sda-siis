@@ -8,7 +8,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { MapCRS } from '@/types';
 
 import SensorInfo from '../ShipSensorInfo';
-import LabelledGraticuleLayer from './layers/GraticuleLayer/LabelledGraticuleLayer';
+import { GraticuleLayer } from './layers/GraticuleLayer';
 import ShipPositionLayer from './layers/ShipPositionLayer';
 import CursorLocationControl from './map-controls/CursorLocationControl';
 import MapRotationControl from './map-controls/MapRotationControl';
@@ -77,7 +77,7 @@ export function Map({ crs }: { crs: MapCRS }) {
             </Flex>
           </ArcgisPlacement>
           <ShipPositionLayer crs={crs} />
-          <LabelledGraticuleLayer
+          <GraticuleLayer
             id="graticule-layer"
             title="Graticule"
             opacity={0.75}

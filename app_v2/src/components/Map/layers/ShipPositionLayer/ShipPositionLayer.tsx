@@ -45,7 +45,7 @@ function ShipPositionLayer({ crs }: { crs: MapCRS }) {
         }}
         source={[]}
         id="feature-layers"
-        title="Ship Position Buffer"
+        title="Ship Position Distance Rings"
         fields={[
           {
             name: 'ObjectID',

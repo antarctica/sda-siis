@@ -12,6 +12,7 @@ export function HeaderAction({
   onPressStart,
   autoFocus = false,
   selected = false,
+  ...props
 }: HeaderActionProps) {
   return (
     <IconButton
@@ -22,6 +23,7 @@ export function HeaderAction({
       aria-label={title}
       onPress={onPress}
       onPressStart={onPressStart}
+      {...props}
     />
   );
 }
