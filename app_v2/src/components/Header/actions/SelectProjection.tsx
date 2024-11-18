@@ -4,6 +4,7 @@ import { DialogTrigger } from 'react-aria-components';
 import SvgIcon from '@/components/common/SvgIcon';
 import { Action } from '@/components/Header/actions/Actions';
 import SelectionMenu, { SelectionMenuItem } from '@/components/SelectionMenu/SelectionMenu';
+import { useSidebarActorRef } from '@/components/Sidebar/SidebarHooks';
 import { useResetApplicationState } from '@/hooks/useResetApplicationState';
 import { selectCurrentCRS, setCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -24,14 +25,16 @@ export function SelectProjection() {
   const currentCRS = useAppSelector(selectCurrentCRS);
   const dispatch = useAppDispatch();
   const resetApplicationState = useResetApplicationState();
+  const sidebarActorRef = useSidebarActorRef();
   const [open, setOpen] = React.useState(false);
 
   const updateCRS = React.useCallback(
     (crs: MapCRS) => {
       dispatch(setCurrentCRS(crs));
       resetApplicationState();
+      sidebarActorRef.send({ type: 'ITEMS.CLOSE_ALL' });
     },
-    [dispatch, resetApplicationState],
+    [dispatch, resetApplicationState, sidebarActorRef],
   );
 
   return (
