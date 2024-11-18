@@ -23,7 +23,7 @@ const sliderRecipe = sva({
     },
     'interaction-container': {
       _horizontal: {
-        gridColumn: '2',
+        gridColumn: 'span 2',
         alignItems: 'center',
         position: 'relative',
         mx: '1',
