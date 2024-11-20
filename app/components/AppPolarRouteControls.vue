@@ -162,6 +162,10 @@ export default {
       this.requestRecentRoutes();
     },
 
+    beforeDestroy(){
+      this.clearAllIntervals();
+    },
+
     watch: {
       
       choose_polarroute_start: function () {
@@ -301,6 +305,22 @@ export default {
         })
       },
 
+      clearAllIntervals () {
+        for (let route in this.routes){
+          if (route.hasOwnProperty("status_handle")){
+            clearInterval(route.status_handle);
+          }
+        }
+      },
+
+      setUpPolling (){
+        this.clearAllIntervals();
+        for (let route in this.routes){
+          if (route.status == "PENDING"){
+            route.status_handle = setInterval(function(){_this.requestStatus(route)}, _this.statusUpdateFrequency*1000);
+          }
+        }
+      },
 
       requestStatus: async function (route) {
         await axios.get(route.status_url)
@@ -339,6 +359,9 @@ export default {
             _this.routes.forEach(route => {
               Vue.set(route, 'show', false); // set watchers
             });
+
+            // set up any required polling intervals for routes
+            _this.setUpPolling();
 
             if (_this.routes.length == 0) {
               _this.updateServiceStatusText("No routes from last day.");
