@@ -89,6 +89,7 @@
         <app-polarroute-controls
         v-if="show_polarroute"
         :display_ui="display_ui"
+        :polarroute_server_endpoint="polarroute_server_endpoint"
         :debug_mode="debug_mode"
         :polarroute_coords="polarroute_coords"
         :choose_polarroute_start="choose_polarroute_start"
@@ -177,6 +178,9 @@ export default Vue.extend({
     },
     ogc_endpoint: function () {
       return process.env.SERVICE_API_OGC_ENDPOINT;
+    },
+    polarroute_server_endpoint: function(){
+      return process.env.POLARROUTE_SERVER_ENDPOINT
     },
     resolved_colour_scheme: function () {
       if (this.colour_scheme == 'system') {

@@ -57,7 +57,7 @@
 
       <div v-if="devMode">
         <input
-        v-model="polarroute_server_endpoint"
+        v-model="custom_endpoint"
         title="Custom PolarRouteServer endpoint URL"
         />
       </div>
@@ -68,7 +68,6 @@
       </div>
       </fieldset>
 
-      <div><button title="Refresh Routes" v-on:click="requestRecentRoutes()">Refresh Routes</button></div>
 
       <div>
       <span v-if="routes.length > 0">Click to toggle route display</span>
@@ -80,6 +79,7 @@
           <td><strong>Optimal Time (hrs)</strong></td>
           <td><strong>Optimal Fuel (t)</strong></td>
         </tr>
+
 
         <tr v-for="route in routes" :key="route.id"  v-on:click="route.show=!route.show" :class="route.show ? 'shown-route' : ''">
           <td><span :title="route.start_name ? getRouteCoordText(route.start_lat, route.start_lon) : ''">{{ route.start_name ? route.start_name : getRouteCoordText(route.start_lat, route.start_lon) }}</span></td>
@@ -105,6 +105,7 @@ Vue.use(DrawInteraction)
 export default {
 
     props: [
+        'polarroute_server_endpoint',
         'debug_mode',
         'display_ui',
         'polarroute_coords',
@@ -117,8 +118,8 @@ export default {
     data() {
         return {
           devMode: false,
+          custom_endpoint: null,
           statusUpdateFrequency: 10, // seconds
-          polarroute_server_endpoint: null,
           routes: [],
           serviceStatusText: "Contacting route server..",
           favourites: [
@@ -147,16 +148,18 @@ export default {
           "lon": this.ship_position_lon
         })
         return l 
+      },
+      resolved_endpoint: function(){
+        return this.custom_endpoint || this.polarroute_server_endpoint;
       }
     },
 
     beforeMount(){
-      this.requestRecentRoutes();
-    },
-
-    mounted(){
       this.setDevMode();
-      this.setPolarRouteServerEndpoint();
+    },
+    
+    mounted(){
+      this.requestRecentRoutes();
     },
 
     watch: {
@@ -182,10 +185,6 @@ export default {
         if (urlParams.has('polarRouteDevMode')){
           urlParams.get('polarRouteDevMode')
         }
-      },
-
-      setPolarRouteServerEndpoint(){
-        this.polarroute_server_endpoint = process.env.POLARROUTE_SERVER_ENDPOINT;
       },
 
       formatNumber (num) {
@@ -276,7 +275,7 @@ export default {
         // Make initial post request to initiate route calculation
         let _this = this;
         let route = _this.routeRequestConfig();
-        await axios.post(_this.polarroute_server_endpoint + '/api/route', route,
+        await axios.post(_this.resolved_endpoint + '/api/route', route,
           {headers: {'Content-Type': 'application/json'}})
         .then(function (response) {
           route.id = response.data.id;
@@ -333,7 +332,7 @@ export default {
       requestRecentRoutes: async function () {
         let _this = this;
         console.debug("requesting recent routes")
-        await axios.get(_this.polarroute_server_endpoint + '/api/recent_routes')
+        await axios.get(_this.resolved_endpoint + '/api/recent_routes')
         .then(function (response){
             _this.routes = response.data;
 
