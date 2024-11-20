@@ -76,7 +76,7 @@
           <td><strong>Start</strong></td>
           <td><strong>End</strong></td>
           <td><strong>Status</strong></td>
-          <td><strong>Optimal Time (hrs)</strong></td>
+          <td><strong>Optimal Time (days)</strong></td>
           <td><strong>Optimal Fuel (t)</strong></td>
         </tr>
 
@@ -237,7 +237,7 @@ export default {
           let t_route_f = this.formatNumber(this.getRouteProperties(route, 0).total_fuel);
           let f_route_t = this.formatNumber(this.getRouteProperties(route, 1).total_traveltime);
           let f_route_f = this.formatNumber(this.getRouteProperties(route, 1).total_fuel);
-          return `Time-optimised route (green)\nTime: ${t_route_t} hrs; Fuel: ${t_route_f} t\n\nFuel-optimised route (red)\nTime: ${f_route_t} hrs; Fuel: ${f_route_f} t`
+          return `Time-optimised route (green)\nTime: ${t_route_t} days; Fuel: ${t_route_f} t\n\nFuel-optimised route (red)\nTime: ${f_route_t} days; Fuel: ${f_route_f} t`
         }
       },
 
