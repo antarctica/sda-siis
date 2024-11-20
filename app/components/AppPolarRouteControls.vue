@@ -68,6 +68,7 @@
       <div><button title="Refresh Routes" v-on:click="requestRecentRoutes()">Refresh Routes</button></div>
 
       <div>
+      <span v-if="routes.length > 0">Click to toggle route display</span>
       <table v-if="routes.length > 0">
         <tr>
           <td><strong>Start</strong></td>
