@@ -187,7 +187,7 @@ export default {
       setDevMode () {
         let urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('polarRouteDevMode')){
-          urlParams.get('polarRouteDevMode')
+          this.devMode = true;
         }
       },
 
