@@ -91,6 +91,7 @@
         :display_ui="display_ui"
         :polarroute_server_endpoint="polarroute_server_endpoint"
         :debug_mode="debug_mode"
+        :routes="routes"
         :polarroute_coords="polarroute_coords"
         :choose_polarroute_start="choose_polarroute_start"
         :choose_polarroute_end="choose_polarroute_end"
@@ -298,12 +299,14 @@ export default Vue.extend({
       this.reference_feature = $event;
     },
     whenPolarRouteChooseStartChanges: function ($event) {
+      // switch off choosing endpoint when choosing start point is active
       if (this.choose_polarroute_end === true && $event === true) {
           this.choose_polarroute_end = false;
         }
       this.choose_polarroute_start = $event;
     },
     whenPolarRouteChooseEndChanges: function ($event) {
+      // switch off choosing start point when choosing end point is active
       if (this.choose_polarroute_start === true && $event === true) {
           this.choose_polarroute_start = false;
         }

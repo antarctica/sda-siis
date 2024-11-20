@@ -8,14 +8,14 @@
         
         <div>
           <button title="Choose on map"
-          v-on:click="choose_polarroute_start = !choose_polarroute_start"
+          v-on:click="$emit('update:choose_polarroute_start', !choose_polarroute_start)"
           :class="choose_polarroute_start ? 'activated': null"
           >Choose start on map</button>
 
           <input
           placeholder="Name (optional)"
           title="Give points chosen from map a convenient name."
-          v-model="polarroute_coords.start.name"
+          v-model="startName"
           >
         </div>
 
@@ -35,14 +35,14 @@
       
         <div>
           <button title="Choose on map"
-          v-on:click="choose_polarroute_end = !choose_polarroute_end"
+          v-on:click="$emit('update:choose_polarroute_end', !choose_polarroute_end)"
           :class="choose_polarroute_end ? 'activated': null"
           >Choose end on map</button></div>
 
           <input
           placeholder="Name (optional)"
           title="Give points chosen from map a convenient name."
-          v-model="polarroute_coords.end.name"
+          v-model="endName"
           >
 
         <div>
@@ -112,7 +112,8 @@ export default {
         'ship_position_lon',
         'ship_position_lat',
         'choose_polarroute_start',
-        'choose_polarroute_end'
+        'choose_polarroute_end',
+        'routes'
     ],
 
     data() {
@@ -120,7 +121,6 @@ export default {
           devMode: false,
           custom_endpoint: null,
           statusUpdateFrequency: 10, // seconds
-          routes: [],
           serviceStatusText: "Contacting route server..",
           favourites: [
             {"name": "Bird Island", "lat": -54.025, "lon": -38.044},
@@ -151,7 +151,37 @@ export default {
       },
       resolved_endpoint: function(){
         return this.custom_endpoint || this.polarroute_server_endpoint;
-      }
+      },
+      startName:{
+        get() {
+          return this.polarroute_coords.start.name;
+        },
+        set(newValue) {
+          const updatedCoords = {
+            ...this.polarroute_coords,
+            start: {
+              ...this.polarroute_coords.start,
+              name: newValue
+            }
+          };
+          this.$emit('update:polarroute_coords', updatedCoords);
+        }
+      },
+      endName:{
+        get() {
+          return this.polarroute_coords.end.name;
+        },
+        set(newValue) {
+          const updatedCoords = {
+            ...this.polarroute_coords,
+            end: {
+              ...this.polarroute_coords.end,
+              name: newValue
+            }
+          };
+          this.$emit('update:polarroute_coords', updatedCoords);
+        }
+      },
     },
 
     beforeMount(){
@@ -166,21 +196,21 @@ export default {
       this.clearAllIntervals();
     },
 
-    watch: {
+    // watch: {
       
-      choose_polarroute_start: function () {
-        this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
-      },
-      choose_polarroute_end: function () {
-        this.$emit('update:choose_polarroute_end', this.choose_polarroute_end);
-      },
-      polarroute_coords: function () {
-          this.$emit('update:polarroute_coords', this.polarroute_coords);
-        },
-      routes: function () {
-        this.$emit('update:routes', this.routes);
-      }
-    },
+    //   choose_polarroute_start: function () {
+    //     this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
+    //   },
+    //   choose_polarroute_end: function () {
+    //     this.$emit('update:choose_polarroute_end', this.choose_polarroute_end);
+    //   },
+    //   polarroute_coords: function () {
+    //       this.$emit('update:polarroute_coords', this.polarroute_coords);
+    //     },
+    //   routes: function () {
+    //     this.$emit('update:routes', this.routes);
+    //   }
+    // },
 
     methods: {
 
@@ -196,7 +226,9 @@ export default {
       },
 
       addRoute (route) {
-        this.routes.push(route);
+        let updatedRoutes = this.routes;
+        updatedRoutes.push(route);
+        this.$emit("update:routes", updatedRoutes);
       },
 
       toggleRouteVisibility (route){
@@ -321,15 +353,6 @@ export default {
         }
       },
 
-      setUpPolling (){
-        this.clearAllIntervals();
-        for (let route in this.routes){
-          if (route.status == "PENDING"){
-            route.status_handle = setInterval(function(){_this.requestStatus(route)}, _this.statusUpdateFrequency*1000);
-          }
-        }
-      },
-
       requestStatus: async function (route) {
         await axios.get(route.status_url)
           .then(function (response){
@@ -359,19 +382,26 @@ export default {
 
       requestRecentRoutes: async function () {
         let _this = this;
-        console.debug("requesting recent routes")
         await axios.get(_this.resolved_endpoint + '/api/recent_routes')
         .then(function (response){
-            _this.routes = response.data;
+            let recent_routes = response.data;
 
-            _this.routes.forEach(route => {
-              Vue.set(route, 'show', false); // set watchers
+            // clear any previous status polling before setting up new calls below
+            _this.clearAllIntervals();
+
+            recent_routes.forEach(route => {
+              // initialise route visibility to false
+              route.show = false;
+
+              // set up polling for any pending routes
+              if (route.status == "PENDING"){
+                route.status_handle = setInterval(function(){_this.requestStatus(route)}, _this.statusUpdateFrequency*1000);
+              }
             });
 
-            // set up any required polling intervals for routes
-            _this.setUpPolling();
+            _this.$emit('update:routes', recent_routes);
 
-            if (_this.routes.length == 0) {
+            if (recent_routes.length == 0) {
               _this.updateServiceStatusText("No routes from last day.");
             }
           })

@@ -148,7 +148,7 @@
         <vl-interaction-draw v-if="choose_polarroute_start"
           type="Point" source="polarroute-start-drawing-layer"
           v-on:drawstart="polarrouteStartListener"
-          v-on:drawend="choose_polarroute_start = false"
+          v-on:drawend="$emit('update:choose_polarroute_start', false)"
           >
           <vl-style>
             <vl-style-circle :radius="5">
@@ -177,7 +177,7 @@
         <vl-interaction-draw v-if="choose_polarroute_end"
           type="Point" source="polarroute-end-drawing-layer"
           v-on:drawstart="polarrouteEndListener"
-          v-on:drawend="choose_polarroute_end = false"
+          v-on:drawend="$emit('update:choose_polarroute_end', false)"
           >
           <vl-style>
             <vl-style-circle :radius="5">
@@ -534,12 +534,6 @@ export default {
           await _this.getShipTrack();
         }, this.ship_track_update_frequency);
       }
-    },
-    choose_polarroute_start: function() {
-      this.$emit('update:choose_polarroute_start', this.choose_polarroute_start);
-    },
-    choose_polarroute_end: function() {
-      this.$emit('update:choose_polarroute_end', this.choose_polarroute_end);
     },
     polarroute_coords: {
       deep: true,
