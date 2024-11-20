@@ -62,7 +62,10 @@
         />
       </div>
 
-      <div><button title="Request Route" v-on:click="requestRoute()">Get Route</button></div>
+      <div>
+        <button title="Request Route" v-on:click="requestRoute()">Get Route</button>
+        <button title="Refresh Routes" v-on:click="requestRecentRoutes()">Refresh Routes</button>
+      </div>
       </fieldset>
 
       <div><button title="Refresh Routes" v-on:click="requestRecentRoutes()">Refresh Routes</button></div>
