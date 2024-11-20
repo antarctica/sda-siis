@@ -1,8 +1,8 @@
-import { css } from '@styled-system/css';
+import { css, cx } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import React, { ComponentProps } from 'react';
 import { DialogTrigger } from 'react-aria-components';
-import { Key, useListData } from 'react-stately';
+import { Key, ListData, useListData } from 'react-stately';
 
 import SvgIcon from '@/components/common/SvgIcon';
 import ListBox, { ListBoxItem, ListBoxItemData } from '@/components/ListBox';
@@ -16,25 +16,20 @@ export interface SelectionMenuItem<T> extends ListBoxItemData {
 }
 
 interface SelectionMenuProps<T> {
-  items: SelectionMenuItem<T>[];
+  listData: ListData<SelectionMenuItem<T>>;
   onSelect?: (value: T) => void;
   defaultSelectedItemId?: Key;
   trigger: React.ReactNode;
+  className?: string;
 }
 
 export function SelectionMenu<T>({
-  items,
+  listData,
   onSelect,
-  defaultSelectedItemId,
   trigger,
+  className,
 }: SelectionMenuProps<T>) {
   const [open, setOpen] = React.useState(false);
-
-  const listData = useListData({
-    initialItems: items,
-    initialSelectedKeys: defaultSelectedItemId ? [defaultSelectedItemId] : undefined,
-    getKey: (item) => item.id,
-  });
 
   const onSelectItem = React.useCallback(
     (itemId: Key) => {
@@ -49,9 +44,12 @@ export function SelectionMenu<T>({
     <DialogTrigger isOpen={open} onOpenChange={setOpen}>
       {trigger}
       <PopoverMenu
-        className={css({
-          w: '60',
-        })}
+        className={cx(
+          css({
+            w: '60',
+          }),
+          className,
+        )}
       >
         <ListBox
           autoFocus
@@ -65,6 +63,7 @@ export function SelectionMenu<T>({
           onSelectionChange={(selection) => {
             if (selection instanceof Set && selection.size === 0) {
               setOpen(false);
+              return;
             }
             const selectedItemId = Array.from(selection)[0];
 
@@ -97,4 +96,20 @@ export function SelectionMenu<T>({
   );
 }
 
-export default SelectionMenu;
+interface StaticSelectionMenuProps<T> extends Omit<SelectionMenuProps<T>, 'listData'> {
+  items: SelectionMenuItem<T>[];
+}
+
+export function StaticSelectionMenu<T>({
+  items,
+  onSelect,
+  defaultSelectedItemId,
+  trigger,
+}: StaticSelectionMenuProps<T>) {
+  const listData = useListData({
+    initialItems: items,
+    initialSelectedKeys: defaultSelectedItemId ? [defaultSelectedItemId] : undefined,
+    getKey: (item) => item.id,
+  });
+  return <SelectionMenu listData={listData} onSelect={onSelect} trigger={trigger} />;
+}

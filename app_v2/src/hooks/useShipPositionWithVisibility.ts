@@ -9,7 +9,6 @@ import { useAppSelector } from '@/store/hooks';
 
 export function useShipPositionWithVisibility() {
   const { latitude, longitude, isOnline, isLoading, isError, sensorStatus } = useShipPosition();
-
   const currentCRS = useAppSelector(selectCurrentCRS);
 
   const isVisible = useMemo(() => {

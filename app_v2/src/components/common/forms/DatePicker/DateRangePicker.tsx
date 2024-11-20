@@ -5,7 +5,7 @@ import {
   getLocalTimeZone,
   today,
 } from '@internationalized/date';
-import { css, cva, cx } from '@styled-system/css';
+import { css, cx } from '@styled-system/css';
 import { Divider, Flex } from '@styled-system/jsx';
 import React from 'react';
 import {
@@ -18,7 +18,7 @@ import {
 import { Button, IconButton } from '../../Button';
 import SvgIcon from '../../SvgIcon';
 import { Description, FieldError, FieldGroup, Label } from '../Field';
-import { fieldBorderRecipe, inputRecipe } from '../Field/styles';
+import { dateFieldGroupRecipe, inputContainerRecipe } from '../Field/styles';
 import { CalandarPopUp } from './Calendar';
 import { DateInput } from './DateField';
 import { RangeCalendar } from './RangeCalendar';
@@ -253,34 +253,22 @@ export function DateRangePicker({
   );
 }
 
-const fieldGroupRecipe = cva({
-  base: {
-    minW: '52',
-    w: 'full',
-    display: 'flex',
-    justifyContent: 'space-between',
-    pr: '0.5',
-  },
-});
 function DatePickerInputGroup() {
   return (
-    <FieldGroup
-      className={({ isInvalid, isDisabled }) =>
-        cx(fieldBorderRecipe({ isInvalid, isDisabled }), inputRecipe(), fieldGroupRecipe())
-      }
-    >
-      <Flex gap="1">
+    <FieldGroup className={cx(inputContainerRecipe(), dateFieldGroupRecipe())}>
+      <Flex gap="1" align="center">
         <DateInput slot="start" />
         <span aria-hidden="true">–</span>
         <DateInput slot="end" />
       </Flex>
 
-      <Flex align="center" gap="0.5">
+      <Flex align="center">
         <Divider orientation="vertical" h="9" color="bg.base.border" />
         <IconButton
           icon={<SvgIcon name="icon-calendar" size={20} />}
           aria-label="Open calendar"
           size="md"
+          variant="surface"
         />
       </Flex>
     </FieldGroup>

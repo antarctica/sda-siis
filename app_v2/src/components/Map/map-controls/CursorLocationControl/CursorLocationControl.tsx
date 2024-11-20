@@ -1,3 +1,4 @@
+import { project } from '@arcgis/core/geometry/projection';
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
 import { cx, sva } from '@styled-system/css';
 import { Divider, VisuallyHidden } from '@styled-system/jsx';
@@ -5,9 +6,7 @@ import React from 'react';
 import { Button } from 'react-aria-components';
 
 import { useCurrentMapView } from '@/arcgis/hooks';
-import { ProjectionContext } from '@/arcgis/projection/ProjectionProvider';
-
-import useFormattedLatLon from './useFormattedLatLon';
+import { formatCoordinate } from '@/utils/formatCoordinates';
 
 const cursorLocationControlStyle = sva({
   slots: ['wrapper', 'format', 'value'],
@@ -71,7 +70,6 @@ const cursorLocationControlStyle = sva({
 
 function CursorLocationControl() {
   const mapView = useCurrentMapView();
-  const { project } = React.useContext(ProjectionContext);
   const [lat, setLat] = React.useState<number | undefined>();
   const [lon, setLon] = React.useState<number | undefined>();
   const [format, setFormat] = React.useState<'DD' | 'DMS' | 'DDM'>('DD');
@@ -79,24 +77,21 @@ function CursorLocationControl() {
   // Use a ref to keep track of the latest request
   const latestRequestId = React.useRef(0);
 
-  const updateCoordinates = React.useCallback(
-    (point: __esri.Point) => {
-      const currentRequestId = ++latestRequestId.current;
+  const updateCoordinates = React.useCallback((point: __esri.Point) => {
+    const currentRequestId = ++latestRequestId.current;
 
-      try {
-        const projectedPoint = project(point, SpatialReference.WGS84) as __esri.Point;
+    try {
+      const projectedPoint = project(point, SpatialReference.WGS84) as __esri.Point;
 
-        // Only update if this is still the latest request
-        if (currentRequestId === latestRequestId.current) {
-          setLat(projectedPoint.latitude);
-          setLon(projectedPoint.longitude);
-        }
-      } catch (error) {
-        console.error('Error projecting point:', error);
+      // Only update if this is still the latest request
+      if (currentRequestId === latestRequestId.current) {
+        setLat(projectedPoint.latitude);
+        setLon(projectedPoint.longitude);
       }
-    },
-    [project],
-  );
+    } catch (error) {
+      console.error('Error projecting point:', error);
+    }
+  }, []);
 
   React.useEffect(() => {
     const handle = mapView.on('pointer-move', (e) => {
@@ -125,7 +120,7 @@ function CursorLocationControl() {
   };
 
   // Use the custom hook to get formatted coordinates
-  const formattedLatLon = useFormattedLatLon(lat, lon, format);
+  const formattedLatLon = formatCoordinate(lat, lon, format);
   if (!formattedLatLon) return null;
   return (
     <Button

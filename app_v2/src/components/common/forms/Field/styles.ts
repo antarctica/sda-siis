@@ -1,15 +1,36 @@
 import { cva } from '@styled-system/css';
 
-export const fieldGroupRecipe = cva({
+// Main field container styles
+export const fieldRecipe = cva({
   base: {
     display: 'flex',
-    alignItems: 'center',
-    overflow: 'hidden',
-    borderWidth: 'thin',
-    borderColor: 'bg.base.border',
+    flexDirection: 'column',
+    gap: '1',
+    mb: '2',
   },
 });
 
+// Label and helper text styles
+export const labelRecipe = cva({
+  base: {
+    textStyle: 'label',
+  },
+});
+
+export const descriptionRecipe = cva({
+  base: {
+    textStyle: 'description',
+  },
+});
+
+export const validationErrorRecipe = cva({
+  base: {
+    textStyle: 'validationError',
+    color: 'error.fg',
+  },
+});
+
+// Border and container styles
 export const fieldBorderRecipe = cva({
   base: {
     borderRadius: 'md',
@@ -31,35 +52,52 @@ export const fieldBorderRecipe = cva({
   },
 });
 
-export const validationErrorRecipe = cva({
+export const fieldGroupRecipe = cva({
   base: {
-    textStyle: 'validationError',
-    color: 'error.fg',
+    display: 'flex',
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderWidth: 'thin',
+    borderColor: 'bg.base.border',
   },
 });
 
-export const labelRecipe = cva({
+export const dateFieldGroupRecipe = cva({
   base: {
-    textStyle: 'label',
+    minW: '52',
+    w: 'full',
+    justifyContent: 'space-between',
+    pr: '0.5',
+    gap: '1',
   },
 });
 
-export const descriptionRecipe = cva({
-  base: {
-    textStyle: 'description',
-  },
-});
-
-export const inputRecipe = cva({
+export const inputContainerRecipe = cva({
   base: {
     h: '9',
-    border: 'none',
     bg: 'app.grey.3',
+  },
+});
+
+// Input element styles
+export const inputRecipe = cva({
+  base: {
+    border: 'none',
     py: '1.5',
     px: '2',
     _placeholder: {
       textStyle: 'description',
       color: 'fg.muted',
+    },
+  },
+  variants: {
+    isFocusVisible: {
+      true: {
+        insetFocusRing: true,
+      },
+      false: {
+        insetFocusRing: false,
+      },
     },
   },
 });

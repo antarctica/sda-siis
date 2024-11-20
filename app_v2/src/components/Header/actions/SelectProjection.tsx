@@ -3,7 +3,7 @@ import { DialogTrigger } from 'react-aria-components';
 
 import SvgIcon from '@/components/common/SvgIcon';
 import { Action } from '@/components/Header/actions/Actions';
-import SelectionMenu, { SelectionMenuItem } from '@/components/SelectionMenu/SelectionMenu';
+import { SelectionMenuItem, StaticSelectionMenu } from '@/components/SelectionMenu';
 import { useSidebarActorRef } from '@/components/Sidebar/SidebarHooks';
 import { useResetApplicationState } from '@/hooks/useResetApplicationState';
 import { selectCurrentCRS, setCurrentCRS } from '@/store/features/projectionSlice';
@@ -38,7 +38,7 @@ export function SelectProjection() {
   );
 
   return (
-    <SelectionMenu
+    <StaticSelectionMenu
       items={items}
       onSelect={updateCRS}
       defaultSelectedItemId={currentCRS}
@@ -47,6 +47,6 @@ export function SelectProjection() {
           <Action icon={<SvgIcon name="icon-globe" size={20} />} aria-label={'Select Projection'} />
         </DialogTrigger>
       }
-    ></SelectionMenu>
+    />
   );
 }

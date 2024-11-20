@@ -11,7 +11,7 @@ import {
 } from 'react-aria-components';
 
 import { Description, FieldError, Label } from '../Field';
-import { fieldBorderRecipe, inputRecipe } from '../Field/styles';
+import { fieldBorderRecipe, fieldRecipe, inputRecipe } from '../Field/styles';
 
 export interface DateFieldProps<T extends DateValue> extends AriaDateFieldProps<T> {
   label?: string;
@@ -42,20 +42,14 @@ const segmentStyles = cva({
 
 export function DateInput(props: Omit<DateInputProps, 'children'>) {
   return (
-    <AriaDateInput {...props}>
+    <AriaDateInput
+      {...props}
+      className={composeRenderProps(props.className, (className) => cx(inputRecipe(), className))}
+    >
       {(segment) => <DateSegment segment={segment} className={segmentStyles} />}
     </AriaDateInput>
   );
 }
-
-const dateFieldRecipe = cva({
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1',
-    mb: '2',
-  },
-});
 
 export function DateField<T extends DateValue>({
   label,
@@ -66,15 +60,11 @@ export function DateField<T extends DateValue>({
   return (
     <AriaDateField
       {...props}
-      className={composeRenderProps(props.className, (className) =>
-        cx(dateFieldRecipe(), className),
-      )}
+      className={composeRenderProps(props.className, (className) => cx(fieldRecipe(), className))}
     >
       {label && <Label>{label}</Label>}
       <DateInput
-        className={({ isInvalid, isDisabled }) =>
-          cx(inputRecipe(), fieldBorderRecipe({ isInvalid, isDisabled }))
-        }
+        className={({ isInvalid, isDisabled }) => cx(fieldBorderRecipe({ isInvalid, isDisabled }))}
       />
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>

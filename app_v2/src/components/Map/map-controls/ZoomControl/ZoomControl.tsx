@@ -45,7 +45,7 @@ function ZoomControl() {
         disableTooltip
         isDisabled={canZoomOut ? undefined : true}
         onPress={() => widget.zoomOut()}
-        variant="mapButton"
+        variant="surface"
         isContainer={false}
         className={css({
           borderTopRadius: '[0]',

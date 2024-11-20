@@ -13,6 +13,7 @@ import {
 } from 'react-aria-components';
 
 import { FieldGroup, Label } from '../common/forms/Field';
+import { inputContainerRecipe, inputRecipe } from '../common/forms/Field/styles';
 import SvgIcon from '../common/SvgIcon';
 import ListBox, { ListBoxItem, ListBoxItemData } from '../ListBox';
 
@@ -34,6 +35,7 @@ const selectRecipe = sva({
       display: 'flex',
       flexDirection: 'column',
       gap: '1',
+      mb: '2',
     },
     popover: {
       maxHeight: '60',
@@ -49,9 +51,6 @@ const selectRecipe = sva({
 
     button: {
       border: 'none',
-      bg: 'bg.surface',
-      py: '1.5',
-      px: '2',
       pr: '3',
       _placeholder: {
         textStyle: 'description',
@@ -65,11 +64,7 @@ const selectRecipe = sva({
       height: 'full',
     },
     fieldGroup: {
-      h: '9',
       _focusVisible: {
-        insetFocusRing: true,
-      },
-      _focusWithin: {
         insetFocusRing: true,
       },
     },
@@ -79,6 +74,13 @@ const selectRecipe = sva({
       true: {
         fieldGroup: {
           borderColor: 'fg.accent',
+        },
+      },
+    },
+    focusVisible: {
+      true: {
+        fieldGroup: {
+          insetFocusRing: true,
         },
       },
     },
@@ -114,13 +116,25 @@ export function Select<T extends ListBoxItemData>({
 function SelectButton() {
   const state = React.useContext(SelectStateContext);
   if (!state) return null;
-  const { button, fieldGroup } = selectRecipe({ open: state.isOpen });
+  const { button } = selectRecipe({ open: state.isOpen });
   return (
-    <FieldGroup className={fieldGroup}>
-      <Button className={button}>
+    <FieldGroup
+      className={composeRenderProps('', (className, { isFocusVisible }) =>
+        cx(
+          selectRecipe({ focusVisible: isFocusVisible }).fieldGroup,
+          inputContainerRecipe(),
+          className,
+        ),
+      )}
+    >
+      <Button className={cx(button, inputRecipe())}>
         <SelectValue
           className={css({
             textOverflow: 'ellipsis',
+            _placeholder: {
+              textStyle: 'description',
+              color: 'fg.muted',
+            },
           })}
         />
         <SvgIcon name="icon-chevron-down" size={12} />

@@ -1,6 +1,6 @@
 'use client';
 import { type DateValue, isSameDay, today } from '@internationalized/date';
-import { css, cva, cx } from '@styled-system/css';
+import { css, cx } from '@styled-system/css';
 import { Divider, Flex } from '@styled-system/jsx';
 import React from 'react';
 import {
@@ -13,7 +13,7 @@ import {
 import { Button, IconButton } from '../../Button';
 import SvgIcon from '../../SvgIcon';
 import { Description, FieldError, FieldGroup, Label } from '../Field';
-import { fieldBorderRecipe, inputRecipe } from '../Field/styles';
+import { dateFieldGroupRecipe, inputContainerRecipe } from '../Field/styles';
 import { CalandarPopUp, Calendar } from './Calendar';
 import { DateInput } from './DateField';
 
@@ -133,16 +133,6 @@ export function DatePicker({
   );
 }
 
-const fieldGroupRecipe = cva({
-  base: {
-    minW: '52',
-    w: 'full',
-    display: 'flex',
-    justifyContent: 'space-between',
-    pr: '0.5',
-    gap: '1',
-  },
-});
 function DatePickerInputGroup({
   navButtonsEnabled = false,
   changeValue,
@@ -173,59 +163,56 @@ function DatePickerInputGroup({
   const navDisabled = currentDateIndex === -1 || isDisabled;
 
   return (
-    <FieldGroup
-      className={({ isInvalid, isDisabled }) =>
-        cx(fieldBorderRecipe({ isInvalid, isDisabled }), inputRecipe(), fieldGroupRecipe())
-      }
-    >
-      {navButtonsEnabled && (
-        <>
-          <Flex gap="1" grow={0} align="center" pr="1">
-            <IconButton
-              slot={null}
-              icon={<SvgIcon name="icon-chevron-left" size={12} />}
-              aria-label="Previous date"
-              variant="primary"
-              size="sm"
-              isDisabled={navDisabled || currentDateIndex === 0}
-              onPress={() => {
-                if (!value) {
-                  return;
-                }
-                if (currentDateIndex > 0) {
-                  const previousDate = orderedValidDates[currentDateIndex - 1];
-                  if (previousDate) {
-                    changeValue(previousDate);
+    <FieldGroup className={cx(inputContainerRecipe(), dateFieldGroupRecipe())}>
+      <Flex direction="row" align="center" grow={1} gap="1" flexDirection={'row-reverse'}>
+        <DateInput className={css({ flexGrow: 1 })} />
+        {navButtonsEnabled && (
+          <Flex>
+            <Flex gap="1" grow={0} align="center" px="1">
+              <IconButton
+                slot={null}
+                icon={<SvgIcon name="icon-chevron-left" size={12} />}
+                aria-label="Previous date"
+                variant="primary"
+                size="sm"
+                isDisabled={navDisabled || currentDateIndex === 0}
+                onPress={() => {
+                  if (!value) {
+                    return;
                   }
-                }
-              }}
-            />
-            <IconButton
-              slot={null}
-              icon={<SvgIcon name="icon-chevron-right" size={12} />}
-              aria-label="Next date"
-              variant="primary"
-              size="sm"
-              isDisabled={navDisabled || currentDateIndex === orderedValidDates.length - 1}
-              onPress={() => {
-                if (!value) {
-                  return;
-                }
-                if (currentDateIndex < orderedValidDates.length - 1) {
-                  const nextDate = orderedValidDates[currentDateIndex + 1];
-                  if (nextDate) {
-                    changeValue(nextDate);
+                  if (currentDateIndex > 0) {
+                    const previousDate = orderedValidDates[currentDateIndex - 1];
+                    if (previousDate) {
+                      changeValue(previousDate);
+                    }
                   }
-                }
-              }}
-            />
+                }}
+              />
+              <IconButton
+                slot={null}
+                icon={<SvgIcon name="icon-chevron-right" size={12} />}
+                aria-label="Next date"
+                variant="primary"
+                size="sm"
+                isDisabled={navDisabled || currentDateIndex === orderedValidDates.length - 1}
+                onPress={() => {
+                  if (!value) {
+                    return;
+                  }
+                  if (currentDateIndex < orderedValidDates.length - 1) {
+                    const nextDate = orderedValidDates[currentDateIndex + 1];
+                    if (nextDate) {
+                      changeValue(nextDate);
+                    }
+                  }
+                }}
+              />
+            </Flex>
+            <Divider orientation="vertical" h="9" color="bg.base.border" />
           </Flex>
-          <Divider orientation="vertical" h="9" color="bg.base.border" />
-        </>
-      )}
-
-      <DateInput className={css({ flexGrow: 1 })} />
-      <Flex align="center" gap="0.5" grow={0}>
+        )}
+      </Flex>
+      <Flex align="center" grow={0}>
         <Divider orientation="vertical" h="9" color="bg.base.border" />
         <IconButton
           icon={<SvgIcon name="icon-calendar" size={20} />}

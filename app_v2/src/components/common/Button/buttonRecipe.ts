@@ -7,12 +7,15 @@ export const buttonRecipe = cva({
     textDecoration: 'none',
     cursor: 'pointer',
     height: 'fit',
+    borderWidth: 'thin',
+    borderStyle: 'solid',
   },
   variants: {
     variant: {
       primary: {
         bg: 'app.accent',
         color: 'fg.accent.contrast',
+        borderColor: 'transparent',
         _hover: {
           bg: 'app.accent.10',
         },
@@ -39,8 +42,6 @@ export const buttonRecipe = cva({
         },
       },
       surface: {
-        borderWidth: 'thin',
-        borderStyle: 'solid',
         borderColor: 'transparent',
         _hover: {
           cursor: 'pointer',
