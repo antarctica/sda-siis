@@ -81,7 +81,7 @@
         </tr>
 
 
-        <tr v-for="route in routes" :key="route.id"  v-on:click="route.show=!route.show" :class="route.show ? 'shown-route' : ''">
+        <tr v-for="route in routes" :key="route.id"  v-on:click="toggleRouteVisibility(route)" :class="route.show ? 'shown-route' : ''">
           <td><span :title="route.start_name ? getRouteCoordText(route.start_lat, route.start_lon) : ''">{{ route.start_name ? route.start_name : getRouteCoordText(route.start_lat, route.start_lon) }}</span></td>
           <td><span :title="route.end_name ? getRouteCoordText(route.end_lat, route.end_lon) : ''">{{ route.end_name ? route.end_name : getRouteCoordText(route.end_lat, route.end_lon) }}</span></td>
           <td><span :title="getRouteInfoText(route)">{{ route.info ? route.status + ' (!)' : route.status}}</span></td>
@@ -197,6 +197,14 @@ export default {
 
       addRoute (route) {
         this.routes.push(route);
+      },
+
+      toggleRouteVisibility (route){
+        if (route.hasOwnProperty("json") && route.json != null || route.hasOwnProperty("json_unsmoothed") && route.json_unsmoothed != null){
+          route.show = !route.show;
+        }else{
+          route.show = false;
+        }
       },
 
       updateServiceStatusText (text) {
