@@ -52,7 +52,9 @@ type IconName =
   | 'icon-show-graticule'
   | 'icon-hide-graticule'
   | 'icon-map-location'
-  | 'icon-up-down-chevron';
+  | 'icon-up-down-chevron'
+  | 'icon-buffer-rings'
+  | 'icon-buffer-rings-off';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: IconName;
