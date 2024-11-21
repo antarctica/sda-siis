@@ -161,7 +161,7 @@
         v-on:click="show_polarroute = !show_polarroute"
         :class="show_polarroute ? 'activated': null"
         title="Use PolarRoute to calculate the optimal route between two points."
-      >Pr
+      >Ro
       </button>
     </fieldset>
     <fieldset>
