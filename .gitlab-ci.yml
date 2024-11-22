@@ -202,7 +202,7 @@ package-app-v2-stage:
     - "mkdir -p ./app_v2/dist-pkgs/"
     - "cd ./app_v2/dist/"
   script:
-    - "zip ../dist-pkgs/app-v2-stage.zip *"
+    - "zip -r ../dist-pkgs/app-v2-stage.zip ."
   artifacts:
     paths:
       - app_v2/dist-pkgs
@@ -224,7 +224,7 @@ package-app-v2-prod:
     - "mkdir -p ./app_v2/dist-pkgs/"
     - "cd ./app_v2/dist/"
   script:
-    - "zip ../dist-pkgs/app-v2-prod.zip *"
+    - "zip -r ../dist-pkgs/app-v2-prod.zip ."
   artifacts:
     paths:
       - app_v2/dist-pkgs
