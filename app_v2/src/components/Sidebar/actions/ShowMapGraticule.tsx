@@ -17,7 +17,7 @@ export function ShowGraticule({ isCollapsed }: { isCollapsed: boolean }) {
       title={isGraticuleVisible ? 'Hide Graticule' : 'Show Graticule'}
       icon={
         <SvgIcon
-          name={isGraticuleVisible ? 'icon-show-graticule' : 'icon-hide-graticule'}
+          name={isGraticuleVisible ? 'icon-hide-graticule' : 'icon-show-graticule'}
           size={16}
         ></SvgIcon>
       }

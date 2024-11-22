@@ -262,13 +262,13 @@ function DatePickerInputGroup() {
         <DateInput slot="end" />
       </Flex>
 
-      <Flex align="center">
+      <Flex align="center" grow={0} h="full">
         <Divider orientation="vertical" h="9" color="bg.base.border" />
         <IconButton
           icon={<SvgIcon name="icon-calendar" size={20} />}
           aria-label="Open calendar"
-          size="md"
           variant="surface"
+          contained
         />
       </Flex>
     </FieldGroup>

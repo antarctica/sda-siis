@@ -67,7 +67,6 @@ export const dateFieldGroupRecipe = cva({
     minW: '52',
     w: 'full',
     justifyContent: 'space-between',
-    pr: '0.5',
     gap: '1',
   },
 });

@@ -11,6 +11,7 @@ import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';
 import Drawing from '@/panels/Drawing';
 import { Legend, MapLayers } from '@/panels/MapLayers';
+import Measure from '@/panels/Measure/Measure';
 import store from '@/store';
 import { selectCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppSelector } from '@/store/hooks';
@@ -54,6 +55,14 @@ const appPanels: SidebarItem[] = [
     position: 'top',
     type: 'panel',
     component: () => <Drawing />,
+  },
+  {
+    id: 'measurement',
+    title: 'Measure',
+    icon: <SvgIcon name="icon-measure" size={16} />,
+    position: 'top',
+    type: 'panel',
+    component: () => <Measure />,
   },
 ];
 

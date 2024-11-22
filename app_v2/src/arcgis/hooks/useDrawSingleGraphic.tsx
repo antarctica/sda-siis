@@ -26,7 +26,7 @@ export function useDrawSingleGraphic(
   const { layer } = useGraphicsLayer(mapView, {
     listMode: 'hide',
   });
-
+  const graphicRef = React.useRef<__esri.Graphic | undefined>(undefined);
   const [geometry, setGeometry] = React.useState<__esri.Geometry | undefined>(undefined);
 
   const sketchVM = React.useMemo(() => {
@@ -76,6 +76,7 @@ export function useDrawSingleGraphic(
       if (event.state === 'complete') {
         layer.removeAll();
         layer.add(event.graphic);
+        graphicRef.current = event.graphic;
         setGeometry(event.graphic.geometry);
         options?.onCreateGraphic?.(event.graphic, newSketchVM);
       }
@@ -89,12 +90,14 @@ export function useDrawSingleGraphic(
 
       const graphic = event.graphics[0];
       if (graphic) {
+        graphicRef.current = graphic;
         setGeometry(graphic.geometry);
         options?.onUpdateGraphic?.(graphic, newSketchVM);
       }
     });
 
     newSketchVM.on('delete', () => {
+      graphicRef.current = undefined;
       setGeometry(undefined);
       options?.onDeleteGraphic?.(newSketchVM);
     });
@@ -108,6 +111,7 @@ export function useDrawSingleGraphic(
       return;
     }
     layer.removeAll();
+    graphicRef.current = undefined;
     setGeometry(undefined);
   }, [sketchVM, layer]);
 
@@ -123,5 +127,5 @@ export function useDrawSingleGraphic(
     };
   }, [sketchVM, activeDrawMode]);
 
-  return { geometry, clearGeometry, create, activeDrawMode };
+  return { graphic: graphicRef.current, geometry, clearGeometry, create, activeDrawMode };
 }

@@ -74,6 +74,9 @@ export const buttonRecipe = cva({
         },
       },
     },
+    contained: {
+      true: { h: 'full', w: 'full' },
+    },
     isSelected: { true: {} },
     size: {
       sm: {
@@ -135,6 +138,14 @@ export const buttonRecipe = cva({
         _active: {
           filter: '[brightness(0.92) saturate(1.1)]',
         },
+      },
+    },
+    {
+      size: ['sm', 'md', 'lg'],
+      contained: true,
+      css: {
+        h: 'full',
+        w: 'full',
       },
     },
   ],

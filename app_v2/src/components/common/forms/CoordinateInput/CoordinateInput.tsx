@@ -50,18 +50,20 @@ const DEFAULT_POINT_SYMBOL = new SimpleMarkerSymbol({
   },
 });
 
+export interface CoordinateInputMapSelectionOptions {
+  mapSelectionEnabled: boolean;
+  mapView?: __esri.MapView;
+  pointSymbol?: __esri.SimpleMarkerSymbol;
+  updateEnabled?: boolean;
+}
+
 interface BaseCoordinateInputProps extends Omit<AriaTextFieldProps, 'value' | 'onChange'> {
   label?: string;
   defaultDisplayFormat?: DisplayFormat;
   placeholder?: string;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
-  mapSelectionOptions: {
-    mapSelectionEnabled: boolean;
-    mapView?: __esri.MapView;
-    pointSymbol?: __esri.SimpleMarkerSymbol;
-    updateEnabled?: boolean;
-  };
+  mapSelectionOptions: CoordinateInputMapSelectionOptions;
 }
 
 interface ControlledCoordinateInputProps extends BaseCoordinateInputProps {
@@ -152,10 +154,11 @@ export function CoordinateField({
               {mapSelectionOptions.mapSelectionEnabled && mapSelectionOptions.mapView && (
                 <Flex align="center" grow={0}>
                   <CoordinateMapSelection
+                    coordinate={coordinate}
                     updateEnabled={mapSelectionOptions?.updateEnabled}
                     mapView={mapSelectionOptions?.mapView}
                     pointSymbol={mapSelectionOptions?.pointSymbol}
-                    setCoordinate={handleInputChange}
+                    handleMapCoordinateSelection={handleInputChange}
                     format={displayFormat}
                   />
 
@@ -171,7 +174,7 @@ export function CoordinateField({
                 onChange={(e) => handleInputChange(e.target.value)}
               />
             </Flex>
-            <Flex align="center" grow={0}>
+            <Flex align="center" grow={0} h="full">
               <Divider orientation="vertical" h={'9'} color="bg.base.border" />
               <CoordinateSelectionMenu
                 key={`${coordinate?.latitude}-${coordinate?.longitude}-${displayFormat}`}
@@ -235,9 +238,9 @@ function CoordinateSelectionMenu({
           <IconButton
             icon={<SvgIcon name="icon-up-down-chevron" size={ICON_SIZES.CHEVRON} />}
             aria-label="Select coordinate format"
-            size="sm"
             variant="surface"
-            className={css({ h: '9 !important' })}
+            contained
+            size="sm"
           />
         </DialogTrigger>
       }
@@ -247,13 +250,15 @@ function CoordinateSelectionMenu({
 
 function CoordinateMapSelection({
   mapView,
-  setCoordinate,
+  coordinate,
+  handleMapCoordinateSelection,
   format,
   updateEnabled,
   pointSymbol,
 }: {
   mapView: __esri.MapView;
-  setCoordinate: (value: string) => void;
+  coordinate: __esri.Point | null;
+  handleMapCoordinateSelection: (value: string) => void;
   format: DisplayFormat | 'unknown';
   updateEnabled?: boolean;
   pointSymbol?: __esri.SimpleMarkerSymbol;
@@ -261,7 +266,7 @@ function CoordinateMapSelection({
   const updateCoordinate = React.useCallback(
     (graphic: __esri.Graphic | undefined) => {
       if (!graphic) {
-        setCoordinate('');
+        handleMapCoordinateSelection('');
         return;
       }
       const point = graphic.geometry as __esri.Point;
@@ -272,31 +277,37 @@ function CoordinateMapSelection({
         projectedPoint.longitude,
         collectionFormat,
       );
-      setCoordinate(value ?? '');
+      handleMapCoordinateSelection(value ?? '');
     },
-    [setCoordinate, format],
+    [handleMapCoordinateSelection, format],
   );
 
   const options: DrawSingleGraphicOptions = React.useMemo(
     () => ({
       onCreateGraphic: updateCoordinate,
       onUpdateGraphic: updateCoordinate,
-      onDeleteGraphic: () => setCoordinate(''),
+      onDeleteGraphic: () => handleMapCoordinateSelection(''),
       sketchOptions: { pointSymbol: pointSymbol ?? DEFAULT_POINT_SYMBOL },
       updateEnabled: updateEnabled ?? false,
     }),
-    [updateCoordinate, setCoordinate, updateEnabled, pointSymbol],
+    [updateCoordinate, handleMapCoordinateSelection, updateEnabled, pointSymbol],
   );
 
-  const { create, activeDrawMode } = useDrawSingleGraphic(mapView, options);
+  const { create, activeDrawMode, graphic } = useDrawSingleGraphic(mapView, options);
+
+  React.useEffect(() => {
+    if (graphic && coordinate) {
+      const projectedCoordinate = project(coordinate, mapView.spatialReference) as __esri.Point;
+      graphic.geometry = projectedCoordinate;
+    }
+  }, [graphic, coordinate, mapView.spatialReference]);
 
   return (
     <IconButton
       icon={<SvgIcon name="icon-map-location" size={ICON_SIZES.LOCATION} />}
       onPress={() => create('point')}
       aria-label="Select map location"
-      size="md"
-      className={css({ h: '9 !important' })}
+      contained
       variant={activeDrawMode === 'point' ? 'primary' : 'surface'}
     />
   );

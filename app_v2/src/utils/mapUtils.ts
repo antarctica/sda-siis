@@ -19,22 +19,6 @@ export function toRadians(degrees: number): number {
 }
 
 /**
- * Calculates the bearing between two points.
- * @param {number} x1 - The x-coordinate of the first point.
- * @param {number} y1 - The y-coordinate of the first point.
- * @param {number} x2 - The x-coordinate of the second point.
- * @param {number} y2 - The y-coordinate of the second point.
- * @returns {number} The bearing in degrees, normalized to 0-360 range.
- */
-export function calculateBearing(x1: number, y1: number, x2: number, y2: number): number {
-  const deltaX = x2 - x1;
-  const deltaY = y2 - y1;
-  const radians = Math.atan2(deltaX, deltaY);
-  const degrees = toDegrees(radians);
-  return (degrees + 360) % 360;
-}
-
-/**
  * Calculates the projected bearing to the pole.
  * @param {Object} position - The position object with latitude and longitude.
  * @param {Function} project - The projection function from the ArcGIS API.
@@ -128,4 +112,85 @@ export function generateCircleRings(
   }
   console.log(points);
   return points;
+}
+
+/**
+ * Calculates the bearing between two projected map points in degrees (0 - 360).
+ * Uses Euclidean geometry on the projected (flat) map surface.
+ * Bearing is measured clockwise from the top of the screen (north).
+ * For example:
+ * - 0° points North (up)
+ * - 90° points East (right)
+ * - 180° points South (down)
+ * - 270° points West (left)
+ * @param {number} x1 - The projected x-coordinate of the first point.
+ * @param {number} y1 - The projected y-coordinate of the first point.
+ * @param {number} x2 - The projected x-coordinate of the second point.
+ * @param {number} y2 - The projected y-coordinate of the second point.
+ * @returns {number} The bearing in degrees, normalized to 0-360 range.
+ */
+export function calculateProjectedMapBearing(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+): number {
+  const deltaX = x2 - x1;
+  const deltaY = y2 - y1;
+  const radians = Math.atan2(deltaX, deltaY);
+  const degrees = 90 - toDegrees(radians); // Convert to bearing from top of the screen
+  return (degrees + 360) % 360;
+}
+
+/**
+ * Calculates the mathematical angle between two projected map points in degrees (0 - 360).
+ * Uses Euclidean geometry on the projected (flat) map surface.
+ * The angle is measured counter-clockwise from the positive x-axis (east).
+ * For example:
+ * - 0° points East (right)
+ * - 90° points North (up)
+ * - 180° points West (left)
+ * - 270° points South (down)
+ * @param {number} x1 - The projected x-coordinate of the first point.
+ * @param {number} y1 - The projected y-coordinate of the first point.
+ * @param {number} x2 - The projected x-coordinate of the second point.
+ * @param {number} y2 - The projected y-coordinate of the second point.
+ * @returns {number} The angle in degrees, normalized to 0-360 range.
+ */
+export function calculateProjectedMapAngle(x1: number, y1: number, x2: number, y2: number): number {
+  const deltaX = x2 - x1;
+  const deltaY = y2 - y1;
+  const radians = Math.atan2(deltaY, deltaX);
+  const degrees = toDegrees(radians);
+  return (degrees + 360) % 360;
+}
+
+/**
+ * Calculates the initial bearing (forward azimuth) between two points on Earth.
+ * Uses the Haversine formula to calculate the bearing on a great circle path.
+ * @param {number} lat1 - Latitude of the first point in degrees.
+ * @param {number} lon1 - Longitude of the first point in degrees.
+ * @param {number} lat2 - Latitude of the second point in degrees.
+ * @param {number} lon2 - Longitude of the second point in degrees.
+ * @returns {number} The initial bearing in degrees, normalized to 0-360 range.
+ */
+export function calculateGeographicBearing(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+): number {
+  const φ1 = toRadians(lat1);
+  const φ2 = toRadians(lat2);
+  const Δλ = toRadians(lon2 - lon1);
+
+  // Calculate bearing
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+
+  let θ = Math.atan2(y, x);
+  θ = toDegrees(θ);
+
+  // Normalize bearing to 0-360 degrees
+  return (θ + 360) % 360;
 }

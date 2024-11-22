@@ -217,8 +217,8 @@ function DatePickerInputGroup({
         <IconButton
           icon={<SvgIcon name="icon-calendar" size={20} />}
           aria-label="Open calendar"
-          size="md"
           variant="surface"
+          contained
           isDisabled={isDisabled}
         />
       </Flex>
