@@ -101,6 +101,7 @@ class Product(db.Model):
     default_z = db.Column(db.Integer())
     geom_extent = db.Column(db.String())
 
+
 class ProductSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Product
