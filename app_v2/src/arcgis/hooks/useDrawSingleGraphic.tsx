@@ -12,21 +12,27 @@ function isCreationTool(tool: ActiveSketchTools): tool is CreationTools {
 
 export type DrawSingleGraphicOptions = {
   initialGraphic?: __esri.Graphic;
-  onCreateGraphic?: (graphic: __esri.Graphic | undefined, sketchVM: SketchViewModel) => void;
-  onUpdateGraphic?: (graphic: __esri.Graphic | undefined, sketchVM: SketchViewModel) => void;
-  onDeleteGraphic?: (sketchVM: SketchViewModel) => void;
+  onCreateGraphic?: (graphic: __esri.Graphic | undefined) => void;
+  onUpdateGraphic?: (graphic: __esri.Graphic | undefined) => void;
+  onDeleteGraphic?: () => void;
   sketchOptions?: __esri.SketchViewModelProperties;
   updateEnabled?: boolean;
+  graphicsLayer?: __esri.GraphicsLayer;
 };
 
 export function useDrawSingleGraphic(
   mapView: __esri.MapView | __esri.SceneView,
+  graphicId: string,
   options?: DrawSingleGraphicOptions,
 ) {
-  const { layer } = useGraphicsLayer(mapView, {
-    listMode: 'hide',
-  });
-  const graphicRef = React.useRef<__esri.Graphic | undefined>(undefined);
+  const { layer: graphicsLayer } = useGraphicsLayer(
+    mapView,
+    options?.graphicsLayer ?? {
+      listMode: 'hide',
+    },
+  );
+  const graphicRef = React.useRef<__esri.Graphic | undefined>();
+
   const [geometry, setGeometry] = React.useState<__esri.Geometry | undefined>(undefined);
 
   const sketchVM = React.useMemo(() => {
@@ -46,7 +52,7 @@ export function useDrawSingleGraphic(
 
     const newSketchVM = new SketchViewModel({
       view: mapView,
-      layer,
+      layer: graphicsLayer,
       valueOptions: {
         displayUnits: {
           length: 'nautical-miles',
@@ -74,11 +80,19 @@ export function useDrawSingleGraphic(
     });
     newSketchVM.on('create', (event) => {
       if (event.state === 'complete') {
-        layer.removeAll();
-        layer.add(event.graphic);
+        event.graphic.setAttribute('graphicId', graphicId);
+
+        const existingGraphic = graphicsLayer.graphics.find(
+          (g) => g.getAttribute('graphicId') === graphicId,
+        );
+        if (existingGraphic) {
+          graphicsLayer.remove(existingGraphic);
+        }
+
+        graphicsLayer.add(event.graphic);
         graphicRef.current = event.graphic;
         setGeometry(event.graphic.geometry);
-        options?.onCreateGraphic?.(event.graphic, newSketchVM);
+        options?.onCreateGraphic?.(event.graphic);
       }
     });
 
@@ -92,28 +106,32 @@ export function useDrawSingleGraphic(
       if (graphic) {
         graphicRef.current = graphic;
         setGeometry(graphic.geometry);
-        options?.onUpdateGraphic?.(graphic, newSketchVM);
+        options?.onUpdateGraphic?.(graphic);
       }
     });
 
     newSketchVM.on('delete', () => {
       graphicRef.current = undefined;
       setGeometry(undefined);
-      options?.onDeleteGraphic?.(newSketchVM);
+      options?.onDeleteGraphic?.();
     });
     return newSketchVM;
-  }, [mapView, layer, options]);
+  }, [mapView, graphicsLayer, options, graphicId]);
 
   const clearGeometry = React.useCallback(() => {
     if (isCreationTool(sketchVM.activeTool)) {
-      console.log('cancel');
       sketchVM.cancel();
       return;
     }
-    layer.removeAll();
+    const existingGraphic = graphicsLayer.graphics.find(
+      (g) => g.getAttribute('graphicId') === graphicId,
+    );
+    if (existingGraphic) {
+      graphicsLayer.remove(existingGraphic);
+    }
     graphicRef.current = undefined;
     setGeometry(undefined);
-  }, [sketchVM, layer]);
+  }, [sketchVM, graphicsLayer, graphicId]);
 
   const [activeDrawMode] = useArcState(sketchVM, 'activeTool');
 
@@ -126,6 +144,15 @@ export function useDrawSingleGraphic(
       sketchVM.create(...args);
     };
   }, [sketchVM, activeDrawMode]);
+
+  React.useEffect(() => {
+    //when graphicslayer changes try to find the graphic with the graphicId
+    graphicRef.current = graphicsLayer.graphics.find(
+      (g) => g.getAttribute('graphicId') === graphicId,
+    );
+    setGeometry(graphicRef.current?.geometry);
+    options?.onCreateGraphic?.(graphicRef.current);
+  }, [graphicsLayer, graphicId, options]);
 
   return { graphic: graphicRef.current, geometry, clearGeometry, create, activeDrawMode };
 }

@@ -1,6 +1,5 @@
 import { SpatialReference } from '@arcgis/core/geometry';
 import { project } from '@arcgis/core/geometry/projection';
-import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import { Flex } from '@styled-system/jsx';
 import React from 'react';
 
@@ -16,15 +15,20 @@ const selectItems = [
   { label: 'Nautical Miles', value: 'nautical-miles', key: 'nautical-miles' },
 ];
 
-const graphicsLayer = new GraphicsLayer({
-  listMode: 'hide',
-});
-const measurementOptions = {
+function MeasureLine({
+  mapView,
   graphicsLayer,
-};
-
-function MeasureLine({ mapView }: { mapView: __esri.MapView }) {
+}: {
+  mapView: __esri.MapView;
+  graphicsLayer: __esri.GraphicsLayer;
+}) {
   const [unit, setUnit] = React.useState<MeasurementUnit>('kilometers');
+  const measurementOptions = React.useMemo(
+    () => ({
+      graphicsLayer,
+    }),
+    [graphicsLayer],
+  );
   const { startMeasurement, measurements } = useMeasureLine(
     mapView,
     'measurement-group-1',

@@ -52,7 +52,7 @@ function Drawing() {
 }
 
 function DrawModeButton({ mapView }: { mapView: __esri.MapView }) {
-  const { create, geometry, activeDrawMode } = useDrawSingleGraphic(mapView);
+  const { create, geometry, activeDrawMode } = useDrawSingleGraphic(mapView, 'drawing-line');
   console.log(geometry);
   return (
     <Button

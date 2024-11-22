@@ -55,6 +55,7 @@ export interface CoordinateInputMapSelectionOptions {
   mapView?: __esri.MapView;
   pointSymbol?: __esri.SimpleMarkerSymbol;
   updateEnabled?: boolean;
+  graphicsLayer?: __esri.GraphicsLayer;
 }
 
 interface BaseCoordinateInputProps extends Omit<AriaTextFieldProps, 'value' | 'onChange'> {
@@ -158,6 +159,7 @@ export function CoordinateField({
                     updateEnabled={mapSelectionOptions?.updateEnabled}
                     mapView={mapSelectionOptions?.mapView}
                     pointSymbol={mapSelectionOptions?.pointSymbol}
+                    graphicsLayer={mapSelectionOptions?.graphicsLayer}
                     handleMapCoordinateSelection={handleInputChange}
                     format={displayFormat}
                   />
@@ -255,6 +257,7 @@ function CoordinateMapSelection({
   format,
   updateEnabled,
   pointSymbol,
+  graphicsLayer,
 }: {
   mapView: __esri.MapView;
   coordinate: __esri.Point | null;
@@ -262,6 +265,7 @@ function CoordinateMapSelection({
   format: DisplayFormat | 'unknown';
   updateEnabled?: boolean;
   pointSymbol?: __esri.SimpleMarkerSymbol;
+  graphicsLayer?: __esri.GraphicsLayer;
 }) {
   const updateCoordinate = React.useCallback(
     (graphic: __esri.Graphic | undefined) => {
@@ -289,11 +293,16 @@ function CoordinateMapSelection({
       onDeleteGraphic: () => handleMapCoordinateSelection(''),
       sketchOptions: { pointSymbol: pointSymbol ?? DEFAULT_POINT_SYMBOL },
       updateEnabled: updateEnabled ?? false,
+      graphicsLayer,
     }),
-    [updateCoordinate, handleMapCoordinateSelection, updateEnabled, pointSymbol],
+    [updateCoordinate, handleMapCoordinateSelection, updateEnabled, pointSymbol, graphicsLayer],
   );
 
-  const { create, activeDrawMode, graphic } = useDrawSingleGraphic(mapView, options);
+  const { create, activeDrawMode, graphic } = useDrawSingleGraphic(
+    mapView,
+    'coordinate-map-selection',
+    options,
+  );
 
   React.useEffect(() => {
     if (graphic && coordinate) {
