@@ -3,23 +3,39 @@ import React from 'react';
 
 export function useGraphicsLayer(
   mapView: __esri.View | undefined,
-  layerProps: __esri.GraphicsLayerProperties,
+  layerInput: GraphicsLayer | __esri.GraphicsLayerProperties,
+  removeLayerOnUnmount?: boolean,
 ) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const layer = React.useMemo(() => new GraphicsLayer({ listMode: 'hide', ...layerProps }), []);
+  const layer = React.useMemo(() => {
+    if (layerInput instanceof GraphicsLayer) {
+      return layerInput;
+    }
+    return new GraphicsLayer({ listMode: 'hide', ...layerInput });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [layerView, setLayerView] = React.useState<__esri.LayerView | undefined>(undefined);
 
   React.useEffect(() => {
     if (!mapView) return;
-    layer.on('layerview-create', (event) => {
-      setLayerView(event.layerView);
-    });
-    mapView.map.add(layer);
+
+    // Only add the layer if it's not already in the map
+    const isLayerInMap = mapView.map.layers.includes(layer);
+
+    if (!isLayerInMap) {
+      layer.on('layerview-create', (event) => {
+        setLayerView(event.layerView);
+      });
+      mapView.map.add(layer);
+    }
+
     return () => {
-      mapView.map.remove(layer);
+      // Only remove the layer if we added it
+      if (!isLayerInMap) {
+        mapView.map.remove(layer);
+      }
     };
-  }, [mapView, layer]);
+  }, [mapView, layer, removeLayerOnUnmount]);
 
   return { layer, layerView };
 }

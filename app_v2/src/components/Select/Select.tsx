@@ -21,8 +21,8 @@ interface ISelectProps<T extends object> extends Omit<SelectProps<T>, 'children'
   label?: string;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
-  items?: Iterable<T>;
-  children: React.ReactNode | ((item: T) => React.ReactNode);
+  items?: ListBoxItemData[];
+  children?: React.ReactNode | ((item: T) => React.ReactNode);
 }
 
 const selectRecipe = sva({
@@ -107,7 +107,7 @@ export function Select<T extends ListBoxItemData>({
       {description && <Text slot="description">{description}</Text>}
       <FieldError>{errorMessage}</FieldError>
       <Popover offset={8} className={popover}>
-        <ListBox items={items}>{children}</ListBox>
+        <ListBox<T> items={items as T[]}>{children}</ListBox>
       </Popover>
     </SelectPrimitive>
   );

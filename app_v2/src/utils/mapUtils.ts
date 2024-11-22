@@ -110,7 +110,6 @@ export function generateCircleRings(
     const y = centerY + radius * Math.sin(angle);
     points.push([x, y]);
   }
-  console.log(points);
   return points;
 }
 

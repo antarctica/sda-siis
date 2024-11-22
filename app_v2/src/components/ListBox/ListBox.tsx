@@ -58,7 +58,7 @@ const listBoxStyles = sva({
 function ListBox<T extends ListBoxItemData>({ children, ...props }: ListBoxProps<T>) {
   return (
     <ListBoxPrimitive className={listBoxStyles().container} {...props}>
-      {children ?? ((item) => <ListBoxItem {...item}>{item.label ?? ''}</ListBoxItem>)}
+      {children ?? ((item) => <ListBoxItem>{item.label ?? ''}</ListBoxItem>)}
     </ListBoxPrimitive>
   );
 }

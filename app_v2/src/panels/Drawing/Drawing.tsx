@@ -1,5 +1,3 @@
-import * as coordinateFormatter from '@arcgis/core/geometry/coordinateFormatter';
-import { SimpleMarkerSymbol } from '@arcgis/core/symbols';
 import { today } from '@internationalized/date';
 import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
