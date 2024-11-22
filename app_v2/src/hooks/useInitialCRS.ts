@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useInitialShipPosition } from '@/api/useShipSensorData';
 import { getDefaultCRSForLatitude } from '@/config/constants';
@@ -10,20 +10,14 @@ export function useInitialCRS() {
   const [initialCRS, setInitialCRS] = useState<MapCRS | null>(null);
   const { latitude, isLoading, isError } = useInitialShipPosition();
   const dispatch = useAppDispatch();
-  const hasProcessedPosition = useRef(false);
 
   useEffect(() => {
-    if (
-      !initialCRS &&
-      !hasProcessedPosition.current &&
-      !isLoading &&
-      !isError &&
-      latitude !== null
-    ) {
-      const crs = getDefaultCRSForLatitude(latitude);
+    if (!initialCRS && !isLoading) {
+      const crs =
+        !isError && latitude !== null ? getDefaultCRSForLatitude(latitude) : MapCRS.ANTARCTIC;
+
       dispatch(setCurrentCRS(crs));
       setInitialCRS(crs);
-      hasProcessedPosition.current = true;
     }
   }, [isLoading, isError, latitude, dispatch, initialCRS]);
 
