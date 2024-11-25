@@ -7,6 +7,8 @@ import { useShipPosition } from '@/api/useShipSensorData';
 import { ArcFeatureLayer } from '@/arcgis/ArcLayer/generated/ArcFeatureLayer';
 import { ArcGraphicsLayer } from '@/arcgis/ArcLayer/generated/ArcGraphicsLayer';
 import { CRS_LOOKUP } from '@/config/constants';
+import { selectShowDistanceCircles } from '@/store/features/shipSlice';
+import { useAppSelector } from '@/store/hooks';
 import { MapCRS } from '@/types';
 
 import { useShipBufferGraphic } from './useShipBufferGraphic';
@@ -23,6 +25,7 @@ function ShipPositionLayer({ crs }: { crs: MapCRS }) {
     crs,
   );
   useShipBufferGraphic(featureLayer, latitude && longitude ? { latitude, longitude } : null);
+  const showDistanceCircles = useAppSelector(selectShowDistanceCircles);
 
   if (!latitude || !longitude) return null;
 
@@ -38,6 +41,7 @@ function ShipPositionLayer({ crs }: { crs: MapCRS }) {
         title="Ship Position"
       />
       <ArcFeatureLayer
+        visible={showDistanceCircles}
         eventHandlers={{
           'layerview-create': (ev) => {
             setFeatureLayer(ev.layerView.layer as __esri.FeatureLayer);

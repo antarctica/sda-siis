@@ -6,7 +6,12 @@ import { Toolbar } from 'react-aria-components';
 import { useCurrentMapView } from '@/arcgis/hooks';
 import { IconButton } from '@/components/common/Button';
 import { useShipPositionWithVisibility } from '@/hooks/useShipPositionWithVisibility';
-import { selectFollowShip, setFollowShip } from '@/store/features/shipSlice';
+import {
+  selectFollowShip,
+  selectShowDistanceCircles,
+  setFollowShip,
+  setShowDistanceCircles,
+} from '@/store/features/shipSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { decimalToDMS } from '@/utils/formatCoordinates';
 
@@ -25,6 +30,7 @@ function PositionInfo() {
   const mapView = useCurrentMapView();
 
   const followShip = useAppSelector(selectFollowShip);
+  const showDistanceCircles = useAppSelector(selectShowDistanceCircles);
   const dispatch = useAppDispatch();
 
   return (
@@ -58,6 +64,22 @@ function PositionInfo() {
             });
             mapView?.goTo({ target: point, scale: 500000 });
           }}
+        />
+        <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
+        <IconButton
+          isDisabled={!isVisible}
+          size="lg"
+          className={css({ px: '2.5' })}
+          variant="surface"
+          tooltipPlacement="bottom"
+          icon={
+            <SvgIcon
+              name={showDistanceCircles ? 'icon-buffer-rings-off' : 'icon-buffer-rings'}
+              size={16}
+            />
+          }
+          aria-label={showDistanceCircles ? 'Hide distance circles' : 'Show distance circles'}
+          onPress={() => dispatch(setShowDistanceCircles(!showDistanceCircles))}
         />
         <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
         <IconButton

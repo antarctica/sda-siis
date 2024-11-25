@@ -14,7 +14,7 @@ function SensorInfoPanel() {
         borderRadius: 'md',
         bg: 'bg.base',
         shadow: 'md',
-        width: '[22rem]',
+        width: 'sm',
       })}
     >
       <Box p="2">
