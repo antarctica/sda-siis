@@ -22,7 +22,7 @@ import {
  * @param unit - The measurement unit to convert
  * @returns Abbreviated display unit (e.g., 'm' for meters)
  */
-function getDisplayUnit(unit: MeasurementUnit): string {
+export function getDisplayUnit(unit: MeasurementUnit): string {
   switch (unit) {
     case 'meters':
       return 'm';

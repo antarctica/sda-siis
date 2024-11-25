@@ -1,10 +1,9 @@
 import * as minimumBoundingCircleOperator from '@arcgis/core/geometry/operators/minimumBoundingCircleOperator.js';
 
-import { useArcState } from '@/arcgis/hooks';
-
 type Point = [number, number];
 
 interface SvgPreviewOptions {
+  rotation?: number;
   size?: number;
   padding?: number;
   bgColor?: string;
@@ -44,7 +43,6 @@ function generatePathData(paths: Point[][]): string[] {
 }
 
 export default function PolylinePreviewSVG({
-  mapView,
   polyline,
   options,
 }: {
@@ -53,6 +51,7 @@ export default function PolylinePreviewSVG({
   options: SvgPreviewOptions;
 }): JSX.Element {
   const {
+    rotation = 0,
     size = 100,
     padding = 10,
     bgColor = '#f0f0f0',
@@ -63,8 +62,6 @@ export default function PolylinePreviewSVG({
   const normalizedPoints = normalizePoints(polyline, size, padding);
   const pathData = generatePathData(normalizedPoints);
 
-  const [mapRotation] = useArcState(mapView, 'rotation');
-
   return (
     <svg
       width={size}
@@ -72,7 +69,7 @@ export default function PolylinePreviewSVG({
       viewBox={`0 0 ${size} ${size}`}
       xmlns="http://www.w3.org/2000/svg"
       style={{
-        transform: `rotate(${mapRotation}deg)`,
+        transform: `rotate(${rotation}deg)`,
       }}
     >
       <circle cx={size / 2} cy={size / 2} r={size / 2} fill={bgColor} />

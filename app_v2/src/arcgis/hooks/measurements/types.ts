@@ -39,3 +39,9 @@ export type MeasurementLabelAttributes = {
 };
 
 export type Coordinate = [number, number];
+
+export type Measurement = {
+  id: string;
+  graphic: LineGraphic<MeasurementLineAttributes>;
+  clear: () => void;
+};

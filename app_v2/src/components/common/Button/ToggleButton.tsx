@@ -42,3 +42,20 @@ export function ToggleIconButton({
     </TooltipTrigger>
   );
 }
+
+export type ToggleButtonProps = React.ComponentProps<typeof ToggleButtonPrimitive> &
+  RecipeVariantProps<typeof buttonRecipe> & {
+    className?: string;
+  };
+
+export function ToggleButton({ className, ...restProps }: ToggleButtonProps) {
+  return (
+    <ToggleButtonPrimitive
+      className={composeRenderProps(className, (className, renderProps) => {
+        const [recipeProps] = buttonRecipe.splitVariantProps({ ...restProps, ...renderProps });
+        return cx(buttonRecipe({ ...recipeProps, variant: 'outline' }), className);
+      })}
+      {...restProps}
+    />
+  );
+}
