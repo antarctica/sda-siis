@@ -190,7 +190,7 @@
         <!-- fuel-optimised route -->
         <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
           <vl-source-vector
-          :features="getRouteFeatures(route,1)"
+          :features="getRouteFeatures(route,'fuel')"
           >
           </vl-source-vector>
           <vl-style>
@@ -201,7 +201,7 @@
         <!-- time-optimised route -->
         <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
           <vl-source-vector
-          :features="getRouteFeatures(route,0)"
+          :features="getRouteFeatures(route,'traveltime')"
           >
           </vl-source-vector>
           <vl-style>
@@ -873,19 +873,25 @@ export default {
     /**
      * 
      * @param route array of route objects
-     * @param idx index of array to return features for (usually, 0: time-optimised, 1: fuel-optimised)
+     * @param optimised one of "traveltime" or "fuel"
      */
-    getRouteFeatures: function(route, idx) {
+    getRouteFeatures: function(route, optimised) {
       let features = [];
       let _this = this;
+      let route_json = null;
       if (route.hasOwnProperty('json')) {
         if (route.json != null){
-          features = JSON.parse(JSON.stringify(route.json[idx][0]['features']));
+          route_json = JSON.parse(JSON.stringify(route.json));
         }
       }else if (route.hasOwnProperty('json_unsmoothed')){
         if (route.json_unsmoothed != null){
-          features = JSON.parse(JSON.stringify(route.json_unsmoothed[idx][0]['features']));
+          route_json = JSON.parse(JSON.stringify(route.json_unsmoothed));
         }
+      }
+
+      if (route_json != null){
+        let route_optimised = route_json.filter((r) => r[0]['features'][0]['properties']['objective_function'] == optimised)
+        features = JSON.parse(JSON.stringify(route_optimised[0][0]['features']));
       }
 
       if (features.length > 0) {
@@ -899,7 +905,7 @@ export default {
       return features
     },
     getRouteStart: function(route) {
-      let full_route = this.getRouteFeatures(route,0);
+      let full_route = this.getRouteFeatures(route,"traveltime");
       return [{
         "type": "Feature",
         "properties": {},
@@ -910,7 +916,7 @@ export default {
         }];
     },
     getRouteEnd: function(route) {
-      let full_route = this.getRouteFeatures(route,0);
+      let full_route = this.getRouteFeatures(route,"traveltime");
       let coordinates = full_route[0].geometry.coordinates;
       return [{
         "type": "Feature",
