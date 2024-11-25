@@ -30,8 +30,6 @@ export function useLayerGroupLayers(actor: LayerGroupMachineActor) {
     [childLayerOrder, children],
   );
 
-  console.log('orderedLayers for layerGroup', layers);
-
   return layers;
 }
 

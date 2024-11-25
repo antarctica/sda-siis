@@ -1,8 +1,8 @@
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
-import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { sva } from '@styled-system/css';
 import { motion } from 'framer-motion';
 import * as React from 'react';
+import { Radio, RadioGroup } from 'react-aria-components';
 import { Button, TooltipTrigger } from 'react-aria-components';
 
 import { useShipHeading, useShipPosition } from '@/api/useShipSensorData';
@@ -36,6 +36,7 @@ const mapRotationStyle = sva({
     item: {
       py: '2',
       px: '1',
+      w: 'full',
       cursor: 'pointer',
       fontSize: 'sm',
       textAlign: 'center',
@@ -127,10 +128,10 @@ function MapRotationToggleGroup() {
   if (!isVisible) return null;
 
   return (
-    <ToggleGroup.Root
-      type="single"
+    <RadioGroup
       value={value}
-      onValueChange={(val) => val && setValue(val as MapRotation)}
+      aria-label="Map Rotation"
+      onChange={(val) => val && setValue(val as MapRotation)}
       className={mapRotationStyle().root}
     >
       <motion.div
@@ -147,7 +148,7 @@ function MapRotationToggleGroup() {
       />
 
       {Object.values(MapRotation).map((option) => (
-        <ToggleGroup.Item key={option} value={option} asChild>
+        <Radio key={option} value={option}>
           <TooltipTrigger delay={800}>
             <Button
               onPress={() => {
@@ -165,9 +166,9 @@ function MapRotationToggleGroup() {
               {option === MapRotation.LN_UP && 'Local North Up'}
             </Tooltip>
           </TooltipTrigger>
-        </ToggleGroup.Item>
+        </Radio>
       ))}
-    </ToggleGroup.Root>
+    </RadioGroup>
   );
 }
 

@@ -78,7 +78,6 @@ export function LayerItem({
     opacity: context.opacity,
     timeInfo: context.timeInfo,
   }));
-  console.log(opacity);
   const status = useLayerStatus(layerActor.id);
   const isEnabled = useSelector(layerActor, (state) => state.matches('enabled'));
 

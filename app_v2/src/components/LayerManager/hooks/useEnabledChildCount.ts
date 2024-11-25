@@ -22,6 +22,5 @@ export function useEnabledChildCount(children: LayerMachineActor[]) {
       subscriptions.forEach(({ unsubscribe }) => unsubscribe());
     };
   }, [children]);
-  console.log('enabledChildCount', enabledChildCount);
   return enabledChildCount;
 }

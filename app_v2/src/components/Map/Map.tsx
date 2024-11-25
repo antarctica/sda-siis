@@ -55,7 +55,7 @@ export function Map({ crs }: { crs: MapCRS }) {
             geometry: CRS_LOOKUP[crs].extentConstraint,
           }}
           onArcgisViewReadyChange={(event) => {
-            console.log(event.target.view);
+            console.debug('onArcgisViewReadyChange', event.target.view);
           }}
           center={CRS_LOOKUP[crs].center}
         >

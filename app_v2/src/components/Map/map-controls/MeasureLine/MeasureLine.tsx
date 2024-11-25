@@ -1,5 +1,5 @@
 import { css } from '@styled-system/css';
-import { Box, Flex } from '@styled-system/jsx';
+import { Flex } from '@styled-system/jsx';
 import { token } from '@styled-system/tokens';
 import React from 'react';
 

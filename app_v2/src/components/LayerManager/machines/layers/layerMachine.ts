@@ -44,7 +44,6 @@ export const layerMachine = setup({
       });
     },
     'Change Layer Opacity': enqueueActions(({ event, context, enqueue }) => {
-      console.log('Change Layer Opacity', event);
       assertEvent(event, 'LAYER.SET_OPACITY');
       enqueue(() =>
         context.layerManagerRef.send({
