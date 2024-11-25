@@ -1,12 +1,14 @@
-import { SpatialReference } from '@arcgis/core/geometry';
-import { project } from '@arcgis/core/geometry/projection';
-import { Flex } from '@styled-system/jsx';
+import { css } from '@styled-system/css';
+import { Box, Flex } from '@styled-system/jsx';
+import { token } from '@styled-system/tokens';
 import React from 'react';
 
 import { MeasurementUnit } from '@/arcgis/hooks/measurements/types';
 import { useMeasureLine } from '@/arcgis/hooks/measurements/useMeasureLine';
-import { Button } from '@/components/common/Button';
+import { Button, IconButton } from '@/components/common/Button';
+import SvgIcon from '@/components/common/SvgIcon';
 import Typography from '@/components/common/Typography';
+import PolylinePreviewSVG from '@/components/PolylinePreviewSVG';
 import { Select } from '@/components/Select';
 
 const selectItems = [
@@ -45,15 +47,35 @@ function MeasureLine({
         onSelectionChange={(key) => setUnit(key as MeasurementUnit)}
       ></Select>
       <Flex direction="column" gap="2">
-        {measurements.map(({ graphic, id }) => {
-          const polyline = graphic.geometry as __esri.Polyline;
-          const projectedPolyline = project(polyline, SpatialReference.WGS84) as __esri.Polyline;
-          const [path] = projectedPolyline.paths;
-          if (!path || path.length < 2) return;
+        {measurements.map(({ graphic, id, clear }) => {
           return (
-            <Typography key={id}>
-              {id} - {graphic.attributes.length}nm
-            </Typography>
+            <Flex key={id} align="center" gap="2" w="full">
+              <PolylinePreviewSVG
+                mapView={mapView}
+                polyline={graphic.geometry}
+                options={{
+                  size: 40,
+                  padding: 6,
+                  bgColor: token('colors.bg.surface'),
+                  lineColor: token('colors.fg.accent'),
+                }}
+              />
+              <Flex direction="row" gap="2" align="center" flexGrow={1} minWidth="0">
+                <Typography>
+                  Total Distance: {graphic.attributes.length.toFixed(2)} {graphic.attributes.unit}
+                </Typography>
+
+                <IconButton
+                  className={css({
+                    w: 'fit',
+                  })}
+                  onPress={clear}
+                  variant="surface"
+                  icon={<SvgIcon name="icon-trash" size="sm" />}
+                  aria-label={'Delete Measurement'}
+                />
+              </Flex>
+            </Flex>
           );
         })}
       </Flex>

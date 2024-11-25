@@ -22,7 +22,11 @@ export function useGraphicsLayer(
     // Only add the layer if it's not already in the map
     const isLayerInMap = mapView.map.layers.includes(layer);
 
-    if (!isLayerInMap) {
+    if (isLayerInMap) {
+      mapView.whenLayerView(layer).then((layerView) => {
+        setLayerView(layerView);
+      });
+    } else {
       layer.on('layerview-create', (event) => {
         setLayerView(event.layerView);
       });

@@ -4,6 +4,9 @@ import { generateCircleRings } from '@/utils/mapUtils';
 
 import { MeasurementUnit } from './types';
 
+/**
+ * Default text symbol properties for measurement labels
+ */
 export const DEFAULT_TEXT_SYMBOL_PROPS: __esri.TextSymbolProperties = {
   color: 'black',
   font: {
@@ -16,6 +19,14 @@ export const DEFAULT_TEXT_SYMBOL_PROPS: __esri.TextSymbolProperties = {
 
 export const DEFAULT_UNIT: MeasurementUnit = 'nautical-miles';
 
+/**
+ * Default line symbol configuration for measurement lines
+ * Creates a complex line with the following layers (from bottom to top):
+ * 1. Gray outer stroke (4px)
+ * 2. Black inner stroke (3px)
+ * 3. White dashed center line (1px)
+ * 4. Vertex markers (black circles with white centers)
+ */
 export const DEFAULT_LINE_SYMBOL = new CIMSymbol({
   data: {
     type: 'CIMSymbolReference',
@@ -73,12 +84,12 @@ export const DEFAULT_LINE_SYMBOL = new CIMSymbol({
           ],
         },
         {
-          // white dashed layer at center of the line
+          // Center dashed line - creates a white dashed pattern
           type: 'CIMSolidStroke',
           effects: [
             {
               type: 'CIMGeometricEffectDashes',
-              dashTemplate: [8, 8, 8, 8], // width of dashes and spacing between the dashes
+              dashTemplate: [8, 8, 8, 8], // [dash, gap, dash, gap]
               lineDashEnding: 'NoConstraint',
               offsetAlongLine: 0,
             },

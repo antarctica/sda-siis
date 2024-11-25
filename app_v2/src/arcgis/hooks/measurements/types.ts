@@ -34,6 +34,7 @@ export type MeasurementLabelAttributes = {
   measurementGroupId: string;
   lineId: string;
   type: 'measurement-label';
+  pathIndex: number;
   segmentIndex: number;
 };
 

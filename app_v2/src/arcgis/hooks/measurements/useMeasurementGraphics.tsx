@@ -1,46 +1,54 @@
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
-import Graphic from '@arcgis/core/Graphic';
+import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
 import React from 'react';
 
+import { isMeasurementLine } from './typeGuards';
 import { LineGraphic, MeasurementLineAttributes } from './types';
+import { removeSegmentLabelGraphics } from './utils';
+
+type MeasurementItem = {
+  id: string;
+  graphic: LineGraphic<MeasurementLineAttributes>;
+  clear: () => void;
+};
 
 export function useMeasurementGraphics(
   measurementGraphicsLayer: __esri.GraphicsLayer,
   internalMeasurementGroupId: string,
-) {
-  const [measurements, setMeasurements] = React.useState<
-    {
-      id: string;
-      graphic: LineGraphic<MeasurementLineAttributes>;
-      clear: () => void;
-    }[]
-  >(() => {
+  sketchVM: SketchViewModel,
+): [MeasurementItem[], React.Dispatch<React.SetStateAction<MeasurementItem[]>>] {
+  const [measurements, setMeasurements] = React.useState<MeasurementItem[]>(() => {
     const controlledGraphics = measurementGraphicsLayer.graphics
       .filter(
         (graphic) =>
-          graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId &&
-          graphic.getAttribute('type') === 'measurement-line',
+          isMeasurementLine(graphic) &&
+          graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId,
       )
-      .toArray();
+      .toArray() as LineGraphic<MeasurementLineAttributes>[];
 
     return controlledGraphics.map((graphic) => ({
       id: graphic.attributes.lineId,
-      graphic: graphic as LineGraphic<MeasurementLineAttributes>,
-      clear: () => measurementGraphicsLayer.remove(graphic),
+      graphic,
+      clear: () => {
+        // remove label graphics
+        sketchVM.cancel();
+        removeSegmentLabelGraphics(measurementGraphicsLayer, graphic);
+        measurementGraphicsLayer.remove(graphic);
+      },
     }));
   });
 
   React.useEffect(() => {
-    const handleGraphicsChange = (event: __esri.CollectionChangeEvent<Graphic>) => {
+    const handleGraphicsChange = (event: __esri.CollectionChangeEvent<__esri.Graphic>) => {
       const hasLineChanges =
         event.added.some(
           (graphic) =>
-            graphic.getAttribute('type') === 'measurement-line' &&
+            isMeasurementLine(graphic) &&
             graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId,
         ) ||
         event.removed.some(
           (graphic) =>
-            graphic.getAttribute('type') === 'measurement-line' &&
+            isMeasurementLine(graphic) &&
             graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId,
         );
 
@@ -49,16 +57,21 @@ export function useMeasurementGraphics(
       const controlledGraphics = measurementGraphicsLayer.graphics
         .filter(
           (graphic) =>
-            graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId &&
-            graphic.getAttribute('type') === 'measurement-line',
+            isMeasurementLine(graphic) &&
+            graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId,
         )
-        .toArray();
+        .toArray() as LineGraphic<MeasurementLineAttributes>[];
 
       setMeasurements(
         controlledGraphics.map((graphic) => ({
           id: graphic.attributes.lineId,
-          graphic: graphic as LineGraphic<MeasurementLineAttributes>,
-          clear: () => measurementGraphicsLayer.remove(graphic),
+          graphic,
+          clear: () => {
+            // remove label graphics
+            sketchVM.cancel();
+            removeSegmentLabelGraphics(measurementGraphicsLayer, graphic);
+            measurementGraphicsLayer.remove(graphic);
+          },
         })),
       );
     };
@@ -70,7 +83,7 @@ export function useMeasurementGraphics(
     );
 
     return () => handle.remove();
-  }, [measurementGraphicsLayer, internalMeasurementGroupId]);
+  }, [measurementGraphicsLayer, internalMeasurementGroupId, sketchVM]);
 
-  return measurements;
+  return [measurements, setMeasurements];
 }

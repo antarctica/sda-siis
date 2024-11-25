@@ -6,7 +6,7 @@ import { I18nProvider } from 'react-aria-components';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
-import CoordinateToolsLoader from '@/arcgis/CoordinateToolsLoader';
+import GeometryToolsLoader from '@/arcgis/GeometryToolsLoader';
 import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';
 import Drawing from '@/panels/Drawing';
@@ -72,13 +72,13 @@ const Providers = React.memo(({ children }: { children: React.ReactNode }) => {
       <I18nProvider locale={'en-GB'}>
         <ReduxProvider store={store}>
           <ThemeProvider>
-            <CoordinateToolsLoader>
+            <GeometryToolsLoader>
               <ArcViewProvider>
                 <LayerManagerProvider>
                   <SideBarProvider items={appPanels}>{children}</SideBarProvider>
                 </LayerManagerProvider>
               </ArcViewProvider>
-            </CoordinateToolsLoader>
+            </GeometryToolsLoader>
           </ThemeProvider>
         </ReduxProvider>
       </I18nProvider>

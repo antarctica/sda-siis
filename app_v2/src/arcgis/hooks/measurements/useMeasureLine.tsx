@@ -4,6 +4,7 @@ import React from 'react';
 import { useGraphicsLayer } from '../useLayer';
 import { useArcState, useWatchEffect } from '../useWatchEffect';
 import { DEFAULT_TEXT_SYMBOL_PROPS, DEFAULT_UNIT, getSketchViewModelConfig } from './constants';
+import { isMeasurementLine } from './typeGuards';
 import {
   LineGraphic,
   MeasurementLineAttributes,
@@ -11,7 +12,11 @@ import {
   MeasurementUnit,
 } from './types';
 import { useMeasurementGraphics } from './useMeasurementGraphics';
-import { removeSegmentLabelGraphics, updateSegmentLabelGraphics } from './utils';
+import {
+  createSketchVMEventHandlers,
+  updateLineGraphicMeasurements,
+  updateSegmentLabelGraphics,
+} from './utils';
 
 /**
  * Hook for managing line measurements on an ArcGIS MapView.
@@ -59,71 +64,37 @@ export function useMeasureLine(
   );
 
   const sketchVM = React.useMemo(() => {
-    const sketchVm = new SketchViewModel(
+    const newSketchVM = new SketchViewModel(
       getSketchViewModelConfig(mapView, measurementGraphicsLayer, options?.sketchOptions),
     );
 
-    sketchVm.on('create', (event: __esri.SketchViewModelCreateEvent) => {
-      const graphic = event.graphic as LineGraphic<MeasurementLineAttributes>;
-      if (event.state === 'start') {
-        graphic.setAttribute('lineId', crypto.randomUUID());
-        graphic.setAttribute('measurementGroupId', internalMeasurementGroupId);
-        graphic.setAttribute('type', 'measurement-line');
-        graphic.setAttribute('length', 0);
-        graphic.setAttribute('unit', unit ?? DEFAULT_UNIT);
-      }
-      if (event.state === 'complete' || event.state === 'active') {
-        const { totalDistance } = updateSegmentLabelGraphics(
-          mapView,
-          measurementGraphicsLayer,
-          graphic,
-          options?.textSymbol ?? DEFAULT_TEXT_SYMBOL_PROPS,
-          unit ?? DEFAULT_UNIT,
-        );
-        graphic.setAttribute('length', totalDistance);
-      }
-      if (event.state === 'cancel') {
-        removeSegmentLabelGraphics(measurementGraphicsLayer, graphic);
-      }
+    const handlers = createSketchVMEventHandlers({
+      mapView,
+      measurementGraphicsLayer,
+      internalMeasurementGroupId,
+      unit: unit ?? DEFAULT_UNIT,
+      options,
+      sketchVM: newSketchVM,
     });
 
-    sketchVm.on('update', (event: __esri.SketchViewModelUpdateEvent) => {
-      if (event.state === 'active' || event.state === 'complete') {
-        const graphic = event.graphics[0];
-        if (!graphic || graphic.getAttribute('type') !== 'measurement-line') {
-          sketchVm.cancel();
-          return;
-        }
+    const createHandle = newSketchVM.on('create', handlers.handleCreate);
+    const updateHandle = newSketchVM.on('update', handlers.handleUpdate);
+    const deleteHandle = newSketchVM.on('delete', handlers.handleDelete);
 
-        const { totalDistance } = updateSegmentLabelGraphics(
-          mapView,
-          measurementGraphicsLayer,
-          graphic as LineGraphic<MeasurementLineAttributes>,
-          options?.textSymbol ?? DEFAULT_TEXT_SYMBOL_PROPS,
-          unit ?? DEFAULT_UNIT,
-        );
-        graphic.setAttribute('unit', unit ?? DEFAULT_UNIT);
-        graphic.setAttribute('length', totalDistance);
-      }
-    });
+    newSketchVM.addHandles([createHandle, updateHandle, deleteHandle]);
 
-    sketchVm.on('delete', (event: __esri.SketchViewModelDeleteEvent) => {
-      event.graphics.forEach((graphic) => {
-        removeSegmentLabelGraphics(
-          measurementGraphicsLayer,
-          graphic as LineGraphic<MeasurementLineAttributes>,
-        );
-      });
-    });
-
-    return sketchVm;
+    return newSketchVM;
   }, [mapView, measurementGraphicsLayer, options, internalMeasurementGroupId, unit]);
 
   // State tracking
   const [activeDrawMode] = useArcState(sketchVM, 'activeTool');
 
   // Measurement management
-  const measurements = useMeasurementGraphics(measurementGraphicsLayer, internalMeasurementGroupId);
+  const [measurements, setMeasurements] = useMeasurementGraphics(
+    measurementGraphicsLayer,
+    internalMeasurementGroupId,
+    sketchVM,
+  );
 
   // Handle map rotation updates for label positioning
   useWatchEffect(
@@ -131,13 +102,13 @@ export function useMeasureLine(
     () => {
       measurementGraphicsLayer.graphics.forEach((graphic) => {
         if (
-          graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId &&
-          graphic.getAttribute('type') === 'measurement-line'
+          isMeasurementLine(graphic) &&
+          graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId
         ) {
           updateSegmentLabelGraphics(
             mapView,
             measurementGraphicsLayer,
-            graphic as LineGraphic<MeasurementLineAttributes>,
+            graphic,
             options?.textSymbol ?? DEFAULT_TEXT_SYMBOL_PROPS,
             unit ?? DEFAULT_UNIT,
           );
@@ -150,22 +121,28 @@ export function useMeasureLine(
   );
 
   React.useEffect(() => {
-    // if units change then find all of the lines and update the labels
-    measurements.forEach((measurement) => {
-      updateSegmentLabelGraphics(
-        mapView,
-        measurementGraphicsLayer,
-        measurement.graphic as LineGraphic<MeasurementLineAttributes>,
-        options?.textSymbol ?? DEFAULT_TEXT_SYMBOL_PROPS,
-        unit ?? DEFAULT_UNIT,
-      );
+    setMeasurements((measurements) => {
+      return measurements.map((measurement) => {
+        updateLineGraphicMeasurements(
+          measurement.graphic,
+          mapView,
+          measurementGraphicsLayer,
+          unit ?? DEFAULT_UNIT,
+          options?.textSymbol ?? DEFAULT_TEXT_SYMBOL_PROPS,
+        );
+        return measurement;
+      });
     });
-  }, [measurements, mapView, measurementGraphicsLayer, options, unit]);
+  }, [setMeasurements, mapView, measurementGraphicsLayer, options, unit]);
 
   // Public methods
   const startMeasurement = React.useCallback(() => {
     if (activeDrawMode === 'polyline') {
-      sketchVM.complete();
+      if (isMeasurementLine(sketchVM.createGraphic)) {
+        sketchVM.complete();
+      } else {
+        sketchVM.cancel();
+      }
       return;
     }
     sketchVM.create('polyline');
@@ -175,10 +152,10 @@ export function useMeasureLine(
     if (activeDrawMode === 'polyline') {
       sketchVM.cancel();
     }
-    const measurementGraphics = measurementGraphicsLayer.graphics.filter(
-      (g) => g.getAttribute('measurementGroupId') === internalMeasurementGroupId,
-    );
-    measurementGraphicsLayer.removeMany(measurementGraphics.toArray());
+    const measurementGraphics = measurementGraphicsLayer.graphics
+      .filter((g) => g.getAttribute('measurementGroupId') === internalMeasurementGroupId)
+      .toArray();
+    measurementGraphicsLayer.removeMany(measurementGraphics);
   }, [measurementGraphicsLayer, internalMeasurementGroupId, activeDrawMode, sketchVM]);
 
   return {
