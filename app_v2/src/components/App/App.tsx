@@ -5,7 +5,7 @@ import React from 'react';
 import { I18nProvider } from 'react-aria-components';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext';
+import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext/ArcViewProvider';
 import GeometryToolsLoader from '@/arcgis/GeometryToolsLoader';
 import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';

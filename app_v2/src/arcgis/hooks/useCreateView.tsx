@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useId, useState } from 'react';
 
-import { ArcViewContext } from '../ArcView/ArcViewContext';
+import { ArcViewContext } from '../ArcView/ArcViewContext/ArcViewContext';
 
 export function useCreateView(id?: string) {
   const [view, setView] = useState<__esri.MapView | __esri.SceneView>();

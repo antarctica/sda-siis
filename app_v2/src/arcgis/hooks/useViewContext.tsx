@@ -2,8 +2,8 @@ import type MapView from '@arcgis/core/views/MapView';
 import type SceneView from '@arcgis/core/views/SceneView';
 import { useContext, useMemo } from 'react';
 
-import { ArcViewContext, MapInternalContext } from '../ArcView/ArcViewContext';
-
+import { ArcViewContext } from '../ArcView/ArcViewContext/ArcViewContext';
+import { MapInternalContext } from '../ArcView/InternalViewContext/ArcInternalViewContext';
 type ViewCollection = {
   [id: string]: MapView | SceneView | undefined;
   current?: MapView | SceneView;

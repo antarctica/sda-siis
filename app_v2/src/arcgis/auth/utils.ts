@@ -110,14 +110,12 @@ export async function checkSignInStatus({
 export async function signIn(
   portalUrl: string = '',
   options: __esri.IdentityManagerGetCredentialOptions = {},
-): Promise<Credential | undefined> {
+): Promise<Credential> {
   const url: string = cleanUrl(portalUrl);
   try {
-    const credential = await esriId.getCredential(`${url}/sharing`, options);
-    return credential;
+    return await esriId.getCredential(`${url}/sharing`, options);
   } catch (error) {
-    console.error('Sign-in failed:', error);
-    return undefined;
+    throw new AuthError('Sign-in failed', error);
   }
 }
 
@@ -197,5 +195,16 @@ export async function loadPortal({
   } catch (error) {
     console.error('Failed to load portal:', error);
     throw error;
+  }
+}
+
+/** Custom error class for authentication errors. */
+export class AuthError extends Error {
+  constructor(
+    message: string,
+    public originalError?: unknown,
+  ) {
+    super(message);
+    this.name = 'AuthError';
   }
 }

@@ -1,25 +1,8 @@
 import type MapView from '@arcgis/core/views/MapView';
 import type SceneView from '@arcgis/core/views/SceneView';
-import { createContext, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-export const MapInternalContext = createContext<__esri.MapView | __esri.SceneView | undefined>(
-  undefined,
-);
-
-export const ArcInternalViewProvider = ({
-  children,
-  view,
-}: React.PropsWithChildren<{ view: __esri.MapView | __esri.SceneView | undefined }>) => {
-  return <MapInternalContext.Provider value={view}>{children}</MapInternalContext.Provider>;
-};
-
-type MountedViewsContextValue = {
-  views: { [id: string]: MapView | SceneView | undefined };
-  onViewMount: (map: MapView | SceneView, id: string) => void;
-  onViewUnmount: (id: string) => void;
-};
-
-export const ArcViewContext = createContext<MountedViewsContextValue | undefined>(undefined);
+import { ArcViewContext } from './ArcViewContext';
 
 export const ArcViewProvider = ({ children }: React.PropsWithChildren) => {
   const [views, setViews] = useState<{

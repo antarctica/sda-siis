@@ -17,7 +17,7 @@ export default function GeometryToolsLoader({ children }: React.PropsWithChildre
   }, []);
 
   if (!isLoaded) {
-    return null; // Or return a loading indicator if preferred
+    return null;
   }
 
   return <>{children}</>;
