@@ -1,11 +1,12 @@
 import { defineConfig } from '@pandacss/dev';
 
-import { basColorTokens } from './panda.config/basColors';
-import { semanticColorTokens } from './panda.config/semanticColors';
-import { siisColorTokens } from './panda.config/siisColors';
-import { textTokens } from './panda.config/textstyles';
+import { keyframes } from './panda.config/animation/keyframes';
+import { textTokens } from './panda.config/textStyles/textStyles';
+import { basColorTokens } from './panda.config/tokens/basColors';
+import { additionalBorderRadii } from './panda.config/tokens/borderRadii';
+import { semanticColorTokens } from './panda.config/tokens/semanticColors';
+import { siisColorTokens } from './panda.config/tokens/siisColors';
 import { insetFocusRing } from './panda.config/utilities/focusring.utility';
-
 export default defineConfig({
   // Whether to use css reset
   preflight: true,
@@ -33,10 +34,14 @@ export default defineConfig({
       _dark: {
         '--calcite-color-brand': '{colors.fg.accent}',
       },
+      '--calcite-font-family': '{fonts.inter}',
       '--calcite-color-brand': '{colors.fg.accent}',
     },
     'body:has(dialog[open])': {
       overflow: 'hidden',
+    },
+    '.esri-view': {
+      fontFamily: '{fonts.inter} !important',
     },
     '#root': {
       height: '100%',
@@ -94,7 +99,9 @@ export default defineConfig({
 
       // Only add those from your custom preset
       updated.theme.tokens.colors = { ...basColorTokens, ...siisColorTokens };
+      updated.theme.tokens.radii = { ...config.theme?.tokens?.radii, ...additionalBorderRadii };
       updated.theme.semanticTokens.colors = semanticColorTokens;
+      updated.theme.keyframes = keyframes;
       return updated;
     },
   },

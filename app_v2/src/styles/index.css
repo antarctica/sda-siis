@@ -1,0 +1,11 @@
+@layer reset, base, tokens, recipes, utilities;
+
+@import "https://js.arcgis.com/4.30/@arcgis/core/assets/esri/themes/light/main.css";
+@import "./esri-overides.css";
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+}
+

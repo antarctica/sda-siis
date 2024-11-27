@@ -37,7 +37,7 @@ const trackRecipe = cva({
   base: {
     rounded: 'sm',
     position: 'absolute',
-    top: '[50%]',
+    top: '1/2',
     transform: 'translateY(-50%)',
     w: 'full',
     h: '1',
@@ -83,7 +83,7 @@ const thumbRecipe = cva({
     bg: 'bg.base',
     borderColor: 'bg.accent',
     borderWidth: 'medium',
-    top: '[50%]',
+    top: '1/2',
     transform: 'translateY(-50%)',
     cursor: 'ew-resize',
     _focusVisible: {

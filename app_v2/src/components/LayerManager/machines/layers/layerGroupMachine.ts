@@ -172,7 +172,6 @@ export const layerGroupMachine = setup({
           const { index, child, position } = event;
 
           const newOrder = updateLayerOrder(childLayerOrder, child.id, index, position);
-          console.log('newOrder', newOrder);
           return {
             children: [...children, child],
             childLayerOrder: newOrder,

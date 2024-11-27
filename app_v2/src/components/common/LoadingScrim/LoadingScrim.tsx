@@ -12,9 +12,11 @@ const loadingScrim = cva({
     height: 'full',
     placeContent: 'center',
     opacity: 0,
-    transition: 'all',
-    transitionDuration: '[600ms]',
-    transitionBehavior: 'allow-discrete',
+    _motionSafe: {
+      transition: 'all',
+      transitionDuration: 'slowest',
+      transitionBehavior: 'allow-discrete',
+    },
   },
   variants: {
     isLoading: {

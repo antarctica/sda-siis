@@ -66,8 +66,8 @@ function SensorInfo() {
             ? {
                 shadow: '[none]',
                 borderColor: 'app.accent',
-                borderStartRadius: '[0px]',
-                borderBottomRadius: '[0px]',
+                borderStartRadius: 'radii.none',
+                borderBottomRadius: 'radii.none',
               }
             : {}),
         })}

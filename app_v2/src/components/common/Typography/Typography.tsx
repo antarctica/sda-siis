@@ -1,4 +1,4 @@
-import { cva, cx, RecipeVariantProps } from '@styled-system/css';
+import { css, cva, cx, RecipeVariantProps } from '@styled-system/css';
 import * as React from 'react';
 
 const typographyRecipe = cva({
@@ -140,9 +140,30 @@ function Typography({
 
 export function Em({ children, className }: TypographyProps) {
   return (
-    <span className={cx(typographyRecipe({ bold: false, italic: true }), className)}>
+    <span
+      className={cx(
+        typographyRecipe({ bold: true, italic: false }),
+        css({ color: 'fg.accent' }),
+        className,
+      )}
+    >
       {children}
     </span>
+  );
+}
+
+export function MailTo({ children, className }: TypographyProps) {
+  return (
+    <a
+      href={`mailto:${children}`}
+      className={cx(
+        typographyRecipe({ bold: true, italic: false, underline: true }),
+        css({ color: 'fg.accent' }),
+        className,
+      )}
+    >
+      {children}
+    </a>
   );
 }
 

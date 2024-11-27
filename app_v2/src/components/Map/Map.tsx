@@ -1,3 +1,4 @@
+import { SpatialReference } from '@arcgis/core/geometry';
 import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { cva } from '@styled-system/css';
 import { Box, Flex } from '@styled-system/jsx';
@@ -47,6 +48,7 @@ export function Map({ crs }: { crs: MapCRS }) {
         <ArcMapView
           id={MAP_ID}
           map={map}
+          spatialReference={new SpatialReference({ wkid: CRS_LOOKUP[crs].wkid })}
           scale={25000000}
           constraints={{
             rotationEnabled: false,

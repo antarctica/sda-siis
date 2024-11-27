@@ -52,12 +52,12 @@ const cell = cva({
       middle: {
         bg: 'app.accent.a8',
         color: 'fg.accent.contrast',
-        borderRadius: '[0px]',
+        borderRadius: 'radii.none',
       },
       'cap-start': {
         bg: 'app.accent',
         color: 'fg.accent.contrast',
-        borderEndRadius: '[0px]',
+        borderEndRadius: 'radii.none',
         _hover: {
           bg: 'app.accent',
           color: 'fg.accent.contrast',
@@ -66,7 +66,7 @@ const cell = cva({
       'cap-end': {
         bg: 'app.accent',
         color: 'fg.accent.contrast',
-        borderStartRadius: '[0px]',
+        borderStartRadius: 'radii.none',
         _hover: {
           bg: 'app.accent',
           color: 'fg.accent.contrast',

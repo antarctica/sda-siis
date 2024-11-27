@@ -1,4 +1,4 @@
-import './index.css';
+import './styles/index.css';
 
 import { defineCustomElements as defineMapElements } from '@arcgis/map-components/dist/loader';
 
@@ -7,7 +7,7 @@ defineMapElements(window, {
 });
 
 // Supports weights 300-800
-import '@fontsource-variable/inter';
+import '@fontsource-variable/space-grotesk';
 
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import React from 'react';

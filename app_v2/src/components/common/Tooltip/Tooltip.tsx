@@ -19,18 +19,22 @@ const tooltipRecipe = sva({
     root: {
       '&[data-entering]': {
         opacity: 0,
-        animationName: '[fadeIn]',
-        animationDuration: '[100ms]',
-        animationFillMode: '[forwards]',
-        animationTimingFunction: '[ease-out]',
+        _motionSafe: {
+          animationName: 'fadeIn',
+          animationDuration: 'faster',
+          animationFillMode: 'forwards',
+          animationTimingFunction: 'out',
+        },
       },
 
       '&[data-exiting]': {
         opacity: 0,
-        animationName: '[fadeOut]',
-        animationDuration: '[100ms]',
-        animationFillMode: '[forwards]',
-        animationTimingFunction: '[ease-out]',
+        _motionSafe: {
+          animationName: 'fadeOut',
+          animationDuration: 'faster',
+          animationFillMode: 'forwards',
+          animationTimingFunction: 'out',
+        },
       },
     },
     container: {
@@ -48,28 +52,36 @@ const tooltipRecipe = sva({
       _light: { bg: 'app.accent', borderColor: 'app.accent', color: 'app.white', shadow: 'sm' },
 
       '[data-placement="top"] &': {
-        animationName: '[slideInBottom]',
-        animationDuration: '[50ms]',
-        animationFillMode: 'forwards',
-        animationTimingFunction: '[ease-out]',
+        _motionSafe: {
+          animationName: 'slideInBottom',
+          animationDuration: 'fastest',
+          animationFillMode: 'forwards',
+          animationTimingFunction: 'out',
+        },
       },
       '[data-placement="right"] &': {
-        animationName: '[slideInLeft]',
-        animationDuration: '[50ms]',
-        animationFillMode: 'forwards',
-        animationTimingFunction: '[ease-out]',
+        _motionSafe: {
+          animationName: 'slideInLeft',
+          animationDuration: 'fastest',
+          animationFillMode: 'forwards',
+          animationTimingFunction: 'out',
+        },
       },
       '[data-placement="bottom"] &': {
-        animationName: '[slideInTop]',
-        animationDuration: '[50ms]',
-        animationFillMode: '[forwards]',
-        animationTimingFunction: '[ease-out]',
+        _motionSafe: {
+          animationName: 'slideInTop',
+          animationDuration: 'fastest',
+          animationFillMode: 'forwards',
+          animationTimingFunction: 'out',
+        },
       },
       '[data-placement="left"] &': {
-        animationName: '[slideInRight]',
-        animationDuration: '[50ms]',
-        animationFillMode: '[forwards]',
-        animationTimingFunction: '[ease-out]',
+        _motionSafe: {
+          animationName: 'slideInRight',
+          animationDuration: 'fastest',
+          animationFillMode: 'forwards',
+          animationTimingFunction: 'out',
+        },
       },
     },
     arrow: {

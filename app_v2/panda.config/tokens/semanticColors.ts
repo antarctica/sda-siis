@@ -509,4 +509,11 @@ export const semanticColorTokens = defineSemanticTokens.colors({
       },
     },
   },
+  modal: {
+    overlay: {
+      value: {
+        base: '{colors.app.black/60}',
+      },
+    },
+  },
 });

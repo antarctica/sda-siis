@@ -1,5 +1,6 @@
 import Basemap from '@arcgis/core/Basemap';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import { SpatialReference } from '@arcgis/core/geometry';
 import EsriMap from '@arcgis/core/Map';
 import { today } from '@internationalized/date';
 import React from 'react';
@@ -44,9 +45,9 @@ export function useMapInitialization(crs: MapCRS) {
       const map = new EsriMap({
         basemap: new Basemap({
           baseLayers: [],
-          spatialReference: {
+          spatialReference: new SpatialReference({
             wkid: CRS_LOOKUP[crs].wkid,
-          },
+          }),
         }),
       });
 

@@ -35,7 +35,7 @@ function ZoomControl() {
         variant="surface"
         isContainer={false}
         className={css({
-          borderBottomRadius: '[0]',
+          borderBottomRadius: 'radii.none',
         })}
       />
       <Divider w="full" thickness={'thin'} color="bg.base.border"></Divider>
@@ -48,7 +48,7 @@ function ZoomControl() {
         variant="surface"
         isContainer={false}
         className={css({
-          borderTopRadius: '[0]',
+          borderTopRadius: 'radii.none',
         })}
       />
     </Flex>
