@@ -6,9 +6,6 @@ defineMapElements(window, {
   resourcesUrl: 'https://js.arcgis.com/map-components/4.30/assets/',
 });
 
-// Supports weights 300-800
-import '@fontsource-variable/space-grotesk';
-
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import React from 'react';
 import ReactDOM from 'react-dom/client';

@@ -31,6 +31,8 @@ export default defineConfig({
       color: 'fg',
       overflow: 'hidden',
       fontFamily: '{fonts.inter}',
+      fontOpticalSizing: 'auto',
+      fontKerning: 'auto',
       _dark: {
         '--calcite-color-brand': '{colors.fg.accent}',
       },
@@ -67,7 +69,7 @@ export default defineConfig({
   },
 
   globalVars: {
-    '--font-inter': 'Inter Variable, sans-serif',
+    '--font-inter': 'Inter, monospace',
   },
 
   utilities: {
