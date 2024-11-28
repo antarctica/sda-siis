@@ -56,9 +56,18 @@
       </div>
 
       <div v-if="devMode">
+        <label>Endpoint</label>
         <input
         v-model="custom_endpoint"
         title="Custom PolarRouteServer endpoint URL"
+        placeholder="(URL, optional)"
+        />
+        <br>
+        <label>Mesh ID</label>
+        <input
+        v-model="custom_mesh_id"
+        title="Custom Mesh ID (database id)"
+        placeholder="(integer, optional)"
         />
       </div>
 
@@ -120,6 +129,7 @@ export default {
         return {
           devMode: false,
           custom_endpoint: null,
+          custom_mesh_id: null,
           statusUpdateFrequency: 10, // seconds
           serviceStatusText: "Contacting route server..",
           favourites: [
@@ -311,6 +321,7 @@ export default {
           "end_lon": this.polarroute_coords.end.lon,
           "start_name": this.polarroute_coords.start.name,
           "end_name": this.polarroute_coords.end.name,
+          "mesh_id": this.custom_mesh_id
         }
       },
 
