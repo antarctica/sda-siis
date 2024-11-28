@@ -1,4 +1,5 @@
 import * as coordinateFormatter from '@arcgis/core/geometry/coordinateFormatter.js';
+import * as geodesicBufferOperator from '@arcgis/core/geometry/operators/geodesicBufferOperator.js';
 import * as geodeticDistanceOperator from '@arcgis/core/geometry/operators/geodeticDistanceOperator.js';
 import * as geodeticLengthOperator from '@arcgis/core/geometry/operators/geodeticLengthOperator.js';
 import * as ProjectionEngine from '@arcgis/core/geometry/projection.js';
@@ -13,6 +14,7 @@ export default function GeometryToolsLoader({ children }: React.PropsWithChildre
       ProjectionEngine.load(),
       geodeticLengthOperator.load(),
       geodeticDistanceOperator.load(),
+      geodesicBufferOperator.load(),
     ]).then(() => setIsLoaded(true));
   }, []);
 

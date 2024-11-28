@@ -1,5 +1,6 @@
 import { Point, Polyline } from '@arcgis/core/geometry';
-import * as geometryEngine from '@arcgis/core/geometry/geometryEngine';
+import * as geodesicBufferOperator from '@arcgis/core/geometry/operators/geodesicBufferOperator.js';
+import Polygon from '@arcgis/core/geometry/Polygon';
 import Graphic from '@arcgis/core/Graphic';
 import { CIMSymbol } from '@arcgis/core/symbols';
 
@@ -109,34 +110,52 @@ export function setOrUpdateShipBufferGraphics(
   position: { latitude: number; longitude: number },
   speed: number,
 ) {
+  if (speed === 0) {
+    //remove all buffer graphics
+    featureLayer
+      .queryFeatures({
+        where: `${REF_ID_ATTRIBUTE} LIKE '${SHIP_BUFFER_GRAPHIC_ID_PREFIX}%'`,
+      })
+      .then((result) => {
+        featureLayer.applyEdits({ deleteFeatures: result.features });
+      });
+    return;
+  }
+
   const timeIntervals = [12, 24, 36, 60, 180]; // in minutes
 
-  const bufferGraphics = timeIntervals.map((minutes) => {
-    const distance = (speed / 60) * minutes; // Convert speed to nm per minute and multiply by minutes
-    const bufferPolygon = geometryEngine.geodesicBuffer(
-      new Point(position),
-      distance,
-      'nautical-miles',
-    ) as __esri.Polygon;
+  const bufferGraphics = timeIntervals
+    .map((minutes) => {
+      const distance = (speed / 60) * minutes; // Convert speed to nm per minute and multiply by minutes
 
-    const bufferPolyline = new Polyline({
-      paths: [bufferPolygon.rings[0]!],
-    });
+      const bufferPolygon = geodesicBufferOperator.execute(new Point(position), distance, {
+        unit: 'nautical-miles',
+      });
 
-    const label =
-      minutes < 60
-        ? `Distance After ${minutes} min`
-        : `Distance After ${minutes / 60} hour${minutes > 60 ? 's' : ''}`;
+      if (!bufferPolygon || !(bufferPolygon instanceof Polygon)) return null;
 
-    return new Graphic({
-      attributes: {
-        [REF_ID_ATTRIBUTE]: `${SHIP_BUFFER_GRAPHIC_ID_PREFIX}-${minutes}`,
-        label: `${label} (${distance.toFixed(1)}nm)`,
-        minutes: minutes,
-      },
-      geometry: bufferPolyline,
-    });
-  });
+      const [rings] = bufferPolygon.rings;
+      if (!rings) return null;
+
+      const boundaryPolyline = new Polyline({
+        paths: [rings],
+      });
+
+      const label =
+        minutes < 60
+          ? `Distance After ${minutes} min`
+          : `Distance After ${minutes / 60} hour${minutes > 60 ? 's' : ''}`;
+
+      return new Graphic({
+        attributes: {
+          [REF_ID_ATTRIBUTE]: `${SHIP_BUFFER_GRAPHIC_ID_PREFIX}-${minutes}`,
+          label: `${label} (${distance.toFixed(1)}nm)`,
+          minutes: minutes,
+        },
+        geometry: boundaryPolyline,
+      });
+    })
+    .filter((g) => g !== null);
 
   featureLayer
     .queryFeatures({

@@ -142,7 +142,7 @@ export function Em({ children, className }: TypographyProps) {
   return (
     <span
       className={cx(
-        typographyRecipe({ bold: true, italic: false }),
+        typographyRecipe({ bold: false, italic: true }),
         css({ color: 'fg.accent' }),
         className,
       )}
@@ -157,7 +157,7 @@ export function MailTo({ children, className }: TypographyProps) {
     <a
       href={`mailto:${children}`}
       className={cx(
-        typographyRecipe({ bold: true, italic: false, underline: true }),
+        typographyRecipe({ bold: false, italic: true, underline: true }),
         css({ color: 'fg.accent' }),
         className,
       )}
