@@ -282,7 +282,7 @@ deploy-app:
   script:
     - cd $DEPLOY_ANSIBLE_ROOT_PATH
     - ansible siis -m ping -i inventory/$DEPLOY_GROUP/$DEPLOY_ENV
-    - ansible-playbook -v -b -e env=$DEPLOY_ENV -e group=$DEPLOY_GROUP -e project=$DEPLOY_ANSIBLE_ROOT_PATH -e siis_app_prefix=$SIIS_VERSION_1_APP_PREFIX -e siis_version=$DEPLOY_APP_VERSION -e siis_env=$SIIS_STAGE_ENV -i inventory/$DEPLOY_GROUP/$DEPLOY_ENV playbooks/$DEPLOY_GROUP/siis-app.yml
+    # - ansible-playbook -v -b -e env=$DEPLOY_ENV -e group=$DEPLOY_GROUP -e project=$DEPLOY_ANSIBLE_ROOT_PATH -e siis_app_prefix=$SIIS_VERSION_1_APP_PREFIX -e siis_version=$DEPLOY_APP_VERSION -e siis_env=$SIIS_STAGE_ENV -i inventory/$DEPLOY_GROUP/$DEPLOY_ENV playbooks/$DEPLOY_GROUP/siis-app.yml
     - ansible-playbook -v -b -e env=$DEPLOY_ENV -e group=$DEPLOY_GROUP -e project=$DEPLOY_ANSIBLE_ROOT_PATH -e siis_app_prefix=$SIIS_VERSION_2_APP_PREFIX -e siis_version=$DEPLOY_APP_VERSION -e siis_env=$SIIS_STAGE_ENV -i inventory/$DEPLOY_GROUP/$DEPLOY_ENV playbooks/$DEPLOY_GROUP/siis-app.yml
   rules:
     - if: $CI_COMMIT_TAG
