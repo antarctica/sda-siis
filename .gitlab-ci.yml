@@ -203,6 +203,17 @@ distribute-app:
     - |
       # Stage environment
       SIIS_ENV=${SIIS_STAGE_ENV}
+      
+      # Debug: Print all relevant variables
+      echo "CI_API_V4_URL: ${CI_API_V4_URL}"
+      echo "CI_PROJECT_ID: ${CI_PROJECT_ID}"
+      echo "SIIS_VERSION_1_APP_PREFIX: ${SIIS_VERSION_1_APP_PREFIX}"
+      echo "SIIS_VERSION: ${SIIS_VERSION}"
+      echo "SIIS_ENV: ${SIIS_ENV}"
+      
+      # Debug: Print the complete URL
+      echo "Full URL: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${SIIS_VERSION_1_APP_PREFIX}/${SIIS_VERSION}/${SIIS_VERSION_1_APP_PREFIX}-${SIIS_VERSION}-${SIIS_ENV}.zip"
+      
       curl --fail \
         --header "JOB-TOKEN: $CI_JOB_TOKEN" \
         --upload-file ./app/dist-pkgs/app-stage.zip \
