@@ -196,8 +196,10 @@ distribute-app:
   image:
     name: curlimages/curl:latest
     entrypoint: [""]
-  variables:
-    SIIS_VERSION: ${CI_COMMIT_TAG#v}  # Remove 'v' prefix from tag
+  before_script:
+    # we need to remove the `v` prefix for the tag because GitLab only allows package versions in the form `1.2.3`
+    # see https://gitlab.com/gitlab-org/gitlab/-/issues/273034 for details
+    - "export SIIS_VERSION=$(echo $CI_COMMIT_TAG | sed 's/^v//')"
   script:
     # First handle v1 packages
     - |
