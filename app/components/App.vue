@@ -326,7 +326,7 @@ export default Vue.extend({
   .grid-container {
     display: grid;
 
-    grid-template-columns: 11% auto 15% 20%;
+    grid-template-columns: max(250px, 11%) auto 15% 20%;
     grid-template-rows: 50vh 30vh auto 80px 30px;
     grid-template-areas:
       "sensor-metadata .            .                products-switcher"
