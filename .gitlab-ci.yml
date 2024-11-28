@@ -21,6 +21,7 @@ stages:
   - 🏗 build         # Build applications and assets
   - 📦 package       # Package build artifacts for deployment
   - 🚚 distribute    # Upload packages to the GitLab package registry
+  - 🚀 deploy        # Deploy applications to the target environment
 
 variables:
   DEPLOY_GROUP: "magic"
@@ -245,7 +246,7 @@ distribute-app:
 deploy-app:
   stage: 🚀 deploy
   needs:
-    - job: publish
+    - job: distribute-app
   image: python:3.6-slim
   before_script:
     - apt-get update
