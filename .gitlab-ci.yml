@@ -26,6 +26,7 @@ stages:
 variables:
   DEPLOY_GROUP: "magic"
   DEPLOY_ENV: "staging"
+  ANSIBLE_HOST_KEY_CHECKING: "False"
   DEPLOY_SSH_PRIVATE_KEY: "id_ed25519.pem"
   DEPLOY_ANSIBLE_BRANCH: "siis-app-deployment"
   DEPLOY_ANSIBLE_VENV: "/tmp/.venv/ansible"
