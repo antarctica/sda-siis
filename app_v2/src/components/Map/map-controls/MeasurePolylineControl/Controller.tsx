@@ -4,8 +4,8 @@ import React from 'react';
 import { MeasurementUnit } from '@/arcgis/hooks/measurements/types';
 import { useMeasureLine } from '@/arcgis/hooks/measurements/useMeasureLine';
 import { ToggleButton } from '@/components/common/Button';
+import { Select } from '@/components/common/Select';
 import SvgIcon from '@/components/common/SvgIcon';
-import { Select } from '@/components/Select';
 
 import { MeasurementList } from './MeasurementList';
 

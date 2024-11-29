@@ -8,8 +8,8 @@ import { Button } from '@/components/common/Button';
 import CoordinateField from '@/components/common/forms/CoordinateInput';
 import { DatePicker, DateRangePicker } from '@/components/common/forms/DatePicker';
 import TextField from '@/components/common/forms/TextField/TextField';
+import { Select, SelectItem } from '@/components/common/Select';
 import { LayerStatusCircle } from '@/components/LayerStatus';
-import { Select, SelectItem } from '@/components/Select/Select';
 import { useSIISMapView } from '@/hooks/useMap';
 
 function Drawing() {

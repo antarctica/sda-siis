@@ -19,7 +19,7 @@ import {
   DrawSingleGraphicOptions,
   useDrawSingleGraphic,
 } from '@/arcgis/hooks/useDrawSingleGraphic';
-import { SelectionMenu } from '@/components/SelectionMenu';
+import { SelectionMenu } from '@/components/common/SelectionMenu';
 import { detectCoordinateFormat, DisplayFormat, formatCoordinate } from '@/utils/formatCoordinates';
 
 import { IconButton } from '../../Button';

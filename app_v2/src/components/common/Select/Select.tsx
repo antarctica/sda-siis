@@ -12,10 +12,10 @@ import {
   Text,
 } from 'react-aria-components';
 
-import { FieldGroup, Label } from '../common/forms/Field';
-import { inputContainerRecipe, inputRecipe } from '../common/forms/Field/styles';
-import SvgIcon from '../common/SvgIcon';
-import ListBox, { ListBoxItem, ListBoxItemData } from '../ListBox';
+import { FieldGroup, Label } from '@/components/common/forms/Field';
+import { inputContainerRecipe, inputRecipe } from '@/components/common/forms/Field/styles';
+import ListBox, { ListBoxItem, ListBoxItemData } from '@/components/common/ListBox';
+import SvgIcon from '@/components/common/SvgIcon';
 
 interface ISelectProps<T extends object> extends Omit<SelectProps<T>, 'children'> {
   label?: string;

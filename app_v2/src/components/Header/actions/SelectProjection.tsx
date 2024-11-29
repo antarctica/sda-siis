@@ -1,9 +1,9 @@
 import React from 'react';
 import { DialogTrigger } from 'react-aria-components';
 
+import { SelectionMenuItem, StaticSelectionMenu } from '@/components/common/SelectionMenu';
 import SvgIcon from '@/components/common/SvgIcon';
 import { Action } from '@/components/Header/actions/Actions';
-import { SelectionMenuItem, StaticSelectionMenu } from '@/components/SelectionMenu';
 import { useSidebarActorRef } from '@/components/Sidebar/SidebarHooks';
 import { useResetApplicationState } from '@/hooks/useResetApplicationState';
 import { selectCurrentCRS, setCurrentCRS } from '@/store/features/projectionSlice';
