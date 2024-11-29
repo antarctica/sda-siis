@@ -30,6 +30,7 @@ variables:
   DEPLOY_ANSIBLE_BRANCH: "siis-app-deployment"
   DEPLOY_ANSIBLE_VENV: "/tmp/.venv/ansible"
   DEPLOY_ANSIBLE_ROOT_PATH: "/tmp/ansible"
+  DEPLOY_ANSIBLE_REPO: "gitlab.data.bas.ac.uk/station-data-management/ansible.git"
   SIIS_VERSION_1_APP_PREFIX: "v1"
   SIIS_VERSION_2_APP_PREFIX: "v2"
   SIIS_STAGE_ENV: "stage"
