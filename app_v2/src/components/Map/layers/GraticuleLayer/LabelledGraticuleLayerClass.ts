@@ -5,11 +5,14 @@ import { SpatialReference } from '@arcgis/core/geometry';
 import Polyline from '@arcgis/core/geometry/Polyline';
 import Graphic from '@arcgis/core/Graphic';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import LabelClass from '@arcgis/core/layers/support/LabelClass';
 import { SimpleRenderer } from '@arcgis/core/renderers';
+import { TextSymbol } from '@arcgis/core/symbols';
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
 import MapView from '@arcgis/core/views/MapView';
 
-export interface LabelledGraticuleLayerProperties extends __esri.FeatureLayerProperties {
+export interface LabelledGraticuleLayerProperties
+  extends Omit<__esri.FeatureLayerProperties, 'renderer' | 'labelingInfo'> {
   graticuleBounds?: GraticuleBounds;
   graticuleStyle?: {
     line?: {
@@ -287,8 +290,41 @@ export class LabelledGraticuleLayer extends FeatureLayer {
   @property()
   graticuleBounds: GraticuleBounds;
 
-  @property()
-  graticuleStyle: GraticuleStyle;
+  private _graticuleStyle: GraticuleStyle;
+
+  get graticuleStyle(): GraticuleStyle {
+    return this._graticuleStyle;
+  }
+
+  set graticuleStyle(value: GraticuleStyle) {
+    this.renderer = new SimpleRenderer({
+      symbol: new SimpleLineSymbol({
+        color: value.line.color,
+        width: value.line.width,
+      }),
+    });
+
+    this.labelingInfo = [
+      new LabelClass({
+        labelExpressionInfo: {
+          expression: '$feature.label',
+        },
+        symbol: new TextSymbol({
+          color: value.label.color,
+          font: {
+            family: value.label.font.family,
+            size: value.label.font.size,
+          },
+          haloColor: value.label.haloColor,
+          haloSize: value.label.haloSize,
+        }),
+        labelPlacement: 'center-along',
+        repeatLabelDistance: 500,
+        minScale: 0,
+        maxScale: 0,
+      }),
+    ];
+  }
 
   @property()
   scaleIntervals: ScaleInterval[];
@@ -339,7 +375,7 @@ export class LabelledGraticuleLayer extends FeatureLayer {
         }),
       }),
       labelingInfo: [
-        {
+        new LabelClass({
           labelExpressionInfo: {
             expression: '$feature.label',
           },
@@ -357,14 +393,14 @@ export class LabelledGraticuleLayer extends FeatureLayer {
           repeatLabelDistance: 500,
           minScale: 0,
           maxScale: 0,
-        },
+        }),
       ],
       spatialReference: SpatialReference.WGS84,
     });
 
     // Assign properties to the class instance
     this.graticuleBounds = defaultProperties.graticuleBounds;
-    this.graticuleStyle = defaultProperties.graticuleStyle;
+    this._graticuleStyle = defaultProperties.graticuleStyle;
     this.scaleIntervals = defaultProperties.scaleIntervals;
 
     // Set up event handlers
