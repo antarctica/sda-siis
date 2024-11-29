@@ -1,5 +1,3 @@
-import { css } from '@styled-system/css';
-
 import Badge from '@/components/common/Badge';
 
 function ShipSensorStatusBadge({
@@ -10,7 +8,7 @@ function ShipSensorStatusBadge({
   children?: React.ReactNode;
 }) {
   return (
-    <Badge variant={variant} className={css({ fontSize: 'sm' })}>
+    <Badge variant={variant}>
       {children ? children : variant === 'error' ? 'Data Error' : 'No Data'}
     </Badge>
   );

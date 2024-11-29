@@ -14,6 +14,7 @@ import {
 } from '@/store/features/shipSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
+import Badge from '../common/Badge';
 import SvgIcon from '../common/SvgIcon';
 
 function ShipToolbar() {
@@ -25,10 +26,10 @@ function ShipToolbar() {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex gap="2" pl="2" justifyContent={'space-between'} align="center" w="full">
+    <Flex gap="2" pr="2" justifyContent={'space-between'} align="center" w="full">
       <Toolbar
         aria-label="Ship position toolbar"
-        className={css({ alignItems: 'center', display: 'flex', ml: '-2' })}
+        className={css({ alignItems: 'center', display: 'flex' })}
       >
         <IconButton
           isDisabled={!isVisible}
@@ -75,6 +76,7 @@ function ShipToolbar() {
         />
         <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
       </Toolbar>
+      {followShip && <Badge variant="primary">Following ship location</Badge>}
     </Flex>
   );
 }

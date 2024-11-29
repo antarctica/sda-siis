@@ -63,7 +63,7 @@ export function Map({ crs }: { crs: MapCRS }) {
         >
           {!isMobile && (
             <ArcgisPlacement position="bottom-right">
-              <Flex direction={'column'} gap={'2'} align={'end'}>
+              <Flex direction={'column'} gap={'4'} align={'end'}>
                 <MapRotationControl />
                 <ZoomControl />
               </Flex>

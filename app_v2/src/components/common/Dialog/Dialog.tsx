@@ -6,7 +6,7 @@ import {
   OverlayTriggerStateContext,
 } from 'react-aria-components';
 
-import { Button, IconButton } from '../Button';
+import { IconButton } from '../Button';
 import SvgIcon from '../SvgIcon';
 import Typography from '../Typography';
 
@@ -16,6 +16,7 @@ type DialogProps = RecipeVariantProps<typeof dialogRecipe> &
     role?: 'dialog' | 'alertdialog';
     hasCloseButton?: boolean;
     icon?: React.ReactNode;
+    footer?: React.ReactNode;
   }>;
 
 const dialogRecipe = sva({
@@ -41,8 +42,6 @@ const dialogRecipe = sva({
       mb: '4',
     },
     footer: {
-      display: 'flex',
-      justifyContent: 'flex-end',
       mt: '4',
     },
     cornerCloseButton: {
@@ -110,17 +109,9 @@ function DialogHeader({
   );
 }
 
-function DialogFooter() {
-  const { close } = React.useContext(OverlayTriggerStateContext)!;
-
+function DialogFooter({ children }: React.PropsWithChildren) {
   const { footer } = dialogRecipe();
-  return (
-    <div className={footer}>
-      <Button variant="primary" onPress={close}>
-        Close
-      </Button>
-    </div>
-  );
+  return <div className={footer}>{children}</div>;
 }
 
 function Dialog({
@@ -130,13 +121,14 @@ function Dialog({
   hasCloseButton = true,
   size,
   icon,
+  footer,
 }: DialogProps) {
   const { dialog, content } = dialogRecipe({ size });
   return (
     <DialogPrimitive role={role} className={dialog}>
       <DialogHeader title={title} hasCloseButton={hasCloseButton} icon={icon} />
       <div className={content}>{children}</div>
-      <DialogFooter />
+      {footer && <DialogFooter>{footer}</DialogFooter>}
     </DialogPrimitive>
   );
 }

@@ -1,4 +1,4 @@
-import { css, cva } from '@styled-system/css';
+import { cva } from '@styled-system/css';
 import { Circle } from '@styled-system/jsx';
 
 import { LayerStatus } from '@/types';
@@ -59,15 +59,5 @@ export function LayerStatusBadge({ status = 'static' }: { status?: LayerStatus }
     outdated: 'grey',
   };
 
-  return (
-    <Badge
-      className={css({
-        fontSize: 'xs',
-        textTransform: 'capitalize',
-      })}
-      variant={badgeVariant[status]}
-    >
-      {status}
-    </Badge>
-  );
+  return <Badge variant={badgeVariant[status]}>{status}</Badge>;
 }

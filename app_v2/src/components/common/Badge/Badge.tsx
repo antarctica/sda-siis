@@ -10,9 +10,12 @@ const badgeRecipe = cva({
     display: 'inline-block',
     px: '1',
     rounded: 'md',
+    fontSize: 'xs',
+    textTransform: 'capitalize',
   },
   variants: {
     variant: {
+      primary: { bg: 'app.accent.9', color: 'fg.accent.contrast' },
       error: { bg: 'error.bg', color: 'error.fg' },
       info: { bg: 'info.bg', color: 'info.fg' },
       warning: { bg: 'warning.bg', color: 'warning.fg' },
