@@ -9,7 +9,7 @@ export const persistenceMiddleware = createListenerMiddleware();
 // Specify which parts of the state to persist
 type PersistedAppState = Pick<
   RootState['app'],
-  'defaultMeasurementUnit' | 'defaultLatLonFormat' | 'graticuleVisible'
+  'defaultMeasurementUnit' | 'defaultLatLonFormat' | 'graticuleVisible' | 'localTimeOffset'
 >;
 
 // Listen for any app settings changes
@@ -23,6 +23,7 @@ persistenceMiddleware.startListening({
     const settingsToStore: PersistedAppState = {
       defaultMeasurementUnit: state.app.defaultMeasurementUnit,
       defaultLatLonFormat: state.app.defaultLatLonFormat,
+      localTimeOffset: state.app.localTimeOffset,
       graticuleVisible: state.app.graticuleVisible,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(settingsToStore));
