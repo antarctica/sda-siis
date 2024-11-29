@@ -3,7 +3,7 @@ import './styles/index.css';
 import { defineCustomElements as defineMapElements } from '@arcgis/map-components/dist/loader';
 
 defineMapElements(window, {
-  resourcesUrl: 'https://js.arcgis.com/map-components/4.30/assets/',
+  resourcesUrl: 'https://js.arcgis.com/map-components/4.31/assets',
 });
 
 import { createRouter, RouterProvider } from '@tanstack/react-router';

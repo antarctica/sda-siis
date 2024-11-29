@@ -4,6 +4,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import appReducer from './features/appSlice';
 import projectionReducer from './features/projectionSlice';
 import shipReducer from './features/shipSlice';
+import { persistenceMiddleware } from './middleware/persistenceMiddleware';
 
 const staticReducers = {
   ship: shipReducer,
@@ -22,7 +23,8 @@ const createReducer = (reducers: ReducersMapObject) =>
 const store = configureStore({
   reducer: createReducer(asyncReducers),
   devTools: process.env.NODE_ENV !== 'production',
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({}),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({}).prepend(persistenceMiddleware.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

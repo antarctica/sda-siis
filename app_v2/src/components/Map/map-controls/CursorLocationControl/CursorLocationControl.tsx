@@ -54,7 +54,7 @@ const cursorLocationControlStyle = sva({
     Format: {
       DMS: {
         wrapper: {
-          w: '64',
+          w: '[16.5rem]',
         },
       },
       DD: {

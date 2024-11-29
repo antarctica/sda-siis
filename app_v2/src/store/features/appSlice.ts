@@ -4,6 +4,7 @@ import { MeasurementUnit } from '@/arcgis/hooks/measurements/types';
 import { LatLonFormat } from '@/types';
 
 import { RootState } from '..';
+import { getPersistedAppState } from '../middleware/persistenceMiddleware';
 
 interface AppState {
   graticuleVisible: boolean;
@@ -17,6 +18,7 @@ const initialState: AppState = {
   defaultMeasurementUnit: 'nautical-miles',
   defaultLatLonFormat: 'DD',
   localTimeOffset: 0,
+  ...getPersistedAppState(),
 };
 
 export const appSlice = createSlice({
