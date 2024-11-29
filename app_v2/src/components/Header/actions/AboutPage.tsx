@@ -5,13 +5,14 @@ import Modal from '@/components/common/Modal';
 import SvgIcon from '@/components/common/SvgIcon';
 import Typography, { Em, MailTo } from '@/components/common/Typography';
 import { Action } from '@/components/Header/actions/Actions';
+import SIISLogo from '@/components/SIISLogo';
 
 export function AboutPage() {
   return (
     <DialogTrigger>
       <Action icon={<SvgIcon name="icon-info" size={20} />} aria-label={'About'} />
       <Modal isDismissable>
-        <Dialog title="Sea Ice Information Service (SIIS)" size="lg">
+        <Dialog title="Sea Ice Information Service (SIIS)" icon={<SIISLogo size={40} />} size="lg">
           <Typography margin>
             The SIIS supports safe navigation and route planning for the{' '}
             <Em>RRS Sir David Attenborough</Em> by providing up-to-date sea ice information for

@@ -8,17 +8,18 @@ import {
 
 import { Button, IconButton } from '../Button';
 import SvgIcon from '../SvgIcon';
-import { Heading } from '../Typography';
+import Typography from '../Typography';
 
 type DialogProps = RecipeVariantProps<typeof dialogRecipe> &
   React.PropsWithChildren<{
     title: string;
     role?: 'dialog' | 'alertdialog';
     hasCloseButton?: boolean;
+    icon?: React.ReactNode;
   }>;
 
 const dialogRecipe = sva({
-  slots: ['dialog', 'header', 'content', 'cornerCloseButton', 'footer'],
+  slots: ['dialog', 'header', 'title', 'content', 'cornerCloseButton', 'footer'],
   base: {
     dialog: {
       position: 'relative',
@@ -28,11 +29,16 @@ const dialogRecipe = sva({
       maxW: 'full',
       outline: 'none',
     },
+    title: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '2',
+    },
     header: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      mb: '2',
+      mb: '4',
     },
     footer: {
       display: 'flex',
@@ -69,16 +75,25 @@ const dialogRecipe = sva({
   },
 });
 
-function DialogHeader({ title, hasCloseButton }: { title: string; hasCloseButton: boolean }) {
-  const { header, cornerCloseButton } = dialogRecipe();
+function DialogHeader({
+  title,
+  hasCloseButton,
+  icon,
+}: {
+  title: string;
+  hasCloseButton: boolean;
+  icon?: React.ReactNode;
+}) {
+  const { header, cornerCloseButton, title: titleClassName } = dialogRecipe();
   const { close } = React.useContext(OverlayTriggerStateContext)!;
 
   return (
     <div className={header}>
-      <HeadingPrimitive slot="title">
-        <Heading as="h2" heading="heading-2" margin={false}>
+      <HeadingPrimitive slot="title" className={titleClassName}>
+        {icon}
+        <Typography as="span" heading="heading-2" margin={false}>
           {title}
-        </Heading>
+        </Typography>
       </HeadingPrimitive>
       {hasCloseButton && (
         <IconButton
@@ -108,11 +123,18 @@ function DialogFooter() {
   );
 }
 
-function Dialog({ title, children, role = 'dialog', hasCloseButton = true, size }: DialogProps) {
+function Dialog({
+  title,
+  children,
+  role = 'dialog',
+  hasCloseButton = true,
+  size,
+  icon,
+}: DialogProps) {
   const { dialog, content } = dialogRecipe({ size });
   return (
     <DialogPrimitive role={role} className={dialog}>
-      <DialogHeader title={title} hasCloseButton={hasCloseButton} />
+      <DialogHeader title={title} hasCloseButton={hasCloseButton} icon={icon} />
       <div className={content}>{children}</div>
       <DialogFooter />
     </DialogPrimitive>
