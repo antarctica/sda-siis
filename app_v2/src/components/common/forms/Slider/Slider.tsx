@@ -27,6 +27,7 @@ const sliderRecipe = sva({
         alignItems: 'center',
         position: 'relative',
         mx: '1',
+        mt: '1',
         h: '4',
       },
     },
