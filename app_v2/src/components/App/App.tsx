@@ -9,9 +9,9 @@ import { ArcViewProvider } from '@/arcgis/ArcView/ArcViewContext/ArcViewProvider
 import GeometryToolsLoader from '@/arcgis/GeometryToolsLoader';
 import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';
-import Drawing from '@/panels/Drawing';
 import { Legend, MapLayers } from '@/panels/MapLayers';
 import Measure from '@/panels/Measure/Measure';
+import Routes from '@/panels/Routes';
 import store from '@/store';
 import { selectCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppSelector } from '@/store/hooks';
@@ -49,12 +49,12 @@ const appPanels: SidebarItem[] = [
     ],
   },
   {
-    id: 'drawing',
-    title: 'Drawing',
+    id: 'routes',
+    title: 'Routes',
     icon: <SvgIcon name="icon-map-polyline" size={16} />,
     position: 'top',
     type: 'panel',
-    component: () => <Drawing />,
+    component: () => <Routes />,
   },
   {
     id: 'measurement',

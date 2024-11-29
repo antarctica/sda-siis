@@ -25,6 +25,9 @@ const listRecipe = sva({
       display: 'flex',
       alignItems: 'center',
       gap: '2',
+      _last: {
+        mb: '2',
+      },
     },
     measurementInfo: {
       display: 'flex',
@@ -61,7 +64,7 @@ export function MeasurementList({
 
   return (
     <ul className={root}>
-      {measurements.map(({ graphic, id, clear }) => {
+      {measurements.map(({ graphic, id, clear }, index) => {
         return (
           <React.Fragment key={id}>
             <li className={itemWrapper}>
@@ -84,7 +87,9 @@ export function MeasurementList({
                 />
               </div>
             </li>
-            <Divider orientation="horizontal" thickness={'thin'} color={'bg.base.border'} />
+            {index !== measurements.length - 1 && (
+              <Divider orientation="horizontal" thickness={'thin'} color={'bg.base.border'} />
+            )}
           </React.Fragment>
         );
       })}

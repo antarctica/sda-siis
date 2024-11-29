@@ -13,7 +13,7 @@ import { Select, SelectItem } from '@/components/common/Select';
 import { LayerStatusCircle } from '@/components/LayerStatus';
 import { useSIISMapView } from '@/hooks/useMap';
 
-function Drawing() {
+function Routes() {
   const mapView = useSIISMapView();
   const [coordinate, setCoordinate] = React.useState<string>('');
 
@@ -68,4 +68,4 @@ function DrawModeButton({ mapView }: { mapView: __esri.MapView }) {
   );
 }
 
-export default Drawing;
+export default Routes;
