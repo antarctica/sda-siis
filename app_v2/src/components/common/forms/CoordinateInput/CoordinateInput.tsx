@@ -230,7 +230,7 @@ function CoordinateSelectionMenu({
 
   return (
     <SelectionMenu
-      className={css({ w: 'fit' })}
+      className={css({ w: '80' })}
       listData={listData}
       onSelect={(value) => {
         setValue(value ?? '');

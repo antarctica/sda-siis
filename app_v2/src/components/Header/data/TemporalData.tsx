@@ -1,6 +1,8 @@
 import DataGrid from '@/components/common/DataGrid';
 import DateTime from '@/components/common/DateTime';
 import useTime from '@/hooks/useTime';
+import { selectLocalTimeOffset } from '@/store/features/appSlice';
+import { useAppSelector } from '@/store/hooks';
 
 function getUTCLabel(offset: number): string {
   if (offset === 0) return 'UTC';
@@ -10,7 +12,7 @@ function getUTCLabel(offset: number): string {
 
 export function TemporalData() {
   const time = useTime();
-  const utcOffset = 3;
+  const utcTimeOffset = useAppSelector(selectLocalTimeOffset);
   return (
     <DataGrid
       data={[
@@ -29,9 +31,9 @@ export function TemporalData() {
                 dateStyle="medium"
                 timeStyle="medium"
                 timeZone="UTC"
-                utcOffset={utcOffset}
+                utcOffset={utcTimeOffset}
               />{' '}
-              <span>({getUTCLabel(utcOffset)})</span>
+              <span>({getUTCLabel(utcTimeOffset)})</span>
             </>
           ),
         },

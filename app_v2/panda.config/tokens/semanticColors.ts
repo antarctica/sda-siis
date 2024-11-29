@@ -483,8 +483,8 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     popover: {
       DEFAULT: {
         value: {
-          base: '{colors.app.grey.3}',
-          _dark: '{colors.app.grey.3}',
+          base: '{colors.app.grey.2}',
+          _dark: '{colors.app.grey.2}',
         },
       },
       hover: {
