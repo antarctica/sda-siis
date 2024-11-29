@@ -74,7 +74,15 @@ export default function PolylinePreviewSVG({
     >
       <circle cx={size / 2} cy={size / 2} r={size / 2} fill={bgColor} />
       {pathData.map((path, index) => (
-        <path key={index} d={path} stroke={lineColor} strokeWidth={lineWidth} fill="none" />
+        <path
+          key={index}
+          d={path}
+          stroke={lineColor}
+          strokeWidth={lineWidth}
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       ))}
     </svg>
   );

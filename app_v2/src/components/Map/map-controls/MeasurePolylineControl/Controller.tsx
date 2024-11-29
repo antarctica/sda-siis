@@ -18,9 +18,11 @@ const selectItems = [
 function MeasureLine({
   mapView,
   graphicsLayer,
+  measurementID,
 }: {
   mapView: __esri.MapView;
   graphicsLayer: __esri.GraphicsLayer;
+  measurementID?: string;
 }) {
   const [unit, setUnit] = React.useState<MeasurementUnit>('kilometers');
   const measurementOptions = React.useMemo(
@@ -29,12 +31,19 @@ function MeasureLine({
     }),
     [graphicsLayer],
   );
+
+  const internalId = React.useId();
+  const measurementGroupID = React.useMemo(() => {
+    return measurementID ?? internalId;
+  }, [measurementID, internalId]);
+
   const { startMeasurement, measurements, isActive } = useMeasureLine(
     mapView,
-    'measurement-group-1',
+    measurementGroupID,
     unit,
     measurementOptions,
   );
+
   return (
     <Flex direction="column" gap="2" align={'start'} w="full">
       <ToggleButton isSelected={isActive} onPress={() => startMeasurement()}>

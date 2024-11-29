@@ -12,7 +12,11 @@ function Measure() {
 
   if (!mapView) return null;
   return (
-    <MeasureLine graphicsLayer={measurementGraphicsLayer} mapView={mapView as __esri.MapView} />
+    <MeasureLine
+      graphicsLayer={measurementGraphicsLayer}
+      mapView={mapView as __esri.MapView}
+      measurementID="MeasureLine"
+    />
   );
 }
 
