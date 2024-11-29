@@ -7,6 +7,7 @@ import { useDrawSingleGraphic } from '@/arcgis/hooks/useDrawSingleGraphic';
 import { Button } from '@/components/common/Button';
 import CoordinateField from '@/components/common/forms/CoordinateInput';
 import { DatePicker, DateRangePicker } from '@/components/common/forms/DatePicker';
+import NumberField from '@/components/common/forms/NumberField';
 import TextField from '@/components/common/forms/TextField/TextField';
 import { Select, SelectItem } from '@/components/common/Select';
 import { LayerStatusCircle } from '@/components/LayerStatus';
@@ -38,6 +39,7 @@ function Drawing() {
         <SelectItem value={{ type: 'point' }}>Point</SelectItem>
         <SelectItem value={{ type: 'polygon' }}>Polygon</SelectItem>
       </Select>
+      <NumberField maxValue={10} minValue={-10} label="Select a number" />
       <DatePicker label="Select a date" maxValue={today('UTC')} />
       <DateRangePicker label="Select a date range" maxRange={{ months: 1 }} />{' '}
       <Flex gap="2">
