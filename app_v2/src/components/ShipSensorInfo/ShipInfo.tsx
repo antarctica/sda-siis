@@ -3,7 +3,9 @@ import { Box } from '@styled-system/jsx';
 
 import { useShipDepth, useShipHeading, useShipSpeed } from '@/api/useShipSensorData';
 import { useShipPositionWithVisibility } from '@/hooks/useShipPositionWithVisibility';
-import { decimalToDMS } from '@/utils/formatCoordinates';
+import { selectDefaultLatLonFormat } from '@/store/features/appSlice';
+import { useAppSelector } from '@/store/hooks';
+import { formatCoordinate } from '@/utils/formatCoordinates';
 
 import DataGrid from '../common/DataGrid';
 import { Heading } from '../common/Typography';
@@ -13,7 +15,7 @@ function ShipInfo() {
   const { speed, isOnline: speedOnline, isError: speedError } = useShipSpeed();
   const { heading, isOnline: headingOnline, isError: headingError } = useShipHeading();
   const { depth, isOnline: depthOnline, isError: depthError } = useShipDepth();
-
+  const LatLonFormat = useAppSelector(selectDefaultLatLonFormat);
   const {
     latitude,
     longitude,
@@ -64,7 +66,7 @@ function ShipInfo() {
               value: positionError ? (
                 <ShipSensorStatusBadge variant="error" />
               ) : positionOnline ? (
-                `${decimalToDMS(latitude ?? 0, true)}, ${decimalToDMS(longitude ?? 0, false)}`
+                formatCoordinate(latitude ?? 0, longitude ?? 0, LatLonFormat)
               ) : (
                 <ShipSensorStatusBadge variant="warning" />
               ),

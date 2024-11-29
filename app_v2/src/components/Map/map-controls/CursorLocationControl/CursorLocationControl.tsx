@@ -6,6 +6,9 @@ import React from 'react';
 import { Button } from 'react-aria-components';
 
 import { useCurrentMapView } from '@/arcgis/hooks';
+import { selectDefaultLatLonFormat } from '@/store/features/appSlice';
+import { useAppSelector } from '@/store/hooks';
+import { LatLonFormat } from '@/types';
 import { formatCoordinate } from '@/utils/formatCoordinates';
 
 const cursorLocationControlStyle = sva({
@@ -72,7 +75,8 @@ function CursorLocationControl() {
   const mapView = useCurrentMapView();
   const [lat, setLat] = React.useState<number | undefined>();
   const [lon, setLon] = React.useState<number | undefined>();
-  const [format, setFormat] = React.useState<'DD' | 'DMS' | 'DDM'>('DD');
+  const defaultLatLonFormat = useAppSelector(selectDefaultLatLonFormat);
+  const [format, setFormat] = React.useState<LatLonFormat>(defaultLatLonFormat);
 
   // Use a ref to keep track of the latest request
   const latestRequestId = React.useRef(0);
@@ -112,10 +116,10 @@ function CursorLocationControl() {
 
   // Toggle between different formats
   const handleToggleFormat = () => {
-    const formats = ['DD', 'DMS', 'DDM'];
+    const formats: LatLonFormat[] = ['DD', 'DMS', 'DDM'];
     setFormat((prevFormat) => {
       const currentIndex = formats.indexOf(prevFormat);
-      return formats[(currentIndex + 1) % formats.length] as 'DD' | 'DMS' | 'DDM';
+      return formats[(currentIndex + 1) % formats.length] as LatLonFormat;
     });
   };
 

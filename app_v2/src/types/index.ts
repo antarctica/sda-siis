@@ -17,3 +17,5 @@ export type MapProduct = components['schemas']['product'];
 export type MapGranule = components['schemas']['granule'];
 export type LayerStatus = components['schemas']['product']['status'];
 export type GranuleStatus = components['schemas']['granule']['status'];
+
+export type LatLonFormat = 'DD' | 'DMS' | 'DDM';

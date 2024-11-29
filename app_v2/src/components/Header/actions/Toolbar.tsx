@@ -10,6 +10,7 @@ import { useMinimiseUI } from '@/hooks/useMinimiseUI';
 import { AboutPage } from './AboutPage';
 import { Action } from './Actions';
 import { FullScreen } from './FullScreen';
+import GlobalSettingsMenu from './GlobalSettings/GlobalSettingsMenu';
 import { SelectProjection } from './SelectProjection';
 
 const toolbarRecipe = cva({
@@ -47,12 +48,7 @@ export function Toolbar() {
         aria-label="Minimise UI"
         onPress={minimiseUI}
       />,
-      <Action
-        key="settings"
-        icon={<SvgIcon name="icon-settings" size={20} />}
-        aria-label="Settings"
-        onPress={() => {}}
-      />,
+      <GlobalSettingsMenu key="settings" />,
       <SelectProjection key="projection" />,
       <AboutPage key="about" />,
     ].filter(Boolean);
