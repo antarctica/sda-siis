@@ -7,7 +7,7 @@ import { appPanels } from '@/config/panelItems';
 import { ThemeProvider } from '@/contexts/Theme/ThemeProvider';
 import GeometryToolsLoader from '@/features/arcgis/components/GeometryToolsLoader';
 import { ArcViewProvider } from '@/features/arcgis/contexts/ArcViewContext/ArcViewProvider';
-import { LayerManagerProvider } from '@/features/mapLayers/components/LayerManager/LayerManagerProvider';
+import { LayerManagerProvider } from '@/features/layersManagement/components/LayerManager/LayerManagerProvider';
 import store from '@/store';
 
 export const Providers = React.memo(({ children }: { children: React.ReactNode }) => {

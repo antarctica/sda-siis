@@ -2,7 +2,7 @@ import WMSLayer from '@arcgis/core/layers/WMSLayer';
 import React from 'react';
 
 import { useTheme } from '@/contexts/Theme/useTheme';
-import { LayerManagerContext } from '@/features/mapLayers/components/LayerManager/LayerManagerProvider';
+import { LayerManagerContext } from '@/features/layersManagement/components/LayerManager/LayerManagerProvider';
 
 import { convertThemeToStyle } from '../utils';
 

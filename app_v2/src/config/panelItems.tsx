@@ -1,8 +1,8 @@
 import SvgIcon from '@/components/common/SvgIcon';
 import { SidebarItem } from '@/components/Sidebar/types';
-import { Legend, MapLayers } from '@/features/mapLayers/components/Panel';
-import Measure from '@/features/Measure/Measure';
-import Routes from '@/features/Routes';
+import { Legend, MapLayers } from '@/features/layersManagement/components/Panel';
+import Measure from '@/features/measurements/Measure';
+import Routes from '@/features/routes';
 
 export const appPanels: SidebarItem[] = [
   {

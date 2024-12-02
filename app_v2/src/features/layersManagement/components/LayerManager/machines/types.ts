@@ -1,7 +1,7 @@
 import { ActorRef, ActorRefFrom, Snapshot } from 'xstate';
 
-import { layerGroupMachine } from '@/features/mapLayers/components/LayerManager/machines/layers/layerGroupMachine';
-import { layerMachine } from '@/features/mapLayers/components/LayerManager/machines/layers/layerMachine';
+import { layerGroupMachine } from '@/features/layersManagement/components/LayerManager/machines/layers/layerGroupMachine';
+import { layerMachine } from '@/features/layersManagement/components/LayerManager/machines/layers/layerMachine';
 
 // Base types
 export type LayerType = 'layer' | 'layerGroup';

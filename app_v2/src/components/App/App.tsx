@@ -8,7 +8,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { selectCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppSelector } from '@/store/hooks';
 
-import { Map } from '../../features/Map/Map';
+import { Map } from '../../features/map/Map';
 import Drawer from '../common/Drawer';
 import Header from '../Header';
 import Sidebar from '../Sidebar';

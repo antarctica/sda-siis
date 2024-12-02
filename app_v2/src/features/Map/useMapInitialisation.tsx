@@ -8,14 +8,14 @@ import React from 'react';
 import { useProducts } from '@/api/useProducts';
 import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
 import { CRS_LOOKUP } from '@/config/map';
+import { useAddLayer } from '@/features/layersManagement/components/LayerManager/hooks/useAddLayer';
+import { LayerTimeInfo } from '@/features/layersManagement/components/LayerManager/machines/types';
 import {
   createImageryFootprintLayer,
   createOGCLayer,
   getLayerDisplayMode,
   ogcPriority,
-} from '@/features/Map/utils';
-import { useAddLayer } from '@/features/mapLayers/components/LayerManager/hooks/useAddLayer';
-import { LayerTimeInfo } from '@/features/mapLayers/components/LayerManager/machines/types';
+} from '@/features/map/utils';
 import { useFormatDate } from '@/hooks/useFormatDate';
 import { MapCRS, OGCType } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';

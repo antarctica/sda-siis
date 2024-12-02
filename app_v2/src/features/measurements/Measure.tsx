@@ -1,6 +1,6 @@
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 
-import MeasureLine from '@/features/Map/map-controls/MeasurePolylineControl';
+import MeasureLine from '@/features/map/map-controls/MeasurePolylineControl';
 import { useSIISMapView } from '@/hooks/useSIISMapView';
 
 const measurementGraphicsLayer = new GraphicsLayer({

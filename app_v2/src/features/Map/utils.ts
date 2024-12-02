@@ -8,7 +8,7 @@ import TimeExtent from '@arcgis/core/TimeExtent.js';
 import {
   isSingleTimeInfo,
   LayerTimeInfo,
-} from '@/features/mapLayers/components/LayerManager/machines/types';
+} from '@/features/layersManagement/components/LayerManager/machines/types';
 import { LayerDisplayMode, MapGranule, MapProduct, OGCType } from '@/types';
 
 import { Theme } from '../../contexts/Theme/useTheme';
