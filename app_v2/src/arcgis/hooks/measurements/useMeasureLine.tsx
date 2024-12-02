@@ -85,8 +85,10 @@ export function useMeasureLine(
     const createHandle = newSketchVM.on('create', handlers.handleCreate);
     const updateHandle = newSketchVM.on('update', handlers.handleUpdate);
     const deleteHandle = newSketchVM.on('delete', handlers.handleDelete);
+    const undoHandle = newSketchVM.on('undo', handlers.handleRedoUndo);
+    const redoHandle = newSketchVM.on('redo', handlers.handleRedoUndo);
 
-    newSketchVM.addHandles([createHandle, updateHandle, deleteHandle]);
+    newSketchVM.addHandles([createHandle, updateHandle, deleteHandle, undoHandle, redoHandle]);
 
     return newSketchVM;
   }, [mapView, measurementGraphicsLayer, options, internalMeasurementGroupId, unit]);

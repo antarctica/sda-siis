@@ -358,7 +358,9 @@ export function createSketchVMEventHandlers(params: {
 
         if (
           event.toolEventInfo.type === 'reshape-stop' ||
-          event.toolEventInfo.type === 'move-stop'
+          event.toolEventInfo.type === 'move-stop' ||
+          event.toolEventInfo.type === 'vertex-remove' ||
+          event.toolEventInfo.type === 'vertex-add'
         ) {
           updateLineGraphicMeasurements(
             graphic as LineGraphic<MeasurementLineAttributes>,
@@ -372,6 +374,26 @@ export function createSketchVMEventHandlers(params: {
     }
   };
 
+  const handleRedoUndo = (
+    event: __esri.SketchViewModelUndoEvent | __esri.SketchViewModelRedoEvent,
+  ) => {
+    const graphic = event.graphics[0];
+    if (!graphic || graphic.getAttribute('type') !== 'measurement-line') {
+      sketchVM.cancel();
+      return;
+    }
+
+    if (isMeasurementLine(graphic)) {
+      updateLineGraphicMeasurements(
+        graphic as LineGraphic<MeasurementLineAttributes>,
+        mapView,
+        measurementGraphicsLayer,
+        unit,
+        options?.textSymbol ?? DEFAULT_TEXT_SYMBOL_PROPS,
+      );
+    }
+  };
+
   const handleDelete = (event: __esri.SketchViewModelDeleteEvent) => {
     event.graphics.forEach((graphic) => {
       removeSegmentLabelGraphics(
@@ -381,7 +403,7 @@ export function createSketchVMEventHandlers(params: {
     });
   };
 
-  return { handleCreate, handleUpdate, handleDelete };
+  return { handleCreate, handleUpdate, handleDelete, handleRedoUndo };
 }
 
 /**
