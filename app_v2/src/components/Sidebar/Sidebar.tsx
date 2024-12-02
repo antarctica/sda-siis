@@ -4,8 +4,9 @@ import React from 'react';
 import { Group, Toolbar } from 'react-aria-components';
 import { useLocalStorage } from 'usehooks-ts';
 
-import Panel from '../Panel';
-import { ThemeToggler } from '../Theme';
+import Panel from '@/components/common/Panel';
+import { ThemeToggler } from '@/components/Theme';
+
 import { CollapseToggle } from './actions/CollapseToggle';
 import { ShowGraticule } from './actions/ShowMapGraticule';
 import { SidebarButton } from './actions/SidebarButton';

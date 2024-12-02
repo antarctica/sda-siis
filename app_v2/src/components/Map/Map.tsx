@@ -4,7 +4,8 @@ import { css, cva } from '@styled-system/css';
 import { Box, Flex, Stack } from '@styled-system/jsx';
 
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
-import { CRS_LOOKUP, MAP_ID } from '@/config/constants';
+import { MAP_ID } from '@/config/constants';
+import { CRS_LOOKUP } from '@/config/map';
 import useIsMobile from '@/hooks/useIsMobile';
 import { MapCRS } from '@/types';
 

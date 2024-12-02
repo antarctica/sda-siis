@@ -5,7 +5,7 @@ import React from 'react';
 
 import { ArcFeatureLayer } from '@/arcgis/ArcLayer/generated/ArcFeatureLayer';
 import { useCurrentMapView } from '@/arcgis/hooks';
-import { CRS_LOOKUP } from '@/config/constants';
+import { CRS_LOOKUP } from '@/config/map';
 import { selectShowDistanceCircles } from '@/store/features/shipSlice';
 import { useAppSelector } from '@/store/hooks';
 import { MapCRS } from '@/types';

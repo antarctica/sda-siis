@@ -1,7 +1,7 @@
 import { ZonedDateTime } from '@internationalized/date';
 import useSWRImmutable from 'swr/immutable';
 
-import { CRS_LOOKUP } from '@/config/constants';
+import { CRS_LOOKUP } from '@/config/map';
 import { MapCRS, MapGranule, MapProduct } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';
 

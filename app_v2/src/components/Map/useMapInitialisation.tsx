@@ -14,7 +14,8 @@ import {
   getLayerDisplayMode,
   ogcPriority,
 } from '@/components/Map/utils';
-import { CRS_LOOKUP, FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
+import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
+import { CRS_LOOKUP } from '@/config/map';
 import { useFormatDate } from '@/hooks/useFormatDate';
 import { MapCRS, OGCType } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';

@@ -1,107 +1,90 @@
-import Basemap from '@arcgis/core/Basemap';
-import MapImageLayer from '@arcgis/core/layers/MapImageLayer';
-import WMSLayer from '@arcgis/core/layers/WMSLayer';
-import EsriMap from '@arcgis/core/Map';
+import { Extent, Point, Polygon } from '@arcgis/core/geometry';
+import * as geometryEngine from '@arcgis/core/geometry/geometryEngine';
 
-enum BasemapRegion {
-  ANTARCTIC = 'ANTARCTIC',
-  ARCTIC = 'ARCTIC',
-  WORLD = 'WORLD',
+import { MapCRS } from '@/types';
+import { generateCircleRings } from '@/utils/mapUtils';
+
+export function getDefaultCRSForLatitude(latitude: number): MapCRS {
+  if (latitude < -55) {
+    return MapCRS.ANTARCTIC;
+  } else if (latitude > 55) {
+    return MapCRS.ARCTIC;
+  }
+  return MapCRS.MERCATOR;
 }
 
-/**
- * Basemap configuration constant that defines the basemap and initial zoom levels
- * for different regions.
- */
-const BASEMAP_CONFIG: Record<BasemapRegion, { basemap: Basemap; initialZoom: number }> = {
-  [BasemapRegion.ANTARCTIC]: {
-    basemap: new Basemap({ portalItem: { id: '435e23642bf94b83b07d1d3fc0c5c9d5' } }),
-    initialZoom: 5,
+export function isPointVisibleInCRS(point: Point, crs: MapCRS): boolean {
+  const extentConstraint = CRS_LOOKUP[crs].extentConstraint;
+  return geometryEngine.contains(extentConstraint, point);
+}
+
+export const CRS_LOOKUP: Record<
+  MapCRS,
+  {
+    wkid: number;
+    hemisphere?: 'N' | 'S';
+    center: [number, number];
+    extentConstraint: Polygon | Extent;
+    graticuleBounds: {
+      minLatitude: number;
+      maxLatitude: number;
+    };
+  }
+> = {
+  [MapCRS.MERCATOR]: {
+    wkid: 3857,
+    hemisphere: undefined,
+    center: [0, 0],
+    graticuleBounds: {
+      minLatitude: -90,
+      maxLatitude: 90,
+    },
+    extentConstraint: new Polygon({
+      rings: [
+        [
+          [-20026376.39 * 16, -20048966.1],
+          [-20026376.39 * 16, 20048966.1],
+          [20026376.39 * 16, 20048966.1],
+          [20026376.39 * 16, -20048966.1],
+          [-20026376.39 * 16, -20048966.1],
+        ],
+      ],
+
+      spatialReference: {
+        wkid: 3857,
+      },
+    }),
   },
-  [BasemapRegion.ARCTIC]: {
-    basemap: new Basemap({ portalItem: { id: 'beee46578bc44e0bb47901f04400588a' } }),
-    initialZoom: 13,
+
+  [MapCRS.ARCTIC]: {
+    wkid: 3413,
+    hemisphere: 'N',
+    center: [0, 90],
+    graticuleBounds: {
+      minLatitude: 50,
+      maxLatitude: 89,
+    },
+    extentConstraint: new Polygon({
+      rings: [generateCircleRings(64, 6291456)],
+      spatialReference: {
+        wkid: 3413,
+      },
+    }),
   },
-  [BasemapRegion.WORLD]: {
-    basemap: new Basemap({ portalItem: { id: '67ab7f7c535c4687b6518e6d2343e8a2' } }),
-    initialZoom: 10,
+
+  [MapCRS.ANTARCTIC]: {
+    wkid: 3031,
+    hemisphere: 'S',
+    center: [0, -90],
+    graticuleBounds: {
+      minLatitude: -89,
+      maxLatitude: -50,
+    },
+    extentConstraint: new Polygon({
+      rings: [generateCircleRings(64, 6291456)],
+      spatialReference: {
+        wkid: 3031,
+      },
+    }),
   },
 };
-
-/**
- * Given a longitude and latitude pair, returns the basemap region.
- *
- * - Antarctica: latitude < -60
- * - Arctic: latitude > 60
- * - World: otherwise
- *
- * @param {[number, number]} coordinates - the coordinates array
- * @returns {BasemapRegion} the basemap region
- */
-function getBasemapRegion([, lat]: [number, number]) {
-  if (lat < -60) {
-    return BasemapRegion.ANTARCTIC;
-  } else if (lat > 60) {
-    return BasemapRegion.ARCTIC;
-  } else {
-    return BasemapRegion.WORLD;
-  }
-}
-
-/**
- * Given a longitude and latitude pair, returns a Basemap instance
- * optimized for the region.
- *
- * @param {[number, number]} center - the coordinates array
- * @param {boolean} [isSDA=false] - Whether to use the SDA basemap.
- * @returns {Basemap} the basemap instance
- */
-export function getBasemapConfig(center: [number, number]): {
-  basemap: Basemap;
-  initialZoom: number;
-} {
-  const region = getBasemapRegion(center);
-  const config = BASEMAP_CONFIG[region];
-
-  return config;
-}
-
-/**
- * Creates an EsriMap instance with a basemap and a feature layer
- * containing the asset with the given assetId.
- *
- * @param {[number, number]} center - the coordinates array
- * @param {string} assetId - the id of the asset
- * @returns {EsriMap} an EsriMap instance
- */
-export function getMap(): {
-  map: EsriMap;
-  initialZoom: number;
-} {
-  const { initialZoom } = getBasemapConfig([0, -90]);
-
-  const baseCoast = new WMSLayer({
-    url: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/geoserver/siis/wms`,
-    sublayers: [{ name: 'siis:base_s' }],
-    spatialReference: {
-      wkid: 3031,
-    },
-  });
-
-  const layer = new MapImageLayer({
-    url: 'https://gis.ngdc.noaa.gov/arcgis/rest/services/antarctic/graticule/MapServer',
-  });
-
-  return {
-    map: new EsriMap({
-      basemap: new Basemap({
-        baseLayers: [],
-        spatialReference: {
-          wkid: 3031,
-        },
-      }),
-      layers: [baseCoast, layer],
-    }),
-    initialZoom,
-  };
-}

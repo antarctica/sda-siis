@@ -5,8 +5,8 @@ import * as React from 'react';
 
 import { IconButton } from '@/components/common/Button';
 
-import SvgIcon from '../common/SvgIcon';
-import { Heading } from '../common/Typography';
+import SvgIcon from '../SvgIcon';
+import { Heading } from '../Typography';
 
 interface MobileSideDialogProps {
   isOpen: boolean;

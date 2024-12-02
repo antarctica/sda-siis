@@ -301,13 +301,13 @@
     <!-- Map Polyline -->
     <symbol xmlns="http://www.w3.org/2000/svg" id="icon-map-polyline" viewBox="0 0 18 18">
       <g stroke="currentColor" stroke-linejoin="round" stroke-width="1">
-        <rect stroke="currentColor" fill="transparent" x="14.53" y="1.53" width="3" height="3" />
-        <rect stroke="currentColor" fill="transparent" x="12" y="8.9936" width="3" height="3" />
-        <rect stroke="currentColor" fill="transparent" x="3.3836" y="5.9084" width="3" height="3" />
-        <rect stroke="currentColor" fill="transparent" x=".52961" y="12.984" width="3" height="3" />
-        <path d="m1.9998 12.984 2.854-4.1348" />
-        <path d="m6.324 7.3786 5.6419 3.1225" />
-        <path d="m13.47 8.9936 2.5296-4.5232" />
+        <rect stroke="currentColor" fill="currentColor" x="14.53" y="1.53" width="3" height="3" />
+        <rect stroke="currentColor" fill="currentColor" x="12" y="8.9936" width="3" height="3" />
+        <rect stroke="currentColor" fill="currentColor" x="3.3836" y="5.9084" width="3" height="3" />
+        <rect stroke="currentColor" fill="currentColor" x=".52961" y="12.984" width="3" height="3" />
+        <path d="m1.9998 12.984 2.854-4.1348" stroke-width="1.25" />
+        <path d="m6.324 7.3786 5.6419 3.1225" stroke-width="1.25" />
+        <path d="m13.47 8.9936 2.5296-4.5232" stroke-width="1.25" />
       </g>
     </symbol>
     <!-- Trash -->

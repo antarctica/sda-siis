@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useTheme } from '@/components/Theme';
-import { GRATICULE_DARK_STYLE, GRATICULE_LIGHT_STYLE } from '@/config/constants';
+import { GRATICULE_DARK_STYLE, GRATICULE_LIGHT_STYLE } from '@/config/styles';
 import { selectGraticuleVisible } from '@/store/features/appSlice';
 import { useAppSelector } from '@/store/hooks';
 

@@ -16,7 +16,7 @@ interface AppState {
 const initialState: AppState = {
   graticuleVisible: true,
   defaultMeasurementUnit: 'nautical-miles',
-  defaultLatLonFormat: 'DD',
+  defaultLatLonFormat: 'DMS',
   localTimeOffset: 0,
   ...getPersistedAppState(),
 };

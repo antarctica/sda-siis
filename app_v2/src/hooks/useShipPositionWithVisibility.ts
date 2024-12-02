@@ -3,7 +3,7 @@ import { project } from '@arcgis/core/geometry/projection';
 import { useMemo } from 'react';
 
 import { useShipPosition } from '@/api/useShipSensorData';
-import { CRS_LOOKUP, isPointVisibleInCRS } from '@/config/constants';
+import { CRS_LOOKUP, isPointVisibleInCRS } from '@/config/map';
 import { selectCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppSelector } from '@/store/hooks';
 

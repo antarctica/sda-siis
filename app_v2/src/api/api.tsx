@@ -1,5 +1,6 @@
 import createClient from 'openapi-fetch';
 import { createQueryHook } from 'swr-openapi';
+import { GeoJSONFeature, GeoJSONFeatureSchema } from 'zod-geojson';
 
 import { MapGranule, MapProduct } from '@/types';
 import { paths } from '@/types/api';
@@ -23,7 +24,7 @@ export async function fetchProducts(hemi: 'N' | 'S' | undefined): Promise<MapPro
     return [];
   }
 
-  return products; // Return all products, including static ones
+  return products;
 }
 
 export async function fetchGranulesForProduct(
@@ -45,4 +46,67 @@ export async function fetchGranulesForProduct(
   }
 
   return data || [];
+}
+
+export async function convertRTZPToGeoJSON(input: string | File): Promise<GeoJSONFeature> {
+  const body = input instanceof File ? input : JSON.stringify(input);
+  const formData = new FormData();
+  formData.append('application/rtzp', body);
+
+  const { data, error } = await apiClient.POST('/routes/convert', {
+    params: {
+      header: {
+        'content-type': 'application/rtzp',
+        accept: 'application/geo+json',
+      },
+    },
+    body: formData,
+  });
+
+  if (error) {
+    console.error('Failed to convert route to GeoJSON:', error);
+    throw error;
+  }
+
+  if (!data) {
+    throw new Error('No data received from route conversion');
+  }
+
+  try {
+    return GeoJSONFeatureSchema.parse(data);
+  } catch (error) {
+    console.error('Invalid GeoJSON received from route conversion', error);
+    throw new Error('Invalid GeoJSON received from route conversion');
+  }
+}
+
+export async function convertGeoJSONToRTZP(input: string | File): Promise<Blob> {
+  const body = input instanceof File ? input : JSON.stringify(input);
+  const formData = new FormData();
+  formData.append('application/geo+json', body);
+
+  const { data, error } = await apiClient.POST('/routes/convert', {
+    params: {
+      header: {
+        'content-type': 'application/geo+json',
+        accept: 'application/rtzp',
+      },
+    },
+    body: formData,
+  });
+
+  if (error) {
+    console.error('Failed to convert route to RTZP:', error);
+    throw error;
+  }
+
+  if (!data) {
+    throw new Error('No data received from route conversion');
+  }
+
+  if (typeof data !== 'string') {
+    throw new Error('Invalid data received from route conversion');
+  }
+
+  return new Blob([data], { type: 'application/rtzp' });
 }

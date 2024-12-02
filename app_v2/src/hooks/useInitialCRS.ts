@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useInitialShipPosition } from '@/api/useShipSensorData';
-import { getDefaultCRSForLatitude } from '@/config/constants';
+import { getDefaultCRSForLatitude } from '@/config/map';
 import { setCurrentCRS } from '@/store/features/projectionSlice';
 import { useAppDispatch } from '@/store/hooks';
 import { MapCRS } from '@/types';

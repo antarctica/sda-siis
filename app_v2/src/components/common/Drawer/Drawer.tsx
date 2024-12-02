@@ -2,9 +2,10 @@ import { sva } from '@styled-system/css';
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import Panel from '../Panel/Panel';
-import { useSidebarActiveItem } from '../Sidebar/SidebarHooks';
-import { SidebarContext } from '../Sidebar/SideBarProvider';
+import Panel from '@/components/common/Panel';
+import { useSidebarActiveItem } from '@/components/Sidebar/SidebarHooks';
+
+import { SidebarContext } from '../../Sidebar/SideBarProvider';
 
 const drawerRecipe = sva({
   slots: ['root', 'title', 'description', 'handle', 'content'],
