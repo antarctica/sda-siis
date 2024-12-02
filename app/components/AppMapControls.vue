@@ -157,6 +157,12 @@
         title="Clear imported/reference route"
       >Ri
       </button>
+      <button
+        v-on:click="show_polarroute = !show_polarroute"
+        :class="show_polarroute ? 'activated': null"
+        title="Use PolarRoute to calculate the optimal route between two points."
+      >Ro
+      </button>
     </fieldset>
     <fieldset>
       <button
@@ -206,6 +212,7 @@ export default {
       'show_measure_tool': false,
       'show_ship_position': false,
       'show_ship_track': false,
+      'show_polarroute': false,
       'reference_feature_count': 0,
     }
   },
@@ -286,6 +293,9 @@ export default {
     },
     show_measure_tool: function () {
       this.$emit('update:show_measure_tool', this.show_measure_tool);
+    },
+    show_polarroute: function () {
+      this.$emit('update:show_polarroute', this.show_polarroute);
     },
     show_ship_position: function () {
       this.$emit('update:show_ship_position', this.show_ship_position);

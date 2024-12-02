@@ -18,6 +18,7 @@
         :ogc_endpoint="ogc_endpoint"
         :show_graticule="show_graticule"
         :show_measure_tool="show_measure_tool"
+        :show_polarroute="show_polarroute"
         :show_ship_position="show_ship_position"
         :show_ship_track="show_ship_track"
         :ship_position_lat="ship_position_lat"
@@ -26,12 +27,20 @@
         :measure_tool_feature_export_count="measure_tool_feature_export_count"
         :measure_tool_max_features="measure_tool_max_features"
         :reference_feature="reference_feature"
+        :choose_polarroute_start="choose_polarroute_start"
+        :choose_polarroute_end="choose_polarroute_end"
+        :polarroute_coords="polarroute_coords"
+        :routes="routes"
         v-on:update:selected_footprints="whenSelectedFootprintsChange"
         v-on:update:value_at_pixel_feature="whenValueAtPixelFeatureChanges"
         v-on:update:drawn_feature_vertexes="whenDrawnFeatureVertexesChanges"
         v-on:update:drawn_feature_length="whenDrawnFeatureLengthChanges"
         v-on:update:drawn_feature_export="whenDrawnFeatureExportChanges"
-      ></app-map>
+        v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
+        v-on:update:choose_polarroute_end="whenPolarRouteChooseEndChanges"
+        v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
+        v-on:update:routes="routes"
+        ></app-map>
       <app-product-switcher
         :display_ui="display_ui"
         :debug_mode="debug_mode"
@@ -43,40 +52,57 @@
         v-on:update:active_product_granules="whenActiveProductGranulesChange"
       ></app-product-switcher>
       <app-map-controls
-        initial_day_night_mode="day"
-        :api_endpoint="api_endpoint"
-        :initial_crs="control_crs"
-        :debug_mode="debug_mode"
-        :rotation_heading="rotation_heading"
-        :rotation_longitude="rotation_longitude"
-        :sensor_position="sensor_position"
-        :measure_tool_feature_count="measure_tool_feature_count"
-        :measure_tool_feature_length="measure_tool_feature_length"
-        :measure_tool_feature_geojson="measure_tool_feature_geojson"
-        :measure_tool_max_features="measure_tool_max_features"
-        v-on:update:crs="whenCRSChange"
-        v-on:update:display_ui="whenDisplayUIChange"
-        v-on:update:debug_mode="whenDebugModeChange"
-        v-on:update:day_night="whenColourSchemeChange"
-        v-on:update:rotation_radians="whenRotationRadiansChange"
+      initial_day_night_mode="day"
+      :api_endpoint="api_endpoint"
+      :initial_crs="control_crs"
+      :debug_mode="debug_mode"
+      :rotation_heading="rotation_heading"
+      :rotation_longitude="rotation_longitude"
+      :sensor_position="sensor_position"
+      :measure_tool_feature_count="measure_tool_feature_count"
+      :measure_tool_feature_length="measure_tool_feature_length"
+      :measure_tool_feature_geojson="measure_tool_feature_geojson"
+      :measure_tool_max_features="measure_tool_max_features"
+      v-on:update:crs="whenCRSChange"
+      v-on:update:display_ui="whenDisplayUIChange"
+      v-on:update:debug_mode="whenDebugModeChange"
+      v-on:update:day_night="whenColourSchemeChange"
+      v-on:update:rotation_radians="whenRotationRadiansChange"
         v-on:update:position_format="whenPositionFormatChange"
         v-on:update:scale_bar_unit="whenScaleBarUnitChange"
         v-on:update:map_centre="whenMapCentreChange"
         v-on:update:show_graticule="whenShowGraticuleChange"
         v-on:update:show_measure_tool="whenShowMeasureToolChange"
+        v-on:update:show_polarroute="whenShowPolarRouteChange"
         v-on:update:reset_drawn_feature="whenDrawnFeatureReset"
         v-on:update:export_drawn_feature="whenDrawnFeatureExport"
         v-on:update:show_ship_position="whenShowShipPositionChange"
         v-on:update:show_ship_track="whenShowShipTrackChange"
         v-on:update:import_reference_feature="whenImportReferenceFeatureChange"
-      ></app-map-controls>
-      <app-granule-metadata
+        ></app-map-controls>
+        <app-granule-metadata
         :api_endpoint="api_endpoint"
         :display_ui="display_ui"
         :selected_product_granules="selected_product_granules"
         :value_at_pixel_feature="value_at_pixel_feature"
-      ></app-granule-metadata>
-      <app-sensor-metadata
+        ></app-granule-metadata>
+        <app-polarroute-controls
+        v-if="show_polarroute"
+        :display_ui="display_ui"
+        :polarroute_server_endpoint="polarroute_server_endpoint"
+        :debug_mode="debug_mode"
+        :routes="routes"
+        :polarroute_coords="polarroute_coords"
+        :choose_polarroute_start="choose_polarroute_start"
+        :choose_polarroute_end="choose_polarroute_end"
+        :ship_position_lat="ship_position_lat"
+        :ship_position_lon="ship_position_lon"
+        v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
+        v-on:update:choose_polarroute_end="whenPolarRouteChooseEndChanges"
+        v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
+        v-on:update:routes="whenRoutesChange"
+        ></app-polarroute-controls>
+        <app-sensor-metadata
         :display_ui="display_ui"
         :debug_mode="debug_mode"
         :ogc_endpoint="ogc_endpoint"
@@ -85,10 +111,10 @@
         v-on:update:sensor_rotation_heading="whenRotationHeadingChange"
         v-on:update:sensor_rotation_longitude="whenRotationLongitudeChange"
         v-on:update:sensor_position="whenSensorPositionChange"
-      ></app-sensor-metadata>
+        ></app-sensor-metadata>
+      </div>
     </div>
-  </div>
-</template>
+  </template>
 
 <script>
 import Vue from 'vue';
@@ -97,6 +123,7 @@ import "@fontsource/open-sans";
 
 import AppColourScheme from './AppColourScheme.vue';
 import AppProductSwitcher from './AppProductSwitcher.vue';
+import AppPolarrouteControls from './AppPolarRouteControls.vue';
 import AppMapControls from './AppMapControls.vue';
 import AppGranuleMetadata from './AppGranuleMetadata.vue';
 import AppSensorMetadata from './AppSensorMetadata.vue';
@@ -127,6 +154,7 @@ export default Vue.extend({
       map_centre: [0,0],
       show_graticule: true,
       show_measure_tool: false,
+      show_polarroute: false,
       show_ship_position: false,
       show_ship_track: false,
       ship_position_lat: 0,
@@ -138,6 +166,10 @@ export default Vue.extend({
       measure_tool_feature_geojson: '',
       measure_tool_max_features: 8300,
       reference_feature: {},
+      choose_polarroute_start: false,
+      choose_polarroute_end: false,
+      polarroute_coords: {"start": {}, "end": {}},
+      routes: []
     }
   },
 
@@ -147,6 +179,9 @@ export default Vue.extend({
     },
     ogc_endpoint: function () {
       return process.env.SERVICE_API_OGC_ENDPOINT;
+    },
+    polarroute_server_endpoint: function(){
+      return process.env.POLARROUTE_SERVER_ENDPOINT
     },
     resolved_colour_scheme: function () {
       if (this.colour_scheme == 'system') {
@@ -159,6 +194,7 @@ export default Vue.extend({
   components: {
     AppColourScheme,
     AppProductSwitcher,
+    AppPolarrouteControls,
     AppMapControls,
     AppGranuleMetadata,
     AppSensorMetadata,
@@ -229,6 +265,9 @@ export default Vue.extend({
     whenShowMeasureToolChange: function ($event) {
       this.show_measure_tool = $event;
     },
+    whenShowPolarRouteChange: function ($event) {
+      this.show_polarroute = $event;
+    },
     whenShowShipPositionChange: function ($event) {
       this.show_ship_position = $event;
     },
@@ -258,6 +297,26 @@ export default Vue.extend({
     },
     whenImportReferenceFeatureChange: function ($event) {
       this.reference_feature = $event;
+    },
+    whenPolarRouteChooseStartChanges: function ($event) {
+      // switch off choosing endpoint when choosing start point is active
+      if (this.choose_polarroute_end === true && $event === true) {
+          this.choose_polarroute_end = false;
+        }
+      this.choose_polarroute_start = $event;
+    },
+    whenPolarRouteChooseEndChanges: function ($event) {
+      // switch off choosing start point when choosing end point is active
+      if (this.choose_polarroute_start === true && $event === true) {
+          this.choose_polarroute_start = false;
+        }
+      this.choose_polarroute_end = $event;
+    },
+    whenPolarRouteCoordsChange: function ($event) {
+      this.polarroute_coords = $event;
+    },
+    whenRoutesChange: function ($event) {
+      this.routes = $event;
     }
   }
 });
@@ -267,11 +326,11 @@ export default Vue.extend({
   .grid-container {
     display: grid;
 
-    grid-template-columns: 11% auto 15% 20%;
+    grid-template-columns: max(250px, 11%) auto 15% 20%;
     grid-template-rows: 50vh 30vh auto 80px 30px;
     grid-template-areas:
       "sensor-metadata .            .                products-switcher"
-      ".               .            .                granule-metadata "
+      "polarroute-controls .            .                granule-metadata "
       ".               .            .                .                "
       "map-measures    .            .                .                "
       "map-controls    map-controls map-controls     map-controls     ";

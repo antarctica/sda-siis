@@ -74,6 +74,7 @@ services:
       SERVICE_API_ENDPOINT: http://localhost:9001
       SERVICE_API_KV_ENDPOINT: http://localhost:9002/kv
       SERVICE_API_OGC_ENDPOINT: http://localhost:8080
+      POLARROUTE_SERVER_ENDPOINT: http://localhost:8000
     ports:
       - "9000:9000"
     depends_on:
