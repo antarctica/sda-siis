@@ -127,6 +127,114 @@
           </vl-style>
         </vl-interaction-draw>
       </template>
+
+      <template v-if="show_polarroute">
+        <!-- Start location selection -->
+        <vl-layer-vector :zIndex=970>
+          <vl-source-vector
+            ref="AppMapPolarRouteStart"
+            ident="polarroute-start-drawing-layer"
+            :features="polarroute_vl_start"
+            @update:features="val => polarroute_vl_start = val.slice(-1)"
+          >
+          <vl-style>
+            <vl-style-circle :radius="5">
+              <vl-style-fill color="#BBDAC0"></vl-style-fill>
+              <vl-style-stroke color="#379245" :width="1"></vl-style-stroke>
+            </vl-style-circle>
+          </vl-style>
+        </vl-source-vector>
+        </vl-layer-vector>
+        <vl-interaction-draw v-if="choose_polarroute_start"
+          type="Point" source="polarroute-start-drawing-layer"
+          v-on:drawstart="polarrouteStartListener"
+          v-on:drawend="$emit('update:choose_polarroute_start', false)"
+          >
+          <vl-style>
+            <vl-style-circle :radius="5">
+              <vl-style-fill color="#BBDAC0"></vl-style-fill>
+              <vl-style-stroke color="#379245" :width="1"></vl-style-stroke>
+            </vl-style-circle>
+          </vl-style>
+        </vl-interaction-draw>
+
+        <!-- End location selection -->
+        <vl-layer-vector :zIndex=980>
+          <vl-source-vector
+            ref="AppMapPolarRouteEnd"
+            ident="polarroute-end-drawing-layer"
+            :features="polarroute_vl_end"
+            @update:features="val => polarroute_vl_end = val.slice(-1)"
+          >
+          <vl-style>
+            <vl-style-circle :radius="5">
+              <vl-style-fill color="#E4ADB3"></vl-style-fill>
+              <vl-style-stroke color="#B10E1E" :width="1"></vl-style-stroke>
+            </vl-style-circle>
+          </vl-style>
+        </vl-source-vector>
+        </vl-layer-vector>
+        <vl-interaction-draw v-if="choose_polarroute_end"
+          type="Point" source="polarroute-end-drawing-layer"
+          v-on:drawstart="polarrouteEndListener"
+          v-on:drawend="$emit('update:choose_polarroute_end', false)"
+          >
+          <vl-style>
+            <vl-style-circle :radius="5">
+              <vl-style-fill color="#E4ADB3"></vl-style-fill>
+              <vl-style-stroke color="#B10E1E" :width="1"></vl-style-stroke>
+            </vl-style-circle>
+          </vl-style>
+        </vl-interaction-draw>
+
+        <!-- fuel-optimised route -->
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+          <vl-source-vector
+          :features="getRouteFeatures(route,'fuel')"
+          >
+          </vl-source-vector>
+          <vl-style>
+            <vl-style-stroke color="#E4ADB3" :width="2"></vl-style-stroke>
+          </vl-style>
+        </vl-layer-vector>
+
+        <!-- time-optimised route -->
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+          <vl-source-vector
+          :features="getRouteFeatures(route,'traveltime')"
+          >
+          </vl-source-vector>
+          <vl-style>
+            <vl-style-stroke color="#379245" :width="2"></vl-style-stroke>
+          </vl-style>
+        </vl-layer-vector>
+
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+          <vl-source-vector
+              :features="getRouteStart(route)"
+            >
+            <vl-style>
+              <vl-style-circle :radius="5">
+              <vl-style-fill color="#BBDAC0"></vl-style-fill>
+              <vl-style-stroke color="#379245" :width="1"></vl-style-stroke>
+              </vl-style-circle>
+            </vl-style>
+          </vl-source-vector>
+        </vl-layer-vector>
+        <vl-layer-vector :zIndex=990 v-for="route in routes.filter((route) => route.show === true)">
+          <vl-source-vector
+              :features="getRouteEnd(route)"
+            >
+            <vl-style>
+              <vl-style-circle :radius="5">
+                <vl-style-fill color="#E4ADB3"></vl-style-fill>
+                <vl-style-stroke color="#B10E1E" :width="1"></vl-style-stroke>
+              </vl-style-circle>
+            </vl-style>
+          </vl-source-vector>
+        </vl-layer-vector>
+
+      </template>
     </vl-map>
 
     <div class="app-map-measures app-panel">
@@ -224,6 +332,8 @@ export default {
       'selected_features': [],
       'value_at_pixel_feature': {},
       'drawn_features': [],
+      'polarroute_vl_start': [],
+      'polarroute_vl_end': [],
       'ship_track': [],
       'draw_feature_listener': null,
       'ship_track_update_frequency': 30000,
@@ -246,12 +356,17 @@ export default {
     'show_measure_tool',
     'show_ship_position',
     'show_ship_track',
+    'show_polarroute',
     'ship_position_lat',
     'ship_position_lon',
     'drawn_feature_reset_count',
     'measure_tool_feature_export_count',
     'measure_tool_max_features',
     'reference_feature',
+    'choose_polarroute_start',
+    'choose_polarroute_end',
+    'polarroute_coords',
+    'routes'
   ],
 
   computed: {
@@ -414,12 +529,42 @@ export default {
     show_ship_track: async function () {
       let _this = this;
       if (this.show_ship_track) {
-        _this.getShipTrack();
+        _this.getShipTrack(); 
         setInterval(async function () {
           await _this.getShipTrack();
         }, this.ship_track_update_frequency);
       }
     },
+    polarroute_coords: {
+      deep: true,
+      handler: function (polarroute_coords) {
+        let _this = this;
+        
+        // no need to transform coords if chosen from map
+        if (polarroute_coords.start.name != null) {
+          // add points chosen by dropdown to the map
+          let coordinates = transform([polarroute_coords.start.lon, polarroute_coords.start.lat], 'EPSG:4326', _this.crs);
+          _this.polarroute_vl_start = [{
+            "geometry": {"coordinates": coordinates, "type": "Point"},
+            "id": null,
+            "properties": null,
+            "type": "Feature"
+          }]
+        }
+
+        // TODO tidy up this logic and reduce duplication
+        if (polarroute_coords.end.name != null) {
+          // add points chosen by dropdown to the map
+          let coordinates = transform([polarroute_coords.end.lon, polarroute_coords.end.lat], 'EPSG:4326', _this.crs);
+          _this.polarroute_vl_end = [{
+            "geometry": {"coordinates": coordinates, "type": "Point"},
+            "id": null,
+            "properties": null,
+            "type": "Feature"
+          }]
+        }
+      }
+      }
   },
 
   methods: {
@@ -701,6 +846,86 @@ export default {
           alert(`WARNING: Route length is over limit for RTZ export (${_this.measure_tool_max_features}) - export disabled.`)
         }
       });
+    },
+    polarrouteStartListener: function(event) {
+      let coordinates = event.feature.values_.geometry.flatCoordinates;
+      let _this = this;
+      let coords_4326 = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
+       _this.polarroute_coords.start = {
+        "name": null,
+        "lat": coords_4326[1],
+        "lon": coords_4326[0]
+       }
+      _this.$emit("update:polarroute_coords", _this.polarroute_coords);
+    },
+    polarrouteEndListener: function(event) {
+      // TODO tidy up this logic and reduce duplication
+      let coordinates = event.feature.values_.geometry.flatCoordinates;
+      let _this = this;
+      let coords_4326 = transform([coordinates[0], coordinates[1]], _this.crs, 'EPSG:4326');
+       _this.polarroute_coords.end = {
+        "name": null,
+        "lat": coords_4326[1],
+        "lon": coords_4326[0]
+       }
+      _this.$emit("update:polarroute_coords", _this.polarroute_coords);
+    },
+    /**
+     * 
+     * @param route array of route objects
+     * @param optimised one of "traveltime" or "fuel"
+     */
+    getRouteFeatures: function(route, optimised) {
+      let features = [];
+      let _this = this;
+      let route_json = null;
+      if (route.hasOwnProperty('json')) {
+        if (route.json != null){
+          route_json = JSON.parse(JSON.stringify(route.json));
+        }
+      }else if (route.hasOwnProperty('json_unsmoothed')){
+        if (route.json_unsmoothed != null){
+          route_json = JSON.parse(JSON.stringify(route.json_unsmoothed));
+        }
+      }
+
+      if (route_json != null){
+        let route_optimised = route_json.filter((r) => r[0]['features'][0]['properties']['objective_function'] == optimised)
+        features = JSON.parse(JSON.stringify(route_optimised[0][0]['features']));
+      }
+
+      if (features.length > 0) {
+        let transformed_coordinates = []
+        for (let coordinate of features[0]['geometry']['coordinates']) {
+          let transformed_coordinate = transform(coordinate, 'EPSG:4326', _this.crs);
+          transformed_coordinates.push(transformed_coordinate);
+        }
+        features[0]['geometry']['coordinates'] = transformed_coordinates;
+      }
+      return features
+    },
+    getRouteStart: function(route) {
+      let full_route = this.getRouteFeatures(route,"traveltime");
+      return [{
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": full_route[0].geometry.coordinates[0],
+          "type": "Point"
+          }
+        }];
+    },
+    getRouteEnd: function(route) {
+      let full_route = this.getRouteFeatures(route,"traveltime");
+      let coordinates = full_route[0].geometry.coordinates;
+      return [{
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": coordinates[coordinates.length - 1],
+          "type": "Point"
+          }
+        }];
     },
     exportDrawnFeature: function() {
       if (Object.keys(this.drawn_feature).length === 0) {
