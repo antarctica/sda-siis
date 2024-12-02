@@ -71,7 +71,7 @@ const mapRotationStyle = sva({
   },
 });
 
-function MapRotationToggleGroup() {
+function MapRotationToggleGroup({ crs }: { crs: MapCRS }) {
   const [value, setValue] = React.useState<MapRotation>(MapRotation.PR_UP);
   const { isVisible } = useShipPositionWithVisibility();
 
@@ -87,7 +87,7 @@ function MapRotationToggleGroup() {
           const correctedHeading = calculateCorrectedHeading(
             { latitude: latitude ?? 0, longitude: longitude ?? 0 },
             shipHeading?.heading ?? 0,
-            MapCRS.ANTARCTIC,
+            crs,
           );
           rotation = -correctedHeading;
           break;
@@ -96,10 +96,14 @@ function MapRotationToggleGroup() {
           rotation = 0;
           break;
         case MapRotation.LN_UP:
-          rotation = -calculateProjectedBearingToPole(
-            { latitude: latitude ?? 0, longitude: longitude ?? 0 },
-            MapCRS.ANTARCTIC,
-          );
+          if (crs === MapCRS.MERCATOR) {
+            rotation = 0;
+          } else {
+            rotation = -calculateProjectedBearingToPole(
+              { latitude: latitude ?? 0, longitude: longitude ?? 0 },
+              crs,
+            );
+          }
           break;
       }
 
@@ -109,7 +113,7 @@ function MapRotationToggleGroup() {
           mapView.rotation = rotation;
         });
     },
-    [mapView, shipHeading, latitude, longitude],
+    [mapView, shipHeading, latitude, longitude, crs],
   );
 
   const getSlidePosition = () => {
