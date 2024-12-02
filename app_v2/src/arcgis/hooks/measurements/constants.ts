@@ -11,7 +11,7 @@ export const DEFAULT_TEXT_SYMBOL_PROPS: __esri.TextSymbolProperties = {
   color: 'black',
   font: {
     family: 'Arial',
-    size: 9,
+    size: 10,
   },
   haloColor: 'white',
   haloSize: 1,

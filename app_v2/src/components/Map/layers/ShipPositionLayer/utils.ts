@@ -71,7 +71,7 @@ export function getShipSymbol(
  * @param {MapCRS} mapCRS - The map's coordinate reference system.
  * @param {number} scale - The current map scale.
  */
-export function setOrUpdateShipGraphic(
+export function setOrUpdateShipPositionGraphic(
   graphicsLayer: __esri.GraphicsLayer,
   position: { latitude: number; longitude: number },
   heading: number,
@@ -105,29 +105,56 @@ export function setOrUpdateShipGraphic(
 
 const SHIP_BUFFER_GRAPHIC_ID_PREFIX = 'ship-buffer-graphic';
 
-export function setOrUpdateShipBufferGraphics(
-  featureLayer: __esri.FeatureLayer,
+/**
+ * Deletes buffer graphics when speed is zero.
+ */
+async function deleteBufferGraphics(featureLayer: __esri.FeatureLayer): Promise<void> {
+  const result = await featureLayer.queryFeatures({
+    where: `${REF_ID_ATTRIBUTE} LIKE '${SHIP_BUFFER_GRAPHIC_ID_PREFIX}%'`,
+  });
+  await featureLayer.applyEdits({ deleteFeatures: result.features });
+}
+
+/**
+ * Deletes duplicate buffer graphics.
+ */
+async function deleteDuplicateBufferGraphics(featureLayer: __esri.FeatureLayer): Promise<void> {
+  const result = await featureLayer.queryFeatures({
+    where: `${REF_ID_ATTRIBUTE} LIKE '${SHIP_BUFFER_GRAPHIC_ID_PREFIX}%'`,
+  });
+
+  const groupedFeatures = result.features.reduce(
+    (acc, feature) => {
+      const refId = feature.getAttribute(REF_ID_ATTRIBUTE);
+      if (!acc[refId]) {
+        acc[refId] = [];
+      }
+      acc[refId].push(feature);
+      return acc;
+    },
+    {} as Record<string, __esri.Graphic[]>,
+  );
+
+  const featuresToDelete = Object.values(groupedFeatures)
+    .filter((group) => group.length > 1)
+    .flatMap((group) => group.slice(1));
+
+  if (featuresToDelete.length > 0) {
+    await featureLayer.applyEdits({ deleteFeatures: featuresToDelete });
+  }
+}
+
+/**
+ * Creates buffer graphics based on speed and time intervals.
+ */
+function createBufferGraphics(
   position: { latitude: number; longitude: number },
   speed: number,
-) {
-  if (speed === 0) {
-    //remove all buffer graphics
-    featureLayer
-      .queryFeatures({
-        where: `${REF_ID_ATTRIBUTE} LIKE '${SHIP_BUFFER_GRAPHIC_ID_PREFIX}%'`,
-      })
-      .then((result) => {
-        featureLayer.applyEdits({ deleteFeatures: result.features });
-      });
-    return;
-  }
-
-  const timeIntervals = [12, 24, 36, 60, 180]; // in minutes
-
-  const bufferGraphics = timeIntervals
+): Graphic[] {
+  const timeIntervals = [12, 24, 36, 60, 180];
+  return timeIntervals
     .map((minutes) => {
-      const distance = (speed / 60) * minutes; // Convert speed to nm per minute and multiply by minutes
-
+      const distance = (speed / 60) * minutes;
       const bufferPolygon = geodesicBufferOperator.execute(new Point(position), distance, {
         unit: 'nautical-miles',
       });
@@ -155,45 +182,67 @@ export function setOrUpdateShipBufferGraphics(
         geometry: boundaryPolyline,
       });
     })
-    .filter((g) => g !== null);
+    .filter((g) => g !== null) as Graphic[];
+}
 
-  featureLayer
-    .queryFeatures({
-      where: `${REF_ID_ATTRIBUTE} LIKE '${SHIP_BUFFER_GRAPHIC_ID_PREFIX}%'`,
-    })
-    .then((result) => {
-      if (result.features.length > 0) {
-        // Update existing buffer graphics
-        const updateFeatures = bufferGraphics.map((newGraphic) => {
-          const existingFeature = result.features.find(
-            (f) => f.getAttribute(REF_ID_ATTRIBUTE) === newGraphic.getAttribute(REF_ID_ATTRIBUTE),
-          );
-          if (existingFeature) {
-            existingFeature.geometry = newGraphic.geometry;
-            existingFeature.attributes = {
-              ObjectID: existingFeature.getObjectId(),
-              ...existingFeature.attributes,
-            };
-            return existingFeature;
-          }
-          return newGraphic;
-        });
+/**
+ * Updates or adds buffer graphics to the feature layer.
+ */
+async function updateOrAddBufferGraphics(
+  featureLayer: __esri.FeatureLayer,
+  bufferGraphics: Graphic[],
+): Promise<void> {
+  const result = await featureLayer.queryFeatures({
+    where: `${REF_ID_ATTRIBUTE} LIKE '${SHIP_BUFFER_GRAPHIC_ID_PREFIX}%'`,
+  });
 
-        featureLayer.applyEdits({
-          updateFeatures,
-          addFeatures: updateFeatures.filter(
-            (f) =>
-              !result.features.some(
-                (existingF) =>
-                  existingF.getAttribute(REF_ID_ATTRIBUTE) === f.getAttribute(REF_ID_ATTRIBUTE),
-              ),
-          ),
-        });
-      } else {
-        // Add new buffer graphics
-        featureLayer.applyEdits({
-          addFeatures: bufferGraphics,
-        });
-      }
-    });
+  const updateFeatures = bufferGraphics.map((newGraphic) => {
+    const existingFeature = result.features.find(
+      (f) => f.getAttribute(REF_ID_ATTRIBUTE) === newGraphic.getAttribute(REF_ID_ATTRIBUTE),
+    );
+    if (existingFeature) {
+      existingFeature.geometry = newGraphic.geometry;
+      existingFeature.attributes = {
+        ObjectID: existingFeature.getObjectId(),
+        ...newGraphic.attributes,
+      };
+      return existingFeature;
+    }
+    return newGraphic;
+  });
+
+  await featureLayer.applyEdits({
+    updateFeatures: updateFeatures.filter((f) =>
+      result.features.some(
+        (existingF) =>
+          existingF.getAttribute(REF_ID_ATTRIBUTE) === f.getAttribute(REF_ID_ATTRIBUTE),
+      ),
+    ),
+    addFeatures: updateFeatures.filter(
+      (f) =>
+        !result.features.some(
+          (existingF) =>
+            existingF.getAttribute(REF_ID_ATTRIBUTE) === f.getAttribute(REF_ID_ATTRIBUTE),
+        ),
+    ),
+  });
+}
+
+/**
+ * Sets or updates the ship buffer graphics on the map.
+ */
+export async function setOrUpdateShipBufferGraphics(
+  featureLayer: __esri.FeatureLayer,
+  position: { latitude: number; longitude: number },
+  speed: number,
+): Promise<void> {
+  if (speed === 0) {
+    await deleteBufferGraphics(featureLayer);
+    return;
+  }
+
+  await deleteDuplicateBufferGraphics(featureLayer);
+
+  const bufferGraphics = createBufferGraphics(position, speed);
+  await updateOrAddBufferGraphics(featureLayer, bufferGraphics);
 }

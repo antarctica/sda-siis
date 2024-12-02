@@ -1,7 +1,8 @@
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
 import React from 'react';
 
-import { useGraphicsLayer } from './useLayer';
+import { useLayerView } from './useLayerView';
 import { useArcState } from './useWatchEffect';
 
 type ActiveSketchTools = SketchViewModel['activeTool'];
@@ -25,11 +26,12 @@ export function useDrawSingleGraphic(
   graphicId: string,
   options?: DrawSingleGraphicOptions,
 ) {
-  const { layer: graphicsLayer } = useGraphicsLayer(
+  const { layer: graphicsLayer } = useLayerView<__esri.GraphicsLayer, __esri.GraphicsLayerView>(
     mapView,
-    options?.graphicsLayer ?? {
-      listMode: 'hide',
-    },
+    options?.graphicsLayer ??
+      new GraphicsLayer({
+        listMode: 'hide',
+      }),
   );
   const graphicRef = React.useRef<__esri.Graphic | undefined>();
 
