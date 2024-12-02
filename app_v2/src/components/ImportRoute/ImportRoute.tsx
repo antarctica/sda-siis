@@ -1,10 +1,9 @@
 import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer';
 import { geojsonToArcGIS } from '@terraformer/arcgis';
-import * as React from 'react';
 import { FileTrigger } from 'react-aria-components';
 
 import { convertRTZPToGeoJSON } from '@/api/api';
-import { useSIISMapView } from '@/hooks/useMap';
+import { useSIISMapView } from '@/hooks/useSIISMapView';
 
 import { Button } from '../common/Button';
 

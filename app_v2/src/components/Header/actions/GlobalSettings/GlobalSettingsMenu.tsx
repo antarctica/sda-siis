@@ -3,12 +3,12 @@ import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import { DialogTrigger, NumberFieldProps } from 'react-aria-components';
 
-import { MeasurementUnit } from '@/arcgis/hooks/measurements/types';
 import NumberField from '@/components/common/forms/NumberField';
 import PopoverMenu from '@/components/common/PopoverMenu';
 import { Select } from '@/components/common/Select';
 import SvgIcon from '@/components/common/SvgIcon';
 import Typography, { Heading } from '@/components/common/Typography';
+import { MeasurementUnit } from '@/features/arcgis/hooks/measurements/types';
 import {
   selectDefaultLatLonFormat,
   selectDefaultMeasurementUnit,

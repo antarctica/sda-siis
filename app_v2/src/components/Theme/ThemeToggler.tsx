@@ -1,6 +1,7 @@
-import { SidebarButton } from '../Sidebar/actions/SidebarButton';
+import { SidebarButton } from '@/components/Sidebar/actions/SidebarButton';
+import { useTheme } from '@/contexts/Theme/useTheme';
+
 import { DarkModeSwitch } from './DarkModeSwitch';
-import { useTheme } from './useTheme';
 
 export function ThemeToggler({ isCollapsed }: { isCollapsed: boolean }) {
   const { currentTheme, toggleTheme } = useTheme();

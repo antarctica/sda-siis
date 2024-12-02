@@ -3,8 +3,8 @@ import { css } from '@styled-system/css';
 import { Divider, Flex } from '@styled-system/jsx';
 import { Toolbar } from 'react-aria-components';
 
-import { useCurrentMapView } from '@/arcgis/hooks';
 import { IconButton } from '@/components/common/Button';
+import { useCurrentMapView } from '@/features/arcgis/hooks';
 import { useShipPositionWithVisibility } from '@/hooks/useShipPositionWithVisibility';
 import {
   selectFollowShip,

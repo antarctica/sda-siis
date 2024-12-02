@@ -1,7 +1,7 @@
-import { useWatchState } from '@/arcgis/hooks';
 import DataGrid from '@/components/common/DataGrid';
+import { useWatchState } from '@/features/arcgis/hooks';
 import { useFormatNumber } from '@/hooks/useFormatNumber';
-import { useSIISMapView } from '@/hooks/useMap';
+import { useSIISMapView } from '@/hooks/useSIISMapView';
 
 const SPATIAL_REFERENCE_NAMES: Record<string, string> = {
   '3857': 'WGS 1984 Web Mercator',

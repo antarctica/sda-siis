@@ -6,10 +6,10 @@ import React from 'react';
 
 import { IconButton } from '@/components/common/Button';
 
+import MobileDialog from '../common/MobileDialog';
 import SvgIcon from '../common/SvgIcon';
 import { Heading } from '../common/Typography';
 import { Title } from '../Header/Title';
-import MobileDialog from '../common/MobileDialog';
 import { SidebarButton } from '../Sidebar/actions/SidebarButton';
 import { useSidebarItems } from '../Sidebar/SidebarHooks';
 import { SidebarContext } from '../Sidebar/SideBarProvider';

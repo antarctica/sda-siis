@@ -1,4 +1,4 @@
-import { useResetLayers } from '@/components/LayerManager/hooks/useResetLayers';
+import { useResetLayers } from '@/features/mapLayers/components/LayerManager/hooks/useResetLayers';
 import { reset as resetShipAppState } from '@/store/features/shipSlice';
 import { useAppDispatch } from '@/store/hooks';
 

@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { MeasurementUnit } from '@/arcgis/hooks/measurements/types';
+import { MeasurementUnit } from '@/features/arcgis/hooks/measurements/types';
 import { LatLonFormat } from '@/types';
 
 import { RootState } from '..';

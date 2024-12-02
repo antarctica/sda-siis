@@ -1,5 +1,5 @@
-import { ArcViewContext } from '@/arcgis/ArcView/ArcViewContext/ArcViewContext';
-import { ArcInternalViewProvider } from '@/arcgis/ArcView/InternalViewContext/ArcInternalViewProvider';
+import { ArcViewContext } from '@/features/arcgis/contexts/ArcViewContext/ArcViewContext';
+import { ArcInternalViewProvider } from '@/features/arcgis/contexts/InternalViewContext/ArcInternalViewProvider';
 
 export const withInternalViewProvider = ({
   mapView,

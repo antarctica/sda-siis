@@ -15,11 +15,11 @@ import {
 } from 'react-aria-components';
 import { useListData } from 'react-stately';
 
+import { SelectionMenu } from '@/components/common/SelectionMenu';
 import {
   DrawSingleGraphicOptions,
   useDrawSingleGraphic,
-} from '@/arcgis/hooks/useDrawSingleGraphic';
-import { SelectionMenu } from '@/components/common/SelectionMenu';
+} from '@/features/arcgis/hooks/useDrawSingleGraphic';
 import { detectCoordinateFormat, DisplayFormat, formatCoordinate } from '@/utils/formatCoordinates';
 
 import { IconButton } from '../../Button';

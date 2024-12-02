@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-aria-components';
 
-import { PanelTab } from '../Sidebar/types';
+import { PanelTab } from '@/components/Sidebar/types';
+
 import { PanelHeader } from './header/Header';
 import { panelStyles } from './panelRecipe';
 

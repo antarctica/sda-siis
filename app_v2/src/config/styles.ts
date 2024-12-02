@@ -1,6 +1,6 @@
 import Color from '@arcgis/core/Color';
 
-import { LabelledGraticuleLayerProperties } from '@/components/Map/layers/GraticuleLayer/LabelledGraticuleLayerClass';
+import { LabelledGraticuleLayerProperties } from '@/features/Map/layers/GraticuleLayer/LabelledGraticuleLayerClass';
 
 export const GRATICULE_LIGHT_STYLE: LabelledGraticuleLayerProperties['graticuleStyle'] = {
   line: {
