@@ -1,6 +1,6 @@
 import ZoomVM from '@arcgis/core/widgets/Zoom/ZoomViewModel';
 import { css } from '@styled-system/css';
-import { Divider, Flex } from '@styled-system/jsx';
+import { Divider, Stack } from '@styled-system/jsx';
 import * as React from 'react';
 
 import { useCurrentMapView, useWatchState } from '@/arcgis/hooks';
@@ -15,8 +15,8 @@ function ZoomControl() {
   const canZoomOut = useWatchState(() => widget.canZoomOut) ?? false;
 
   return (
-    <Flex
-      direction="column"
+    <Stack
+      gap={'0'}
       className={css({
         boxShadow: 'md',
         bg: 'bg.base',
@@ -24,6 +24,7 @@ function ZoomControl() {
         borderWidth: 'thin',
         borderRadius: 'md',
         w: 'fit',
+        pointerEvents: 'auto',
       })}
     >
       <MapButton
@@ -51,7 +52,7 @@ function ZoomControl() {
           borderTopRadius: 'radii.none',
         })}
       />
-    </Flex>
+    </Stack>
   );
 }
 

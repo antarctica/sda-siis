@@ -50,6 +50,7 @@ function SensorInfo() {
     <div
       className={css({
         position: 'relative',
+        pointerEvents: 'auto',
       })}
     >
       <MapButton

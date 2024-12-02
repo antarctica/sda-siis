@@ -15,6 +15,7 @@ function SensorInfoPanel() {
         bg: 'bg.base',
         shadow: 'md',
         width: '[22rem]',
+        pointerEvents: 'auto',
       })}
     >
       <Box p="2">

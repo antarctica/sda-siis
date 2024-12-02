@@ -32,6 +32,7 @@ const mapRotationStyle = sva({
       position: 'relative',
       overflow: 'hidden',
       w: '16',
+      pointerEvents: 'auto',
     },
     item: {
       py: '2',

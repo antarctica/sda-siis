@@ -1,7 +1,7 @@
 import { SpatialReference } from '@arcgis/core/geometry';
 import { ArcgisPlacement } from '@arcgis/map-components-react';
-import { cva } from '@styled-system/css';
-import { Box, Flex } from '@styled-system/jsx';
+import { css, cva } from '@styled-system/css';
+import { Box, Flex, Stack } from '@styled-system/jsx';
 
 import { ArcMapView } from '@/arcgis/ArcView/ArcMapView';
 import { CRS_LOOKUP, MAP_ID } from '@/config/constants';
@@ -62,11 +62,14 @@ export function Map({ crs }: { crs: MapCRS }) {
           center={CRS_LOOKUP[crs].center}
         >
           {!isMobile && (
-            <ArcgisPlacement position="bottom-right">
-              <Flex direction={'column'} gap={'4'} align={'end'}>
+            <ArcgisPlacement
+              position="bottom-right"
+              className={css({ pointerEvents: '[none !important]' })}
+            >
+              <Stack gap={'4'} align={'end'}>
                 <MapRotationControl crs={crs} />
                 <ZoomControl />
-              </Flex>
+              </Stack>
             </ArcgisPlacement>
           )}
           <ArcgisPlacement position="top-right">

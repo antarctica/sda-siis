@@ -28,6 +28,7 @@ const cursorLocationControlStyle = sva({
       boxShadow: 'md',
       borderColor: 'bg.base.border',
       borderWidth: 'thin',
+      pointerEvents: 'auto',
     },
     format: {
       color: 'fg.accent',

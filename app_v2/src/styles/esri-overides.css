@@ -1,7 +1,8 @@
 
 .esri-ui-inner-container .esri-component{
-    box-shadow:none !important
-  }
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
 
 .esri-legend__layer-caption {
   display: none;
