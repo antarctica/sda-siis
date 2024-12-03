@@ -101,6 +101,9 @@ export function useMeasureLine(
     measurementGraphicsLayer,
     internalMeasurementGroupId,
     sketchVM,
+    mapView,
+    unit ?? DEFAULT_UNIT,
+    options?.textSymbol ?? DEFAULT_TEXT_SYMBOL_PROPS,
   );
 
   // Handle map rotation updates for label positioning

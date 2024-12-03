@@ -39,6 +39,7 @@ export function SelectProjection() {
 
   return (
     <StaticSelectionMenu
+      label="Select Projection"
       items={items}
       onSelect={updateCRS}
       defaultSelectedItemId={currentCRS}

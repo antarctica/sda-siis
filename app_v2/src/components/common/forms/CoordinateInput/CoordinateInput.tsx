@@ -230,6 +230,7 @@ function CoordinateSelectionMenu({
 
   return (
     <SelectionMenu
+      label="Select Coordinate Format"
       className={css({ w: '80' })}
       listData={listData}
       onSelect={(value) => {

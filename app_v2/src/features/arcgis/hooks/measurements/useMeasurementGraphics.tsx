@@ -3,8 +3,8 @@ import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
 import React from 'react';
 
 import { isMeasurementLine } from './typeGuards';
-import { LineGraphic, MeasurementLineAttributes } from './types';
-import { removeSegmentLabelGraphics } from './utils';
+import { LineGraphic, MeasurementLineAttributes, MeasurementUnit } from './types';
+import { removeSegmentLabelGraphics, updateLineGraphicMeasurements } from './utils';
 
 type MeasurementItem = {
   id: string;
@@ -16,6 +16,9 @@ export function useMeasurementGraphics(
   measurementGraphicsLayer: __esri.GraphicsLayer,
   internalMeasurementGroupId: string,
   sketchVM: SketchViewModel,
+  mapView: __esri.MapView,
+  unit: MeasurementUnit,
+  textSymbol: __esri.TextSymbolProperties,
 ): [MeasurementItem[], React.Dispatch<React.SetStateAction<MeasurementItem[]>>] {
   const [measurements, setMeasurements] = React.useState<MeasurementItem[]>(() => {
     const controlledGraphics = measurementGraphicsLayer.graphics
@@ -25,6 +28,10 @@ export function useMeasurementGraphics(
           graphic.getAttribute('measurementGroupId') === internalMeasurementGroupId,
       )
       .toArray() as LineGraphic<MeasurementLineAttributes>[];
+
+    controlledGraphics.forEach((graphic) => {
+      updateLineGraphicMeasurements(graphic, mapView, measurementGraphicsLayer, unit, textSymbol);
+    });
 
     return controlledGraphics.map((graphic) => ({
       id: graphic.attributes.lineId,

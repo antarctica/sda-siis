@@ -21,6 +21,7 @@ interface SelectionMenuProps<T> {
   defaultSelectedItemId?: Key;
   trigger: React.ReactNode;
   className?: string;
+  label: string;
 }
 
 export function SelectionMenu<T>({
@@ -28,6 +29,7 @@ export function SelectionMenu<T>({
   onSelect,
   trigger,
   className,
+  label,
 }: SelectionMenuProps<T>) {
   const [open, setOpen] = React.useState(false);
 
@@ -56,6 +58,7 @@ export function SelectionMenu<T>({
           className={css({
             outline: 'none',
           })}
+          aria-label={label}
           items={listData.items}
           selectionMode="single"
           selectionBehavior="toggle"
@@ -75,7 +78,7 @@ export function SelectionMenu<T>({
           }}
         >
           {(item) => (
-            <ListBoxItem key={item.id} id={item.id}>
+            <ListBoxItem key={item.id} id={item.id} aria-label={item.label}>
               <Flex verticalAlign={'middle'} display={'inline-flex'} gap={'2'}>
                 {item.icon && (
                   <SvgIcon
@@ -105,11 +108,12 @@ export function StaticSelectionMenu<T>({
   onSelect,
   defaultSelectedItemId,
   trigger,
+  label,
 }: StaticSelectionMenuProps<T>) {
   const listData = useListData({
     initialItems: items,
     initialSelectedKeys: defaultSelectedItemId ? [defaultSelectedItemId] : undefined,
     getKey: (item) => item.id,
   });
-  return <SelectionMenu listData={listData} onSelect={onSelect} trigger={trigger} />;
+  return <SelectionMenu listData={listData} onSelect={onSelect} trigger={trigger} label={label} />;
 }

@@ -1,14 +1,21 @@
-import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer';
+import Graphic from '@arcgis/core/Graphic';
+import { SimpleLineSymbol } from '@arcgis/core/symbols';
 import { geojsonToArcGIS } from '@terraformer/arcgis';
 import { FileTrigger } from 'react-aria-components';
 
 import { convertRTZPToGeoJSON } from '@/api/api';
-import { useSIISMapView } from '@/hooks/useSIISMapView';
+import { useLayerView } from '@/features/arcgis/hooks/useLayerView';
 
 import { Button } from '../common/Button';
 
-function ImportRoute() {
-  const mapView = useSIISMapView();
+function ImportRoute({
+  graphicsLayer,
+  mapView,
+}: {
+  graphicsLayer: __esri.GraphicsLayer;
+  mapView: __esri.MapView;
+}) {
+  useLayerView(mapView, graphicsLayer);
   const onSelect = (files: FileList | null) => {
     if (!files || files.length === 0) {
       return;
@@ -24,23 +31,16 @@ function ImportRoute() {
       return;
     }
     convertRTZPToGeoJSON(file).then((data) => {
-      const arcgisFeatureJSON = geojsonToArcGIS({
-        type: 'FeatureCollection',
-        features: [data as GeoJSON.Feature],
-      });
-      console.log(arcgisFeatureJSON);
+      const arcgisFeatureJSON = geojsonToArcGIS(data as GeoJSON.Feature);
 
-      const featureCollection = {
-        type: 'FeatureCollection',
-        features: [data],
-      };
-      const dataBlob = new Blob([JSON.stringify(featureCollection)], { type: 'application/json' });
-
-      if (!mapView) return;
-      const geojsonLayer = new GeoJSONLayer({
-        url: URL.createObjectURL(dataBlob),
+      const featureGraphic = Graphic.fromJSON(arcgisFeatureJSON);
+      featureGraphic.symbol = new SimpleLineSymbol({
+        color: [255, 0, 0],
+        width: 4,
       });
-      mapView.map.add(geojsonLayer);
+
+      graphicsLayer.removeAll();
+      graphicsLayer.addMany([featureGraphic]);
     });
   };
 

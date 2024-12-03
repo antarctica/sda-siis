@@ -1,5 +1,6 @@
 import { Point } from '@arcgis/core/geometry';
 import * as geodeticDistanceOperator from '@arcgis/core/geometry/operators/geodeticDistanceOperator.js';
+import { project } from '@arcgis/core/geometry/projection';
 import Graphic from '@arcgis/core/Graphic';
 import { TextSymbol } from '@arcgis/core/symbols';
 
@@ -448,6 +449,11 @@ export function updateLineGraphicMeasurements(
     segmentIndex?: number;
   },
 ) {
+  if (graphic.geometry.spatialReference !== mapView.spatialReference) {
+    const lineInMapViewProjection = project(graphic.geometry, mapView.spatialReference);
+    graphic.geometry = lineInMapViewProjection as __esri.Polyline;
+  }
+
   const { totalDistance } = updateSegmentLabelGraphics(
     mapView,
     layer,

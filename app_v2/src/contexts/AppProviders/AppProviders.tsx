@@ -10,19 +10,23 @@ import { ArcViewProvider } from '@/features/arcgis/contexts/ArcViewContext/ArcVi
 import { LayerManagerProvider } from '@/features/layersManagement/components/LayerManager/LayerManagerProvider';
 import store from '@/store';
 
+import { MapInteractionLayersProvider } from '../MapInteractionLayers';
+
 export const Providers = React.memo(({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <I18nProvider locale={'en-GB'}>
         <ReduxProvider store={store}>
           <ThemeProvider>
-            <GeometryToolsLoader>
-              <ArcViewProvider>
-                <LayerManagerProvider>
-                  <SideBarProvider items={appPanels}>{children}</SideBarProvider>
-                </LayerManagerProvider>
-              </ArcViewProvider>
-            </GeometryToolsLoader>
+            <MapInteractionLayersProvider>
+              <GeometryToolsLoader>
+                <ArcViewProvider>
+                  <LayerManagerProvider>
+                    <SideBarProvider items={appPanels}>{children}</SideBarProvider>
+                  </LayerManagerProvider>
+                </ArcViewProvider>
+              </GeometryToolsLoader>
+            </MapInteractionLayersProvider>
           </ThemeProvider>
         </ReduxProvider>
       </I18nProvider>
