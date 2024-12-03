@@ -4,7 +4,7 @@ import { css, cva } from '@styled-system/css';
 import { Box, Flex, Stack } from '@styled-system/jsx';
 
 import { MAP_ID } from '@/config/constants';
-import { CRS_LOOKUP } from '@/config/map';
+import { CRS_LOOKUP, validateExtentInCRS } from '@/config/map';
 import { ArcMapView } from '@/features/arcgis/components/ArcView/ArcMapView';
 import useIsMobile from '@/hooks/useIsMobile';
 import { MapCRS } from '@/types';
@@ -39,9 +39,11 @@ const mapStyles = cva({
   },
 });
 
-export function Map({ crs }: { crs: MapCRS }) {
+export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esri.Extent }) {
   const map = useMapInitialization(crs);
   const isMobile = useIsMobile();
+
+  const validatedExtent = initialExtent ? validateExtentInCRS(initialExtent, crs) : undefined;
 
   return (
     <Box w={'full'} h={'full'} position={'relative'} className={mapStyles()}>
@@ -60,7 +62,8 @@ export function Map({ crs }: { crs: MapCRS }) {
           onArcgisViewReadyChange={(event) => {
             console.debug('onArcgisViewReadyChange', event.target.view);
           }}
-          center={CRS_LOOKUP[crs].center}
+          extent={validatedExtent}
+          center={validatedExtent ? undefined : CRS_LOOKUP[crs].center}
         >
           {!isMobile && (
             <ArcgisPlacement

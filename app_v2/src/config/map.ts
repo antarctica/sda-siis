@@ -1,5 +1,7 @@
-import { Extent, Point, Polygon } from '@arcgis/core/geometry';
-import * as geometryEngine from '@arcgis/core/geometry/geometryEngine';
+import { Extent, Point, Polygon, SpatialReference } from '@arcgis/core/geometry';
+import * as intersectsOperator from '@arcgis/core/geometry/operators/intersectsOperator.js';
+import * as withinOperator from '@arcgis/core/geometry/operators/withinOperator.js';
+import { project } from '@arcgis/core/geometry/projection';
 
 import { MapCRS } from '@/types';
 import { generateCircleRings } from '@/utils/mapUtils';
@@ -15,7 +17,20 @@ export function getDefaultCRSForLatitude(latitude: number): MapCRS {
 
 export function isPointVisibleInCRS(point: Point, crs: MapCRS): boolean {
   const extentConstraint = CRS_LOOKUP[crs].extentConstraint;
-  return geometryEngine.contains(extentConstraint, point);
+  return withinOperator.execute(point, extentConstraint);
+}
+
+export function validateExtentInCRS(extent: Extent, crs: MapCRS): Extent | undefined {
+  const extentInCRS = project(extent, new SpatialReference({ wkid: CRS_LOOKUP[crs].wkid })) as
+    | Extent
+    | undefined;
+
+  if (!extentInCRS) {
+    return undefined;
+  }
+
+  const extentConstraint = CRS_LOOKUP[crs].extentConstraint;
+  return intersectsOperator.execute(extentInCRS, extentConstraint) ? extentInCRS : undefined;
 }
 
 export const CRS_LOOKUP: Record<

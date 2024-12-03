@@ -1,11 +1,12 @@
-import { useShipHeading, useShipPosition, useShipSpeed } from '@/api/useShipSensorData';
+import { useShipHeading, useShipSpeed } from '@/api/useShipSensorData';
+import { useShipPositionWithVisibility } from '@/hooks/useShipPositionWithVisibility';
 import { MapCRS } from '@/types';
 
 import { ShipBufferGraphic } from './ShipBufferGraphic';
 import { ShipLocationGraphic } from './ShipLocationGraphic';
 
 function ShipPositionLayer({ crs }: { crs: MapCRS }) {
-  const { latitude, longitude } = useShipPosition();
+  const { latitude, longitude, isVisible } = useShipPositionWithVisibility();
   const { heading } = useShipHeading();
   const { speed } = useShipSpeed();
   const shipPosition = latitude && longitude ? { latitude, longitude } : null;
@@ -14,7 +15,12 @@ function ShipPositionLayer({ crs }: { crs: MapCRS }) {
 
   return (
     <>
-      <ShipLocationGraphic position={shipPosition} shipHeading={heading} mapCRS={crs} />
+      <ShipLocationGraphic
+        position={shipPosition}
+        visible={isVisible}
+        shipHeading={heading}
+        mapCRS={crs}
+      />
       <ShipBufferGraphic position={shipPosition} speed={speed} crs={crs} />
     </>
   );

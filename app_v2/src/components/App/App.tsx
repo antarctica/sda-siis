@@ -5,7 +5,7 @@ import { Flex } from '@styled-system/jsx';
 import { Providers } from '@/contexts/AppProviders/AppProviders';
 import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';
-import { selectCurrentCRS } from '@/store/features/projectionSlice';
+import { selectCurrentCRS, selectPreviousExtent } from '@/store/features/projectionSlice';
 import { useAppSelector } from '@/store/hooks';
 
 import { Map } from '../../features/map/Map';
@@ -17,6 +17,7 @@ function AppContent() {
   const isMobile = useIsMobile();
   useInitialCRS();
   const crs = useAppSelector(selectCurrentCRS);
+  const previousExtent = useAppSelector(selectPreviousExtent);
 
   if (!crs) {
     return null;
@@ -27,7 +28,7 @@ function AppContent() {
       <Header />
       <Flex w={'full'} flexGrow={1} minH={'0'}>
         {isMobile ? <Drawer /> : <Sidebar />}
-        <Map key={crs} crs={crs} />
+        <Map key={crs} crs={crs} initialExtent={previousExtent} />
       </Flex>
     </Flex>
   );

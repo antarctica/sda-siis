@@ -27,12 +27,10 @@ export const shipSlice = createSlice({
     setSensorInfoPanelOpen: (state, action: PayloadAction<boolean>) => {
       state.sensorInfoPanelOpen = action.payload;
     },
-    reset: (state) => ({ ...initialState, sensorInfoPanelOpen: state.sensorInfoPanelOpen }),
   },
 });
 
-export const { setFollowShip, setSensorInfoPanelOpen, reset, setShowDistanceCircles } =
-  shipSlice.actions;
+export const { setFollowShip, setSensorInfoPanelOpen, setShowDistanceCircles } = shipSlice.actions;
 
 const selectShipState = (state: RootState) => state.ship;
 export const selectFollowShip = createSelector(selectShipState, (state) => state.followShip);

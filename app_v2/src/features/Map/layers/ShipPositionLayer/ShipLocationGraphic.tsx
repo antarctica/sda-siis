@@ -17,10 +17,12 @@ const shipPositionGraphicsLayer = new GraphicsLayer({
 
 export function ShipLocationGraphic({
   position,
+  visible,
   shipHeading,
   mapCRS,
 }: {
   position: { latitude: number; longitude: number } | null;
+  visible: boolean;
   shipHeading: number | null;
   mapCRS: MapCRS;
 }) {
@@ -36,7 +38,7 @@ export function ShipLocationGraphic({
   React.useEffect(() => {
     if (!position || !currentMapView) return;
 
-    if (followShip) {
+    if (followShip && visible) {
       const target = new Point(position);
       currentMapView.goTo({ target });
     }
@@ -49,7 +51,7 @@ export function ShipLocationGraphic({
       currentMapView.rotation,
       currentMapView.scale,
     );
-  }, [graphicsLayer, position, shipHeading, mapCRS, currentMapView, followShip]);
+  }, [graphicsLayer, position, shipHeading, mapCRS, currentMapView, followShip, visible]);
 
   useWatchEffect(
     () => [currentMapView?.scale, currentMapView?.rotation],

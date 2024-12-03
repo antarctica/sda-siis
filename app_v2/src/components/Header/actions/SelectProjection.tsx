@@ -6,7 +6,8 @@ import SvgIcon from '@/components/common/SvgIcon';
 import { Action } from '@/components/Header/actions/Actions';
 import { useSidebarActorRef } from '@/components/Sidebar/SidebarHooks';
 import { useResetApplicationState } from '@/hooks/useResetApplicationState';
-import { selectCurrentCRS, setCurrentCRS } from '@/store/features/projectionSlice';
+import { useSIISMapView } from '@/hooks/useSIISMapView';
+import { selectCurrentCRS, setNewCRS } from '@/store/features/projectionSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { MapCRS } from '@/types';
 
@@ -27,14 +28,17 @@ export function SelectProjection() {
   const resetApplicationState = useResetApplicationState();
   const sidebarActorRef = useSidebarActorRef();
   const [open, setOpen] = React.useState(false);
+  const mapView = useSIISMapView();
 
   const updateCRS = React.useCallback(
     (crs: MapCRS) => {
-      dispatch(setCurrentCRS(crs));
+      const extent = mapView?.extent;
+      if (!extent) return;
+      dispatch(setNewCRS({ crs, extentJson: extent.toJSON() }));
       resetApplicationState();
       sidebarActorRef.send({ type: 'ITEMS.CLOSE_ALL' });
     },
-    [dispatch, resetApplicationState, sidebarActorRef],
+    [dispatch, resetApplicationState, sidebarActorRef, mapView],
   );
 
   return (
