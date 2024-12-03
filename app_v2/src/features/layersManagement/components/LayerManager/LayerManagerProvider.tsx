@@ -5,8 +5,8 @@ import React from 'react';
 import { assertEvent } from 'xstate';
 
 import { fetchGranulesForProduct } from '@/api/api';
-import { ImageryFootprintLayer } from '@/features/map/layers/ImageryFootprintLayer/ImageryFootprintLayerClass';
-import { createImageryFootprints } from '@/features/map/utils';
+import { ImageryFootprintLayer } from '@/features/siisMap/layers/ImageryFootprintLayer/ImageryFootprintLayerClass';
+import { createImageryFootprints } from '@/features/siisMap/utils';
 import { LayerDisplayMode, LayerStatus } from '@/types';
 import { formatDateToYYYYMMDD } from '@/utils/dateUtils';
 

@@ -15,7 +15,7 @@ import {
   createOGCLayer,
   getLayerDisplayMode,
   ogcPriority,
-} from '@/features/map/utils';
+} from '@/features/siisMap/utils';
 import { useFormatDate } from '@/hooks/useFormatDate';
 import { MapCRS, OGCType } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';

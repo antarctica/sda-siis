@@ -3,12 +3,12 @@ import '@arcgis/core/assets/esri/themes/light/main.css?inline';
 import { Flex } from '@styled-system/jsx';
 
 import { Providers } from '@/contexts/AppProviders/AppProviders';
+import { Map } from '@/features/siisMap/Map';
 import { useInitialCRS } from '@/hooks/useInitialCRS';
 import useIsMobile from '@/hooks/useIsMobile';
 import { selectCurrentCRS, selectPreviousExtent } from '@/store/features/projectionSlice';
 import { useAppSelector } from '@/store/hooks';
 
-import { Map } from '../../features/map/Map';
 import Drawer from '../common/Drawer';
 import Header from '../Header';
 import Sidebar from '../Sidebar';
