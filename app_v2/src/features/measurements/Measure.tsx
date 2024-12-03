@@ -1,5 +1,5 @@
 import { useMapInteractionLayers } from '@/contexts/MapInteractionLayers';
-import MeasureLine from '@/features/map/map-controls/MeasurePolylineControl';
+import MeasureLine from '@/features/siisMap/map-controls/MeasurePolylineControl';
 import { useSIISMapView } from '@/hooks/useSIISMapView';
 
 function Measure() {
