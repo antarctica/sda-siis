@@ -294,14 +294,14 @@ function CoordinateMapSelection({
       onDeleteGraphic: () => handleMapCoordinateSelection(''),
       sketchOptions: { pointSymbol: pointSymbol ?? DEFAULT_POINT_SYMBOL },
       updateEnabled: updateEnabled ?? false,
-      graphicsLayer,
     }),
-    [updateCoordinate, handleMapCoordinateSelection, updateEnabled, pointSymbol, graphicsLayer],
+    [updateCoordinate, handleMapCoordinateSelection, updateEnabled, pointSymbol],
   );
 
   const { create, activeDrawMode, graphic } = useDrawSingleGraphic(
     mapView,
     'coordinate-map-selection',
+    graphicsLayer,
     options,
   );
 

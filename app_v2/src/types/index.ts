@@ -19,3 +19,8 @@ export type LayerStatus = components['schemas']['product']['status'];
 export type GranuleStatus = components['schemas']['granule']['status'];
 
 export type LatLonFormat = 'DD' | 'DMS' | 'DDM';
+
+export interface LineGraphic<T extends object> extends __esri.Graphic {
+  attributes: T;
+  geometry: __esri.Polyline;
+}

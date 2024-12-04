@@ -1,5 +1,8 @@
+.esri-ui {
+  inset: 0 !important;
+}
 
-.esri-ui-inner-container .esri-component{
+.esri-ui-inner-container .esri-component {
   box-shadow: none !important;
   pointer-events: none !important;
 }

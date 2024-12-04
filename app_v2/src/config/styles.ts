@@ -33,3 +33,8 @@ export const GRATICULE_DARK_STYLE: LabelledGraticuleLayerProperties['graticuleSt
     haloSize: 0.5,
   },
 };
+
+export const ROUTE_STYLE: __esri.LineSymbolProperties = {
+  color: new Color([255, 0, 0, 1]),
+  width: 2,
+};

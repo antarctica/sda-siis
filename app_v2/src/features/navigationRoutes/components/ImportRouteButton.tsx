@@ -4,18 +4,21 @@ import { geojsonToArcGIS } from '@terraformer/arcgis';
 import { FileTrigger } from 'react-aria-components';
 
 import { convertRTZPToGeoJSON } from '@/api/api';
-import { useLayerView } from '@/features/arcgis/hooks/useLayerView';
+import { ROUTE_GRAPHIC_UNIQUE_ID } from '@/config/constants';
+import { ROUTE_STYLE } from '@/config/styles';
 
-import { Button } from '../common/Button';
+import { Button } from '../../../components/common/Button';
+import { isRouteGraphic } from '../utils';
 
-function ImportRoute({
+export function ImportRouteButton({
   graphicsLayer,
-  mapView,
+  setGeometry,
+  setRouteName,
 }: {
   graphicsLayer: __esri.GraphicsLayer;
-  mapView: __esri.MapView;
+  setGeometry: React.Dispatch<React.SetStateAction<__esri.Polyline | undefined>>;
+  setRouteName: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
-  useLayerView(mapView, graphicsLayer);
   const onSelect = (files: FileList | null) => {
     if (!files || files.length === 0) {
       return;
@@ -32,23 +35,26 @@ function ImportRoute({
     }
     convertRTZPToGeoJSON(file).then((data) => {
       const arcgisFeatureJSON = geojsonToArcGIS(data as GeoJSON.Feature);
-
       const featureGraphic = Graphic.fromJSON(arcgisFeatureJSON);
-      featureGraphic.symbol = new SimpleLineSymbol({
-        color: [255, 0, 0],
-        width: 4,
-      });
+
+      if (!isRouteGraphic(featureGraphic)) {
+        console.error('Invalid route file');
+        return;
+      }
+
+      featureGraphic.setAttribute('graphicId', ROUTE_GRAPHIC_UNIQUE_ID);
+      featureGraphic.symbol = new SimpleLineSymbol(ROUTE_STYLE);
 
       graphicsLayer.removeAll();
       graphicsLayer.addMany([featureGraphic]);
+      setGeometry(featureGraphic.geometry);
+      setRouteName(featureGraphic.attributes.route_name);
     });
   };
 
   return (
     <FileTrigger onSelect={onSelect}>
-      <Button>Import Route</Button>
+      <Button variant="outline">Import Route</Button>
     </FileTrigger>
   );
 }
-
-export default ImportRoute;

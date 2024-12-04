@@ -2,7 +2,7 @@ import SvgIcon from '@/components/common/SvgIcon';
 import { SidebarItem } from '@/components/Sidebar/types';
 import { Legend, MapLayers } from '@/features/layersManagement/components/Panel';
 import Measure from '@/features/measurements/Measure';
-import Routes from '@/features/navigationRoutes';
+import RoutesPanel from '@/features/navigationRoutes';
 
 export const appPanels: SidebarItem[] = [
   {
@@ -32,7 +32,7 @@ export const appPanels: SidebarItem[] = [
     icon: <SvgIcon name="icon-map-polyline" size={16} />,
     position: 'top',
     type: 'panel',
-    component: () => <Routes />,
+    component: () => <RoutesPanel />,
   },
   {
     id: 'measurement',

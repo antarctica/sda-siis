@@ -4,14 +4,14 @@ export const textTokens = defineTextStyles({
   body: {
     description: 'The base font style',
     value: {
-      fontWeight: '400',
+      fontWeight: '300',
       fontSize: 'md',
     },
   },
   label: {
     description: 'The label font style for field inputs',
     value: {
-      fontWeight: '400',
+      fontWeight: '300',
       fontSize: 'sm',
       textTransform: 'uppercase',
     },
@@ -19,7 +19,7 @@ export const textTokens = defineTextStyles({
   description: {
     description: 'The description font style for field inputs',
     value: {
-      fontWeight: '400',
+      fontWeight: '200',
       fontSize: 'sm',
     },
   },
@@ -27,7 +27,7 @@ export const textTokens = defineTextStyles({
     description: 'The error font style',
     value: {
       fontSize: 'sm',
-      fontWeight: '400',
+      fontWeight: '300',
     },
   },
   heading1: {
@@ -62,7 +62,7 @@ export const textTokens = defineTextStyles({
   caption: {
     description: 'caption style',
     value: {
-      fontWeight: '400',
+      fontWeight: '300',
       fontSize: { base: 'xs', md: 'sm' },
     },
   },

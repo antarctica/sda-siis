@@ -2,9 +2,9 @@ import { css } from '@styled-system/css';
 import { Box, Flex } from '@styled-system/jsx';
 import React from 'react';
 
-import { ToggleButton } from '@/components/common/Button';
+import { Button, ToggleButton } from '@/components/common/Button';
 import SvgIcon from '@/components/common/SvgIcon';
-import { Heading } from '@/components/common/Typography';
+import Typography, { Heading } from '@/components/common/Typography';
 import { useMeasureLine } from '@/features/arcgis/hooks/measurements/useMeasureLine';
 import { selectDefaultMeasurementUnit } from '@/store/features/appSlice';
 import { useAppSelector } from '@/store/hooks';
@@ -33,7 +33,7 @@ function MeasureLine({
     return measurementID ?? internalId;
   }, [measurementID, internalId]);
 
-  const { startMeasurement, measurements, isActive } = useMeasureLine(
+  const { startMeasurement, measurements, isActive, clearAll } = useMeasureLine(
     mapView,
     measurementGroupID,
     measurementUnit,
@@ -42,21 +42,31 @@ function MeasureLine({
 
   return (
     <Flex direction="column" align={'start'} w="full">
-      <Box w="full">
-        <Heading as="h3" heading="body" textPosition="start">
+      <Box w="full" mb="2">
+        <Heading bold as="h3" heading="body" margin={false}>
           Line Measurements
         </Heading>
+        <Typography className={css({ textStyle: 'description' })}>
+          Measure the length of a line drawn on the map.
+        </Typography>
       </Box>
       <Flex direction="column" gap="2" w="full">
         <MeasurementList measurements={measurements} mapView={mapView} />
-        <ToggleButton
-          isSelected={isActive}
-          onPress={() => startMeasurement()}
-          className={css({ justifyContent: 'center' })}
-        >
-          <SvgIcon name="icon-map-polyline" size={16} />
-          Add Line Measurement
-        </ToggleButton>
+        <Flex gap="2">
+          <ToggleButton
+            isSelected={isActive}
+            onPress={() => startMeasurement()}
+            className={css({ flexGrow: '1' })}
+          >
+            <SvgIcon name="icon-add-circle-graphic" size={16} />
+            Add Line Measurement
+          </ToggleButton>
+          {measurements.length > 0 && (
+            <Button className={css({ flexGrow: '1' })} variant="outline" onPress={clearAll}>
+              {`Clear All (${measurements.length})`}
+            </Button>
+          )}
+        </Flex>
       </Flex>
     </Flex>
   );

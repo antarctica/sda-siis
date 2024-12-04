@@ -1,2 +1,2 @@
-export * from './Routes';
-export { default } from './Routes';
+export * from './RoutesPanel';
+export { default } from './RoutesPanel';

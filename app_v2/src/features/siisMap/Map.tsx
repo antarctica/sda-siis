@@ -64,6 +64,12 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
           }}
           extent={validatedExtent}
           center={validatedExtent ? undefined : CRS_LOOKUP[crs].center}
+          padding={{
+            top: 100,
+            left: 100,
+            bottom: 100,
+            right: 100,
+          }}
         >
           {!isMobile && (
             <ArcgisPlacement

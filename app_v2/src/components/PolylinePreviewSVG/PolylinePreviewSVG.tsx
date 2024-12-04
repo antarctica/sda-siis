@@ -1,4 +1,7 @@
 import * as minimumBoundingCircleOperator from '@arcgis/core/geometry/operators/minimumBoundingCircleOperator.js';
+import { project } from '@arcgis/core/geometry/projection';
+
+import { useArcState } from '@/features/arcgis/hooks';
 
 type Point = [number, number];
 
@@ -42,11 +45,10 @@ function generatePathData(paths: Point[][]): string[] {
   );
 }
 
-export default function PolylinePreviewSVG({
+function PolylineSVG({
   polyline,
   options,
 }: {
-  mapView: __esri.MapView;
   polyline: __esri.Polyline;
   options: SvgPreviewOptions;
 }): JSX.Element {
@@ -85,5 +87,24 @@ export default function PolylinePreviewSVG({
         />
       ))}
     </svg>
+  );
+}
+
+export function MapGraphicPolylinePreviewSVG({
+  mapView,
+  polyline,
+  options,
+}: {
+  mapView: __esri.MapView;
+  polyline: __esri.Polyline;
+  options: SvgPreviewOptions;
+}): JSX.Element {
+  const [mapRotation] = useArcState(mapView, 'rotation');
+
+  // ensure the geometry is projected to the map's spatial reference
+  const projectedPolyline = project(polyline, mapView.spatialReference) as __esri.Polyline;
+
+  return (
+    <PolylineSVG polyline={projectedPolyline} options={{ ...options, rotation: mapRotation }} />
   );
 }
