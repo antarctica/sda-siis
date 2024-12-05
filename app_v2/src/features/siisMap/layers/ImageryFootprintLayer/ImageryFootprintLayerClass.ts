@@ -1,6 +1,7 @@
 import Color from '@arcgis/core/Color';
 import { property, subclass } from '@arcgis/core/core/accessorSupport/decorators';
 import Collection from '@arcgis/core/core/Collection.js';
+import { debounce } from '@arcgis/core/core/promiseUtils.js';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import { SpatialReference } from '@arcgis/core/geometry';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
@@ -8,8 +9,6 @@ import WMSLayer from '@arcgis/core/layers/WMSLayer';
 import { SimpleRenderer } from '@arcgis/core/renderers';
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
 import MapView from '@arcgis/core/views/MapView';
-
-import { throttleAsync } from '@/utils/throttle';
 
 export interface ImageryFootprintLayerProperties extends __esri.FeatureLayerProperties {
   footprints: Collection<ImageryFootprint> | ImageryFootprint[];
@@ -261,7 +260,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
    * performs a hit test on the mapView object. The function is decorated with the throttle
    * function which limits the rate at which the function can be executed.
    */
-  private hoverHitTest = throttleAsync(
+  private hoverHitTest = debounce(
     async (
       event: __esri.MapViewScreenPoint | MouseEvent,
       mapView: __esri.MapView,
@@ -284,7 +283,6 @@ export class ImageryFootprintLayer extends FeatureLayer {
         }
       }
     },
-    70,
   );
 
   /**
