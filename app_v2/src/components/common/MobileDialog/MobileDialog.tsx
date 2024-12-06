@@ -6,7 +6,7 @@ import * as React from 'react';
 import { IconButton } from '@/components/common/Button';
 
 import SvgIcon from '../SvgIcon';
-import { Heading } from '../Typography';
+import { Title } from '../Typography';
 
 interface MobileSideDialogProps {
   isOpen: boolean;
@@ -129,9 +129,9 @@ function MobileDialog({
       <Flex flexDirection="column" alignItems="stretch">
         {title && (
           <div className={cx(header)}>
-            <Heading as="h2" heading="heading-3">
+            <Title as="h2" size="lg">
               {title}
-            </Heading>
+            </Title>
           </div>
         )}
         <div className={cx(content)}>{children}</div>

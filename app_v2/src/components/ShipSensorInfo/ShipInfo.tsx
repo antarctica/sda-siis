@@ -8,7 +8,7 @@ import { useAppSelector } from '@/store/hooks';
 import { formatCoordinate } from '@/utils/formatCoordinates';
 
 import DataGrid from '../common/DataGrid';
-import { Heading } from '../common/Typography';
+import { Title } from '../common/Typography';
 import ShipSensorStatusBadge from './ShipSensorStatusBadge';
 
 function ShipInfo() {
@@ -25,9 +25,9 @@ function ShipInfo() {
 
   return (
     <>
-      <Heading as="h2" heading="heading-4" className={css({ pr: '10' })}>
+      <Title as="h2" size="md" className={css({ pr: '10' })}>
         RRS Sir David Attenborough
-      </Heading>
+      </Title>
       <Box px="2">
         <DataGrid
           data={[

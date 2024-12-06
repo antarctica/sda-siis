@@ -1,4 +1,4 @@
-import { RecipeVariantProps, sva } from '@styled-system/css';
+import { css, RecipeVariantProps, sva } from '@styled-system/css';
 import * as React from 'react';
 import {
   Dialog as DialogPrimitive,
@@ -8,7 +8,7 @@ import {
 
 import { IconButton } from '../Button';
 import SvgIcon from '../SvgIcon';
-import Typography from '../Typography';
+import { Text } from '../Typography';
 
 type DialogProps = RecipeVariantProps<typeof dialogRecipe> &
   React.PropsWithChildren<{
@@ -90,9 +90,9 @@ function DialogHeader({
     <div className={header}>
       <HeadingPrimitive slot="title" className={titleClassName}>
         {icon}
-        <Typography as="span" heading="heading-2" margin={false}>
+        <Text as="span" className={css({ textStyle: 'heading1' })} margin={false}>
           {title}
-        </Typography>
+        </Text>
       </HeadingPrimitive>
       {hasCloseButton && (
         <IconButton

@@ -6,7 +6,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import MobileSideMenu from '../MobileSideMenu';
 import { Toolbar } from './actions/Toolbar';
 import { HeaderData } from './data/HeaderData';
-import { Title } from './Title';
+import { HeaderBarTitle } from './Title';
 
 const headerStyles = cva({
   base: {
@@ -39,7 +39,7 @@ export function Header() {
   return (
     <header className={headerStyles()}>
       <Flex gap="4" h="full" alignItems="center" shrink={'1'} minW="0">
-        <Title />
+        <HeaderBarTitle />
         <Divider
           h={'full'}
           orientation={'vertical'}

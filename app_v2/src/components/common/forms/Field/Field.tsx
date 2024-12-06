@@ -14,10 +14,10 @@ import {
   TextProps,
 } from 'react-aria-components';
 
-import Typography from '../../Typography';
+import { Text } from '../../Typography';
 import { fieldBorderRecipe, inputRecipe, textAreaRecipe } from './styles';
 import { fieldGroupRecipe } from './styles';
-import { descriptionRecipe, validationErrorRecipe } from './styles';
+import { validationErrorRecipe } from './styles';
 import { labelRecipe } from './styles';
 
 export function Label(props: LabelProps) {
@@ -25,13 +25,7 @@ export function Label(props: LabelProps) {
 }
 
 export function Description(props: TextProps) {
-  return (
-    <Typography
-      {...props}
-      slot="description"
-      className={cx(descriptionRecipe(), props.className)}
-    />
-  );
+  return <Text {...props} slot="description" textStyle="description" />;
 }
 
 export function FieldError(props: FieldErrorProps) {

@@ -8,8 +8,7 @@ import { ToggleIconButton } from '@/components/common/Button/ToggleButton';
 import Checkbox from '@/components/common/forms/Checkbox';
 import Slider from '@/components/common/forms/Slider';
 import SvgIcon from '@/components/common/SvgIcon';
-// import Slider from '@/components/common/forms/Slider';
-import Typography from '@/components/common/Typography';
+import { Text } from '@/components/common/Typography';
 
 import { LayerStatusBadge, LayerStatusCircle } from '../../../LayerStatus';
 import { useLayerStatus } from '../../hooks/selectors';
@@ -103,13 +102,13 @@ export function LayerItem({
           <Flex gap="2" w="full" alignItems="center" justifyContent="space-between">
             <Flex gap="2" grow={1} minW="0" alignItems="center">
               {includeStatus && <LayerStatusCircle status={status} />}
-              <Typography
+              <Text
                 className={css({
                   overflow: 'hidden',
                 })}
               >
                 {layerName}
-              </Typography>
+              </Text>
             </Flex>
             {includeStatus && <LayerStatusBadge status={status} />}
           </Flex>

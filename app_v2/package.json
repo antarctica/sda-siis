@@ -27,6 +27,7 @@
     "@arcgis/map-components-react": "^4.31.6",
     "@internationalized/date": "^3.5.6",
     "@internationalized/number": "^3.5.4",
+    "@mantine/hooks": "^7.14.3",
     "@radix-ui/react-accordion": "^1.2.1",
     "@reduxjs/toolkit": "^2.3.0",
     "@tanstack/react-router": "^1.82.0",

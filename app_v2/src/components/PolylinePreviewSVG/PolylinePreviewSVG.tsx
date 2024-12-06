@@ -1,7 +1,10 @@
 import * as minimumBoundingCircleOperator from '@arcgis/core/geometry/operators/minimumBoundingCircleOperator.js';
 import { project } from '@arcgis/core/geometry/projection';
+import { useDebouncedValue } from '@mantine/hooks';
+import React from 'react';
 
 import { useArcState } from '@/features/arcgis/hooks';
+import { LineGraphic } from '@/types';
 
 type Point = [number, number];
 
@@ -92,19 +95,27 @@ function PolylineSVG({
 
 export function MapGraphicPolylinePreviewSVG({
   mapView,
-  polyline,
+  graphic,
   options,
 }: {
   mapView: __esri.MapView;
-  polyline: __esri.Polyline;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  graphic: LineGraphic<any>;
   options: SvgPreviewOptions;
 }): JSX.Element {
   const [mapRotation] = useArcState(mapView, 'rotation');
+  const [geometry] = useArcState(graphic, 'geometry');
 
-  // ensure the geometry is projected to the map's spatial reference
-  const projectedPolyline = project(polyline, mapView.spatialReference) as __esri.Polyline;
+  const [debouncedGeometry] = useDebouncedValue(geometry, 50);
+  const projectedPolyline = React.useMemo(
+    () => project(debouncedGeometry, mapView.spatialReference) as __esri.Polyline,
+    [debouncedGeometry, mapView.spatialReference],
+  );
 
   return (
-    <PolylineSVG polyline={projectedPolyline} options={{ ...options, rotation: mapRotation }} />
+    <PolylineSVG
+      polyline={projectedPolyline ?? debouncedGeometry}
+      options={{ ...options, rotation: mapRotation }}
+    />
   );
 }

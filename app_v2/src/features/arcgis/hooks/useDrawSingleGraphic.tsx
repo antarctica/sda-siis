@@ -7,8 +7,19 @@ import { useArcState } from './useWatchEffect';
 type ActiveSketchTools = SketchViewModel['activeTool'];
 type CreationTools = Exclude<ActiveSketchTools, 'move' | 'transform' | 'reshape'>;
 function isCreationTool(tool: ActiveSketchTools): tool is CreationTools {
-  return tool !== 'move' && tool !== 'transform' && tool !== 'reshape';
+  return ['point', 'multipoint', 'polyline', 'polygon', 'circle', 'mesh', 'rectangle'].includes(
+    tool,
+  );
 }
+
+export type ControlledUpdate = {
+  start: (
+    graphic: __esri.Graphic,
+    options?: __esri.SketchViewModelUpdateUpdateOptions,
+  ) => Promise<void>;
+  stop: () => void;
+  cancel: () => void;
+};
 
 export type DrawSingleGraphicOptions = {
   initialGraphic?: __esri.Graphic;
@@ -34,9 +45,9 @@ export function useDrawSingleGraphic(
     }
   }, [mapView.map, graphicsLayer]);
 
-  const graphicRef = React.useRef<__esri.Graphic | undefined>();
-
-  const [geometry, setGeometry] = React.useState<__esri.Geometry | undefined>(undefined);
+  const [graphic, setGraphic] = React.useState<__esri.Graphic | undefined>(undefined);
+  const isControlledUpdate = React.useRef(false);
+  const initialGeometry = React.useRef<__esri.Geometry | undefined>(undefined);
 
   const sketchVM = React.useMemo(() => {
     const newSketchVM = new SketchViewModel({
@@ -74,8 +85,7 @@ export function useDrawSingleGraphic(
         }
 
         managedGraphicsLayer.add(event.graphic);
-        graphicRef.current = event.graphic;
-        setGeometry(event.graphic.geometry);
+        setGraphic(event.graphic);
         options?.onCreateGraphic?.(event.graphic);
       }
     });
@@ -83,33 +93,37 @@ export function useDrawSingleGraphic(
     newSketchVM.on('update', (event) => {
       const graphic = event.graphics[0];
       if (graphic) {
-        graphicRef.current = graphic;
-        setGeometry(graphic.geometry);
         options?.onUpdateGraphic?.(graphic);
+        if (event.state === 'complete') {
+          if (isControlledUpdate.current) {
+            sketchVM.update(graphic, { tool: event.tool });
+          }
+        }
       }
     });
 
     newSketchVM.on('delete', () => {
-      graphicRef.current = undefined;
-      setGeometry(undefined);
+      setGraphic(undefined);
       options?.onDeleteGraphic?.();
     });
     return newSketchVM;
-  }, [mapView, managedGraphicsLayer, options, graphicId]);
+  }, [mapView, managedGraphicsLayer, options, graphicId, isControlledUpdate]);
 
-  const clearGeometry = React.useCallback(() => {
-    if (isCreationTool(sketchVM.activeTool)) {
-      sketchVM.cancel();
-      return;
-    }
-    const existingGraphic = managedGraphicsLayer.graphics.find(
-      (g) => g.getAttribute('graphicId') === graphicId,
-    );
-    if (existingGraphic) {
-      managedGraphicsLayer.remove(existingGraphic);
-    }
-    graphicRef.current = undefined;
-    setGeometry(undefined);
+  const clearGraphic = React.useMemo(() => {
+    return () => {
+      if (isCreationTool(sketchVM.activeTool)) {
+        sketchVM.cancel();
+        return;
+      }
+      const existingGraphic = managedGraphicsLayer.graphics.find(
+        (g) => g.getAttribute('graphicId') === graphicId,
+      );
+      if (existingGraphic) {
+        sketchVM.update(existingGraphic).then(() => {
+          sketchVM.delete();
+        });
+      }
+    };
   }, [sketchVM, managedGraphicsLayer, graphicId]);
 
   const [activeDrawMode] = useArcState(sketchVM, 'activeTool');
@@ -126,12 +140,69 @@ export function useDrawSingleGraphic(
 
   React.useEffect(() => {
     //when graphicslayer changes try to find the graphic with the graphicId
-    graphicRef.current = managedGraphicsLayer.graphics.find(
+    const graphic = managedGraphicsLayer.graphics.find(
       (g) => g.getAttribute('graphicId') === graphicId,
     );
-    setGeometry(graphicRef.current?.geometry);
-    options?.onCreateGraphic?.(graphicRef.current);
+    setGraphic(graphic);
+    options?.onCreateGraphic?.(graphic);
   }, [managedGraphicsLayer, graphicId, options]);
 
-  return { graphic: graphicRef.current, geometry, clearGeometry, create, activeDrawMode };
+  const controlledUpdate: ControlledUpdate = React.useMemo(() => {
+    return {
+      start: async (
+        graphic: __esri.Graphic,
+        options?: __esri.SketchViewModelUpdateUpdateOptions,
+      ) => {
+        isControlledUpdate.current = true;
+        initialGeometry.current = graphic.geometry.clone();
+        await sketchVM.update(graphic, options);
+      },
+      stop: () => {
+        isControlledUpdate.current = false;
+        sketchVM.complete();
+      },
+      cancel: () => {
+        const updatingGraphic = sketchVM.updateGraphics.getItemAt(0);
+        if (updatingGraphic && initialGeometry.current) {
+          updatingGraphic.geometry = initialGeometry.current;
+        }
+        isControlledUpdate.current = false;
+        sketchVM.complete();
+        initialGeometry.current = undefined;
+      },
+    };
+  }, [sketchVM]);
+
+  const complete = React.useMemo(
+    () => () => {
+      sketchVM.complete();
+    },
+    [sketchVM],
+  );
+
+  const setGraphicMethod = React.useCallback(
+    (graphic: __esri.Graphic | undefined) => {
+      if (activeDrawMode) {
+        sketchVM.cancel();
+      }
+      if (graphic === undefined) {
+        clearGraphic();
+      } else {
+        managedGraphicsLayer.removeAll();
+        managedGraphicsLayer.add(graphic);
+        setGraphic(graphic);
+      }
+    },
+    [activeDrawMode, clearGraphic, managedGraphicsLayer, sketchVM],
+  );
+
+  return {
+    graphic,
+    setGraphic: setGraphicMethod,
+    clearGraphic,
+    create,
+    activeDrawMode,
+    controlledUpdate,
+    complete,
+  };
 }

@@ -7,7 +7,7 @@ import NumberField from '@/components/common/forms/NumberField';
 import PopoverMenu from '@/components/common/PopoverMenu';
 import { Select } from '@/components/common/Select';
 import SvgIcon from '@/components/common/SvgIcon';
-import Typography, { Heading } from '@/components/common/Typography';
+import { Text, Title } from '@/components/common/Typography';
 import { MeasurementUnit } from '@/features/arcgis/hooks/measurements/types';
 import {
   selectDefaultLatLonFormat,
@@ -95,13 +95,13 @@ function GlobalSettingsMenu() {
         aria-label={'Application Settings'}
       />
       <PopoverMenu className={css({ w: 'sm', px: '4', pb: '4' })}>
-        <Heading as="h3" heading="heading-3">
+        <Title as="h3" size="lg">
           Application Settings
-        </Heading>
-        <Typography margin>
+        </Title>
+        <Text margin>
           Customize your application preferences. These settings will persist across browser
           sessions.
-        </Typography>
+        </Text>
         <Flex direction="column" gap="2">
           <SelectMeasurementUnit />
           <SelectLatLonFormat />

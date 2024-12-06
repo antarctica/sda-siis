@@ -15,6 +15,11 @@ function LayerManager() {
     [topLevelLayers],
   );
 
+  // Create a reversed copy of the array in a memoized value.
+  // The order of the layers is reversed because the last layer
+  // in the array is the topmost layer.
+  const reversedLayers = React.useMemo(() => [...topLevelLayers].reverse(), [topLevelLayers]);
+
   return (
     <Accordion.Root type="multiple" defaultValue={openPanels}>
       <ul
@@ -24,7 +29,7 @@ function LayerManager() {
           gap: '2',
         })}
       >
-        {topLevelLayers.reverse().map((layer, index) => {
+        {reversedLayers.map((layer, index) => {
           const item =
             layer.type === 'layerGroup' ? (
               <React.Fragment key={`${layer.layerActor.id}-wrapper`}>
@@ -45,4 +50,6 @@ function LayerManager() {
   );
 }
 
-export default LayerManager;
+const MemoizedLayerManager = React.memo(LayerManager);
+
+export default MemoizedLayerManager;

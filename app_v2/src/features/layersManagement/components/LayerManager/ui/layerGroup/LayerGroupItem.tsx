@@ -6,7 +6,7 @@ import { useSelector } from '@xstate/react';
 
 import Checkbox from '@/components/common/forms/Checkbox';
 import SvgIcon from '@/components/common/SvgIcon';
-import Typography, { Heading } from '@/components/common/Typography';
+import { Text, Title } from '@/components/common/Typography';
 
 import { useLayerGroupLayers } from '../../hooks/selectors';
 import { useEnabledChildCount } from '../../hooks/useEnabledChildCount';
@@ -93,14 +93,14 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
               className={caret}
               color={token('colors.fg')}
             />
-            <Heading as="h3" heading="heading-4" margin={false} className={title}>
+            <Title as="h3" size="md" margin={false} className={title}>
               {layerName}
-            </Heading>
+            </Title>
             {enabledChildLayerCount > 0 && (
-              <Typography as="span" className={badge}>
+              <Text as="span" className={badge}>
                 {enabledChildLayerCount}
                 <VisuallyHidden> Active layers</VisuallyHidden>
-              </Typography>
+              </Text>
             )}
             <Divider orientation="horizontal" color="bg.base.border" flex="1" />
           </Accordion.Trigger>

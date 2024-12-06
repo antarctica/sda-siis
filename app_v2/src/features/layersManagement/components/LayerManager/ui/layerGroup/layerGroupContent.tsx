@@ -1,8 +1,9 @@
 import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import { token } from '@styled-system/tokens';
+import React from 'react';
 
-import { Heading } from '@/components/common/Typography';
+import { Title } from '@/components/common/Typography';
 import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
 
 import { useLayerDisplayMode } from '../../hooks/selectors';
@@ -17,6 +18,14 @@ interface LayerGroupContentProps {
 function LayerGroupContent({ layerGroupActor, orderedChildLayerActors }: LayerGroupContentProps) {
   const displayMode = useLayerDisplayMode(layerGroupActor.id);
 
+  // Create a reversed copy of the array in a memoized value.
+  // The order of the layers is reversed because the last layer
+  // in the array is the topmost layer.
+  const reversedLayers = React.useMemo(
+    () => [...orderedChildLayerActors].reverse(),
+    [orderedChildLayerActors],
+  );
+
   if (displayMode === 'MultipleTimeSliceCollection') {
     return <MultipleTimeSliceCollectionContent orderedChildLayerActors={orderedChildLayerActors} />;
   }
@@ -29,9 +38,9 @@ function LayerGroupContent({ layerGroupActor, orderedChildLayerActors }: LayerGr
         gap: '2',
       })}
     >
-      {orderedChildLayerActors
-        .map((child) => <LayerItem layerActor={child} key={child.id} />)
-        .reverse()}
+      {reversedLayers.map((child) => (
+        <LayerItem layerActor={child} key={child.id} />
+      ))}
     </ul>
   );
 }
@@ -62,10 +71,10 @@ function MultipleTimeSliceCollectionContent({
       </ul>
       {otherLayers.length > 0 && (
         <div>
-          <Heading
-            heading="body"
+          <Title
+            size="body"
             as="h4"
-            textPosition="end"
+            lineBarPosition="end"
             style={
               {
                 '--typography-bar': token('colors.fg.muted'),
@@ -73,7 +82,7 @@ function MultipleTimeSliceCollectionContent({
             }
           >
             Active Imagery Granules
-          </Heading>
+          </Title>
           <ul>
             {otherLayers.map((layer) => (
               <LayerItem

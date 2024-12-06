@@ -8,8 +8,8 @@ import { IconButton } from '@/components/common/Button';
 
 import MobileDialog from '../common/MobileDialog';
 import SvgIcon from '../common/SvgIcon';
-import { Heading } from '../common/Typography';
-import { Title } from '../Header/Title';
+import { Title } from '../common/Typography';
+import { HeaderBarTitle } from '../Header/Title';
 import { SidebarButton } from '../Sidebar/actions/SidebarButton';
 import { useSidebarItems } from '../Sidebar/SidebarHooks';
 import { SidebarContext } from '../Sidebar/SideBarProvider';
@@ -37,20 +37,20 @@ export default function MobileSideMenu() {
           left={'0'}
           p={'2'}
         >
-          <Title />
+          <HeaderBarTitle />
         </Flex>
         <nav id="mobile-side-menu">
-          <Heading
+          <Title
             as="h2"
-            heading="heading-2"
-            textPosition="end"
+            size="xl"
+            lineBarPosition="end"
             className={css({
               w: 'full',
               marginTop: '8',
             })}
           >
             Menu
-          </Heading>
+          </Title>
           <ul>
             {items.map((item) => (
               <li key={item.id}>

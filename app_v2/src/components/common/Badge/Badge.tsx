@@ -1,7 +1,7 @@
 import { cva, cx, RecipeVariantProps } from '@styled-system/css';
 import * as React from 'react';
 
-import Typography from '../Typography';
+import { Text } from '../Typography';
 
 export type BadgeVariant = 'error' | 'info' | 'warning' | 'success' | 'grey';
 
@@ -31,12 +31,12 @@ function Badge({
   className,
   ...restProps
 }: React.PropsWithChildren<
-  RecipeVariantProps<typeof badgeRecipe> & React.ComponentProps<typeof Typography>
+  RecipeVariantProps<typeof badgeRecipe> & React.ComponentProps<typeof Text>
 >) {
   return (
-    <Typography className={cx(badgeRecipe({ variant }), className)} {...restProps}>
+    <Text className={cx(badgeRecipe({ variant }), className)} {...restProps}>
       {children}
-    </Typography>
+    </Text>
   );
 }
 

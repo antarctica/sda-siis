@@ -3,10 +3,10 @@ import { Flex } from '@styled-system/jsx';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
-import { Heading } from '../common/Typography';
+import { Title } from '../common/Typography';
 import SIISLogo from '../SIISLogo';
 
-export function Title() {
+export function HeaderBarTitle() {
   const isMobile = useIsMobile();
   return (
     <Flex
@@ -18,16 +18,16 @@ export function Title() {
       }}
     >
       <SIISLogo size={isMobile ? 32 : 40} />
-      <Heading
+      <Title
         as="h1"
-        heading="heading-1"
+        size="2xl"
         margin={false}
         className={css({
           color: 'fg',
         })}
       >
         SIIS
-      </Heading>
+      </Title>
     </Flex>
   );
 }

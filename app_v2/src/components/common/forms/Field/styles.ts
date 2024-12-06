@@ -17,12 +17,6 @@ export const labelRecipe = cva({
   },
 });
 
-export const descriptionRecipe = cva({
-  base: {
-    textStyle: 'description',
-  },
-});
-
 export const validationErrorRecipe = cva({
   base: {
     textStyle: 'validationError',

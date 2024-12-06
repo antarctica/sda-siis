@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Button, ToggleButton } from '@/components/common/Button';
 import SvgIcon from '@/components/common/SvgIcon';
-import Typography, { Heading } from '@/components/common/Typography';
+import { Text, Title } from '@/components/common/Typography';
 import { useMeasureLine } from '@/features/arcgis/hooks/measurements/useMeasureLine';
 import { selectDefaultMeasurementUnit } from '@/store/features/appSlice';
 import { useAppSelector } from '@/store/hooks';
@@ -43,17 +43,18 @@ function MeasureLine({
   return (
     <Flex direction="column" align={'start'} w="full">
       <Box w="full" mb="2">
-        <Heading bold as="h3" heading="body" margin={false}>
+        <Title bold as="h3" size="body" margin={false}>
           Line Measurements
-        </Heading>
-        <Typography className={css({ textStyle: 'description' })}>
+        </Title>
+        <Text className={css({ textStyle: 'description' })}>
           Measure the length of a line drawn on the map.
-        </Typography>
+        </Text>
       </Box>
       <Flex direction="column" gap="2" w="full">
         <MeasurementList measurements={measurements} mapView={mapView} />
         <Flex gap="2">
           <ToggleButton
+            size="md"
             isSelected={isActive}
             onPress={() => startMeasurement()}
             className={css({ flexGrow: '1' })}
@@ -62,7 +63,12 @@ function MeasureLine({
             Add Line Measurement
           </ToggleButton>
           {measurements.length > 0 && (
-            <Button className={css({ flexGrow: '1' })} variant="outline" onPress={clearAll}>
+            <Button
+              size="md"
+              className={css({ flexGrow: '1' })}
+              variant="outline"
+              onPress={clearAll}
+            >
               {`Clear All (${measurements.length})`}
             </Button>
           )}

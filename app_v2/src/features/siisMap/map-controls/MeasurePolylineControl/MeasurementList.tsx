@@ -4,7 +4,7 @@ import React from 'react';
 
 import { IconButton } from '@/components/common/Button';
 import SvgIcon from '@/components/common/SvgIcon';
-import Typography from '@/components/common/Typography';
+import { Text } from '@/components/common/Typography';
 import { MapGraphicPolylinePreviewSVG } from '@/components/PolylinePreviewSVG';
 import { Measurement } from '@/features/arcgis/hooks/measurements/types';
 import { getDisplayUnit } from '@/features/arcgis/hooks/measurements/utils';
@@ -75,10 +75,10 @@ export function MeasurementList({
                 options={polylinePreviewOptions}
               />
               <div className={measurementInfo}>
-                <Typography className={measurementText}>
+                <Text className={measurementText}>
                   <b>Total Length:</b> {graphic.attributes.length.toFixed(2)}{' '}
                   {getDisplayUnit(graphic.attributes.unit)}
-                </Typography>
+                </Text>
                 <IconButton
                   onPress={() => mapView.goTo(graphic.geometry)}
                   variant="surface"

@@ -83,7 +83,7 @@ export function setOrUpdateShipPositionGraphic(
     (g) => g.getAttribute(REF_ID_ATTRIBUTE) === SHIP_GRAPHIC_ID,
   );
 
-  const shipSymbol = getShipSymbol(position, heading, mapCRS, scale, mapRotation);
+  const shipSymbol = getShipSymbol(position, heading, mapCRS, scale, mapRotation, 42, 14);
 
   if (shipGraphic) {
     // Update existing ship graphic

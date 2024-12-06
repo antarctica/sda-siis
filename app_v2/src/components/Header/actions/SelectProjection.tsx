@@ -4,7 +4,6 @@ import { DialogTrigger } from 'react-aria-components';
 import { SelectionMenuItem, StaticSelectionMenu } from '@/components/common/SelectionMenu';
 import SvgIcon from '@/components/common/SvgIcon';
 import { Action } from '@/components/Header/actions/Actions';
-import { useSidebarActorRef } from '@/components/Sidebar/SidebarHooks';
 import { useResetApplicationState } from '@/hooks/useResetApplicationState';
 import { useSIISMapView } from '@/hooks/useSIISMapView';
 import { selectCurrentCRS, setNewCRS } from '@/store/features/projectionSlice';
@@ -26,8 +25,6 @@ export function SelectProjection() {
   const currentCRS = useAppSelector(selectCurrentCRS);
   const dispatch = useAppDispatch();
   const resetApplicationState = useResetApplicationState();
-  const sidebarActorRef = useSidebarActorRef();
-  const [open, setOpen] = React.useState(false);
   const mapView = useSIISMapView();
 
   const updateCRS = React.useCallback(
@@ -36,9 +33,8 @@ export function SelectProjection() {
       if (!extent) return;
       dispatch(setNewCRS({ crs, extentJson: extent.toJSON() }));
       resetApplicationState();
-      sidebarActorRef.send({ type: 'ITEMS.CLOSE_ALL' });
     },
-    [dispatch, resetApplicationState, sidebarActorRef, mapView],
+    [dispatch, resetApplicationState, mapView],
   );
 
   return (
@@ -48,7 +44,7 @@ export function SelectProjection() {
       onSelect={updateCRS}
       defaultSelectedItemId={currentCRS}
       trigger={
-        <DialogTrigger isOpen={open} onOpenChange={setOpen}>
+        <DialogTrigger>
           <Action icon={<SvgIcon name="icon-globe" size={20} />} aria-label={'Select Projection'} />
         </DialogTrigger>
       }

@@ -1,7 +1,7 @@
 import { Divider, Flex } from '@styled-system/jsx';
 
 import SvgIcon from '@/components/common/SvgIcon';
-import { Heading } from '@/components/common/Typography';
+import { Title } from '@/components/common/Typography';
 import { PanelTab } from '@/components/Sidebar/types';
 
 import { panelStyles } from '../panelRecipe';
@@ -20,9 +20,9 @@ export function PanelHeader({
   const { header } = panelStyles();
   return (
     <header className={header}>
-      <Heading as="h2" heading="heading-3" margin={false}>
+      <Title as="h2" size="lg" margin={false}>
         {title}
-      </Heading>
+      </Title>
       <Flex alignItems="center" gap="3">
         <TabList>{tabs?.map((tab) => <Tab key={tab.id} {...tab} />)}</TabList>
         <Divider orientation="vertical" color={'bg.base.border'} thickness="thin" h="12" />

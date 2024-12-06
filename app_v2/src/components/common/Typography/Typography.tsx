@@ -1,191 +1,62 @@
-import { css, cva, cx, RecipeVariantProps } from '@styled-system/css';
+import { css, cx } from '@styled-system/css';
 import * as React from 'react';
 
-const typographyRecipe = cva({
-  base: {
-    textStyle: 'body',
-  },
-  variants: {
-    margin: {
-      true: {
-        mb: '2',
-      },
-    },
-    bold: {
-      true: {
-        fontWeight: 'semibold',
-      },
-    },
-    italic: {
-      true: {
-        fontStyle: 'italic',
-      },
-    },
-    underline: {
-      true: {
-        textDecoration: 'underline',
-      },
-    },
-    listitem: {
-      true: {
-        ml: '8',
-      },
-    },
-    heading: {
-      'heading-1': {
-        textStyle: 'heading1',
-      },
-      'heading-2': {
-        textStyle: 'heading2',
-      },
-      'heading-3': {
-        textStyle: 'heading3',
-      },
-      'heading-4': {
-        textStyle: 'heading4',
-      },
-      body: {
-        textStyle: 'body',
-      },
-    },
+import {
+  sharedTypographyRecipe,
+  TextLineBarRecipeProps,
+  textRecipe,
+  titleRecipe,
+  TitleRecipeProps,
+} from './typographyRecipes';
+import { textLineBarRecipe } from './typographyRecipes';
+import { SharedTypographyRecipeProps, TextRecipeProps } from './typographyRecipes';
 
-    textPosition: {
-      start: {
-        gridTemplateColumns: '[ auto 1fr]',
-        '&::after': {
-          content: "''",
-          display: 'block',
-          height: '0.5',
-          backgroundColor: 'bg.base.border',
-          width: 'full',
-        },
-      },
-      middle: {
-        gridTemplateColumns: '[1fr auto 1fr]',
-        '&::before, &::after': {
-          content: "''",
-          display: 'block',
-          height: '0.5',
-          backgroundColor: 'bg.base.border',
-          width: 'full',
-        },
-      },
-      end: {
-        gridTemplateColumns: '[1fr auto]',
-        '&::before': {
-          content: "''",
-          display: 'block',
-          height: '[1px]',
-          backgroundColor: 'bg.base.border',
-          width: 'full',
-        },
-      },
-    },
-  },
-  compoundVariants: [
-    {
-      heading: [],
-      css: {
-        textUnderlineOffset: '2px',
-        color: 'fg',
-        _dark: {
-          color: 'fg',
-        },
-      },
-    },
-    {
-      textPosition: ['start', 'middle', 'end'],
-      css: {
-        display: 'grid',
-        gridGap: '2',
-        alignItems: 'center',
-      },
-    },
-  ],
-});
-
-type TypographyProps = RecipeVariantProps<typeof typographyRecipe> &
+type TextProps = SharedTypographyRecipeProps &
+  TextRecipeProps &
   React.HTMLAttributes<HTMLElement> & {
-    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'figcaption' | 'li';
-    margin?: boolean;
+    as?: 'p' | 'span' | 'figcaption' | 'li' | 'em';
   };
 
-function Typography({
-  margin = false,
-  bold,
-  italic,
-  textPosition,
-  heading,
-  className,
-  ...localProps
-}: TypographyProps) {
-  const { as: Component = 'p', ...restProps } = localProps;
+export function Text({ className, ...props }: TextProps) {
+  const { as: Component = 'p', ...rest } = props;
+
+  const [sharedTypographyRecipeProps, rest2] = sharedTypographyRecipe.splitVariantProps(rest);
+  const [textRecipeProps, rest3] = textRecipe.splitVariantProps(rest2);
+
   return (
     <Component
       className={cx(
-        typographyRecipe({
-          listitem: Component === 'li',
-          bold,
-          textPosition,
-          heading,
-          italic,
-          margin,
-        }),
+        sharedTypographyRecipe(sharedTypographyRecipeProps),
+        textRecipe(textRecipeProps),
         className,
       )}
-      {...restProps}
+      {...rest3}
     />
   );
 }
 
-export function Em({ children, className }: TypographyProps) {
+export function Em(props: Omit<TextProps, 'as'>) {
   return (
-    <span
-      className={cx(
-        typographyRecipe({ bold: false, italic: true }),
-        css({ color: 'fg.accent' }),
-        className,
-      )}
-    >
-      {children}
-    </span>
+    <Text {...props} as="em" className={css({ color: 'fg.accent' })} bold={false} italic={true} />
   );
 }
 
-export function MailTo({ children, className }: TypographyProps) {
+export function MailTo(props: Omit<TextProps, 'as'>) {
+  const [sharedTypographyRecipeProps, rest2] = sharedTypographyRecipe.splitVariantProps(props);
+  const [textRecipeProps, rest3] = textRecipe.splitVariantProps(rest2);
+
   return (
     <a
-      href={`mailto:${children}`}
+      href={`mailto:${props.children}`}
       className={cx(
-        typographyRecipe({ bold: false, italic: true, underline: true }),
+        sharedTypographyRecipe(sharedTypographyRecipeProps),
+        textRecipe(textRecipeProps),
         css({ color: 'fg.accent' }),
-        className,
       )}
+      {...rest3}
     >
-      {children}
+      {props.children}
     </a>
-  );
-}
-
-export function Text({ children, ...props }: TypographyProps) {
-  return (
-    <Typography margin={true} {...props}>
-      {children}
-    </Typography>
-  );
-}
-
-export function Heading({
-  children,
-  ...props
-}: TypographyProps & {
-  heading: 'heading-1' | 'heading-2' | 'heading-3' | 'heading-4' | 'heading-mega' | 'body';
-  as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-}) {
-  return (
-    <Typography margin {...props} heading={props.heading || 'heading-1'}>
-      {children}
-    </Typography>
   );
 }
 
@@ -198,12 +69,26 @@ function addLineBreaks(input: string): React.ReactNode {
   }, [] as React.ReactNode[]);
 }
 
-export function TextUnderScoreBreak({ children, ...props }: TypographyProps) {
+export function TextUnderScoreBreak({ children, ...props }: TextProps) {
   return (
-    <Typography {...props}>
-      {typeof children === 'string' ? addLineBreaks(children) : children}
-    </Typography>
+    <Text {...props}>{typeof children === 'string' ? addLineBreaks(children) : children}</Text>
   );
 }
 
-export default Typography;
+type TitleProps = SharedTypographyRecipeProps &
+  TextLineBarRecipeProps &
+  TitleRecipeProps &
+  React.HTMLAttributes<HTMLHeadingElement> & {
+    as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  };
+
+function composeTitleClasses(
+  props: SharedTypographyRecipeProps & TextLineBarRecipeProps & TitleRecipeProps,
+) {
+  return cx(sharedTypographyRecipe(props), textLineBarRecipe(props), titleRecipe(props));
+}
+
+export function Title({ as, className, ...props }: TitleProps) {
+  const Component = as;
+  return <Component className={cx(composeTitleClasses(props), className)} {...props} />;
+}

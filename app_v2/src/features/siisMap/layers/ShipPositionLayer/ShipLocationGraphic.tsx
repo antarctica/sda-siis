@@ -1,7 +1,8 @@
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import { Point } from '@arcgis/core/geometry';
-import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import React from 'react';
 
+import { useMapInteractionLayers } from '@/contexts/MapInteractionLayers/hooks';
 import { useCurrentMapView, useWatchEffect } from '@/features/arcgis/hooks';
 import { useLayerView } from '@/features/arcgis/hooks/useLayerView';
 import { selectFollowShip } from '@/store/features/shipSlice';
@@ -9,11 +10,6 @@ import { useAppSelector } from '@/store/hooks';
 import { MapCRS } from '@/types';
 
 import { setOrUpdateShipPositionGraphic } from './utils';
-
-const shipPositionGraphicsLayer = new GraphicsLayer({
-  id: 'graphics-layer',
-  title: 'Ship Position',
-});
 
 export function ShipLocationGraphic({
   position,
@@ -27,10 +23,11 @@ export function ShipLocationGraphic({
   mapCRS: MapCRS;
 }) {
   const currentMapView = useCurrentMapView();
+  const { shipPositionLayer } = useMapInteractionLayers();
 
   const { layer: graphicsLayer } = useLayerView<__esri.GraphicsLayer, __esri.GraphicsLayerView>(
     currentMapView,
-    shipPositionGraphicsLayer,
+    shipPositionLayer,
   );
 
   const followShip = useAppSelector(selectFollowShip);
@@ -40,7 +37,11 @@ export function ShipLocationGraphic({
 
     if (followShip && visible) {
       const target = new Point(position);
-      currentMapView.goTo({ target });
+      reactiveUtils
+        .whenOnce(() => !(currentMapView?.interacting || currentMapView?.animation))
+        .then(() => {
+          currentMapView.goTo({ target });
+        });
     }
 
     setOrUpdateShipPositionGraphic(

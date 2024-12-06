@@ -22,6 +22,7 @@ interface SelectionMenuProps<T> {
   trigger: React.ReactNode;
   className?: string;
   label: string;
+  isActionMenu?: boolean;
 }
 
 export function SelectionMenu<T>({
@@ -30,6 +31,7 @@ export function SelectionMenu<T>({
   trigger,
   className,
   label,
+  isActionMenu = false,
 }: SelectionMenuProps<T>) {
   const [open, setOpen] = React.useState(false);
 
@@ -62,7 +64,7 @@ export function SelectionMenu<T>({
           items={listData.items}
           selectionMode="single"
           selectionBehavior="toggle"
-          selectedKeys={listData.selectedKeys}
+          selectedKeys={isActionMenu ? undefined : listData.selectedKeys}
           onSelectionChange={(selection) => {
             if (selection instanceof Set && selection.size === 0) {
               setOpen(false);
@@ -109,11 +111,20 @@ export function StaticSelectionMenu<T>({
   defaultSelectedItemId,
   trigger,
   label,
+  isActionMenu = false,
 }: StaticSelectionMenuProps<T>) {
   const listData = useListData({
     initialItems: items,
     initialSelectedKeys: defaultSelectedItemId ? [defaultSelectedItemId] : undefined,
     getKey: (item) => item.id,
   });
-  return <SelectionMenu listData={listData} onSelect={onSelect} trigger={trigger} label={label} />;
+  return (
+    <SelectionMenu
+      listData={listData}
+      onSelect={onSelect}
+      trigger={trigger}
+      label={label}
+      isActionMenu={isActionMenu}
+    />
+  );
 }
