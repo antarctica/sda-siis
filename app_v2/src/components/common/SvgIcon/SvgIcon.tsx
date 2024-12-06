@@ -55,7 +55,9 @@ type IconName =
   | 'icon-up-down-chevron'
   | 'icon-buffer-rings'
   | 'icon-buffer-rings-off'
-  | 'icon-add-circle-graphic';
+  | 'icon-add-circle-graphic'
+  | 'icon-import'
+  | 'icon-edit';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: IconName;
