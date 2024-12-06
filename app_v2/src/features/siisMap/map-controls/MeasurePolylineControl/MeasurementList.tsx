@@ -71,7 +71,7 @@ export function MeasurementList({
             <li className={itemWrapper}>
               <MapGraphicPolylinePreviewSVG
                 mapView={mapView}
-                polyline={graphic.geometry}
+                graphic={graphic}
                 options={polylinePreviewOptions}
               />
               <div className={measurementInfo}>
