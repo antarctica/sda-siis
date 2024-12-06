@@ -48,10 +48,9 @@ export async function fetchGranulesForProduct(
   return data || [];
 }
 
-export async function convertRTZPToGeoJSON(input: string | File): Promise<GeoJSONFeature> {
-  const body = input instanceof File ? input : JSON.stringify(input);
+export async function convertRTZPToGeoJSON(input: File): Promise<GeoJSONFeature> {
   const formData = new FormData();
-  formData.append('application/rtzp', body);
+  formData.append('application/rtzp', input);
 
   const { data, error } = await apiClient.POST('/routes/convert', {
     params: {
@@ -80,10 +79,8 @@ export async function convertRTZPToGeoJSON(input: string | File): Promise<GeoJSO
   }
 }
 
-export async function convertGeoJSONToRTZP(input: string | File): Promise<Blob> {
-  const body = input instanceof File ? input : JSON.stringify(input);
-  const formData = new FormData();
-  formData.append('application/geo+json', body);
+export async function convertGeoJSONToRTZP(input: string): Promise<Blob> {
+  const jsonObject = JSON.parse(input);
 
   const { data, error } = await apiClient.POST('/routes/convert', {
     params: {
@@ -92,7 +89,8 @@ export async function convertGeoJSONToRTZP(input: string | File): Promise<Blob> 
         accept: 'application/rtzp',
       },
     },
-    body: formData,
+    body: jsonObject,
+    parseAs: 'blob',
   });
 
   if (error) {
@@ -104,9 +102,5 @@ export async function convertGeoJSONToRTZP(input: string | File): Promise<Blob> 
     throw new Error('No data received from route conversion');
   }
 
-  if (typeof data !== 'string') {
-    throw new Error('Invalid data received from route conversion');
-  }
-
-  return new Blob([data], { type: 'application/rtzp' });
+  return data;
 }
