@@ -82,13 +82,21 @@ type TitleProps = SharedTypographyRecipeProps &
     as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   };
 
-function composeTitleClasses(
-  props: SharedTypographyRecipeProps & TextLineBarRecipeProps & TitleRecipeProps,
-) {
-  return cx(sharedTypographyRecipe(props), textLineBarRecipe(props), titleRecipe(props));
-}
-
 export function Title({ as, className, ...props }: TitleProps) {
+  const [sharedTypographyRecipeProps, rest] = sharedTypographyRecipe.splitVariantProps(props);
+  const [textLineBarRecipeProps, rest2] = textLineBarRecipe.splitVariantProps(rest);
+  const [titleRecipeProps] = titleRecipe.splitVariantProps(rest2);
+
   const Component = as;
-  return <Component className={cx(composeTitleClasses(props), className)} {...props} />;
+  return (
+    <Component
+      className={cx(
+        sharedTypographyRecipe({ margin: true, ...sharedTypographyRecipeProps }),
+        textLineBarRecipe(textLineBarRecipeProps),
+        titleRecipe(titleRecipeProps),
+        className,
+      )}
+      {...props}
+    />
+  );
 }
