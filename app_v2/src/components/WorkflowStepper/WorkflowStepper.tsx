@@ -61,7 +61,7 @@ const workFlowItemRecipe = sva({
         bullet: {
           borderColor: 'fg.accent',
           bg: 'bg.accent',
-          color: 'app.white',
+          color: 'bg.base',
           borderWidth: 'unset',
         },
         itemWrapper: {

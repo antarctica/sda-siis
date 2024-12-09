@@ -45,7 +45,7 @@ const statusCircleRecipe = cva({
 });
 
 export function LayerStatusCircle({ status }: { status: LayerStatus }) {
-  return <Circle className={statusCircleRecipe({ status })} size={'4'}></Circle>;
+  return <Circle className={statusCircleRecipe({ status })} size={'2.5'}></Circle>;
 }
 
 export function LayerStatusBadge({ status = 'static' }: { status?: LayerStatus }) {
