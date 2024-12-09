@@ -94,7 +94,7 @@ function GlobalSettingsMenu() {
         icon={<SvgIcon name="icon-settings" size={20} />}
         aria-label={'Application Settings'}
       />
-      <PopoverMenu className={css({ w: 'sm', px: '4', pb: '4' })}>
+      <PopoverMenu className={css({ mdDown: { w: '80' }, w: 'sm', px: '4', pb: '4' })}>
         <Title as="h3" size="lg">
           Application Settings
         </Title>

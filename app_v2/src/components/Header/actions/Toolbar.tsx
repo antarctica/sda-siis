@@ -42,12 +42,14 @@ export function Toolbar() {
   const toolbarItems = React.useMemo(() => {
     const items = [
       !isMobile && <FullScreen key="fullscreen" />,
-      <Action
-        key="minimise"
-        icon={<SvgIcon name="icon-minimise-ui" size={20} />}
-        aria-label="Minimise UI"
-        onPress={minimiseUI}
-      />,
+      !isMobile && (
+        <Action
+          key="minimise"
+          icon={<SvgIcon name="icon-minimise-ui" size={20} />}
+          aria-label="Minimise UI"
+          onPress={minimiseUI}
+        />
+      ),
       <GlobalSettingsMenu key="settings" />,
       <SelectProjection key="projection" />,
       <AboutPage key="about" />,

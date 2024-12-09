@@ -51,7 +51,10 @@ function RouteDetailsStatic({
           {hyphensToSpaces(routeGraphic.attributes.route_name)}{' '}
         </Title>
         <Text className={css({ textStyle: 'description' })}>
-          Total length: {`${length.toFixed(2)} ${getDisplayUnit(defaultMeasurementUnit)}`}
+          Total length:{' '}
+          <span className={css({ whiteSpace: 'nowrap' })}>
+            {`${length.toFixed(2)} ${getDisplayUnit(defaultMeasurementUnit)}`}
+          </span>
         </Text>
       </Box>
       <IconButton
@@ -120,7 +123,10 @@ function RouteDetailsEditing({
               />
             </Flex>
             <Text className={css({ textStyle: 'description' })}>
-              Total length: {`${length.toFixed(2)} ${getDisplayUnit(defaultMeasurementUnit)}`}
+              Total length:{' '}
+              <span
+                style={{ whiteSpace: 'nowrap' }}
+              >{`${length.toFixed(2)} ${getDisplayUnit(defaultMeasurementUnit)}`}</span>
             </Text>
           </Box>
         </Flex>

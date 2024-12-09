@@ -111,7 +111,7 @@ function MobileDialog({
       animate={animate ? { width: isOpen ? '100%' : '50%', opacity: isOpen ? 1 : 0.8 } : undefined}
       transition={{
         type: 'spring',
-        stiffness: 260,
+        stiffness: 460,
         damping: 35,
         restDelta: 0.01,
       }}
