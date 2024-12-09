@@ -21,6 +21,7 @@ export function useLayerView<Layer extends __esri.Layer, LayerView extends __esr
       layer.on('layerview-create', (event) => {
         setLayerView(event.layerView as LayerView);
       });
+
       mapView.map.add(layer);
     }
 

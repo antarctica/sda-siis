@@ -1,5 +1,10 @@
 export interface MapInteractionLayersType {
-  measurementLayer: __esri.GraphicsLayer;
-  shipPositionLayer: __esri.GraphicsLayer;
-  routesLayer: __esri.GraphicsLayer;
+  measurementInteraction: MapInteractionLayer;
+  shipPositionInteraction: MapInteractionLayer;
+  routesInteraction: MapInteractionLayer;
 }
+
+export type MapInteractionLayer = {
+  layer: __esri.GraphicsLayer;
+  alwaysVisible?: boolean;
+};

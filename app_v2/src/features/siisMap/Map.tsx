@@ -2,6 +2,7 @@ import { SpatialReference } from '@arcgis/core/geometry';
 import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { css, cva } from '@styled-system/css';
 import { Box, Flex, Stack } from '@styled-system/jsx';
+import React from 'react';
 
 import { MAP_ID } from '@/config/constants';
 import { CRS_LOOKUP, validateExtentInCRS } from '@/config/map';
@@ -43,8 +44,10 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
   const map = useMapInitialization(crs);
   const isMobile = useIsMobile();
 
-  const validatedExtent = initialExtent ? validateExtentInCRS(initialExtent, crs) : undefined;
-
+  const validatedExtent = React.useMemo(
+    () => (initialExtent ? validateExtentInCRS(initialExtent, crs) : undefined),
+    [initialExtent, crs],
+  );
   return (
     <Box w={'full'} h={'full'} position={'relative'} className={mapStyles()}>
       {map && (

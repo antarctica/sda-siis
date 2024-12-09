@@ -18,6 +18,7 @@ function AppContent() {
   useInitialCRS();
   const crs = useAppSelector(selectCurrentCRS);
   const previousExtent = useAppSelector(selectPreviousExtent);
+  console.log('rendered AppContent');
 
   if (!crs) {
     return null;

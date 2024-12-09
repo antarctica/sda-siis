@@ -11,14 +11,14 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { MapCRS } from '@/types';
 
 const items: SelectionMenuItem<MapCRS>[] = [
+  { label: 'Arctic', value: MapCRS.ARCTIC, id: MapCRS.ARCTIC, icon: 'icon-arctic-globe' },
+  { label: 'Mercator', value: MapCRS.MERCATOR, id: MapCRS.MERCATOR, icon: 'icon-met-globe' },
   {
     label: 'Antarctic',
     id: MapCRS.ANTARCTIC,
     value: MapCRS.ANTARCTIC,
     icon: 'icon-antarctic-globe',
   },
-  { label: 'Arctic', value: MapCRS.ARCTIC, id: MapCRS.ARCTIC, icon: 'icon-arctic-globe' },
-  { label: 'Mercator', value: MapCRS.MERCATOR, id: MapCRS.MERCATOR, icon: 'icon-met-globe' },
 ];
 
 export function SelectProjection() {

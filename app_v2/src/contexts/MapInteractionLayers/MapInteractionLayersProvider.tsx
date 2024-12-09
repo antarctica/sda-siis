@@ -2,22 +2,32 @@ import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import React from 'react';
 
 import { MapInteractionLayersContext } from './MapInteractionLayersContext';
+import { MapInteractionLayersType } from './types';
 
 export function MapInteractionLayersProvider({ children }: { children: React.ReactNode }) {
-  const layers = React.useMemo(() => {
+  const layers: MapInteractionLayersType = React.useMemo(() => {
     return {
-      measurementLayer: new GraphicsLayer({
-        listMode: 'hide',
-        title: 'Measurements',
-      }),
-      shipPositionLayer: new GraphicsLayer({
-        listMode: 'hide',
-        title: 'Ship Positions',
-      }),
-      routesLayer: new GraphicsLayer({
-        listMode: 'hide',
-        title: 'Routes',
-      }),
+      measurementInteraction: {
+        layer: new GraphicsLayer({
+          listMode: 'hide',
+          title: 'Measurements',
+        }),
+        alwaysVisible: false,
+      },
+      shipPositionInteraction: {
+        layer: new GraphicsLayer({
+          listMode: 'hide',
+          title: 'Ship Positions',
+        }),
+        alwaysVisible: true,
+      },
+      routesInteraction: {
+        layer: new GraphicsLayer({
+          listMode: 'hide',
+          title: 'Routes',
+        }),
+        alwaysVisible: true,
+      },
     };
   }, []);
 

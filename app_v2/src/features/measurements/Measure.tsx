@@ -4,11 +4,11 @@ import { useSIISMapView } from '@/hooks/useSIISMapView';
 
 function Measure() {
   const mapView = useSIISMapView();
-  const { measurementLayer } = useMapInteractionLayers();
+  const { measurementInteraction } = useMapInteractionLayers();
   if (!mapView) return null;
   return (
     <MeasureLine
-      graphicsLayer={measurementLayer}
+      graphicsLayer={measurementInteraction.layer}
       mapView={mapView as __esri.MapView}
       measurementID="MeasureLine"
     />

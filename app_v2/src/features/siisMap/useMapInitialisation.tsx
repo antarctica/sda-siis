@@ -8,6 +8,7 @@ import React from 'react';
 import { useProducts } from '@/api/useProducts';
 import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
 import { CRS_LOOKUP } from '@/config/map';
+import { useMapInteractionLayers } from '@/contexts/MapInteractionLayers';
 import { useAddLayer } from '@/features/layersManagement/components/LayerManager/hooks/useAddLayer';
 import { LayerTimeInfo } from '@/features/layersManagement/components/LayerManager/machines/types';
 import {
@@ -25,6 +26,7 @@ import { useTheme } from '../../components/Theme';
 export function useMapInitialization(crs: MapCRS) {
   const [map, setMap] = React.useState<EsriMap>();
   const mapRef = React.useRef<EsriMap>();
+  const interactionLayers = useMapInteractionLayers();
   const dateFormatter = useFormatDate({
     dateStyle: 'medium',
     timeStyle: 'long',
@@ -50,6 +52,12 @@ export function useMapInitialization(crs: MapCRS) {
             wkid: CRS_LOOKUP[crs].wkid,
           }),
         }),
+      });
+
+      Object.values(interactionLayers).forEach((layer) => {
+        if (layer.alwaysVisible) {
+          map.add(layer.layer);
+        }
       });
 
       const { products } = data;
@@ -207,7 +215,7 @@ export function useMapInitialization(crs: MapCRS) {
       mapRef.current = map;
       setMap(map);
     }
-  }, [addLayer, data, theme, dateFormatter, crs]);
+  }, [addLayer, data, theme, dateFormatter, crs, interactionLayers]);
 
   return map;
 }

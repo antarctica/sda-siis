@@ -4,7 +4,6 @@ import React from 'react';
 
 import { useMapInteractionLayers } from '@/contexts/MapInteractionLayers/hooks';
 import { useCurrentMapView, useWatchEffect } from '@/features/arcgis/hooks';
-import { useLayerView } from '@/features/arcgis/hooks/useLayerView';
 import { selectFollowShip } from '@/store/features/shipSlice';
 import { useAppSelector } from '@/store/hooks';
 import { MapCRS } from '@/types';
@@ -23,12 +22,7 @@ export function ShipLocationGraphic({
   mapCRS: MapCRS;
 }) {
   const currentMapView = useCurrentMapView();
-  const { shipPositionLayer } = useMapInteractionLayers();
-
-  const { layer: graphicsLayer } = useLayerView<__esri.GraphicsLayer, __esri.GraphicsLayerView>(
-    currentMapView,
-    shipPositionLayer,
-  );
+  const { shipPositionInteraction } = useMapInteractionLayers();
 
   const followShip = useAppSelector(selectFollowShip);
 
@@ -45,21 +39,29 @@ export function ShipLocationGraphic({
     }
 
     setOrUpdateShipPositionGraphic(
-      graphicsLayer,
+      shipPositionInteraction.layer,
       position,
       shipHeading ?? 0,
       mapCRS,
       currentMapView.rotation,
       currentMapView.scale,
     );
-  }, [graphicsLayer, position, shipHeading, mapCRS, currentMapView, followShip, visible]);
+  }, [
+    shipPositionInteraction.layer,
+    position,
+    shipHeading,
+    mapCRS,
+    currentMapView,
+    followShip,
+    visible,
+  ]);
 
   useWatchEffect(
     () => [currentMapView?.scale, currentMapView?.rotation],
     ([scale, rotation]) => {
-      if (graphicsLayer && position && scale && rotation !== undefined) {
+      if (shipPositionInteraction.layer && position && scale && rotation !== undefined) {
         setOrUpdateShipPositionGraphic(
-          graphicsLayer,
+          shipPositionInteraction.layer,
           position,
           shipHeading ?? 0,
           mapCRS,

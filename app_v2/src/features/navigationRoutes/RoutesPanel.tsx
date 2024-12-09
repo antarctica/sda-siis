@@ -11,7 +11,6 @@ import {
   DrawSingleGraphicOptions,
   useDrawSingleGraphic,
 } from '../arcgis/hooks/useDrawSingleGraphic';
-import { useLayerView } from '../arcgis/hooks/useLayerView';
 import { RouteDetailsStep } from './components/WorkFlowSteps/RouteDetailsStep';
 import { SelectRouteStep } from './components/WorkFlowSteps/SelectRouteStep';
 import { RouteGraphic } from './utils';
@@ -33,8 +32,7 @@ function RoutesPanel() {
 }
 
 function WorkFlowSteps({ mapView }: { mapView: __esri.MapView }) {
-  const { routesLayer, shipPositionLayer } = useMapInteractionLayers();
-  useLayerView(mapView, routesLayer, false);
+  const { routesInteraction, shipPositionInteraction } = useMapInteractionLayers();
   const options: DrawSingleGraphicOptions = React.useMemo(
     () => ({
       sketchOptions: {
@@ -45,7 +43,7 @@ function WorkFlowSteps({ mapView }: { mapView: __esri.MapView }) {
           selfEnabled: false,
           featureSources: [
             {
-              layer: shipPositionLayer,
+              layer: shipPositionInteraction.layer,
               enabled: true,
             },
           ],
@@ -73,10 +71,10 @@ function WorkFlowSteps({ mapView }: { mapView: __esri.MapView }) {
         }
       },
     }),
-    [shipPositionLayer],
+    [shipPositionInteraction.layer],
   );
   const { create, activeDrawMode, clearGraphic, graphic, setGraphic, controlledUpdate } =
-    useDrawSingleGraphic(mapView, ROUTE_GRAPHIC_UNIQUE_ID, routesLayer, options);
+    useDrawSingleGraphic(mapView, ROUTE_GRAPHIC_UNIQUE_ID, routesInteraction.layer, options);
 
   return (
     <>
