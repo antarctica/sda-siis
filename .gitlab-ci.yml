@@ -59,6 +59,7 @@ build-app-stage:
     name: docker-registry.data.bas.ac.uk/magic/siis/app:latest
     entrypoint: [""]
   variables:
+    POLARROUTE_SERVER_ENDPOINT: http://bsl-polarroute-dev-s2.nerc-bas.ac.uk
     SERVICE_API_ENDPOINT: https://api.siis.sda-stage.bas.ac.uk
     SERVICE_API_KV_ENDPOINT: http://10.70.1.145:32003/kv
     SERVICE_API_OGC_ENDPOINT: https://geoserver.siis.sda-stage.bas.ac.uk
