@@ -1,13 +1,15 @@
 import { useListData } from '@react-stately/data';
 import { css } from '@styled-system/css';
-import { Flex } from '@styled-system/jsx';
+import { Box, Flex, Stack } from '@styled-system/jsx';
 import { DialogTrigger, NumberFieldProps } from 'react-aria-components';
 
+import { Button } from '@/components/common/Button';
 import NumberField from '@/components/common/forms/NumberField';
 import PopoverMenu from '@/components/common/PopoverMenu';
 import { Select } from '@/components/common/Select';
 import SvgIcon from '@/components/common/SvgIcon';
 import { Text, Title } from '@/components/common/Typography';
+import { DarkModeSwitch, useTheme } from '@/components/Theme';
 import { MeasurementUnit } from '@/features/arcgis/hooks/measurements/types';
 import {
   selectDefaultLatLonFormat,
@@ -87,6 +89,25 @@ function UtcTimeOffsetField(props: NumberFieldProps) {
   );
 }
 
+function AppSettingsThemeToggler() {
+  const { currentTheme, toggleTheme } = useTheme();
+  return (
+    <Button
+      onPress={() => {
+        toggleTheme();
+      }}
+    >
+      <DarkModeSwitch
+        moonColor="white"
+        sunColor="black"
+        checked={currentTheme === 'dark'}
+        size={16}
+      />{' '}
+      Toggle Theme
+    </Button>
+  );
+}
+
 function GlobalSettingsMenu() {
   return (
     <DialogTrigger>
@@ -94,19 +115,24 @@ function GlobalSettingsMenu() {
         icon={<SvgIcon name="icon-settings" size={20} />}
         aria-label={'Application Settings'}
       />
-      <PopoverMenu className={css({ mdDown: { w: '80' }, w: 'sm', px: '4', pb: '4' })}>
-        <Title as="h3" size="lg">
-          Application Settings
-        </Title>
-        <Text margin>
-          Customize your application preferences. These settings will persist across browser
-          sessions.
-        </Text>
-        <Flex direction="column" gap="2">
-          <SelectMeasurementUnit />
-          <SelectLatLonFormat />
-          <UtcTimeOffsetField />
-        </Flex>
+      <PopoverMenu className={css({ maxWidth: '[calc(100vw - 30px)]', w: 'sm', px: '4', pb: '4' })}>
+        <Stack gap="2">
+          <Box>
+            <Title as="h3" size="lg">
+              Application Settings
+            </Title>
+            <Text margin textStyle="description">
+              Customize your application preferences. These settings will persist across browser
+              sessions.
+            </Text>
+          </Box>
+          <Flex direction="column" gap="2" mb="2">
+            <SelectMeasurementUnit />
+            <SelectLatLonFormat />
+            <UtcTimeOffsetField />
+          </Flex>
+          <AppSettingsThemeToggler />
+        </Stack>
       </PopoverMenu>
     </DialogTrigger>
   );
