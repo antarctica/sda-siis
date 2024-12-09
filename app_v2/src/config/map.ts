@@ -7,9 +7,9 @@ import { MapCRS } from '@/types';
 import { generateCircleRings } from '@/utils/mapUtils';
 
 export function getDefaultCRSForLatitude(latitude: number): MapCRS {
-  if (latitude < -55) {
+  if (latitude < -50) {
     return MapCRS.ANTARCTIC;
-  } else if (latitude > 55) {
+  } else if (latitude > 50) {
     return MapCRS.ARCTIC;
   }
   return MapCRS.MERCATOR;
