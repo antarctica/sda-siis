@@ -21,11 +21,11 @@
     "@fontsource/open-sans": "^4.5.1",
     "axios": "^0.21.1",
     "axios-retry": "^3.2.4",
-    "ol": "^6.8.1",
+    "ol": "^6.5.0",
     "proj4": "^2.6.3",
     "vue": "^2.6.12",
     "vue-hot-reload-api": "^2.3.4",
-    "vuelayers": "0.12.7"
+    "vuelayers": "0.12.0-dev.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

@@ -15,7 +15,7 @@
       v-on:update:active_product="whenActiveProductsChange"
     ></app-product>
     <div class="debug" v-if="debug_mode">
-      <p>Selected product: {{ selected_product.id }} - {{ selected_product.code }}<p>
+      <p>Selected product: {{ selected_product.id }} - {{ selected_product.code }}</p>
       <p>Active products:</p>
       <ul>
         <li v-for="product in active_products" :key="product.id">{{ product.id }} - {{ product.code }}</li>
