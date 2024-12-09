@@ -1,4 +1,5 @@
 import { css } from '@styled-system/css';
+import { Box } from '@styled-system/jsx';
 
 import { useSensorData } from '@/api/useShipSensorData';
 import { MapButton } from '@/components/common/Button';
@@ -51,29 +52,42 @@ function SensorInfo() {
       className={css({
         position: 'relative',
         pointerEvents: 'auto',
+        zIndex: '1',
       })}
     >
-      <MapButton
-        icon={<SvgIcon name="icon-ship" size={16} />}
-        aria-label={sensorInfoPanelOpen ? 'Hide ship sensor info' : 'Show ship sensor info'}
-        aria-expanded={sensorInfoPanelOpen}
-        aria-controls="sensor-info-panel"
-        onPress={toggleSensorInfo}
+      <Box
         className={css({
           position: 'absolute',
-          top: '0',
-          right: '0',
-          ...(sensorInfoPanelOpen
-            ? {
-                shadow: '[none]',
-                borderColor: 'app.accent',
-                borderStartRadius: 'radii.none',
-                borderBottomRadius: 'radii.none',
-              }
-            : {}),
+          md: {
+            top: '0',
+            right: '0',
+          },
+          mdDown: {
+            bottom: '0',
+            right: '0',
+          },
         })}
-      />
-      <SensorStatusDot />
+      >
+        <MapButton
+          icon={<SvgIcon name="icon-ship" size={16} />}
+          aria-label={sensorInfoPanelOpen ? 'Hide ship sensor info' : 'Show ship sensor info'}
+          aria-expanded={sensorInfoPanelOpen}
+          aria-controls="sensor-info-panel"
+          onPress={toggleSensorInfo}
+          className={css({
+            ...(sensorInfoPanelOpen
+              ? {
+                  shadow: '[none]',
+                  borderColor: 'app.accent',
+                  borderStartRadius: 'radii.none',
+                  borderBottomRadius: 'radii.none',
+                }
+              : {}),
+          })}
+        />
+        <SensorStatusDot />
+      </Box>
+
       {sensorInfoPanelOpen && <SensorInfoPanel />}
     </div>
   );

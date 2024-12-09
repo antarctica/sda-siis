@@ -1,20 +1,25 @@
 import { css } from '@styled-system/css';
-import { Box, Divider } from '@styled-system/jsx';
+import { Box, Divider, Stack } from '@styled-system/jsx';
 
 import ShipInfo from './ShipInfo';
 import ShipToolbar from './ShipToolbar';
 
 function SensorInfoPanel() {
   return (
-    <div
+    <Stack
+      gap="0"
       id="sensor-info-panel"
       className={css({
+        smDown: {
+          flexDirection: 'column-reverse',
+        },
         borderWidth: 'thin',
         borderColor: 'app.accent',
         borderRadius: 'md',
         bg: 'bg.base',
         shadow: 'md',
         width: '[22rem]',
+        maxWidth: '[calc(100vw - 30px)]',
         pointerEvents: 'auto',
       })}
     >
@@ -23,7 +28,7 @@ function SensorInfoPanel() {
       </Box>
       <Divider orientation="horizontal" color="bg.base.border" />
       <ShipToolbar />
-    </div>
+    </Stack>
   );
 }
 

@@ -2,6 +2,7 @@ import { css } from '@styled-system/css';
 import { Box } from '@styled-system/jsx';
 
 import { useShipDepth, useShipHeading, useShipSpeed } from '@/api/useShipSensorData';
+import useIsMobile from '@/hooks/useIsMobile';
 import { useShipPositionWithVisibility } from '@/hooks/useShipPositionWithVisibility';
 import { selectDefaultLatLonFormat } from '@/store/features/appSlice';
 import { useAppSelector } from '@/store/hooks';
@@ -22,57 +23,58 @@ function ShipInfo() {
     isOnline: positionOnline,
     isError: positionError,
   } = useShipPositionWithVisibility();
+  const isMobile = useIsMobile();
+
+  const data = [
+    {
+      label: 'Speed',
+      value: speedError ? (
+        <ShipSensorStatusBadge variant="error" />
+      ) : speedOnline ? (
+        `${speed} knots`
+      ) : (
+        <ShipSensorStatusBadge variant="warning" />
+      ),
+    },
+    {
+      label: 'Heading',
+      value: headingError ? (
+        <ShipSensorStatusBadge variant="error" />
+      ) : headingOnline ? (
+        `${heading}°`
+      ) : (
+        <ShipSensorStatusBadge variant="warning" />
+      ),
+    },
+    {
+      label: 'Depth',
+      value: depthError ? (
+        <ShipSensorStatusBadge variant="error" />
+      ) : depthOnline ? (
+        `${depth} meters`
+      ) : (
+        <ShipSensorStatusBadge variant="warning" />
+      ),
+    },
+    {
+      label: 'Position',
+      value: positionError ? (
+        <ShipSensorStatusBadge variant="error" />
+      ) : positionOnline ? (
+        formatCoordinate(latitude ?? 0, longitude ?? 0, LatLonFormat)
+      ) : (
+        <ShipSensorStatusBadge variant="warning" />
+      ),
+    },
+  ];
 
   return (
     <>
-      <Title as="h2" size="md" className={css({ pr: '10' })}>
+      <Title as="h2" size="lg" className={css({ pr: '10' })}>
         RRS Sir David Attenborough
       </Title>
       <Box px="2">
-        <DataGrid
-          data={[
-            {
-              label: 'Speed',
-              value: speedError ? (
-                <ShipSensorStatusBadge variant="error" />
-              ) : speedOnline ? (
-                `${speed} knots`
-              ) : (
-                <ShipSensorStatusBadge variant="warning" />
-              ),
-            },
-            {
-              label: 'Heading',
-              value: headingError ? (
-                <ShipSensorStatusBadge variant="error" />
-              ) : headingOnline ? (
-                `${heading}°`
-              ) : (
-                <ShipSensorStatusBadge variant="warning" />
-              ),
-            },
-            {
-              label: 'Depth',
-              value: depthError ? (
-                <ShipSensorStatusBadge variant="error" />
-              ) : depthOnline ? (
-                `${depth} meters`
-              ) : (
-                <ShipSensorStatusBadge variant="warning" />
-              ),
-            },
-            {
-              label: 'Position',
-              value: positionError ? (
-                <ShipSensorStatusBadge variant="error" />
-              ) : positionOnline ? (
-                formatCoordinate(latitude ?? 0, longitude ?? 0, LatLonFormat)
-              ) : (
-                <ShipSensorStatusBadge variant="warning" />
-              ),
-            },
-          ]}
-        />
+        <DataGrid data={isMobile ? data.reverse() : data} />
       </Box>
     </>
   );

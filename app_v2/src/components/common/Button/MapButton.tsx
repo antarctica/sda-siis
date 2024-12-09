@@ -5,14 +5,8 @@ import { IconButton, IconButtonProps } from './IconButton';
 const mapButtonRecipe = cva({
   base: {
     bg: 'bg.base',
-    md: {
-      w: '12',
-      h: '12',
-    },
-    mdDown: {
-      w: '8',
-      h: '8',
-    },
+    w: '12',
+    h: '12',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -40,6 +34,7 @@ export function MapButton({
 }: IconButtonProps & RecipeVariantProps<typeof mapButtonRecipe>) {
   return (
     <IconButton
+      contained
       variant="mapButton"
       {...props}
       className={cx(mapButtonRecipe({ isContainer }), className)}

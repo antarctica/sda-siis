@@ -91,14 +91,14 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
               </Stack>
             </ArcgisPlacement>
           )}
-          <ArcgisPlacement position="top-right">
-            <SensorInfo />
-          </ArcgisPlacement>
           <ArcgisPlacement position="bottom-left">
             <Flex direction={'column'} gap={'2'}>
               <ScaleControl />
               {!isMobile && <CursorLocationControl />}
             </Flex>
+          </ArcgisPlacement>{' '}
+          <ArcgisPlacement position={isMobile ? 'bottom-right' : 'top-right'}>
+            <SensorInfo />
           </ArcgisPlacement>
           <ShipPositionLayer crs={crs} />
           <GraticuleLayer
