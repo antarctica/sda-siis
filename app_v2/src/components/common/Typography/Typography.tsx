@@ -85,7 +85,7 @@ type TitleProps = SharedTypographyRecipeProps &
 export function Title({ as, className, ...props }: TitleProps) {
   const [sharedTypographyRecipeProps, rest] = sharedTypographyRecipe.splitVariantProps(props);
   const [textLineBarRecipeProps, rest2] = textLineBarRecipe.splitVariantProps(rest);
-  const [titleRecipeProps] = titleRecipe.splitVariantProps(rest2);
+  const [titleRecipeProps, rest3] = titleRecipe.splitVariantProps(rest2);
 
   const Component = as;
   return (
@@ -96,7 +96,7 @@ export function Title({ as, className, ...props }: TitleProps) {
         titleRecipe(titleRecipeProps),
         className,
       )}
-      {...props}
+      {...rest3}
     />
   );
 }
