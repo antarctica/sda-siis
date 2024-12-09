@@ -50,6 +50,11 @@ function WorkFlowSteps({ mapView }: { mapView: __esri.MapView }) {
             },
           ],
         },
+        defaultUpdateOptions: {
+          reshapeOptions: {
+            shapeOperation: 'none',
+          },
+        },
         tooltipOptions: {
           enabled: true,
           visibleElements: {

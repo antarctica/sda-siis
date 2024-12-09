@@ -1,6 +1,8 @@
 import { RecipeVariantProps, sva } from '@styled-system/css';
+import { Circle } from '@styled-system/jsx';
 import * as React from 'react';
 
+import SvgIcon from '../common/SvgIcon';
 import { Text, Title } from '../common/Typography';
 
 const workFlowItemRecipe = sva({
@@ -47,8 +49,10 @@ const workFlowItemRecipe = sva({
       left: '[calc(var(--bullet-size) * -1/2)]',
       w: '[var(--bullet-size)]',
       h: '[var(--bullet-size)]',
-      borderWidth: 'thick',
       bg: 'transparent',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   },
   variants: {
@@ -56,7 +60,9 @@ const workFlowItemRecipe = sva({
       completed: {
         bullet: {
           borderColor: 'fg.accent',
-          bg: 'bg.accent.soft',
+          bg: 'bg.accent',
+          color: 'app.white',
+          borderWidth: 'unset',
         },
         itemWrapper: {
           '&:before': {
@@ -67,21 +73,36 @@ const workFlowItemRecipe = sva({
       active: {
         bullet: {
           borderColor: 'fg.accent',
-          bg: 'bg.accent.soft',
+          borderWidth: 'medium',
         },
         itemWrapper: {
           '&:before': {
-            borderColor: 'fg.muted',
+            bgGradient: 'to-b',
+            gradientFrom: 'app.accent',
+            gradientTo: 'transparent',
+            gradientToPosition: '4px',
+            gradientFromPosition: '4px',
+            backgroundSize: '[var(--line-width) 8px]', // 4px dash + 4px space = 8px total
+            borderStyle: 'none',
+            backgroundRepeat: 'repeat-y',
           },
         },
       },
       disabled: {
         bullet: {
           borderColor: 'fg.muted',
+          borderWidth: 'medium',
         },
         itemWrapper: {
           '&:before': {
-            borderColor: 'fg.muted',
+            bgGradient: 'to-b',
+            gradientFrom: 'fg.muted',
+            gradientTo: 'transparent',
+            gradientToPosition: '4px',
+            gradientFromPosition: '4px',
+            backgroundSize: '[var(--line-width) 8px]', // 4px dash + 4px space = 8px total
+            borderStyle: 'none',
+            backgroundRepeat: 'repeat-y',
           },
         },
       },
@@ -104,9 +125,17 @@ export function WorkflowItem({
   ...props
 }: React.PropsWithChildren<WorkflowItemProps>) {
   const { itemWrapper, bullet, titleContainer } = workFlowItemRecipe(props);
+
+  const bulletIcon = {
+    completed: <SvgIcon name="icon-check" size={16} />,
+    active: <Circle size={'2.5'} bg={'fg.accent'} />,
+    disabled: null,
+    default: null,
+  };
+
   return (
     <div className={itemWrapper}>
-      <div className={bullet} />
+      <div className={bullet}>{bulletIcon[props.state ?? 'default']}</div>
       {title && (
         <div className={titleContainer}>
           <Title bold as="h3" size="md" margin={false}>

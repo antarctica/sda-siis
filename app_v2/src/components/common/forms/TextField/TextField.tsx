@@ -41,7 +41,14 @@ export default function TextField({
         placeholder={placeholder}
       />
       {description && <Description>{description}</Description>}
-      <FieldError>{errorMessage}</FieldError>
+      <FieldError>
+        {({ validationDetails }) => {
+          if (validationDetails.valueMissing) {
+            return 'This field is required';
+          }
+          return <>{errorMessage}</>;
+        }}
+      </FieldError>
     </AriaTextField>
   );
 }

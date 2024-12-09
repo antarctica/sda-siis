@@ -34,6 +34,7 @@ type IconName =
   | 'icon-zoom-to'
   | 'icon-send-message'
   | 'icon-check-circle'
+  | 'icon-check'
   | 'icon-measure'
   | 'icon-map-polygon'
   | 'icon-map-polyline'
