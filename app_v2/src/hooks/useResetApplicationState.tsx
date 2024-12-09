@@ -7,7 +7,7 @@ export function useResetApplicationState() {
   const sidebarActorRef = useSidebarActorRef();
   const resetLayerManagerLayers = useResetLayers();
 
-  const resetApplicationState = React.useCallback(() => {
+  const resetApplicationState = React.useMemo(() => {
     return () => {
       resetLayerManagerLayers();
       sidebarActorRef.send({ type: 'ITEMS.CLOSE_ALL' });

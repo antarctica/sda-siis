@@ -31,8 +31,8 @@ export function SelectProjection() {
     (crs: MapCRS) => {
       const extent = mapView?.extent;
       if (!extent) return;
-      dispatch(setNewCRS({ crs, extentJson: extent.toJSON() }));
       resetApplicationState();
+      dispatch(setNewCRS({ crs, extentJson: extent.toJSON() }));
     },
     [dispatch, resetApplicationState, mapView],
   );
