@@ -7,4 +7,4 @@ WORKDIR /usr/src/app
 
 # Setup project dependencies
 COPY package.json yarn.lock .babelrc /usr/src/app/
-RUN yarn install
+RUN npm install
