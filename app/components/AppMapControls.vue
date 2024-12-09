@@ -6,6 +6,7 @@
         v-on:click="makeAppFullscreen"
         title="Make full screen"
       >X
+      </button>
     </fieldset>
     <fieldset>
       <button
@@ -181,7 +182,7 @@
     <div class="debug" v-if="debug_mode">
       <p>Debug mode: <output>{{ debug_control }}</output></p>
       <p>Day/Night mode: <output>{{ day_night_mode }}</output></p>
-      <p>CRS: <output>{{ crs }}</output><p>
+      <p>CRS: <output>{{ crs }}</output></p>
       <p>Rotation source: <output>{{ rotation_source }}</output></p>
       <p>Rotation value (degrees): <output>{{ rotation_degrees }}</output></p>
       <p>Rotation value (radians): <output>{{ rotation_radians }}</output></p>

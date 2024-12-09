@@ -39,7 +39,7 @@
         v-on:update:choose_polarroute_start="whenPolarRouteChooseStartChanges"
         v-on:update:choose_polarroute_end="whenPolarRouteChooseEndChanges"
         v-on:update:polarroute_coords="whenPolarRouteCoordsChange"
-        v-on:update:routes="routes"
+        v-on:update:routes="whenRoutesChange"
         ></app-map>
       <app-product-switcher
         :display_ui="display_ui"
