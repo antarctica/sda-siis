@@ -128,9 +128,9 @@
     </symbol>
     <!-- More -->
     <symbol viewBox="0 0 22 22" id="icon-more">
-      <circle cx="11" cy="11" r="1" />
-      <circle cx="17" cy="11" r="1" />
-      <circle cx="5" cy="11" r="1" />
+      <circle cx="11" cy="11" r="2" />
+      <circle cx="17" cy="11" r="2" />
+      <circle cx="5" cy="11" r="2" />
     </symbol>
     <!-- Search Globe -->
     <symbol viewBox="0 0 18 18" id="icon-search-globe">
