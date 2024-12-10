@@ -72,51 +72,53 @@ const mapRotationStyle = sva({
   },
 });
 
+function useSetMapRotationFromControl(value: MapRotation, crs: MapCRS) {
+  const mapView = useCurrentMapView();
+  const { heading } = useShipHeading();
+  const { latitude, longitude } = useShipPosition();
+
+  React.useEffect(() => {
+    if (!crs) return;
+    let rotation = 0;
+    switch (value) {
+      case MapRotation.H_UP: {
+        const correctedHeading = calculateCorrectedHeading(
+          { latitude: latitude ?? 0, longitude: longitude ?? 0 },
+          heading ?? 0,
+          crs,
+        );
+        console.log('correctedHeading', correctedHeading);
+        rotation = -correctedHeading;
+        break;
+      }
+      case MapRotation.PR_UP:
+        rotation = 0;
+        break;
+      case MapRotation.LN_UP:
+        if (crs === MapCRS.MERCATOR) {
+          rotation = 0;
+        } else {
+          rotation = -calculateProjectedBearingToPole(
+            { latitude: latitude ?? 0, longitude: longitude ?? 0 },
+            crs,
+          );
+        }
+        break;
+    }
+
+    reactiveUtils
+      .whenOnce(() => !(mapView?.interacting || mapView?.animation))
+      .then(() => {
+        mapView.rotation = rotation;
+      });
+  }, [value, mapView, heading, latitude, longitude, crs]);
+}
+
 function MapRotationToggleGroup({ crs }: { crs: MapCRS }) {
   const [value, setValue] = React.useState<MapRotation>(MapRotation.PR_UP);
   const { isVisible } = useShipPositionWithVisibility();
 
-  const mapView = useCurrentMapView();
-  const shipHeading = useShipHeading();
-  const { latitude, longitude } = useShipPosition();
-
-  const setMapRotation = React.useCallback(
-    (mapRotation: MapRotation) => {
-      let rotation = 0;
-      switch (mapRotation) {
-        case MapRotation.H_UP: {
-          const correctedHeading = calculateCorrectedHeading(
-            { latitude: latitude ?? 0, longitude: longitude ?? 0 },
-            shipHeading?.heading ?? 0,
-            crs,
-          );
-          rotation = -correctedHeading;
-          break;
-        }
-        case MapRotation.PR_UP:
-          rotation = 0;
-          break;
-        case MapRotation.LN_UP:
-          if (crs === MapCRS.MERCATOR) {
-            rotation = 0;
-          } else {
-            rotation = -calculateProjectedBearingToPole(
-              { latitude: latitude ?? 0, longitude: longitude ?? 0 },
-              crs,
-            );
-          }
-          break;
-      }
-
-      reactiveUtils
-        .whenOnce(() => !(mapView?.interacting || mapView?.animation))
-        .then(() => {
-          mapView.rotation = rotation;
-        });
-    },
-    [mapView, shipHeading, latitude, longitude, crs],
-  );
-
+  useSetMapRotationFromControl(value, crs);
   const getSlidePosition = () => {
     switch (value) {
       case MapRotation.H_UP:
@@ -159,7 +161,6 @@ function MapRotationToggleGroup({ crs }: { crs: MapCRS }) {
               className={mapRotationStyle({ itemSelected: value === option }).item}
               onPress={() => {
                 setValue(option);
-                setMapRotation(option);
               }}
               aria-label={option}
             >
