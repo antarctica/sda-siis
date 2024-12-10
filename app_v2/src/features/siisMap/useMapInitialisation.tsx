@@ -22,6 +22,7 @@ import { MapCRS, OGCType } from '@/types';
 import { safeParseUTC } from '@/utils/dateUtils';
 
 import { useTheme } from '../../components/Theme';
+import { useRemoveLayer } from '../layersManagement/components/LayerManager/hooks/useRemoveLayer';
 
 export function useMapInitialization(crs: MapCRS) {
   const [map, setMap] = React.useState<EsriMap>();
@@ -36,6 +37,7 @@ export function useMapInitialization(crs: MapCRS) {
   const theme = useTheme();
 
   const addLayer = useAddLayer();
+  const removeLayer = useRemoveLayer();
 
   const { data } = useProducts(crs);
   React.useEffect(() => {
@@ -181,7 +183,7 @@ export function useMapInitialization(crs: MapCRS) {
               () => footprintLayer.subLayers,
               'after-add',
               (event) => {
-                const { layer, timestamp } = event.item as {
+                const { layer, timestamp, id } = event.item as {
                   layer: __esri.Layer;
                   id: string;
                   timestamp: string;
@@ -199,13 +201,24 @@ export function useMapInitialization(crs: MapCRS) {
                       status: layerConfig.status,
                     },
                   },
-                  layerId: `${layerId}-${layer.title}`,
+                  layerId: id,
                   layerName,
                   layerType: 'layer',
                   visible: true,
                   parentId: layerId,
                   position: 'top',
                 });
+              },
+            );
+
+            reactiveUtils.on(
+              () => footprintLayer.subLayers,
+              'after-remove',
+              (event) => {
+                const { id } = event.item as {
+                  id: string;
+                };
+                removeLayer(map, id);
               },
             );
             break;
@@ -215,7 +228,7 @@ export function useMapInitialization(crs: MapCRS) {
       mapRef.current = map;
       setMap(map);
     }
-  }, [addLayer, data, theme, dateFormatter, crs, interactionLayers]);
+  }, [addLayer, data, theme, dateFormatter, crs, interactionLayers, removeLayer]);
 
   return map;
 }

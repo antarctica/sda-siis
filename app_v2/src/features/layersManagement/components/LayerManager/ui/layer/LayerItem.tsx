@@ -4,6 +4,7 @@ import { Flex } from '@styled-system/jsx';
 import { useSelector } from '@xstate/react';
 import React from 'react';
 
+import { IconButton } from '@/components/common/Button';
 import { ToggleIconButton } from '@/components/common/Button/ToggleButton';
 import Checkbox from '@/components/common/forms/Checkbox';
 import Slider from '@/components/common/forms/Slider';
@@ -66,10 +67,12 @@ export function LayerItem({
   layerActor,
   includeStatus = true,
   inGroup = false,
+  removeLayer,
 }: {
   layerActor: LayerMachineActor;
   includeStatus?: boolean;
   inGroup?: boolean;
+  removeLayer?: () => void;
 }) {
   const [showProperties, setShowProperties] = React.useState(false);
   const { layerName, opacity, timeInfo } = useSelector(layerActor, ({ context }) => ({
@@ -85,6 +88,17 @@ export function LayerItem({
   return (
     <li className={wrapper}>
       <Flex className={layerToggle} gap="2" alignItems="center" w="full">
+        {removeLayer && (
+          <IconButton
+            size="sm"
+            variant="outline"
+            icon={<SvgIcon name={'icon-subtract'} size={14} />}
+            aria-label="Remove layer"
+            onPress={() => {
+              removeLayer();
+            }}
+          />
+        )}
         <Checkbox
           className={css({
             display: 'flex',

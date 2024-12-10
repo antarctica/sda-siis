@@ -50,3 +50,11 @@ export function useLayerDisplayMode(layerId: string) {
 
   return displayMode;
 }
+
+export function useLayerById(layerId: string) {
+  const layer = LayerManagerContext.useSelector(({ context }) => {
+    return context.layers.find((layer) => layer.layerActor.id === layerId);
+  });
+
+  return layer;
+}

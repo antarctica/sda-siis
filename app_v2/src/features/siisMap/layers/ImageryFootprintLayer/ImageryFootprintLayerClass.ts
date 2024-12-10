@@ -177,6 +177,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
         const wmsLayer = new WMSLayer({
           title: attributes.title,
           url: this.wmsUrl,
+          id: attributes.footprintId,
           sublayers: [
             {
               name: this.wmsLayerName,
@@ -289,6 +290,8 @@ export class ImageryFootprintLayer extends FeatureLayer {
    * Removes a specific child WMS layer
    */
   removeChildLayer(layerId: string): void {
+    console.log('removeChildLayer', layerId);
+    console.log(this.subLayers.forEach(({ layer }) => console.log(layer.id)));
     const layerIndex = this.subLayers.findIndex(({ layer }) => layer.id === layerId);
     if (layerIndex !== -1) {
       const { layer } = this.subLayers.at(layerIndex);

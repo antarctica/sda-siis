@@ -5,8 +5,9 @@ import React from 'react';
 
 import { Title } from '@/components/common/Typography';
 import { FOOTPRINT_LAYER_NAME_SUFFIX } from '@/config/constants';
+import { ImageryFootprintLayer } from '@/features/siisMap/layers/ImageryFootprintLayer/ImageryFootprintLayerClass';
 
-import { useLayerDisplayMode } from '../../hooks/selectors';
+import { useLayerById, useLayerDisplayMode } from '../../hooks/selectors';
 import { LayerGroupMachineActor, LayerMachineActor } from '../../machines/types';
 import { LayerItem } from '../layer/LayerItem';
 
@@ -50,23 +51,25 @@ function MultipleTimeSliceCollectionContent({
 }: {
   orderedChildLayerActors: LayerMachineActor[];
 }) {
-  const footprintLayer = orderedChildLayerActors.find((layer) =>
+  const footprintLayerActor = orderedChildLayerActors.find((layer) =>
     layer.id.endsWith(FOOTPRINT_LAYER_NAME_SUFFIX),
   );
 
-  if (!footprintLayer) {
+  const footprintLayer = useLayerById(footprintLayerActor?.id ?? '');
+
+  if (!footprintLayerActor) {
     return null;
   }
 
-  const otherLayers = orderedChildLayerActors.filter((layer) => layer !== footprintLayer);
+  const otherLayers = orderedChildLayerActors.filter((layer) => layer !== footprintLayerActor);
 
   return (
     <Flex gap="2" direction="column">
       <ul>
         <LayerItem
           inGroup
-          layerActor={footprintLayer as LayerMachineActor}
-          key={footprintLayer.id}
+          layerActor={footprintLayerActor as LayerMachineActor}
+          key={footprintLayerActor.id}
         />
       </ul>
       {otherLayers.length > 0 && (
@@ -90,6 +93,11 @@ function MultipleTimeSliceCollectionContent({
                 layerActor={layer as LayerMachineActor}
                 key={layer.id}
                 includeStatus={false}
+                removeLayer={() => {
+                  (footprintLayer?.layerData?.mapLayer as ImageryFootprintLayer).removeChildLayer(
+                    layer.id,
+                  );
+                }}
               />
             ))}
           </ul>
