@@ -7,21 +7,21 @@ import ShipToolbar from './ShipToolbar';
 function SensorInfoPanel() {
   return (
     <Stack
-      gap="0"
-      id="sensor-info-panel"
       className={css({
+        borderColor: 'app.accent',
+        borderRadius: 'md',
+        borderWidth: 'thin',
+        width: '[22rem]',
+        maxWidth: '[calc(100vw - 30px)]',
+        bg: 'bg.base',
+        shadow: 'md',
+        pointerEvents: 'auto',
         smDown: {
           flexDirection: 'column-reverse',
         },
-        borderWidth: 'thin',
-        borderColor: 'app.accent',
-        borderRadius: 'md',
-        bg: 'bg.base',
-        shadow: 'md',
-        width: '[22rem]',
-        maxWidth: '[calc(100vw - 30px)]',
-        pointerEvents: 'auto',
       })}
+      id="sensor-info-panel"
+      gap="0"
     >
       <Box p="2">
         <ShipInfo />

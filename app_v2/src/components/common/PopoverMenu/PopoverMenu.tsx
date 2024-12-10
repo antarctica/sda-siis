@@ -13,21 +13,21 @@ const popoverMenuStyles = sva({
   base: {
     root: {
       borderColor: 'bg.base.border',
-      borderWidth: 'thin',
-      borderStyle: 'solid',
-      bg: 'bg.popover',
       borderRadius: 'sm',
+      borderWidth: 'thin',
+      bg: 'bg.popover',
       shadow: 'sm',
+      borderStyle: 'solid',
       _dark: {
-        bg: 'bg.base',
-        color: 'fg',
         borderColor: 'app.accent',
+        color: 'fg',
+        bg: 'bg.base',
       },
       _light: { borderColor: 'app.accent', shadow: 'sm' },
     },
     dialog: {
-      p: '2',
       outline: 'none',
+      p: '2',
     },
     arrow: {
       '[data-placement=top] &': {
@@ -66,8 +66,8 @@ function PopoverMenu({ children, className, ...props }: React.PropsWithChildren<
           <path
             d="M0 0 L4 4 M4 4 L8 0"
             className={css({
-              stroke: 'fg.accent',
               strokeWidth: '1px',
+              stroke: 'fg.accent',
             })}
           />
         </svg>

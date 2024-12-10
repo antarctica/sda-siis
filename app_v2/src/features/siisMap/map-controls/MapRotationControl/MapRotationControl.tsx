@@ -23,41 +23,41 @@ const mapRotationStyle = sva({
   base: {
     root: {
       display: 'flex',
-      flexDirection: 'column',
-      boxShadow: 'md',
-      bg: 'bg.base',
-      borderColor: 'bg.base.border',
-      borderWidth: 'thin',
-      borderRadius: 'md',
       position: 'relative',
-      overflow: 'hidden',
+      flexDirection: 'column',
+      borderColor: 'bg.base.border',
+      borderRadius: 'md',
+      borderWidth: 'thin',
       w: '16',
+      bg: 'bg.base',
+      boxShadow: 'md',
+      overflow: 'hidden',
       pointerEvents: 'auto',
     },
     item: {
+      zIndex: 1,
+      position: 'relative',
+      w: 'full',
       py: '2',
       px: '1',
-      w: 'full',
-      cursor: 'pointer',
-      fontSize: 'sm',
-      textAlign: 'center',
       color: 'fg.muted',
-      position: 'relative',
-      zIndex: 1,
-      _hover: {
-        bg: 'bg.surface',
-      },
+      textAlign: 'center',
+      fontSize: 'sm',
+      cursor: 'pointer',
       _focusVisible: {
         insetFocusRing: true,
       },
+      _hover: {
+        bg: 'bg.surface',
+      },
     },
     motionBackground: {
+      zIndex: 0,
       position: 'absolute',
       left: '0',
       right: '0',
       height: '1/3',
       bg: 'bg.base.active',
-      zIndex: 0,
     },
   },
   variants: {
@@ -134,10 +134,10 @@ function MapRotationToggleGroup({ crs }: { crs: MapCRS }) {
 
   return (
     <RadioGroup
+      className={mapRotationStyle().root}
       value={value}
       aria-label="Map Rotation"
       onChange={(val) => val && setValue(val as MapRotation)}
-      className={mapRotationStyle().root}
     >
       <motion.div
         className={mapRotationStyle().motionBackground}
@@ -156,11 +156,11 @@ function MapRotationToggleGroup({ crs }: { crs: MapCRS }) {
         <Radio key={option} value={option}>
           <TooltipTrigger delay={800}>
             <Button
+              className={mapRotationStyle({ itemSelected: value === option }).item}
               onPress={() => {
                 setValue(option);
                 setMapRotation(option);
               }}
-              className={mapRotationStyle({ itemSelected: value === option }).item}
               aria-label={option}
             >
               {option}

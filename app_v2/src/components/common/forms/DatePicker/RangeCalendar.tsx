@@ -19,18 +19,18 @@ export interface RangeCalendarProps<T extends DateValue>
 
 const cell = cva({
   base: {
-    w: '9',
-    h: '9',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 'sm',
     borderRadius: 'sm',
+    w: '9',
+    h: '9',
+    fontSize: 'sm',
     cursor: 'pointer',
 
     _hover: {
-      bg: 'app.accent.a3',
       color: 'fg',
+      bg: 'app.accent.a3',
     },
   },
   variants: {
@@ -50,9 +50,9 @@ const cell = cva({
     selectionState: {
       none: {},
       middle: {
-        bg: 'app.accent.a8',
-        color: 'fg.accent.contrast',
         borderRadius: 'radii.none',
+        color: 'fg.accent.contrast',
+        bg: 'app.accent.a8',
       },
       'cap-start': {
         bg: 'app.accent',
@@ -75,8 +75,8 @@ const cell = cva({
     },
     isInvalid: {
       true: {
-        bg: 'error.bg',
         color: 'error.fg',
+        bg: 'error.bg',
       },
     },
     isDisabled: {
@@ -129,10 +129,10 @@ export function RangeCalendar<T extends DateValue>({
           <CalendarGridBody className={css({ '& tr:first-child td': { paddingTop: '1' } })}>
             {(date) => (
               <CalendarCell
-                date={date}
                 className={css({
                   outline: 'none',
                 })}
+                date={date}
               >
                 {({
                   date,

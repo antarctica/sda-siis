@@ -39,17 +39,17 @@ const tooltipRecipe = sva({
     },
     container: {
       position: 'relative',
-      fontSize: 'sm',
-      py: '1',
-      px: '2',
       borderRadius: 'sm',
       borderWidth: 'thin',
+      py: '1',
+      px: '2',
+      fontSize: 'sm',
       _dark: {
-        bg: 'bg.base',
-        color: 'fg',
         borderColor: 'app.accent',
+        color: 'fg',
+        bg: 'bg.base',
       },
-      _light: { bg: 'app.accent', borderColor: 'app.accent', color: 'app.white', shadow: 'sm' },
+      _light: { borderColor: 'app.accent', color: 'app.white', bg: 'app.accent', shadow: 'sm' },
 
       '[data-placement="top"] &': {
         _motionSafe: {
@@ -108,7 +108,7 @@ export function Tooltip({ children, ...props }: TooltipProps) {
     return null;
   }
   return (
-    <AriaTooltip {...props} offset={10} className={root}>
+    <AriaTooltip {...props} className={root} offset={10}>
       <div className={container}>{children}</div>{' '}
       <OverlayArrow style={{ zIndex: 1000 }}>
         <svg className={arrow} width={12} height={12} viewBox="0 0 8 8">
@@ -124,8 +124,8 @@ export function Tooltip({ children, ...props }: TooltipProps) {
           <path
             d="M0 0 L4 4 M4 4 L8 0"
             className={css({
-              stroke: 'fg.accent',
               strokeWidth: '1px',
+              stroke: 'fg.accent',
               _light: { display: 'none' },
             })}
           />

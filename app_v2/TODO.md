@@ -1,4 +1,5 @@
 # Todo:
+ [ ] - Heading up needs to sync with the ship heading. 
  [ ] - Measurements and routes panel. 
  [ ] - prevent zooming to the ship interupting the current goTo animation. 
  [ ] - Refine styles for programmatic map layers

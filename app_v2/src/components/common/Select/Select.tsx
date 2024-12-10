@@ -29,39 +29,39 @@ const selectRecipe = sva({
   slots: ['root', 'popover', 'fieldGroup', 'button'],
   base: {
     root: {
-      w: 'full',
-      overflow: 'hidden',
-      position: 'relative',
       display: 'flex',
-      flexDirection: 'column',
+      position: 'relative',
       gap: '1',
+      flexDirection: 'column',
+      w: 'full',
       mb: '2',
+      overflow: 'hidden',
     },
     popover: {
-      maxHeight: '60',
-      width: '[var(--trigger-width)]',
-      overflow: 'auto',
       borderColor: 'bg.base.border',
-      borderWidth: 'thin',
-      borderStyle: 'solid',
-      bg: 'bg.popover',
       borderRadius: 'sm',
+      borderWidth: 'thin',
+      width: '[var(--trigger-width)]',
+      maxHeight: '60',
+      bg: 'bg.popover',
       shadow: 'sm',
+      overflow: 'auto',
+      borderStyle: 'solid',
     },
 
     button: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      outline: 'none',
       border: 'none',
+      width: 'full',
+      height: 'full',
       pr: '3',
       _placeholder: {
         textStyle: 'description',
         color: 'fg.muted',
       },
-      outline: 'none',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: 'full',
-      height: 'full',
     },
     fieldGroup: {
       _focusVisible: {
@@ -106,7 +106,7 @@ export function Select<T extends ListBoxItemData>({
       <SelectButton />
       {description && <Text slot="description">{description}</Text>}
       <FieldError>{errorMessage}</FieldError>
-      <Popover offset={8} className={popover}>
+      <Popover className={popover} offset={8}>
         <ListBox<T> items={items as T[]}>{children}</ListBox>
       </Popover>
     </SelectPrimitive>

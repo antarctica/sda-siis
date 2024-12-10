@@ -9,32 +9,32 @@ const workFlowItemRecipe = sva({
   slots: ['root', 'itemWrapper', 'titleContainer', 'bullet'],
   base: {
     root: {
+      display: 'flex',
+      gap: '[var(--workflow-item-spacing)]',
+      flexDirection: 'column',
+      pl: '[calc(var(--bullet-size) * 1/2)]',
       '--bullet-size': '1.5rem',
       '--workflow-item-spacing': '2rem',
       '--item-content-padding-start': '2rem',
       '--line-width': '2px',
-      pl: '[calc(var(--bullet-size) * 1/2)]',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '[var(--workflow-item-spacing)]',
     },
     titleContainer: {
-      mb: '3',
       w: 'full',
+      mb: '3',
     },
     itemWrapper: {
-      pl: '[calc(var(--item-content-padding-start))]',
       position: 'relative',
 
+      pl: '[calc(var(--item-content-padding-start))]',
       '&:before': {
-        content: '""',
-        pointerEvents: 'none',
         position: 'absolute',
         top: '[calc(var(--bullet-size) )]',
         left: '[calc(var(--line-width) * -1/2)]',
         bottom: '[calc(var(--workflow-item-spacing) * -1)]',
-        width: '1',
         borderInlineStartWidth: '[var(--line-width)]',
+        width: '1',
+        content: '""',
+        pointerEvents: 'none',
       },
 
       '&:last-child': {
@@ -44,15 +44,15 @@ const workFlowItemRecipe = sva({
       },
     },
     bullet: {
-      borderRadius: 'full',
+      display: 'flex',
       position: 'absolute',
       left: '[calc(var(--bullet-size) * -1/2)]',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 'full',
       w: '[var(--bullet-size)]',
       h: '[var(--bullet-size)]',
       bg: 'transparent',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   },
   variants: {
@@ -60,9 +60,9 @@ const workFlowItemRecipe = sva({
       completed: {
         bullet: {
           borderColor: 'fg.accent',
-          bg: 'bg.accent',
-          color: 'bg.base',
           borderWidth: 'unset',
+          color: 'bg.base',
+          bg: 'bg.accent',
         },
         itemWrapper: {
           '&:before': {
@@ -82,9 +82,9 @@ const workFlowItemRecipe = sva({
             gradientTo: 'transparent',
             gradientToPosition: '4px',
             gradientFromPosition: '4px',
+            backgroundRepeat: 'repeat-y',
             backgroundSize: '[var(--line-width) 8px]', // 4px dash + 4px space = 8px total
             borderStyle: 'none',
-            backgroundRepeat: 'repeat-y',
           },
         },
       },
@@ -100,9 +100,9 @@ const workFlowItemRecipe = sva({
             gradientTo: 'transparent',
             gradientToPosition: '4px',
             gradientFromPosition: '4px',
+            backgroundRepeat: 'repeat-y',
             backgroundSize: '[var(--line-width) 8px]', // 4px dash + 4px space = 8px total
             borderStyle: 'none',
-            backgroundRepeat: 'repeat-y',
           },
         },
       },
@@ -138,7 +138,7 @@ export function WorkflowItem({
       <div className={bullet}>{bulletIcon[props.state ?? 'default']}</div>
       {title && (
         <div className={titleContainer}>
-          <Title bold as="h3" size="md" margin={false}>
+          <Title as="h3" bold size="md" margin={false}>
             {title}
           </Title>
           {description && <Text textStyle="description">{description}</Text>}

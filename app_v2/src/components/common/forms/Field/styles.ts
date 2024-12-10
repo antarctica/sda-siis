@@ -4,8 +4,8 @@ import { cva } from '@styled-system/css';
 export const fieldRecipe = cva({
   base: {
     display: 'flex',
-    flexDirection: 'column',
     gap: '1',
+    flexDirection: 'column',
     mb: '2',
   },
 });
@@ -27,9 +27,9 @@ export const validationErrorRecipe = cva({
 // Border and container styles
 export const fieldBorderRecipe = cva({
   base: {
+    borderColor: 'bg.base.border',
     borderRadius: 'md',
     borderWidth: 'thin',
-    borderColor: 'bg.base.border',
     borderStyle: 'solid',
   },
   variants: {
@@ -50,18 +50,18 @@ export const fieldGroupRecipe = cva({
   base: {
     display: 'flex',
     alignItems: 'center',
-    overflow: 'hidden',
-    borderWidth: 'thin',
     borderColor: 'bg.base.border',
+    borderWidth: 'thin',
+    overflow: 'hidden',
   },
 });
 
 export const dateFieldGroupRecipe = cva({
   base: {
-    minW: '52',
-    w: 'full',
-    justifyContent: 'space-between',
     gap: '1',
+    justifyContent: 'space-between',
+    w: 'full',
+    minW: '52',
   },
 });
 
@@ -97,9 +97,9 @@ export const inputRecipe = cva({
 
 export const textAreaRecipe = cva({
   base: {
-    bg: 'app.grey.3',
     py: '1.5',
     px: '2',
+    bg: 'app.grey.3',
     _placeholder: {
       textStyle: 'description',
       color: 'fg.muted',

@@ -115,18 +115,18 @@ function GlobalSettingsMenu() {
         icon={<SvgIcon name="icon-settings" size={20} />}
         aria-label={'Application Settings'}
       />
-      <PopoverMenu className={css({ maxWidth: '[calc(100vw - 30px)]', w: 'sm', px: '4', pb: '4' })}>
+      <PopoverMenu className={css({ w: 'sm', maxWidth: '[calc(100vw - 30px)]', px: '4', pb: '4' })}>
         <Stack gap="2">
           <Box>
             <Title as="h3" size="lg">
               Application Settings
             </Title>
-            <Text margin textStyle="description">
+            <Text textStyle="description" margin>
               Customize your application preferences. These settings will persist across browser
               sessions.
             </Text>
           </Box>
-          <Flex direction="column" gap="2" mb="2">
+          <Flex gap="2" direction="column" mb="2">
             <SelectMeasurementUnit />
             <SelectLatLonFormat />
             <UtcTimeOffsetField />

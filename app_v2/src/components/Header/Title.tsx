@@ -20,11 +20,11 @@ export function HeaderBarTitle() {
       <SIISLogo size={isMobile ? 32 : 40} />
       <Title
         as="h1"
-        size="2xl"
-        margin={false}
         className={css({
           color: 'fg',
         })}
+        size="2xl"
+        margin={false}
       >
         SIIS
       </Title>

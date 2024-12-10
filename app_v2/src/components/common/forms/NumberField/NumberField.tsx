@@ -36,24 +36,24 @@ export default function NumberField({
             cx(inputRecipe({ isFocusVisible }), css({ flexGrow: 1 }))
           }
         />
-        <Flex direction="column" gap="0.5" w="5" mr="2">
+        <Flex gap="0.5" direction="column" w="5" mr="2">
           <IconButton
+            className={css({ h: '3' })}
             disableTooltip
             slot="increment"
             aria-label="Increment"
             variant="primary"
             size="sm"
-            className={css({ h: '3' })}
             icon={<SvgIcon name="icon-chevron-up" size={12} />}
           />
 
           <IconButton
+            className={css({ h: '3' })}
             disableTooltip
             variant="primary"
             size="sm"
             slot="decrement"
             aria-label="Decrement"
-            className={css({ h: '3' })}
             icon={<SvgIcon name="icon-chevron-down" size={12} />}
           />
         </Flex>

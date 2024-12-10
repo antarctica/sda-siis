@@ -27,14 +27,14 @@ const mapStyles = cva({
     },
     '& .esri-attribution': {
       // eslint-disable-next-line @pandacss/no-hardcoded-color
-      bg: 'siis_darkgreyAlpha.a12 !important',
-      // eslint-disable-next-line @pandacss/no-hardcoded-color
       color: 'fg !important',
+      // eslint-disable-next-line @pandacss/no-hardcoded-color
+      bg: 'siis_darkgreyAlpha.a12 !important',
       _dark: {
         // eslint-disable-next-line @pandacss/no-hardcoded-color
-        bg: 'siis_greyAlpha.a11 !important',
-        // eslint-disable-next-line @pandacss/no-hardcoded-color
         color: 'fg.accent !important',
+        // eslint-disable-next-line @pandacss/no-hardcoded-color
+        bg: 'siis_greyAlpha.a11 !important',
       },
     },
   },
@@ -49,13 +49,12 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
     [initialExtent, crs],
   );
   return (
-    <Box w={'full'} h={'full'} position={'relative'} className={mapStyles()}>
+    <Box className={mapStyles()} position={'relative'} w={'full'} h={'full'}>
       {map && (
         <ArcMapView
           id={MAP_ID}
           map={map}
           spatialReference={new SpatialReference({ wkid: CRS_LOOKUP[crs].wkid })}
-          scale={25000000}
           constraints={{
             rotationEnabled: false,
             minScale: 50e6,
@@ -67,6 +66,7 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
           }}
           extent={validatedExtent}
           center={validatedExtent ? undefined : CRS_LOOKUP[crs].center}
+          scale={25000000}
           padding={
             isMobile
               ? {
@@ -85,8 +85,8 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
         >
           {!isMobile && (
             <ArcgisPlacement
-              position="bottom-right"
               className={css({ pointerEvents: '[none !important]' })}
+              position="bottom-right"
             >
               <Stack gap={'4'} align={'end'}>
                 <MapRotationControl crs={crs} />
@@ -95,7 +95,7 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
             </ArcgisPlacement>
           )}
           <ArcgisPlacement position="bottom-left">
-            <Flex direction={'column'} gap={'2'}>
+            <Flex gap={'2'} direction={'column'}>
               <ScaleControl />
               {!isMobile && <CursorLocationControl />}
             </Flex>
@@ -107,8 +107,8 @@ export function Map({ crs, initialExtent }: { crs: MapCRS; initialExtent?: __esr
           <GraticuleLayer
             id="graticule-layer"
             title="Graticule"
-            opacity={0.75}
             graticuleBounds={CRS_LOOKUP[crs].graticuleBounds}
+            opacity={0.75}
           />
           <SynchroniseLayerTheme />
         </ArcMapView>

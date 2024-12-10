@@ -15,11 +15,11 @@ const sliderRecipe = sva({
   base: {
     root: {
       gap: '1',
+      mb: '2',
       _horizontal: {
         display: 'grid',
         gridTemplateColumns: '[1fr auto]',
       },
-      mb: '2',
     },
     'interaction-container': {
       _horizontal: {
@@ -36,10 +36,10 @@ const sliderRecipe = sva({
 
 const trackRecipe = cva({
   base: {
-    rounded: 'sm',
     position: 'absolute',
     top: '1/2',
     transform: 'translateY(-50%)',
+    rounded: 'sm',
     w: 'full',
     h: '1',
     cursor: 'pointer',
@@ -78,18 +78,18 @@ const trackRecipe = cva({
 
 const thumbRecipe = cva({
   base: {
-    w: '1',
-    h: '4',
-    rounded: 'full',
-    bg: 'bg.base',
-    borderColor: 'bg.accent',
-    borderWidth: 'medium',
     top: '1/2',
     transform: 'translateY(-50%)',
+    borderColor: 'bg.accent',
+    rounded: 'full',
+    borderWidth: 'medium',
+    w: '1',
+    h: '4',
+    bg: 'bg.base',
     cursor: 'ew-resize',
     _focusVisible: {
-      insetFocusRing: true,
       outlineOffset: '0.5',
+      insetFocusRing: true,
     },
   },
   variants: {
@@ -97,7 +97,7 @@ const thumbRecipe = cva({
       true: { bg: 'bg.accent.soft', cursor: 'ew-resize' },
     },
     isDisabled: {
-      true: { cursor: 'not-allowed', borderColor: 'app.grey.8' },
+      true: { borderColor: 'app.grey.8', cursor: 'not-allowed' },
     },
   },
 });
@@ -135,10 +135,10 @@ export default function Slider<T extends number | number[]>({
             {/* Thumbs */}
             {state.values.map((_, i) => (
               <SliderThumb
+                className={thumbRecipe({ isDragging: state.isThumbDragging(i), ...renderProps })}
                 key={i}
                 index={i}
                 aria-label={thumbLabels?.[i]}
-                className={thumbRecipe({ isDragging: state.isThumbDragging(i), ...renderProps })}
               />
             ))}
           </>

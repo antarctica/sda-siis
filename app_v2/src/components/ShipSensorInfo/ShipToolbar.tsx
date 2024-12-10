@@ -26,19 +26,19 @@ function ShipToolbar() {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex gap="2" pr="2" justifyContent={'space-between'} align="center" w="full">
+    <Flex gap="2" justifyContent={'space-between'} align="center" w="full" pr="2">
       <Toolbar
+        className={css({ display: 'flex', alignItems: 'center' })}
         aria-label="Ship position toolbar"
-        className={css({ alignItems: 'center', display: 'flex' })}
       >
         <IconButton
+          className={css({ px: '2.5' })}
           isDisabled={!isVisible}
           variant="surface"
           icon={<SvgIcon name="icon-zoom-to" size={16} />}
           tooltipPlacement="bottom"
           size="lg"
           aria-label="Zoom to ship position"
-          className={css({ px: '2.5' })}
           onPress={() => {
             const point = new Point({
               latitude: latitude ?? 0,
@@ -47,11 +47,11 @@ function ShipToolbar() {
             mapView?.goTo({ target: point, scale: 500000 });
           }}
         />
-        <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
+        <Divider orientation="vertical" thickness="thin" h="10" color="bg.base.border" />
         <IconButton
+          className={css({ px: '2.5' })}
           isDisabled={!isVisible}
           size="lg"
-          className={css({ px: '2.5' })}
           variant="surface"
           tooltipPlacement="bottom"
           icon={
@@ -63,18 +63,18 @@ function ShipToolbar() {
           aria-label={showDistanceCircles ? 'Hide distance circles' : 'Show distance circles'}
           onPress={() => dispatch(setShowDistanceCircles(!showDistanceCircles))}
         />
-        <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
+        <Divider orientation="vertical" thickness="thin" h="10" color="bg.base.border" />
         <IconButton
+          className={css({ px: '2.5' })}
           isDisabled={!isVisible}
           size="lg"
-          className={css({ px: '2.5' })}
           variant="surface"
           tooltipPlacement="bottom"
           icon={<SvgIcon name={followShip ? 'icon-follow-off' : 'icon-follow'} size={16} />}
           aria-label={followShip ? 'Stop following ship' : 'Follow ship position'}
           onPress={() => dispatch(setFollowShip(!followShip))}
         />
-        <Divider orientation="vertical" color="bg.base.border" h="10" thickness="thin" />
+        <Divider orientation="vertical" thickness="thin" h="10" color="bg.base.border" />
       </Toolbar>
       {followShip && <Badge variant="primary">Following ship location</Badge>}
     </Flex>

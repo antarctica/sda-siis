@@ -33,11 +33,11 @@ export function Tab(props: PanelTab) {
   const { tab } = tabRecipe();
   return (
     <RACTab
-      aria-label={props.title}
-      id={props.id}
       className={composeRenderProps(tab, (className, renderProps) => {
         return cx(tabRecipe(renderProps).tab, className);
       })}
+      aria-label={props.title}
+      id={props.id}
     >
       {({ isSelected }) => (
         <HeaderAction
@@ -57,8 +57,8 @@ export function Tab(props: PanelTab) {
 const tabListRecipe = cva({
   base: {
     display: 'flex',
-    flexDirection: 'row',
     gap: '4',
+    flexDirection: 'row',
     alignItems: 'center',
   },
 });

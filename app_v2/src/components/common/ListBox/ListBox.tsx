@@ -20,19 +20,13 @@ const listBoxStyles = sva({
       },
     },
     listItem: {
-      px: '2',
-      py: '1',
-      cursor: 'pointer',
       outline: 'none',
-      _focus: {
-        bg: 'bg.popover.hover',
-      },
-      _hover: {
-        bg: 'bg.popover.hover',
-      },
+      py: '1',
+      px: '2',
+      cursor: 'pointer',
       _selected: {
-        bg: 'bg.accent',
         color: 'fg.accent.contrast',
+        bg: 'bg.accent',
         _focus: {
           bg: 'bg.accent',
           filter: '[brightness(0.92) saturate(1.1)]',
@@ -41,6 +35,12 @@ const listBoxStyles = sva({
           bg: 'bg.accent',
           filter: '[brightness(0.92) saturate(1.1)]',
         },
+      },
+      _focus: {
+        bg: 'bg.popover.hover',
+      },
+      _hover: {
+        bg: 'bg.popover.hover',
       },
     },
   },

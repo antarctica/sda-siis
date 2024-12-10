@@ -16,12 +16,12 @@ function ShipPositionLayer({ crs }: { crs: MapCRS }) {
   return (
     <>
       <ShipLocationGraphic
-        position={shipPosition}
         visible={isVisible}
         shipHeading={heading}
         mapCRS={crs}
+        position={shipPosition}
       />
-      <ShipBufferGraphic position={shipPosition} speed={speed} crs={crs} />
+      <ShipBufferGraphic speed={speed} crs={crs} position={shipPosition} />
     </>
   );
 }

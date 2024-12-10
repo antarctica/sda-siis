@@ -22,10 +22,10 @@ export interface DateFieldProps<T extends DateValue> extends AriaDateFieldProps<
 const segmentStyles = cva({
   base: {
     display: 'inline',
+    outline: 'none',
+    rounded: 'sm',
     p: '0.5',
     px: '0.5',
-    rounded: 'sm',
-    outline: 'none',
   },
   variants: {
     isPlaceholder: {
@@ -35,7 +35,7 @@ const segmentStyles = cva({
       true: { color: 'fg.muted' },
     },
     isFocused: {
-      true: { bg: 'bg.accent', color: 'fg.accent.contrast' },
+      true: { color: 'fg.accent.contrast', bg: 'bg.accent' },
     },
   },
 });
@@ -46,7 +46,7 @@ export function DateInput(props: Omit<DateInputProps, 'children'>) {
       {...props}
       className={composeRenderProps(props.className, (className) => cx(inputRecipe(), className))}
     >
-      {(segment) => <DateSegment segment={segment} className={segmentStyles} />}
+      {(segment) => <DateSegment className={segmentStyles} segment={segment} />}
     </AriaDateInput>
   );
 }

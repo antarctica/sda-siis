@@ -23,9 +23,9 @@ export function PanelHeader({
       <Title as="h2" size="lg" margin={false}>
         {title}
       </Title>
-      <Flex alignItems="center" gap="3">
+      <Flex gap="3" alignItems="center">
         <TabList>{tabs?.map((tab) => <Tab key={tab.id} {...tab} />)}</TabList>
-        <Divider orientation="vertical" color={'bg.base.border'} thickness="thin" h="12" />
+        <Divider orientation="vertical" thickness="thin" h="12" color={'bg.base.border'} />
         <HeaderAction
           autoFocus
           onPress={() => {

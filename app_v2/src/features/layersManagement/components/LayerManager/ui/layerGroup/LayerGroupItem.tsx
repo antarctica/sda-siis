@@ -19,8 +19,8 @@ const accordionItemRecipe = sva({
     root: {},
     header: {
       display: 'flex',
-      alignItems: 'center',
       gap: '2',
+      alignItems: 'center',
       h: '8',
       '&:has(.focus-target:focus-visible)': {
         insetFocusRing: true,
@@ -28,9 +28,9 @@ const accordionItemRecipe = sva({
     },
     trigger: {
       display: 'flex',
-      alignItems: 'center',
-      gap: '2',
       flex: '1',
+      gap: '2',
+      alignItems: 'center',
       cursor: 'pointer',
       insetFocusRing: false,
     },
@@ -40,18 +40,18 @@ const accordionItemRecipe = sva({
       fontWeight: 'normal',
     },
     badge: {
-      h: '3',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      rounded: 'full',
       w: '3',
       minW: '3',
-      bg: 'bg.accent.soft',
+      h: '3',
       color: 'fg.accent',
-      fontWeight: 'extrabold',
       textAlign: 'center',
-      rounded: 'full',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       fontSize: '2xs',
+      fontWeight: 'extrabold',
+      bg: 'bg.accent.soft',
     },
     content: {},
 
@@ -78,22 +78,22 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
   return (
     <li
       className={css({
-        px: '2',
-        py: '1',
         borderRadius: 'sm',
+        py: '1',
+        px: '2',
         bg: 'bg.surface',
       })}
     >
-      <Accordion.Item value={layerId} className={root}>
+      <Accordion.Item className={root} value={layerId}>
         <div className={header}>
           <Accordion.Trigger className={cx(trigger, 'group focus-target')}>
             <SvgIcon
+              className={caret}
               size={16}
               name="icon-chevron-up"
-              className={caret}
               color={token('colors.fg')}
             />
-            <Title as="h3" size="md" margin={false} className={title}>
+            <Title as="h3" className={title} size="md" margin={false}>
               {layerName}
             </Title>
             {enabledChildLayerCount > 0 && (
@@ -102,17 +102,17 @@ function LayerGroupItem({ layerGroupActor }: { layerGroupActor: LayerGroupMachin
                 <VisuallyHidden> Active layers</VisuallyHidden>
               </Text>
             )}
-            <Divider orientation="horizontal" color="bg.base.border" flex="1" />
+            <Divider orientation="horizontal" flex="1" color="bg.base.border" />
           </Accordion.Trigger>
           {enabledChildLayerCount > 0 && (
             <Checkbox
-              rounded
               isSelected={enabled}
               onChange={() => {
                 layerGroupActor.send({
                   type: enabled ? 'LAYER.DISABLED' : 'LAYER.ENABLED',
                 });
               }}
+              rounded
             />
           )}
         </div>

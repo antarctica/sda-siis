@@ -14,28 +14,28 @@ const statusCircleRecipe = cva({
   variants: {
     status: {
       offline: {
-        bg: 'error.bg',
         borderColor: 'error.fg',
+        bg: 'error.bg',
       },
       error: {
-        bg: 'error.bg',
         borderColor: 'error.fg',
+        bg: 'error.bg',
       },
       online: {
-        bg: 'success.bg',
         borderColor: 'success.fg',
+        bg: 'success.bg',
       },
       loading: {
-        bg: 'warning.bg',
         borderColor: 'warning.fg',
+        bg: 'warning.bg',
       },
       static: {
-        bg: 'info.bg',
         borderColor: 'info.fg',
+        bg: 'info.bg',
       },
       outdated: {
-        bg: 'app.grey.8',
         borderColor: 'app.grey.11',
+        bg: 'app.grey.8',
       },
     },
   },

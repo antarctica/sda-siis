@@ -11,25 +11,25 @@ import { HeaderBarTitle } from './Title';
 const headerStyles = cva({
   base: {
     display: 'flex',
+    zIndex: 2,
+    gap: '2',
+
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
     width: 'full',
 
     height: 'fit',
 
-    bg: 'bg.base',
-    zIndex: 2,
     px: '2',
-    gap: '2',
-
+    bg: 'bg.base',
+    _dark: {
+      borderBottomWidth: 'thin',
+      borderColor: 'bg.base.border',
+      borderStyle: 'inset',
+    },
     _light: {
       shadow: 'sm',
-    },
-    _dark: {
-      borderColor: 'bg.base.border',
-      borderBottomWidth: 'thin',
-      borderStyle: 'inset',
     },
   },
 });
@@ -38,23 +38,23 @@ export function Header() {
   const isMobile = useIsMobile();
   return (
     <header className={headerStyles()}>
-      <Flex gap="4" h="full" alignItems="center" shrink={'1'} minW="0">
+      <Flex gap="4" shrink={'1'} alignItems="center" minW="0" h="full">
         <HeaderBarTitle />
         <Divider
-          h={'full'}
           orientation={'vertical'}
           thickness={'thin'}
+          h={'full'}
           color="bg.base.border"
         ></Divider>
         {!isMobile && <HeaderData />}
       </Flex>
       <Toolbar />
       {isMobile && (
-        <Flex h={'full'} alignItems={'center'} justifyContent={'center'} gap={'2'}>
+        <Flex gap={'2'} justifyContent={'center'} alignItems={'center'} h={'full'}>
           <Divider
-            h={'full'}
             orientation={'vertical'}
             thickness={'thin'}
+            h={'full'}
             color="bg.base.border"
           ></Divider>
           <MobileSideMenu />

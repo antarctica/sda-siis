@@ -17,54 +17,54 @@ const sidebarStyles = sva({
   slots: ['wrapper', 'buttonGroup', 'buttonGroupItem'],
   base: {
     wrapper: {
-      zIndex: 1,
-      height: 'full',
       display: 'flex',
+      zIndex: 1,
       flexDirection: 'column',
-      justifyContent: 'space-between',
-      bg: 'bg.sidebar',
-      overflowX: 'hidden',
       flexGrow: 0,
       flexShrink: 0,
-      transitionProperty: '[width, max-width]',
-      transitionDuration: 'slow',
+      justifyContent: 'space-between',
       borderRightWidth: 'thin',
-      borderRightStyle: 'solid',
       borderRightColor: 'bg.base.border',
+      height: 'full',
+      bg: 'bg.sidebar',
+      overflowX: 'hidden',
+      transitionDuration: 'slow',
+      transitionProperty: '[width, max-width]',
+      borderRightStyle: 'solid',
     },
 
     buttonGroup: {
       display: 'flex',
-      flexDirection: 'column',
       gap: '4',
+      flexDirection: 'column',
       width: 'full',
     },
 
     buttonGroupItem: {
-      transitionProperty: '[width, max-width]',
       transitionDuration: 'slow',
+      transitionProperty: '[width, max-width]',
     },
   },
   variants: {
     collapsed: {
       true: {
         wrapper: {
-          maxWidth: '[var(--sidebar-collapsed-width, 3rem)]',
           width: '[var(--sidebar-collapsed-width, 3rem)]',
+          maxWidth: '[var(--sidebar-collapsed-width, 3rem)]',
         },
         buttonGroupItem: {
-          maxWidth: '[var(--sidebar-collapsed-width, 3rem)]',
           width: '[var(--sidebar-collapsed-width, 3rem)]',
+          maxWidth: '[var(--sidebar-collapsed-width, 3rem)]',
         },
       },
       false: {
         wrapper: {
-          maxWidth: '[var(--sidebar-expanded-width, 12rem)]',
           width: '[var(--sidebar-expanded-width, 12rem)]',
+          maxWidth: '[var(--sidebar-expanded-width, 12rem)]',
         },
         buttonGroupItem: {
-          maxWidth: '[var(--sidebar-expanded-width, 12rem)]',
           width: '[var(--sidebar-expanded-width, 12rem)]',
+          maxWidth: '[var(--sidebar-expanded-width, 12rem)]',
         },
         button: {
           paddingInlineEnd: '4',
@@ -97,13 +97,13 @@ function Sidebar() {
 
   return (
     <Flex
-      zIndex={1}
-      h={'full'}
       className={css({
         _light: {
           shadow: '2xl',
         },
       })}
+      zIndex={1}
+      h={'full'}
     >
       <Toolbar orientation="vertical" aria-label="Map">
         <aside className={wrapper}>

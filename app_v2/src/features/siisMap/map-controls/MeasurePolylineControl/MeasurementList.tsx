@@ -13,31 +13,31 @@ const listRecipe = sva({
   slots: ['root', 'itemWrapper', 'measurementInfo', 'measurementText'],
   base: {
     root: {
-      listStyle: 'none',
       display: 'flex',
-      flexDirection: 'column',
       gap: '2',
+      flexDirection: 'column',
       w: 'full',
+      listStyle: 'none',
     },
     itemWrapper: {
       display: 'flex',
+      gap: '2',
       alignItems: 'center',
       borderColor: 'bg.base.border',
-      borderWidth: 'thin',
-      borderStyle: 'solid',
       borderRadius: 'sm',
-      gap: '2',
+      borderWidth: 'thin',
       p: '1',
       px: '2',
+      borderStyle: 'solid',
       _last: {
         mb: '2',
       },
     },
     measurementInfo: {
       display: 'flex',
-      alignItems: 'center',
       gap: '2',
       flexGrow: 1,
+      alignItems: 'center',
       minWidth: '0',
     },
     measurementText: {
@@ -80,19 +80,19 @@ export function MeasurementList({
                   {getDisplayUnit(graphic.attributes.unit)}
                 </Text>
                 <IconButton
+                  className={css({ w: 'fit' })}
                   onPress={() => mapView.goTo(graphic.geometry)}
                   variant="surface"
                   contained
-                  className={css({ w: 'fit' })}
                   icon={<SvgIcon name="icon-zoom-to" size={14} />}
                   aria-label={'Zoom to Measurement'}
                 />
 
                 <IconButton
+                  className={css({ w: 'fit' })}
                   onPress={clear}
                   variant="surface"
                   contained
-                  className={css({ w: 'fit' })}
                   icon={<SvgIcon name="icon-trash" size={14} />}
                   aria-label={'Delete Measurement'}
                 />

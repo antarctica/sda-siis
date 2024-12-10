@@ -17,20 +17,20 @@ const toolbarRecipe = cva({
   base: {
     display: 'flex',
     gap: '3',
+    alignItems: 'center',
     h: 'full',
     pr: '1',
-    alignItems: 'center',
   },
 });
 
 function ToolbarDivider() {
   return (
     <Divider
-      h={'full'}
       orientation={'vertical'}
       thickness={'thin'}
-      color="bg.base.border"
       display={{ base: 'none', md: 'block' }}
+      h={'full'}
+      color="bg.base.border"
     />
   );
 }

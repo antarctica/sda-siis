@@ -22,13 +22,13 @@ import { FieldError } from '../Field';
 
 const calandarCellRecipe = cva({
   base: {
-    w: '9',
-    h: '9',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 'sm',
     borderRadius: 'sm',
+    w: '9',
+    h: '9',
+    fontSize: 'sm',
     cursor: 'pointer',
     _hover: {
       bg: 'app.accent.a3',
@@ -45,8 +45,8 @@ const calandarCellRecipe = cva({
     },
     selectionState: {
       true: {
-        bg: 'bg.accent',
         color: 'fg.accent.contrast',
+        bg: 'bg.accent',
         _hover: {
           bg: 'bg.accent',
         },
@@ -54,8 +54,8 @@ const calandarCellRecipe = cva({
     },
     isUnavailable: {
       true: {
-        opacity: '0.5',
         color: 'error.fg',
+        opacity: '0.5',
         cursor: 'not-allowed',
         _hover: {
           bg: 'app.grey.a4',
@@ -64,8 +64,8 @@ const calandarCellRecipe = cva({
     },
     isInvalid: {
       true: {
-        bg: 'error.bg',
         color: 'error.fg',
+        bg: 'error.bg',
       },
     },
     isDisabled: {
@@ -107,10 +107,10 @@ export function Calendar<T extends DateValue>({ errorMessage, ...props }: Calend
         >
           {(date) => (
             <CalendarCell
-              date={date}
               className={css({
                 outline: 'none',
               })}
+              date={date}
             >
               {({
                 date,
@@ -149,15 +149,15 @@ const calendarHeaderRecipe = sva({
   base: {
     wrapper: {
       display: 'flex',
-      alignItems: 'center',
       gap: '1',
-      pb: '4',
+      alignItems: 'center',
       w: 'full',
+      pb: '4',
     },
     title: {
+      textStyle: 'heading4',
       flex: '1',
       textAlign: 'center',
-      textStyle: 'heading4',
     },
   },
 });
@@ -206,13 +206,13 @@ const calendarGridHeaderRecipe = sva({
   base: {
     wrapper: {
       borderBottomWidth: 'thin',
-      borderBottomStyle: 'solid',
       borderBottomColor: 'app.accent',
+      borderBottomStyle: 'solid',
     },
     headerCell: {
+      pb: '2',
       fontSize: 'sm',
       fontWeight: 'semibold',
-      pb: '2',
     },
   },
 });
@@ -229,11 +229,11 @@ export function CalendarGridHeader() {
 const calandarDialogRecipe = cva({
   base: {
     borderColor: 'app.accent',
-    borderWidth: 'thin',
-    borderStyle: 'solid',
-    bg: 'bg.popover',
     borderRadius: 'sm',
+    borderWidth: 'thin',
+    bg: 'bg.popover',
     shadow: 'sm',
+    borderStyle: 'solid',
   },
 });
 

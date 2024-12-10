@@ -24,21 +24,21 @@ const dialogRecipe = sva({
   base: {
     dialog: {
       position: 'relative',
+      outline: 'none',
+      maxW: 'full',
       py: '6',
       px: '6',
       bg: 'bg.base',
-      maxW: 'full',
-      outline: 'none',
     },
     title: {
       display: 'flex',
-      alignItems: 'center',
       gap: '2',
+      alignItems: 'center',
     },
     header: {
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'space-between',
+      alignItems: 'center',
       mb: '4',
     },
     footer: {
@@ -88,7 +88,7 @@ function DialogHeader({
 
   return (
     <div className={header}>
-      <HeadingPrimitive slot="title" className={titleClassName}>
+      <HeadingPrimitive className={titleClassName} slot="title">
         {icon}
         <Text as="span" className={css({ textStyle: 'heading1' })} margin={false}>
           {title}
@@ -96,8 +96,8 @@ function DialogHeader({
       </HeadingPrimitive>
       {hasCloseButton && (
         <IconButton
-          slot="close"
           className={cornerCloseButton}
+          slot="close"
           aria-label="Close"
           variant="surface"
           size="md"
@@ -125,7 +125,7 @@ function Dialog({
 }: DialogProps) {
   const { dialog, content } = dialogRecipe({ size });
   return (
-    <DialogPrimitive role={role} className={dialog}>
+    <DialogPrimitive className={dialog} role={role}>
       <DialogHeader title={title} hasCloseButton={hasCloseButton} icon={icon} />
       <div className={content}>{children}</div>
       {footer && <DialogFooter>{footer}</DialogFooter>}

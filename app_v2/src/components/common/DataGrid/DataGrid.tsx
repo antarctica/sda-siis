@@ -11,21 +11,21 @@ const datagridRecipe = sva({
   base: {
     gridContainer: {
       display: 'grid',
+      alignItems: 'center',
       gridTemplateColumns: '[min-content min-content]',
       gridTemplateRows: '[min-content min-content]',
       columnGap: '4',
-      alignItems: 'center',
-      fontSize: 'sm',
       textWrap: 'nowrap',
+      fontSize: 'sm',
     },
     label: {
-      fontWeight: 'bold',
       color: 'fg.accent',
       textTransform: 'uppercase',
+      fontWeight: 'bold',
     },
     value: {
-      fontSize: 'md',
       color: 'fg',
+      fontSize: 'md',
     },
   },
 });

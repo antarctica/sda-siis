@@ -16,18 +16,18 @@ const cursorLocationControlStyle = sva({
   base: {
     wrapper: {
       display: 'flex',
-      bg: 'bg.base',
-      cursor: 'pointer',
       gap: '2',
-      px: '2',
-      py: '1',
       alignItems: 'center',
-      fontSize: 'xs',
-      borderRadius: 'sm',
-      fontWeight: 'semibold',
-      boxShadow: 'md',
       borderColor: 'bg.base.border',
+      borderRadius: 'sm',
       borderWidth: 'thin',
+      py: '1',
+      px: '2',
+      fontSize: 'xs',
+      fontWeight: 'semibold',
+      bg: 'bg.base',
+      boxShadow: 'md',
+      cursor: 'pointer',
       pointerEvents: 'auto',
     },
     format: {
@@ -35,8 +35,8 @@ const cursorLocationControlStyle = sva({
     },
     value: {
       flexGrow: 1,
-      textAlign: 'center',
       color: 'fg',
+      textAlign: 'center',
     },
   },
   variants: {
@@ -129,7 +129,6 @@ function CursorLocationControl() {
   if (!formattedLatLon) return null;
   return (
     <Button
-      onPress={handleToggleFormat}
       className={({ isFocusVisible }) => {
         const { wrapper } = cursorLocationControlStyle({
           isFocusVisible,
@@ -138,6 +137,7 @@ function CursorLocationControl() {
 
         return cx(wrapper);
       }}
+      onPress={handleToggleFormat}
     >
       <VisuallyHidden>
         Toggle format to{' '}

@@ -70,7 +70,7 @@ function ShipInfo() {
 
   return (
     <>
-      <Title as="h2" size="lg" className={css({ pr: '10' })}>
+      <Title as="h2" className={css({ pr: '10' })} size="lg">
         RRS Sir David Attenborough
       </Title>
       <Box px="2">

@@ -33,9 +33,9 @@ function LayerGroupContent({ layerGroupActor, orderedChildLayerActors }: LayerGr
   return (
     <ul
       className={css({
-        listStyle: 'none',
-        flexDirection: 'column',
         gap: '2',
+        flexDirection: 'column',
+        listStyle: 'none',
       })}
     >
       {reversedLayers.map((child) => (
@@ -61,7 +61,7 @@ function MultipleTimeSliceCollectionContent({
   const otherLayers = orderedChildLayerActors.filter((layer) => layer !== footprintLayer);
 
   return (
-    <Flex direction="column" gap="2">
+    <Flex gap="2" direction="column">
       <ul>
         <LayerItem
           inGroup
@@ -72,8 +72,8 @@ function MultipleTimeSliceCollectionContent({
       {otherLayers.length > 0 && (
         <div>
           <Title
-            size="body"
             as="h4"
+            size="body"
             lineBarPosition="end"
             style={
               {

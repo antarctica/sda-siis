@@ -11,15 +11,15 @@ const drawerRecipe = sva({
   slots: ['root', 'title', 'description', 'handle', 'content'],
   base: {
     content: {
+      display: 'flex',
       position: 'fixed',
-      bottom: '0',
       left: '0',
       right: '0',
+      bottom: '0',
+      flexDirection: 'column',
+      h: 'full',
       mx: '[-1px]',
       bg: 'bg.panel',
-      display: 'flex',
-      h: 'full',
-      flexDirection: 'column',
     },
     title: {
       srOnly: true,
@@ -28,12 +28,12 @@ const drawerRecipe = sva({
       srOnly: true,
     },
     handle: {
-      // eslint-disable-next-line @pandacss/no-hardcoded-color
-      bg: '[bg.base.border !important]',
-      h: '1',
       w: '10 !important',
+      h: '1',
       mx: 'auto',
       mt: '3',
+      // eslint-disable-next-line @pandacss/no-hardcoded-color
+      bg: '[bg.base.border !important]',
     },
   },
 });

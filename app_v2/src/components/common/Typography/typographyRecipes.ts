@@ -7,31 +7,31 @@ export const textLineBarRecipe = cva({
       start: {
         gridTemplateColumns: '[ auto 1fr]',
         '&::after': {
-          content: "''",
           display: 'block',
+          width: 'full',
           height: '0.5',
           backgroundColor: 'bg.base.border',
-          width: 'full',
+          content: "''",
         },
       },
       middle: {
         gridTemplateColumns: '[1fr auto 1fr]',
         '&::before, &::after': {
-          content: "''",
           display: 'block',
+          width: 'full',
           height: '0.5',
           backgroundColor: 'bg.base.border',
-          width: 'full',
+          content: "''",
         },
       },
       end: {
         gridTemplateColumns: '[1fr auto]',
         '&::before': {
-          content: "''",
           display: 'block',
+          width: 'full',
           height: '[1px]',
           backgroundColor: 'bg.base.border',
-          width: 'full',
+          content: "''",
         },
       },
     },

@@ -16,18 +16,21 @@ function ZoomControl() {
 
   return (
     <Stack
-      gap={'0'}
       className={css({
-        boxShadow: 'md',
-        bg: 'bg.base',
         borderColor: 'bg.base.border',
-        borderWidth: 'thin',
         borderRadius: 'md',
+        borderWidth: 'thin',
         w: 'fit',
+        bg: 'bg.base',
+        boxShadow: 'md',
         pointerEvents: 'auto',
       })}
+      gap={'0'}
     >
       <MapButton
+        className={css({
+          borderBottomRadius: 'radii.none',
+        })}
         icon={<SvgIcon name="icon-add" size={16} />}
         aria-label="Zoom In"
         disableTooltip
@@ -35,12 +38,12 @@ function ZoomControl() {
         onPress={() => widget.zoomIn()}
         variant="surface"
         isContainer={false}
-        className={css({
-          borderBottomRadius: 'radii.none',
-        })}
       />
-      <Divider w="full" thickness={'thin'} color="bg.base.border"></Divider>
+      <Divider thickness={'thin'} w="full" color="bg.base.border"></Divider>
       <MapButton
+        className={css({
+          borderTopRadius: 'radii.none',
+        })}
         icon={<SvgIcon name="icon-subtract" size={16} />}
         aria-label="Zoom Out"
         disableTooltip
@@ -48,9 +51,6 @@ function ZoomControl() {
         onPress={() => widget.zoomOut()}
         variant="surface"
         isContainer={false}
-        className={css({
-          borderTopRadius: 'radii.none',
-        })}
       />
     </Stack>
   );

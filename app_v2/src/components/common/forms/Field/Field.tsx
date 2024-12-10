@@ -25,7 +25,7 @@ export function Label(props: LabelProps) {
 }
 
 export function Description(props: TextProps) {
-  return <Text {...props} slot="description" textStyle="description" />;
+  return <Text {...props} textStyle="description" slot="description" />;
 }
 
 export function FieldError(props: FieldErrorProps) {

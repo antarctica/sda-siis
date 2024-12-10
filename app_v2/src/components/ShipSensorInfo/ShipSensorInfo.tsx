@@ -50,9 +50,9 @@ function SensorInfo() {
   return (
     <div
       className={css({
+        zIndex: '1',
         position: 'relative',
         pointerEvents: 'auto',
-        zIndex: '1',
       })}
     >
       <Box
@@ -63,17 +63,12 @@ function SensorInfo() {
             right: '0',
           },
           mdDown: {
-            bottom: '0',
             right: '0',
+            bottom: '0',
           },
         })}
       >
         <MapButton
-          icon={<SvgIcon name="icon-ship" size={16} />}
-          aria-label={sensorInfoPanelOpen ? 'Hide ship sensor info' : 'Show ship sensor info'}
-          aria-expanded={sensorInfoPanelOpen}
-          aria-controls="sensor-info-panel"
-          onPress={toggleSensorInfo}
           className={css({
             ...(sensorInfoPanelOpen
               ? {
@@ -84,6 +79,11 @@ function SensorInfo() {
                 }
               : {}),
           })}
+          icon={<SvgIcon name="icon-ship" size={16} />}
+          aria-label={sensorInfoPanelOpen ? 'Hide ship sensor info' : 'Show ship sensor info'}
+          aria-expanded={sensorInfoPanelOpen}
+          aria-controls="sensor-info-panel"
+          onPress={toggleSensorInfo}
         />
         <SensorStatusDot />
       </Box>

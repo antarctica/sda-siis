@@ -56,10 +56,10 @@ export function SelectionMenu<T>({
         )}
       >
         <ListBox
-          autoFocus
           className={css({
             outline: 'none',
           })}
+          autoFocus
           aria-label={label}
           items={listData.items}
           selectionMode="single"
@@ -81,7 +81,7 @@ export function SelectionMenu<T>({
         >
           {(item) => (
             <ListBoxItem key={item.id} id={item.id} aria-label={item.label}>
-              <Flex verticalAlign={'middle'} display={'inline-flex'} gap={'2'}>
+              <Flex display={'inline-flex'} gap={'2'} verticalAlign={'middle'}>
                 {item.icon && (
                   <SvgIcon
                     className={css({

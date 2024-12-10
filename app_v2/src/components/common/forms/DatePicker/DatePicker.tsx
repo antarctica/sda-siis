@@ -92,8 +92,8 @@ export function DatePicker({
         cx(
           css({
             display: 'flex',
-            flexDirection: 'column',
             gap: '1',
+            flexDirection: 'column',
             mb: '2',
           }),
           className,
@@ -111,13 +111,13 @@ export function DatePicker({
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
       <CalandarPopUp>
-        <Flex direction="column" p="2" gap="2">
+        <Flex gap="2" direction="column" p="2">
           <Calendar />
           {isTodayEnabled && (
             <Button
+              className={css({ justifyContent: 'center', w: 'full' })}
               slot={null}
               variant="primary"
-              className={css({ w: 'full', justifyContent: 'center' })}
               size="md"
               onPress={() => {
                 changeValue(today('UTC'));
@@ -164,7 +164,7 @@ function DatePickerInputGroup({
 
   return (
     <FieldGroup className={cx(inputContainerRecipe(), dateFieldGroupRecipe())}>
-      <Flex direction="row" align="center" grow={1} gap="1" flexDirection={'row-reverse'}>
+      <Flex gap="1" direction="row" flexDirection={'row-reverse'} grow={1} align="center">
         <DateInput className={css({ flexGrow: 1 })} />
         {navButtonsEnabled && (
           <Flex>
@@ -212,7 +212,7 @@ function DatePickerInputGroup({
           </Flex>
         )}
       </Flex>
-      <Flex align="center" grow={0}>
+      <Flex grow={0} align="center">
         <Divider orientation="vertical" h="9" color="bg.base.border" />
         <IconButton
           icon={<SvgIcon name="icon-calendar" size={20} />}

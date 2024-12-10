@@ -29,22 +29,22 @@ const checkRecipe = sva({
   slots: ['box', 'check'],
   base: {
     box: {
-      borderStyle: 'dashed',
-      borderColor: 'fg.accent',
-      borderWidth: 'thin',
-      w: '4',
-      h: '4',
-      minW: '4',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      borderColor: 'fg.accent',
+      borderWidth: 'thin',
+      w: '4',
+      minW: '4',
+      h: '4',
       m: '2',
+      borderStyle: 'dashed',
     },
     check: {
+      display: 'none',
       w: '2.5',
       h: '2.5',
       bg: 'fg.accent',
-      display: 'none',
     },
   },
   variants: {
@@ -98,10 +98,10 @@ export const Checkbox: React.FC<CheckboxProps> = ({ rounded, children, ...props 
   <>
     <AriaCheckbox
       {...props}
-      aria-label={props['aria-label']}
       className={composeRenderProps(props.className, (className, renderProps) =>
         cx('group', checkboxRootRecipe({ ...renderProps }), className),
       )}
+      aria-label={props['aria-label']}
     >
       {({ isHovered, isSelected }) => {
         const { box, check } = checkRecipe({

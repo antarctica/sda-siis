@@ -30,7 +30,7 @@ function Panel({
         <PanelHeader title={title} tabs={tabs} onClose={onClose} />
         {hasTabs ? (
           tabs.map(({ component: Content, id }) => (
-            <TabPanel key={id} id={id} className={panelContent}>
+            <TabPanel className={panelContent} key={id} id={id}>
               <Content />
             </TabPanel>
           ))

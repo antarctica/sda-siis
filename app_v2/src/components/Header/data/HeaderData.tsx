@@ -5,12 +5,12 @@ import { TemporalData } from './TemporalData';
 
 export function HeaderData() {
   return (
-    <Flex gap="4" h="full" alignItems="center" shrink={1} minW="0" overflowX={'auto'}>
+    <Flex gap="4" shrink={1} alignItems="center" minW="0" h="full" overflowX={'auto'}>
       <ProjectionData />
       <Divider
-        h={'full'}
         orientation={'vertical'}
         thickness={'thin'}
+        h={'full'}
         color="bg.base.border"
       ></Divider>
       <TemporalData />

@@ -24,9 +24,9 @@ function AppContent() {
   }
 
   return (
-    <Flex direction={'column'} w={'full'} h={'full'} pointerEvents={'auto'} overflow={'hidden'}>
+    <Flex direction={'column'} w={'full'} h={'full'} overflow={'hidden'} pointerEvents={'auto'}>
       <Header />
-      <Flex w={'full'} flexGrow={1} minH={'0'}>
+      <Flex flexGrow={1} w={'full'} minH={'0'}>
         {isMobile ? <Drawer /> : <Sidebar />}
         <Map key={crs} crs={crs} initialExtent={previousExtent} />
       </Flex>

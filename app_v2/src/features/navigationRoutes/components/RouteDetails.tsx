@@ -38,7 +38,7 @@ function RouteDetailsStatic({
   onRouteAction,
 }: RouteDetailsStaticProps) {
   return (
-    <Flex direction="row" gap="2" align="center">
+    <Flex gap="2" direction="row" align="center">
       <Box>
         <MapGraphicPolylinePreviewSVG
           mapView={siisMapView}
@@ -47,7 +47,7 @@ function RouteDetailsStatic({
         />
       </Box>
       <Box flexGrow={1}>
-        <Title bold as="h3" size="body" margin={false}>
+        <Title as="h3" bold size="body" margin={false}>
           {hyphensToSpaces(routeGraphic.attributes.route_name)}{' '}
         </Title>
         <Text className={css({ textStyle: 'description' })}>
@@ -101,7 +101,7 @@ function RouteDetailsEditing({
       }}
     >
       <Stack gap="4">
-        <Flex direction="row" gap="2" align="center">
+        <Flex gap="2" direction="row" align="center">
           <Box alignSelf="start">
             <MapGraphicPolylinePreviewSVG
               mapView={siisMapView}
@@ -112,12 +112,12 @@ function RouteDetailsEditing({
           <Box flexGrow={1}>
             <Flex gap="2" align="center">
               <TextField
+                className={css({ w: 'full' })}
                 pattern="^[a-zA-Z0-9 ]+$"
                 maxLength={50}
                 isRequired
                 name="route_name"
                 label="Route name"
-                className={css({ w: 'full' })}
                 defaultValue={hyphensToSpaces(routeGraphic.attributes.route_name)}
                 errorMessage="Please enter a name containing only letters, numbers, and spaces"
               />
@@ -207,9 +207,9 @@ export function RouteDetails({
   return (
     <Stack gap="2">
       <Box
-        w="full"
-        borderWidth={'thin'}
         borderColor={isEditing ? 'app.accent' : 'bg.base.border'}
+        borderWidth={'thin'}
+        w="full"
         p="4"
       >
         <Stack gap="2">

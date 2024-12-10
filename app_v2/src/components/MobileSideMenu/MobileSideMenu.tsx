@@ -30,11 +30,11 @@ export default function MobileSideMenu() {
       ></IconButton>
       <MobileDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <Flex
-          h={{ base: '12', md: '16' }}
-          alignItems={'center'}
           position={'fixed'}
           top={'0'}
           left={'0'}
+          alignItems={'center'}
+          h={{ base: '12', md: '16' }}
           p={'2'}
         >
           <HeaderBarTitle />
@@ -42,12 +42,12 @@ export default function MobileSideMenu() {
         <nav id="mobile-side-menu">
           <Title
             as="h2"
-            size="xl"
-            lineBarPosition="end"
             className={css({
               w: 'full',
               marginTop: '8',
             })}
+            size="xl"
+            lineBarPosition="end"
           >
             Menu
           </Title>

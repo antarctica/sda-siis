@@ -131,8 +131,8 @@ export function DateRangePicker({
         cx(
           css({
             display: 'flex',
-            flexDirection: 'column',
             gap: '1',
+            flexDirection: 'column',
             mb: '2',
           }),
           className,
@@ -144,13 +144,13 @@ export function DateRangePicker({
       {description && <Description>{description}</Description>}
       <FieldError>{validation}</FieldError>
       <CalandarPopUp isOpen={isOpen} setIsOpen={setIsOpen}>
-        <Flex direction="row" gap="0.5">
-          <Flex direction={'column'} p={'2'} display={{ base: 'none', md: 'flex' }} gap="2">
+        <Flex gap="0.5" direction="row">
+          <Flex display={{ base: 'none', md: 'flex' }} gap="2" direction={'column'} p={'2'}>
             {isRangeWithinMaxRange({ days: 1 }, maxRange) && (
               <Button
+                className={css({ justifyContent: 'center', w: 'full' })}
                 slot={null}
                 variant="outline"
-                className={css({ w: 'full', justifyContent: 'center' })}
                 size="md"
                 onPress={() => {
                   handleChange({
@@ -165,9 +165,9 @@ export function DateRangePicker({
             )}
             {isRangeWithinMaxRange({ days: 2 }, maxRange) && (
               <Button
+                className={css({ justifyContent: 'center', w: 'full' })}
                 slot={null}
                 variant="outline"
-                className={css({ w: 'full', justifyContent: 'center' })}
                 size="md"
                 onPress={() => {
                   handleChange({
@@ -182,6 +182,7 @@ export function DateRangePicker({
             )}
             {isRangeWithinMaxRange({ weeks: 1 }, maxRange) && (
               <Button
+                className={css({ justifyContent: 'center', w: 'full' })}
                 slot={null}
                 onPress={() => {
                   handleChange({
@@ -191,7 +192,6 @@ export function DateRangePicker({
                   setIsOpen(false);
                 }}
                 variant="outline"
-                className={css({ w: 'full', justifyContent: 'center' })}
                 size="md"
               >
                 Last 7 Days
@@ -199,6 +199,7 @@ export function DateRangePicker({
             )}
             {isRangeWithinMaxRange({ days: 30 }, maxRange) && (
               <Button
+                className={css({ justifyContent: 'center', w: 'full' })}
                 slot={null}
                 onPress={() => {
                   handleChange({
@@ -208,7 +209,6 @@ export function DateRangePicker({
                   setIsOpen(false);
                 }}
                 variant="outline"
-                className={css({ w: 'full', justifyContent: 'center' })}
                 size="md"
               >
                 Last 30 Days
@@ -217,11 +217,11 @@ export function DateRangePicker({
           </Flex>
           <Divider
             orientation="vertical"
-            height="auto"
             thickness={'thin'}
+            height="auto"
             color={'bg.base.border'}
           />
-          <Flex direction={'column'} p={'2'} gap="2">
+          <Flex gap="2" direction={'column'} p={'2'}>
             <RangeCalendar
               onChange={(value) => {
                 handleChange(value);
@@ -232,9 +232,9 @@ export function DateRangePicker({
               errorMessage={validation}
             />
             <Button
+              className={css({ justifyContent: 'center', w: 'full' })}
               slot={null}
               variant="primary"
-              className={css({ w: 'full', justifyContent: 'center' })}
               size="md"
               onPress={() => {
                 handleChange({
@@ -262,7 +262,7 @@ function DatePickerInputGroup() {
         <DateInput slot="end" />
       </Flex>
 
-      <Flex align="center" grow={0} h="full">
+      <Flex grow={0} align="center" h="full">
         <Divider orientation="vertical" h="9" color="bg.base.border" />
         <IconButton
           icon={<SvgIcon name="icon-calendar" size={20} />}

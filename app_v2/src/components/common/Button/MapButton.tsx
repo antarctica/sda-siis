@@ -4,21 +4,21 @@ import { IconButton, IconButtonProps } from './IconButton';
 
 const mapButtonRecipe = cva({
   base: {
-    bg: 'bg.base',
-    w: '12',
-    h: '12',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    w: '12',
+    h: '12',
+    bg: 'bg.base',
   },
   variants: {
     isContainer: {
       true: {
-        boxShadow: 'md',
-        bg: 'bg.base',
         borderColor: 'bg.base.border',
-        borderWidth: 'thin',
         borderRadius: 'md',
+        borderWidth: 'thin',
+        bg: 'bg.base',
+        boxShadow: 'md',
       },
     },
   },

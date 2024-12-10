@@ -21,9 +21,9 @@ const layerItemRecipe = sva({
   base: {
     wrapper: {
       display: 'flex',
-      flexDirection: 'column',
       gap: '2',
 
+      flexDirection: 'column',
       borderRadius: 'sm',
       px: '2',
     },
@@ -84,23 +84,23 @@ export function LayerItem({
 
   return (
     <li className={wrapper}>
-      <Flex w="full" alignItems="center" gap="2" className={layerToggle}>
+      <Flex className={layerToggle} gap="2" alignItems="center" w="full">
         <Checkbox
-          onChange={() => {
-            layerActor.send({
-              type: isEnabled ? 'LAYER.DISABLED' : 'LAYER.ENABLED',
-            });
-          }}
-          isSelected={isEnabled}
           className={css({
             display: 'flex',
             flexGrow: 1,
 
             justifyContent: 'space-between',
           })}
+          onChange={() => {
+            layerActor.send({
+              type: isEnabled ? 'LAYER.DISABLED' : 'LAYER.ENABLED',
+            });
+          }}
+          isSelected={isEnabled}
         >
-          <Flex gap="2" w="full" alignItems="center" justifyContent="space-between">
-            <Flex gap="2" grow={1} minW="0" alignItems="center">
+          <Flex gap="2" justifyContent="space-between" alignItems="center" w="full">
+            <Flex gap="2" grow={1} alignItems="center" minW="0">
               {includeStatus && <LayerStatusCircle status={status} />}
               <Text
                 className={css({
@@ -143,7 +143,7 @@ export function LayerItem({
         />
       )}
       {showProperties && (
-        <Flex w="full" flexDirection="column">
+        <Flex flexDirection="column" w="full">
           <Slider
             label="Opacity"
             minValue={0}

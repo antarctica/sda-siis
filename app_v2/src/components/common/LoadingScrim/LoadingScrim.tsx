@@ -7,11 +7,11 @@ const loadingScrim = cva({
   base: {
     position: 'absolute',
     inset: '0',
-    bg: 'htmlBackground',
     width: 'full',
     height: 'full',
-    placeContent: 'center',
+    bg: 'htmlBackground',
     opacity: 0,
+    placeContent: 'center',
     _motionSafe: {
       transition: 'all',
       transitionDuration: 'slowest',
@@ -21,8 +21,8 @@ const loadingScrim = cva({
   variants: {
     isLoading: {
       true: {
-        opacity: '1',
         display: 'grid',
+        opacity: '1',
       },
       false: {
         display: 'none',

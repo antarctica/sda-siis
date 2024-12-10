@@ -8,19 +8,19 @@ export type BadgeVariant = 'error' | 'info' | 'warning' | 'success' | 'grey';
 const badgeRecipe = cva({
   base: {
     display: 'inline-block',
-    px: '1',
     rounded: 'md',
-    fontSize: 'xs',
+    px: '1',
     textTransform: 'capitalize',
+    fontSize: 'xs',
   },
   variants: {
     variant: {
-      primary: { bg: 'app.accent.9', color: 'fg.accent.contrast' },
-      error: { bg: 'error.bg', color: 'error.fg' },
-      info: { bg: 'info.bg', color: 'info.fg' },
-      warning: { bg: 'warning.bg', color: 'warning.fg' },
-      success: { bg: 'success.bg', color: 'success.fg' },
-      grey: { bg: 'app.grey.8', color: 'app.grey.12' },
+      primary: { color: 'fg.accent.contrast', bg: 'app.accent.9' },
+      error: { color: 'error.fg', bg: 'error.bg' },
+      info: { color: 'info.fg', bg: 'info.bg' },
+      warning: { color: 'warning.fg', bg: 'warning.bg' },
+      success: { color: 'success.fg', bg: 'success.bg' },
+      grey: { color: 'app.grey.12', bg: 'app.grey.8' },
     },
   },
 });

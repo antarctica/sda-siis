@@ -3,38 +3,38 @@ import { cva } from '@styled-system/css';
 export const buttonRecipe = cva({
   base: {
     display: 'inline-flex',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 'thin',
+    height: 'fit',
     textDecoration: 'none',
     cursor: 'pointer',
-    height: 'fit',
-    borderWidth: 'thin',
     borderStyle: 'solid',
   },
   variants: {
     variant: {
       primary: {
-        bg: 'app.accent',
-        color: 'fg.accent.contrast',
         borderColor: 'transparent',
+        color: 'fg.accent.contrast',
+        bg: 'app.accent',
+        _disabled: {
+          bg: 'app.accent.a7',
+          _hover: {
+            bg: 'app.accent.a7',
+          },
+        },
         _hover: {
           bg: 'app.accent.10',
         },
         _active: {
           filter: '[brightness(0.92) saturate(1.1)]',
         },
-        _disabled: {
-          _hover: {
-            bg: 'app.accent.a7',
-          },
-          bg: 'app.accent.a7',
-        },
       },
 
       outline: {
+        borderColor: 'app.accent',
         borderWidth: 'thin',
         borderStyle: 'solid',
-        borderColor: 'app.accent',
         _hover: {
           bg: 'app.accent.a2',
         },
@@ -45,8 +45,8 @@ export const buttonRecipe = cva({
       surface: {
         borderColor: 'transparent',
         _hover: {
-          cursor: 'pointer',
           bg: 'siis_greyAlpha.a3',
+          cursor: 'pointer',
           _dark: {
             bg: 'siis_darkgreyAlpha.a3',
           },
@@ -76,39 +76,39 @@ export const buttonRecipe = cva({
       },
     },
     contained: {
-      true: { h: 'full', w: 'full' },
+      true: { w: 'full', h: 'full' },
     },
     isSelected: { true: {} },
     size: {
       sm: {
-        fontSize: 'xs',
+        gap: '1',
+        borderRadius: 'xs',
+        h: '6',
         py: '0.5',
         px: '1',
-        gap: '1',
-        h: '6',
-        borderRadius: 'xs',
+        fontSize: 'xs',
       },
       md: {
-        fontSize: 'md',
-        p: '1.5',
         gap: '2',
-        h: '8',
         borderRadius: 'sm',
+        h: '8',
+        p: '1.5',
+        fontSize: 'md',
       },
       lg: {
-        fontSize: 'lg',
-        h: '10',
-        p: '2',
         gap: '2',
         borderRadius: 'sm',
+        h: '10',
+        p: '2',
+        fontSize: 'lg',
       },
     },
     isDisabled: {
       true: {
+        color: 'app.grey.a10',
         _hover: {
           cursor: 'not-allowed',
         },
-        color: 'app.grey.a10',
       },
     },
     isFocusVisible: {
@@ -126,6 +126,9 @@ export const buttonRecipe = cva({
     },
   },
 
+  defaultVariants: {
+    size: 'lg',
+  },
   compoundVariants: [
     {
       variant: ['outline'],
@@ -150,8 +153,4 @@ export const buttonRecipe = cva({
       },
     },
   ],
-
-  defaultVariants: {
-    size: 'lg',
-  },
 });

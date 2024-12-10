@@ -139,21 +139,21 @@ export function CoordinateField({
   return (
     <AriaTextField
       {...props}
+      className={composeRenderProps(props.className, (className) => cx(fieldRecipe(), className))}
       isRequired={isRequired}
       isInvalid={!!errors}
-      className={composeRenderProps(props.className, (className) => cx(fieldRecipe(), className))}
     >
       {(props) => (
         <>
           {label && <Label>{label}</Label>}
           <FieldGroup
+            className={cx(inputContainerRecipe())}
             isInvalid={props.isInvalid}
             isDisabled={props.isDisabled}
-            className={cx(inputContainerRecipe())}
           >
-            <Flex direction="row" align="center" grow={1} gap="1" flexDirection={'row'}>
+            <Flex gap="1" direction="row" flexDirection={'row'} grow={1} align="center">
               {mapSelectionOptions.mapSelectionEnabled && mapSelectionOptions.mapView && (
-                <Flex align="center" grow={0}>
+                <Flex grow={0} align="center">
                   <CoordinateMapSelection
                     coordinate={coordinate}
                     updateEnabled={mapSelectionOptions?.updateEnabled}
@@ -168,15 +168,15 @@ export function CoordinateField({
                 </Flex>
               )}
               <Input
-                value={value ?? ''}
                 className={composeRenderProps('', (className, renderProps) =>
                   cx(inputRecipe(renderProps), css({ flexGrow: 1 }), className),
                 )}
+                value={value ?? ''}
                 placeholder={placeholder}
                 onChange={(e) => handleInputChange(e.target.value)}
               />
             </Flex>
-            <Flex align="center" grow={0} h="full">
+            <Flex grow={0} align="center" h="full">
               <Divider orientation="vertical" h={'9'} color="bg.base.border" />
               <CoordinateSelectionMenu
                 key={`${coordinate?.latitude}-${coordinate?.longitude}-${displayFormat}`}
@@ -230,8 +230,8 @@ function CoordinateSelectionMenu({
 
   return (
     <SelectionMenu
-      label="Select Coordinate Format"
       className={css({ w: '80' })}
+      label="Select Coordinate Format"
       listData={listData}
       onSelect={(value) => {
         setValue(value ?? '');

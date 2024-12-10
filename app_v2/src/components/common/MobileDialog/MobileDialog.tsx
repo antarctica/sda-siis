@@ -27,8 +27,8 @@ const dialogRecipe = sva({
       top: '0',
       left: '0',
       height: 'full',
-      bg: 'bg.base',
       color: 'fg',
+      bg: 'bg.base',
       pointerEvents: 'auto',
     },
     closeBtn: {
@@ -37,15 +37,15 @@ const dialogRecipe = sva({
       right: '2',
     },
     header: {
-      p: '4',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
+      p: '4',
     },
     content: {
-      px: '8',
-      py: '4',
       flex: '1',
+      py: '4',
+      px: '8',
       overflowY: 'auto',
     },
     footer: {
@@ -119,8 +119,8 @@ function MobileDialog({
     >
       {hasCloseBtn && (
         <IconButton
-          variant="surface"
           className={cx(closeBtn)}
+          variant="surface"
           onPress={() => toggleVisibility(false)}
           icon={<SvgIcon size={16} name="icon-x" />}
           aria-label={'Close'}

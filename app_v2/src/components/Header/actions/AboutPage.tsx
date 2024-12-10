@@ -14,7 +14,7 @@ function ModalFooter() {
   const { close } = React.useContext(OverlayTriggerStateContext)!;
   return (
     <div className={css({ display: 'flex', justifyContent: 'space-between', alignItems: 'end' })}>
-      <Text className={css({ color: 'fg.muted', textStyle: 'caption' })}>
+      <Text className={css({ textStyle: 'caption', color: 'fg.muted' })}>
         Version {import.meta.env.VITE_VERSION}
       </Text>
       <Button variant="primary" onPress={close}>

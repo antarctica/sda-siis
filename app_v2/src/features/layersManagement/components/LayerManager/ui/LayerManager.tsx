@@ -25,8 +25,8 @@ function LayerManager() {
       <ul
         className={css({
           display: 'flex',
-          flexDirection: 'column',
           gap: '2',
+          flexDirection: 'column',
         })}
       >
         {reversedLayers.map((layer, index) => {

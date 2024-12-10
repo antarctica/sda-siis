@@ -38,8 +38,8 @@ export function RouteDetailsStep({
             controlledUpdate={controlledUpdate}
           />
         ) : (
-          <Box w="full" bg="bg.surface" p="4">
-            <Flex direction="row" gap="2" align="center">
+          <Box w="full" p="4" bg="bg.surface">
+            <Flex gap="2" direction="row" align="center">
               <SvgIcon name="icon-info" size={16} />
               <Text>Please add a route to view details.</Text>
             </Flex>
