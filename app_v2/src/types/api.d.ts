@@ -213,10 +213,13 @@ export interface components {
       label?: string;
       /** @description product attribution */
       attribution?: string;
-      formats?: components['schemas']['format'][];
-      /** @description GeoServer layer style */
-      style?: string;
-      srss?: components['schemas']['srs'][];
+      /** @description Hemisphere of product ('N'/'S'/'') */
+      hemisphere?: string;
+      /**
+       * @description Status of product feed, based on status of granules
+       * @enum {string}
+       */
+      status?: 'offline' | 'online' | 'loading' | 'static' | 'outdated' | 'error';
       /** @description Geoserver layer name */
       gs_layername?: string;
       /** @description Geoserver WMS endpoint - temporary for testing */
@@ -225,28 +228,16 @@ export interface components {
       gs_wfsendpoint?: string;
       /** @description Geoserver WMTS endpoint - temporary for testing */
       gs_wmtsendpoint?: string;
-      types?: components['schemas']['type'][];
-      /** @description Array of timestamps available */
-      timestamps?: string;
-      /** @description Hemisphere of product ('N'/'S'/'') */
-      hemisphere?: string;
-      /** @description Static background product/layer without granules? */
-      static?: boolean;
-      /** @description Default time filter in hours applied on granules for app rendering */
-      default_timeframe?: number;
+      /** @description GeoServer layer style */
+      style?: string;
       /**
-       * @description Status of product feed, based on status of granules
+       * @description Describes the fundamental type of the layer and how it should be handled
        * @enum {string}
        */
-      status?: 'offline' | 'online' | 'loading' | 'static' | 'outdated' | 'error';
-      /** @description Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required */
-      render_exclusive?: boolean;
-      /** @description Indicated availability of a corresponding high-resolution granule */
-      highres_available?: boolean;
-      /** @description Does product has legend */
-      haslegend?: boolean;
-      /** @description Holds GeoServer WMS request parameters for legend graphic styling */
-      legend_graphic_params?: string;
+      layer_type?: 'raster' | 'vector' | 'imagery_collection';
+      formats?: components['schemas']['format'][];
+      srss?: components['schemas']['srs'][];
+      types?: components['schemas']['type'][];
       /** @description Show product in product list by default */
       show_on_startup?: boolean;
       /**
@@ -256,26 +247,68 @@ export interface components {
       default_opacity?: number;
       /** @description Default z-index / layer stacking order for map rendering */
       default_z?: number;
+      /** @description Hex color for granule footprint (e.g., "#FF0000") */
+      granule_footprint_color?: string;
+      /**
+       * @description Template URL for IWS viewer Supports placeholders {year}, {month}, {filename}
+       * @example http://viewer.example.com/iwsviewer/?image=Data/{year}{month}/{filename}.jp2
+       */
+      iws_viewer_template?: string;
+      /** @description Does product has legend */
+      haslegend?: boolean;
+      /** @description Holds GeoServer WMS request parameters for legend graphic styling */
+      legend_graphic_params?: string;
+      /**
+       * @description Describes the temporal characteristics of the layer
+       * @enum {string}
+       */
+      temporal_mode?: 'static' | 'single_date' | 'date_range';
+      /** @description Array of timestamps available */
+      timestamps?: string;
+      /** @description Default time filter in hours applied on granules for app rendering */
+      default_timeframe?: number;
+      /** @description Indicated availability of a corresponding high-resolution granule */
+      highres_available?: boolean;
       /** @description product footprint */
       geom_extent?: string;
+      /**
+       * @deprecated
+       * @description Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
+       */
+      render_exclusive?: boolean;
+      /**
+       * @deprecated
+       * @description Static background product/layer without granules?
+       */
+      static?: boolean;
     };
-    /** @description Array of WxS types available */
-    format: string;
-    /** @description GeoServer delivery SRS */
-    srs: number;
-    /** @description Array of WxS types available */
-    type: string;
-    products: components['schemas']['product'][];
     granule: {
       /** @description Granule UUID */
       id: string;
       /** @description SIIS product code */
       productcode?: string;
+      /** @description Filename of product after extraction */
+      productname?: string;
       /**
        * Format: date-time
        * @description Timestamp of granule
        */
       timestamp?: string;
+      /**
+       * @description Status of granule availability on vessel
+       * @enum {string}
+       */
+      status?:
+        | 'offline'
+        | 'online'
+        | 'loading'
+        | 'static'
+        | 'outdated'
+        | 'error'
+        | 'hr_requested'
+        | 'hr_pending'
+        | 'hr_processing'
+        | 'hr_online';
       /** @description Downloadable */
       downloadable?: number;
       /** @description Downloaded to local */
@@ -286,8 +319,6 @@ export interface components {
       size_dl?: number;
       /** @description Zipped product for download */
       zipped?: number;
-      /** @description Filename of product after extraction */
-      productname?: string;
       /**
        * Format: date-time
        * @description Timestamp of ingestion into shore-side catalogue
@@ -308,21 +339,6 @@ export interface components {
        * @description Timestamp of successful ship-side GeoServer ingest
        */
       ts_gsingest?: string;
-      /**
-       * @description Status of granule availability on vessel
-       * @enum {string}
-       */
-      status?:
-        | 'offline'
-        | 'online'
-        | 'loading'
-        | 'static'
-        | 'outdated'
-        | 'error'
-        | 'hr_requested'
-        | 'hr_pending'
-        | 'hr_processing'
-        | 'hr_online';
       /** @description product footprint */
       geom_extent?: string;
       /** @description product footprint in GeoJSON format (MultiPolygon) */
@@ -332,6 +348,13 @@ export interface components {
         coordinates?: number[][][][];
       };
     };
+    /** @description Array of WxS types available */
+    format: string;
+    /** @description GeoServer delivery SRS */
+    srs: number;
+    /** @description Array of WxS types available */
+    type: string;
+    products: components['schemas']['product'][];
     granules: components['schemas']['granule'][];
     kv: {
       /** @description Key identifier of KV pair */

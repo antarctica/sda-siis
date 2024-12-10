@@ -27,11 +27,11 @@ Open API v3 file for SIIS API
 | Name | Path | Description |
 | --- | --- | --- |
 | product | [#/components/schemas/product](#componentsschemasproduct) |  |
+| granule | [#/components/schemas/granule](#componentsschemasgranule) |  |
 | format | [#/components/schemas/format](#componentsschemasformat) | Array of WxS types available |
 | srs | [#/components/schemas/srs](#componentsschemassrs) | GeoServer delivery SRS |
 | type | [#/components/schemas/type](#componentsschemastype) | Array of WxS types available |
 | products | [#/components/schemas/products](#componentsschemasproducts) |  |
-| granule | [#/components/schemas/granule](#componentsschemasgranule) |  |
 | granules | [#/components/schemas/granules](#componentsschemasgranules) |  |
 | kv | [#/components/schemas/kv](#componentsschemaskv) |  |
 | kvs | [#/components/schemas/kvs](#componentsschemaskvs) |  |
@@ -74,12 +74,10 @@ hemi?: enum[N, n, S, s]
   label?: string
   // product attribution
   attribution?: string
-  // Array of WxS types available
-  formats?: string[]
-  // GeoServer layer style
-  style?: string
-  // GeoServer delivery SRS
-  srss?: integer[]
+  // Hemisphere of product ('N'/'S'/'')
+  hemisphere?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -88,34 +86,44 @@ hemi?: enum[N, n, S, s]
   gs_wfsendpoint?: string
   // Geoserver WMTS endpoint - temporary for testing
   gs_wmtsendpoint?: string
+  // GeoServer layer style
+  style?: string
+  // Describes the fundamental type of the layer and how it should be handled
+  layer_type?: enum[raster, vector, imagery_collection]
+  // Array of WxS types available
+  formats?: string[]
+  // GeoServer delivery SRS
+  srss?: integer[]
   // Array of WxS types available
   types?: string[]
-  // Array of timestamps available
-  timestamps?: string
-  // Hemisphere of product ('N'/'S'/'')
-  hemisphere?: string
-  // Static background product/layer without granules?
-  static?: boolean
-  // Default time filter in hours applied on granules for app rendering
-  default_timeframe?: integer
-  // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
-  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
-  render_exclusive?: boolean
-  // Indicated availability of a corresponding high-resolution granule
-  highres_available?: boolean
-  // Does product has legend
-  haslegend?: boolean
-  // Holds GeoServer WMS request parameters for legend graphic styling
-  legend_graphic_params?: string
   // Show product in product list by default
   show_on_startup?: boolean
   // Default render opacity
   default_opacity?: number
   // Default z-index / layer stacking order for map rendering
   default_z?: integer
+  // Hex color for granule footprint (e.g., "#FF0000")
+  granule_footprint_color?: string
+  // Template URL for IWS viewer Supports placeholders {year}, {month}, {filename}
+  iws_viewer_template?: string
+  // Does product has legend
+  haslegend?: boolean
+  // Holds GeoServer WMS request parameters for legend graphic styling
+  legend_graphic_params?: string
+  // Describes the temporal characteristics of the layer
+  temporal_mode?: enum[static, single_date, date_range]
+  // Array of timestamps available
+  timestamps?: string
+  // Default time filter in hours applied on granules for app rendering
+  default_timeframe?: integer
+  // Indicated availability of a corresponding high-resolution granule
+  highres_available?: boolean
   // product footprint
   geom_extent?: string
+  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
+  render_exclusive?: boolean
+  // Static background product/layer without granules?
+  static?: boolean
 }[]
 ```
 
@@ -145,12 +153,10 @@ Read one product definition
   label?: string
   // product attribution
   attribution?: string
-  // Array of WxS types available
-  formats?: string[]
-  // GeoServer layer style
-  style?: string
-  // GeoServer delivery SRS
-  srss?: integer[]
+  // Hemisphere of product ('N'/'S'/'')
+  hemisphere?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -159,34 +165,44 @@ Read one product definition
   gs_wfsendpoint?: string
   // Geoserver WMTS endpoint - temporary for testing
   gs_wmtsendpoint?: string
+  // GeoServer layer style
+  style?: string
+  // Describes the fundamental type of the layer and how it should be handled
+  layer_type?: enum[raster, vector, imagery_collection]
+  // Array of WxS types available
+  formats?: string[]
+  // GeoServer delivery SRS
+  srss?: integer[]
   // Array of WxS types available
   types?: string[]
-  // Array of timestamps available
-  timestamps?: string
-  // Hemisphere of product ('N'/'S'/'')
-  hemisphere?: string
-  // Static background product/layer without granules?
-  static?: boolean
-  // Default time filter in hours applied on granules for app rendering
-  default_timeframe?: integer
-  // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
-  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
-  render_exclusive?: boolean
-  // Indicated availability of a corresponding high-resolution granule
-  highres_available?: boolean
-  // Does product has legend
-  haslegend?: boolean
-  // Holds GeoServer WMS request parameters for legend graphic styling
-  legend_graphic_params?: string
   // Show product in product list by default
   show_on_startup?: boolean
   // Default render opacity
   default_opacity?: number
   // Default z-index / layer stacking order for map rendering
   default_z?: integer
+  // Hex color for granule footprint (e.g., "#FF0000")
+  granule_footprint_color?: string
+  // Template URL for IWS viewer Supports placeholders {year}, {month}, {filename}
+  iws_viewer_template?: string
+  // Does product has legend
+  haslegend?: boolean
+  // Holds GeoServer WMS request parameters for legend graphic styling
+  legend_graphic_params?: string
+  // Describes the temporal characteristics of the layer
+  temporal_mode?: enum[static, single_date, date_range]
+  // Array of timestamps available
+  timestamps?: string
+  // Default time filter in hours applied on granules for app rendering
+  default_timeframe?: integer
+  // Indicated availability of a corresponding high-resolution granule
+  highres_available?: boolean
   // product footprint
   geom_extent?: string
+  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
+  render_exclusive?: boolean
+  // Static background product/layer without granules?
+  static?: boolean
 }[]
 ```
 
@@ -230,8 +246,12 @@ date_range?: string
   id: string
   // SIIS product code
   productcode?: string
+  // Filename of product after extraction
+  productname?: string
   // Timestamp of granule
   timestamp?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -242,8 +262,6 @@ date_range?: string
   size_dl?: integer
   // Zipped product for download
   zipped?: integer
-  // Filename of product after extraction
-  productname?: string
   // Timestamp of ingestion into shore-side catalogue
   ts_catingest?: string
   // Timestamp of download request to shore-side
@@ -252,8 +270,6 @@ date_range?: string
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
@@ -304,8 +320,12 @@ date_range?: string
   id: string
   // SIIS product code
   productcode?: string
+  // Filename of product after extraction
+  productname?: string
   // Timestamp of granule
   timestamp?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -316,8 +336,6 @@ date_range?: string
   size_dl?: integer
   // Zipped product for download
   zipped?: integer
-  // Filename of product after extraction
-  productname?: string
   // Timestamp of ingestion into shore-side catalogue
   ts_catingest?: string
   // Timestamp of download request to shore-side
@@ -326,8 +344,6 @@ date_range?: string
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
@@ -360,8 +376,12 @@ Read one granule record
   id: string
   // SIIS product code
   productcode?: string
+  // Filename of product after extraction
+  productname?: string
   // Timestamp of granule
   timestamp?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -372,8 +392,6 @@ Read one granule record
   size_dl?: integer
   // Zipped product for download
   zipped?: integer
-  // Filename of product after extraction
-  productname?: string
   // Timestamp of ingestion into shore-side catalogue
   ts_catingest?: string
   // Timestamp of download request to shore-side
@@ -382,8 +400,6 @@ Read one granule record
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
@@ -632,12 +648,10 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   label?: string
   // product attribution
   attribution?: string
-  // Array of WxS types available
-  formats?: string[]
-  // GeoServer layer style
-  style?: string
-  // GeoServer delivery SRS
-  srss?: integer[]
+  // Hemisphere of product ('N'/'S'/'')
+  hemisphere?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -646,34 +660,86 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   gs_wfsendpoint?: string
   // Geoserver WMTS endpoint - temporary for testing
   gs_wmtsendpoint?: string
+  // GeoServer layer style
+  style?: string
+  // Describes the fundamental type of the layer and how it should be handled
+  layer_type?: enum[raster, vector, imagery_collection]
+  // Array of WxS types available
+  formats?: string[]
+  // GeoServer delivery SRS
+  srss?: integer[]
   // Array of WxS types available
   types?: string[]
-  // Array of timestamps available
-  timestamps?: string
-  // Hemisphere of product ('N'/'S'/'')
-  hemisphere?: string
-  // Static background product/layer without granules?
-  static?: boolean
-  // Default time filter in hours applied on granules for app rendering
-  default_timeframe?: integer
-  // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
-  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
-  render_exclusive?: boolean
-  // Indicated availability of a corresponding high-resolution granule
-  highres_available?: boolean
-  // Does product has legend
-  haslegend?: boolean
-  // Holds GeoServer WMS request parameters for legend graphic styling
-  legend_graphic_params?: string
   // Show product in product list by default
   show_on_startup?: boolean
   // Default render opacity
   default_opacity?: number
   // Default z-index / layer stacking order for map rendering
   default_z?: integer
+  // Hex color for granule footprint (e.g., "#FF0000")
+  granule_footprint_color?: string
+  // Template URL for IWS viewer Supports placeholders {year}, {month}, {filename}
+  iws_viewer_template?: string
+  // Does product has legend
+  haslegend?: boolean
+  // Holds GeoServer WMS request parameters for legend graphic styling
+  legend_graphic_params?: string
+  // Describes the temporal characteristics of the layer
+  temporal_mode?: enum[static, single_date, date_range]
+  // Array of timestamps available
+  timestamps?: string
+  // Default time filter in hours applied on granules for app rendering
+  default_timeframe?: integer
+  // Indicated availability of a corresponding high-resolution granule
+  highres_available?: boolean
   // product footprint
   geom_extent?: string
+  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
+  render_exclusive?: boolean
+  // Static background product/layer without granules?
+  static?: boolean
+}
+```
+
+### #/components/schemas/granule
+
+```ts
+{
+  // Granule UUID
+  id: string
+  // SIIS product code
+  productcode?: string
+  // Filename of product after extraction
+  productname?: string
+  // Timestamp of granule
+  timestamp?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
+  // Downloadable
+  downloadable?: integer
+  // Downloaded to local
+  downloaded?: integer
+  // Filename of product for download package
+  filename_dl?: string
+  // Download file size
+  size_dl?: integer
+  // Zipped product for download
+  zipped?: integer
+  // Timestamp of ingestion into shore-side catalogue
+  ts_catingest?: string
+  // Timestamp of download request to shore-side
+  ts_dlrequest?: string
+  // Timestamp of finished download ship-side
+  ts_downloaded?: string
+  // Timestamp of successful ship-side GeoServer ingest
+  ts_gsingest?: string
+  // product footprint
+  geom_extent?: string
+  // product footprint in GeoJSON format (MultiPolygon)
+  geojson_extent: {
+    type?: enum[MultiPolygon]
+    coordinates?: number[][][][]
+  }
 }
 ```
 
@@ -716,12 +782,10 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   label?: string
   // product attribution
   attribution?: string
-  // Array of WxS types available
-  formats?: string[]
-  // GeoServer layer style
-  style?: string
-  // GeoServer delivery SRS
-  srss?: integer[]
+  // Hemisphere of product ('N'/'S'/'')
+  hemisphere?: string
+  // Status of product feed, based on status of granules
+  status?: enum[offline, online, loading, static, outdated, error]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -730,77 +794,45 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   gs_wfsendpoint?: string
   // Geoserver WMTS endpoint - temporary for testing
   gs_wmtsendpoint?: string
+  // GeoServer layer style
+  style?: string
+  // Describes the fundamental type of the layer and how it should be handled
+  layer_type?: enum[raster, vector, imagery_collection]
+  // Array of WxS types available
+  formats?: string[]
+  // GeoServer delivery SRS
+  srss?: integer[]
   // Array of WxS types available
   types?: string[]
-  // Array of timestamps available
-  timestamps?: string
-  // Hemisphere of product ('N'/'S'/'')
-  hemisphere?: string
-  // Static background product/layer without granules?
-  static?: boolean
-  // Default time filter in hours applied on granules for app rendering
-  default_timeframe?: integer
-  // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
-  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
-  render_exclusive?: boolean
-  // Indicated availability of a corresponding high-resolution granule
-  highres_available?: boolean
-  // Does product has legend
-  haslegend?: boolean
-  // Holds GeoServer WMS request parameters for legend graphic styling
-  legend_graphic_params?: string
   // Show product in product list by default
   show_on_startup?: boolean
   // Default render opacity
   default_opacity?: number
   // Default z-index / layer stacking order for map rendering
   default_z?: integer
+  // Hex color for granule footprint (e.g., "#FF0000")
+  granule_footprint_color?: string
+  // Template URL for IWS viewer Supports placeholders {year}, {month}, {filename}
+  iws_viewer_template?: string
+  // Does product has legend
+  haslegend?: boolean
+  // Holds GeoServer WMS request parameters for legend graphic styling
+  legend_graphic_params?: string
+  // Describes the temporal characteristics of the layer
+  temporal_mode?: enum[static, single_date, date_range]
+  // Array of timestamps available
+  timestamps?: string
+  // Default time filter in hours applied on granules for app rendering
+  default_timeframe?: integer
+  // Indicated availability of a corresponding high-resolution granule
+  highres_available?: boolean
   // product footprint
   geom_extent?: string
+  // Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
+  render_exclusive?: boolean
+  // Static background product/layer without granules?
+  static?: boolean
 }[]
-```
-
-### #/components/schemas/granule
-
-```ts
-{
-  // Granule UUID
-  id: string
-  // SIIS product code
-  productcode?: string
-  // Timestamp of granule
-  timestamp?: string
-  // Downloadable
-  downloadable?: integer
-  // Downloaded to local
-  downloaded?: integer
-  // Filename of product for download package
-  filename_dl?: string
-  // Download file size
-  size_dl?: integer
-  // Zipped product for download
-  zipped?: integer
-  // Filename of product after extraction
-  productname?: string
-  // Timestamp of ingestion into shore-side catalogue
-  ts_catingest?: string
-  // Timestamp of download request to shore-side
-  ts_dlrequest?: string
-  // Timestamp of finished download ship-side
-  ts_downloaded?: string
-  // Timestamp of successful ship-side GeoServer ingest
-  ts_gsingest?: string
-  // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
-  // product footprint
-  geom_extent?: string
-  // product footprint in GeoJSON format (MultiPolygon)
-  geojson_extent: {
-    type?: enum[MultiPolygon]
-    coordinates?: number[][][][]
-  }
-}
 ```
 
 ### #/components/schemas/granules
@@ -811,8 +843,12 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   id: string
   // SIIS product code
   productcode?: string
+  // Filename of product after extraction
+  productname?: string
   // Timestamp of granule
   timestamp?: string
+  // Status of granule availability on vessel
+  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -823,8 +859,6 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   size_dl?: integer
   // Zipped product for download
   zipped?: integer
-  // Filename of product after extraction
-  productname?: string
   // Timestamp of ingestion into shore-side catalogue
   ts_catingest?: string
   // Timestamp of download request to shore-side
@@ -833,8 +867,6 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   ts_downloaded?: string
   // Timestamp of successful ship-side GeoServer ingest
   ts_gsingest?: string
-  // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
   // product footprint
   geom_extent?: string
   // product footprint in GeoJSON format (MultiPolygon)
