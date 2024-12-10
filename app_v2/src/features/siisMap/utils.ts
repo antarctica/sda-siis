@@ -112,6 +112,7 @@ export function createWFSLayer(layer: MapProduct, visible: boolean) {
     title: layer.label,
     name: layer.gs_layername,
     visible,
+    legendEnabled: layer.haslegend,
   });
 }
 
