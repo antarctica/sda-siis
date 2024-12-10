@@ -364,10 +364,10 @@ paths:
 
 components:
   schemas:
-
     product:
       type: object
       properties:
+        # Core identification
         id:
           type: integer
           description: Id of the product
@@ -380,17 +380,15 @@ components:
         attribution:
           type: string
           description: product attribution
-        formats:
-          type: array
-          items:
-            $ref: "#/components/schemas/format"
-        style:
+        hemisphere:
           type: string
-          description: GeoServer layer style
-        srss:
-          type: array
-          items:
-            $ref: "#/components/schemas/srs"
+          description: Hemisphere of product ('N'/'S'/'')
+        status:
+          type: string
+          description: Status of product feed, based on status of granules
+          enum: ['offline', 'online', 'loading', 'static', 'outdated', 'error']
+
+        # GeoServer configuration
         gs_layername:
           type: string
           description: Geoserver layer name
@@ -403,38 +401,29 @@ components:
         gs_wmtsendpoint:
           type: string
           description: Geoserver WMTS endpoint - temporary for testing
+        style:
+          type: string
+          description: GeoServer layer style
+
+        # Supported formats and types
+        layer_type:
+          type: string
+          description: Describes the fundamental type of the layer and how it should be handled
+          enum: ['raster', 'vector', 'imagery_collection']
+        formats:
+          type: array
+          items:
+            $ref: "#/components/schemas/format"
+        srss:
+          type: array
+          items:
+            $ref: "#/components/schemas/srs"
         types:
           type: array
           items:
             $ref: "#/components/schemas/type"
-        timestamps:
-          type: string
-          description: Array of timestamps available
-        hemisphere:
-          type: string
-          description: Hemisphere of product ('N'/'S'/'')
-        static:
-          type: boolean
-          description: Static background product/layer without granules?
-        default_timeframe:
-          type: integer
-          description: Default time filter in hours applied on granules for app rendering
-        status:
-          type: string
-          description: Status of product feed, based on status of granules
-          enum: ['offline', 'online', 'loading', 'static', 'outdated', 'error']
-        render_exclusive:
-          type: boolean
-          description: Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
-        highres_available:
-          type: boolean
-          description: Indicated availability of a corresponding high-resolution granule
-        haslegend:
-          type: boolean
-          description: Does product has legend
-        legend_graphic_params:
-          type: string
-          description: Holds GeoServer WMS request parameters for legend graphic styling
+
+        # Display and rendering properties
         show_on_startup:
           type: boolean
           description: Show product in product list by default
@@ -445,42 +434,90 @@ components:
         default_z:
           type: integer
           description: Default z-index / layer stacking order for map rendering
+        granule_footprint_color:
+          type: string
+          description: Hex color for granule footprint (e.g., "#FF0000")
+        iws_viewer_template:
+          type: string
+          description: Template URL for IWS viewer Supports placeholders {year}, {month}, {filename}
+          example: "http://viewer.example.com/iwsviewer/?image=Data/{year}{month}/{filename}.jp2"
+
+        # Legend configuration
+        haslegend:
+          type: boolean
+          description: Does product has legend
+        legend_graphic_params:
+          type: string
+          description: Holds GeoServer WMS request parameters for legend graphic styling
+
+        # Time and data properties
+        temporal_mode:
+          type: string
+          description: Describes the temporal characteristics of the layer
+          enum: ['static', 'single_date', 'date_range']
+        timestamps:
+          type: string
+          description: Array of timestamps available
+        default_timeframe:
+          type: integer
+          description: Default time filter in hours applied on granules for app rendering
+        highres_available:
+          type: boolean
+          description: Indicated availability of a corresponding high-resolution granule
+
+        # Spatial properties
         geom_extent:
           type: string
           description: product footprint
 
-    format:
-      type: string
-      description: Array of WxS types available
-
-    srs:
-      type: integer
-      description: GeoServer delivery SRS
-    
-    type:
-      type: string
-      description: Array of WxS types available
-
-    products:
-      type: array
-      items:
-        $ref: "#/components/schemas/product"
+        # deprecated
+        render_exclusive:
+          type: boolean
+          description: Whether overlapping rendering of multiple active granules is allowed or exclusive render of one granule is required
+          deprecated: true
+        static:
+          type: boolean
+          description: Static background product/layer without granules?
+          deprecated: true
 
     granule:
       type: object
       required:
         - id
       properties:
+        # Core identification
         id:
           type: string
           description: Granule UUID
         productcode:
           type: string
           description: SIIS product code
+        productname:
+          type: string
+          description: Filename of product after extraction
         timestamp:
           type: string
           format: date-time
           description: Timestamp of granule
+
+        # Status and availability
+        status:
+          type: string
+          description: Status of granule availability on vessel
+          enum: [
+            'offline',
+            'online',
+            'loading',
+            'static',
+            'outdated',
+            'error',
+            'hr_requested',
+            'hr_pending',
+            'hr_processing',
+            'hr_online'
+          ]
+
+        # Download properties
         downloadable:
           type: integer
           description: Downloadable
@@ -496,9 +533,8 @@ components:
         zipped:
           type: integer
           description: Zipped product for download
-        productname:
-          type: string
-          description: Filename of product after extraction
+
+        # Timestamps for tracking
         ts_catingest:
           type: string
           format: date-time
@@ -515,21 +551,8 @@ components:
           type: string
           format: date-time
           description: Timestamp of successful ship-side GeoServer ingest
-        status:
-          type: string
-          description: Status of granule availability on vessel
-          enum: [
-            'offline',
-            'online',
-            'loading',
-            'static',
-            'outdated',
-            'error',
-            'hr_requested',
-            'hr_pending',
-            'hr_processing',
-            'hr_online'
-          ]
+
+        # Spatial properties
         geom_extent:
           type: string
           description: product footprint   
@@ -551,6 +574,23 @@ components:
                     items:
                       type: number
 
+    format:
+      type: string
+      description: Array of WxS types available
+
+    srs:
+      type: integer
+      description: GeoServer delivery SRS
+    
+    type:
+      type: string
+      description: Array of WxS types available
+
+    products:
+      type: array
+      items:
+        $ref: "#/components/schemas/product"
+
     granules:
       type: array
       items:
@@ -565,6 +605,7 @@ components:
         value:
           type: string
           description: Value of KV pair
+
     kvs:
       type: array
       items:

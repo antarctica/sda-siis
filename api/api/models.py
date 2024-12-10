@@ -75,31 +75,50 @@ class GranuleSchema(ma.SQLAlchemySchema):
 
 class Product(db.Model):
     __tablename__ = "product"
+    # Core identification
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String())
     label = db.Column(db.String())
     attribution = db.Column(db.String())
-    formats = db.Column(db.ARRAY(db.String()))
-    style = db.Column(db.String())
-    srss = db.Column(db.ARRAY(db.Integer()))
+    hemisphere = db.Column(db.String(1))
+    status = db.Column(db.Enum(LayerStatus))
+
+    # GeoServer configuration
     gs_layername = db.Column(db.String())
     gs_wmsendpoint = db.Column(db.String())
     gs_wfsendpoint = db.Column(db.String())
     gs_wmtsendpoint = db.Column(db.String())
+    style = db.Column(db.String())
+
+    # Supported formats and types
+    layer_type = db.Column(db.String())
+    formats = db.Column(db.ARRAY(db.String()))
+    srss = db.Column(db.ARRAY(db.Integer()))
     types = db.Column(db.ARRAY(db.String()))
-    timestamps = db.Column(db.ARRAY(db.DateTime()))
-    hemisphere = db.Column(db.String(1))
-    static = db.Column(db.Boolean())
-    default_timeframe = db.Column(db.Integer())
-    status = db.Column(db.String())
-    render_exclusive = db.Column(db.Boolean())
-    highres_available = db.Column(db.Boolean())
+
+    # Display and rendering properties
+    show_on_startup = db.Column(db.Boolean())
+    default_opacity = db.Column(db.Float())
+    default_z = db.Column(db.Integer())
+    granule_footprint_color = db.Column(db.String())
+    iws_viewer_template = db.Column(db.String())
+
+    # Legend configuration
     haslegend = db.Column(db.Boolean())
     legend_graphic_params = db.Column(db.String())
-    show_on_startup = db.Column(db.Boolean())
-    default_opacity = ma.auto_field()
-    default_z = db.Column(db.Integer())
+
+    # Time and data properties
+    temporal_mode = db.Column(db.String())
+    timestamps = db.Column(db.ARRAY(db.DateTime()))
+    default_timeframe = db.Column(db.Integer())
+    highres_available = db.Column(db.Boolean())
+
+    # Spatial properties
     geom_extent = db.Column(db.String())
+
+    # deprecated
+    render_exclusive = db.Column(db.Boolean())
+    static = db.Column(db.Boolean())
 
 
 class ProductSchema(ma.SQLAlchemyAutoSchema):
