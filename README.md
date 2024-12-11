@@ -19,8 +19,6 @@ SIIS is comprised of a number of components, represented by top-level directorie
 
 * **API** [`api/`](./api/): Provides information about available layers/granules and key-value storage for the app
   component, in future will manage shore -> ship data syncing and other tasks as needed
-* **Key-Value API (Temp)** [`api-kv/`](./api-kv/): Provides key-value storage for the app component temporarily until
-  available from the main API
 * **App** [`app/`](./app/): Frontend application used by users to visualise sea ice information
 * **GeoServer** [`geoserver/`](./api/): Used to provide OGC services for sea-ice, and more general, data products
 * **PostGIS**: Persists settings and information in the App/API and provides storage for vector data products

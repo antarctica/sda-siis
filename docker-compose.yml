@@ -47,15 +47,6 @@ services:
     ports:
       - "9001:5000"
 
-  api-kv:
-    image: docker-registry.data.bas.ac.uk/magic/siis/api-kv:latest
-    build: ./api-kv
-    command: flask run --host 0.0.0.0 --port 9002
-    ports:
-      - "9002:9002"
-    depends_on:
-      - db
-
   app:
     image: docker-registry.data.bas.ac.uk/magic/siis/app:latest
     build: ./app
@@ -79,7 +70,6 @@ services:
       - "9000:9000"
     depends_on:
       - api
-      - api-kv
       - geoserver
 
   # app-v2:
