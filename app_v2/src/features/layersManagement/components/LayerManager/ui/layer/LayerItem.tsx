@@ -1,10 +1,10 @@
 import { fromDate, today } from '@internationalized/date';
 import { css, sva } from '@styled-system/css';
-import { Flex } from '@styled-system/jsx';
+import { Flex, Stack } from '@styled-system/jsx';
 import { useSelector } from '@xstate/react';
 import React from 'react';
 
-import { IconButton } from '@/components/common/Button';
+import { IconButton, LinkButton } from '@/components/common/Button';
 import { ToggleIconButton } from '@/components/common/Button/ToggleButton';
 import Checkbox from '@/components/common/forms/Checkbox';
 import Slider from '@/components/common/forms/Slider';
@@ -12,7 +12,7 @@ import SvgIcon from '@/components/common/SvgIcon';
 import { Text } from '@/components/common/Typography';
 
 import { LayerStatusBadge, LayerStatusCircle } from '../../../LayerStatus';
-import { useLayerStatus } from '../../hooks/selectors';
+import { useLayerIWSViewTemplate, useLayerStatus } from '../../hooks/selectors';
 import { isRangeTimeInfo, isSingleTimeInfo, LayerMachineActor } from '../../machines/types';
 import LayerDatePicker from './LayerDatePicker';
 import LayerDateRangePicker from './LayerDateRangePicker';
@@ -81,6 +81,7 @@ export function LayerItem({
     timeInfo: context.timeInfo,
   }));
   const status = useLayerStatus(layerActor.id);
+  const iwsViewTemplate = useLayerIWSViewTemplate(layerActor.id);
   const isEnabled = useSelector(layerActor, (state) => state.matches('enabled'));
 
   const { wrapper, layerToggle } = layerItemRecipe({ isEnabled, inGroup });
@@ -157,7 +158,7 @@ export function LayerItem({
         />
       )}
       {showProperties && (
-        <Flex flexDirection="column" w="full">
+        <Stack flexDirection="column" w="full">
           <Slider
             label="Opacity"
             minValue={0}
@@ -172,7 +173,12 @@ export function LayerItem({
               });
             }}
           />
-        </Flex>
+          {iwsViewTemplate && (
+            <LinkButton href={iwsViewTemplate} target="_blank">
+              View High Res Image
+            </LinkButton>
+          )}
+        </Stack>
       )}
     </li>
   );

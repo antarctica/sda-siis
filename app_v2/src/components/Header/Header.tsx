@@ -17,20 +17,16 @@ const headerStyles = cva({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottomWidth: 'thin',
+    borderColor: 'bg.base.border',
     width: 'full',
 
     height: 'fit',
 
     px: '2',
     bg: 'bg.base',
-    _dark: {
-      borderBottomWidth: 'thin',
-      borderColor: 'bg.base.border',
-      borderStyle: 'inset',
-    },
-    _light: {
-      shadow: 'sm',
-    },
+
+    borderStyle: 'inset',
   },
 });
 

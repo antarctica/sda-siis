@@ -1,6 +1,8 @@
 'use client';
 
-import { cx, RecipeVariantProps } from '@styled-system/css';
+import { cx } from '@styled-system/css';
+import { ButtonVariantProps } from '@styled-system/recipes';
+import { button } from '@styled-system/recipes/button.mjs';
 import React from 'react';
 import {
   Button as ButtonPrimitive,
@@ -9,10 +11,9 @@ import {
 } from 'react-aria-components';
 
 import Tooltip from '../Tooltip';
-import { buttonRecipe } from './buttonRecipe';
 
 export type IconButtonProps = React.ComponentProps<typeof ButtonPrimitive> &
-  RecipeVariantProps<typeof buttonRecipe> & {
+  ButtonVariantProps & {
     className?: string;
   } & {
     icon: React.ReactNode;
@@ -30,8 +31,8 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(f
       <ButtonPrimitive
         ref={ref}
         className={composeRenderProps(className, (className, renderProps) => {
-          const [recipeProps] = buttonRecipe.splitVariantProps({ ...restProps, ...renderProps });
-          return cx(buttonRecipe(recipeProps), className);
+          const [recipeProps] = button.splitVariantProps({ ...restProps, ...renderProps });
+          return cx(button(recipeProps), className);
         })}
         {...restProps}
       >

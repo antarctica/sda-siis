@@ -59,7 +59,8 @@ function RouteDetailsStatic({
       </Box>
       <IconButton
         size="md"
-        variant="outline"
+        variant="surface"
+        tooltipPlacement="bottom"
         icon={<SvgIcon name="icon-zoom-to" size={16} />}
         aria-label="Zoom to route"
         onPress={() => siisMapView.goTo(routeGraphic.geometry)}

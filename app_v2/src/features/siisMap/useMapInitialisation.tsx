@@ -200,6 +200,7 @@ export function useMapInitialization(crs: MapCRS) {
                     params: {
                       style: layerConfig.style,
                       status: layerConfig.status,
+                      iwsViewTemplate: layerConfig.iws_viewer_template,
                     },
                   },
                   layerId: id,

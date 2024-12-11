@@ -82,6 +82,7 @@ const cell = cva({
     isDisabled: {
       true: {
         color: 'fg.muted',
+        opacity: 0.6,
         cursor: 'not-allowed',
         _hover: {
           bg: 'app.grey.a4',

@@ -8,10 +8,11 @@ export type BadgeVariant = 'error' | 'info' | 'warning' | 'success' | 'grey';
 const badgeRecipe = cva({
   base: {
     display: 'inline-block',
-    rounded: 'md',
-    px: '1',
+    rounded: 'full',
+    px: '2',
     textTransform: 'capitalize',
     fontSize: 'xs',
+    fontWeight: 'medium',
   },
   variants: {
     variant: {
@@ -20,7 +21,7 @@ const badgeRecipe = cva({
       info: { color: 'info.fg', bg: 'info.bg' },
       warning: { color: 'warning.fg', bg: 'warning.bg' },
       success: { color: 'success.fg', bg: 'success.bg' },
-      grey: { color: 'app.grey.12', bg: 'app.grey.8' },
+      grey: { color: 'app.grey.12', bg: 'app.grey.a3' },
     },
   },
 });

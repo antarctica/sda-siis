@@ -1,9 +1,8 @@
 import { cva, cx, RecipeVariantProps } from '@styled-system/css';
 
 interface PulsatingDotProps {
-  radius?: number;
-  weight?: number;
   className?: string;
+  size?: number;
 }
 
 const pulsatingDotRecipe = cva({
@@ -41,27 +40,27 @@ const pulsatingDotRecipe = cva({
 });
 
 function PulsatingDot({
-  radius = 0,
-  weight = 0,
   variant,
   className,
+  size = 16,
 }: PulsatingDotProps & RecipeVariantProps<typeof pulsatingDotRecipe>) {
-  const d = radius + weight;
-  const d2 = d * 2;
+  const radius = size / 4;
+  const weight = (3 * size) / 5;
+  const d = size;
 
   return (
     <svg
-      width={d2}
-      height={d2}
       version="1.1"
-      viewBox={`-${d} -${d} ${d2} ${d2}`}
+      width={d}
+      height={d}
+      viewBox={`-${d / 2} -${d / 2} ${d} ${d}`}
       className={cx(pulsatingDotRecipe({ variant }), className)}
     >
       <circle cx="0" cy="0" r={radius} strokeWidth={0} strokeOpacity={1} fillOpacity={1}>
         <animate
           attributeName="stroke-width"
           values={`0;${weight};0`}
-          dur="2s"
+          dur="1.5s"
           begin="0s"
           repeatCount="indefinite"
           keyTimes="0; 0.99999; 1"
@@ -71,7 +70,7 @@ function PulsatingDot({
         <animate
           attributeName="stroke-opacity"
           values="0.8;0;0.8"
-          dur="2s"
+          dur="1.5s"
           begin="0s"
           repeatCount="indefinite"
           keyTimes="0; 0.99999; 1"

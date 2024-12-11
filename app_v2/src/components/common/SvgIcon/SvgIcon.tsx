@@ -41,6 +41,7 @@ type IconName =
   | 'icon-trash'
   | 'icon-info'
   | 'icon-settings'
+  | 'icon-data-settings'
   | 'icon-globe'
   | 'icon-fullscreen'
   | 'icon-ship'

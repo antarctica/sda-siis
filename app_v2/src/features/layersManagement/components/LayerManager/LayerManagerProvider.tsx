@@ -15,7 +15,12 @@ import { isRangeTimeInfo, isSingleTimeInfo } from './machines/types';
 
 export type LayerData = {
   mapLayer: __esri.Layer | null;
-  params: { style?: string; status: LayerStatus; displayMode?: LayerDisplayMode };
+  params: {
+    style?: string;
+    status: LayerStatus;
+    displayMode?: LayerDisplayMode;
+    iwsViewTemplate?: string;
+  };
 } | null;
 
 export const LayerManagerContext = createActorContext(createLayerManagerMachine<LayerData>());

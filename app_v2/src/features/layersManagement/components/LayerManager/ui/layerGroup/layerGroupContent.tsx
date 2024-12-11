@@ -1,5 +1,5 @@
 import { css } from '@styled-system/css';
-import { Flex } from '@styled-system/jsx';
+import { Stack } from '@styled-system/jsx';
 import { token } from '@styled-system/tokens';
 import React from 'react';
 
@@ -64,7 +64,7 @@ function MultipleTimeSliceCollectionContent({
   const otherLayers = orderedChildLayerActors.filter((layer) => layer !== footprintLayerActor);
 
   return (
-    <Flex gap="2" direction="column">
+    <Stack gap="4">
       <ul>
         <LayerItem
           inGroup
@@ -83,6 +83,7 @@ function MultipleTimeSliceCollectionContent({
                 '--typography-bar': token('colors.fg.muted'),
               } as React.CSSProperties
             }
+            margin
           >
             Active Imagery Granules
           </Title>
@@ -103,7 +104,7 @@ function MultipleTimeSliceCollectionContent({
           </ul>
         </div>
       )}
-    </Flex>
+    </Stack>
   );
 }
 

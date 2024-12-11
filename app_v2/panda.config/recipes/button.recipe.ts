@@ -1,6 +1,9 @@
-import { cva } from '@styled-system/css';
+import { defineRecipe } from '@pandacss/dev';
 
-export const buttonRecipe = cva({
+export const buttonRecipe = defineRecipe({
+  jsx: ['Button', 'IconButton', 'ToggleButton', 'LinkButton', 'ToggleIconButton'],
+  className: 'button',
+  description: 'Button component',
   base: {
     display: 'inline-flex',
     justifyContent: 'center',
@@ -30,10 +33,10 @@ export const buttonRecipe = cva({
           filter: '[brightness(0.92) saturate(1.1)]',
         },
       },
-
       outline: {
         borderColor: 'app.accent',
         borderWidth: 'thin',
+        color: 'fg.accent',
         borderStyle: 'solid',
         _hover: {
           bg: 'app.accent.a2',
@@ -60,7 +63,9 @@ export const buttonRecipe = cva({
       },
 
       mapButton: {
+        borderColor: 'bg.base.border',
         bg: 'bg.base',
+        boxShadow: 'md',
         _hover: {
           bg: 'siis_grey.3',
           _dark: {
@@ -76,7 +81,7 @@ export const buttonRecipe = cva({
       },
     },
     contained: {
-      true: { w: 'full', h: 'full' },
+      true: {},
     },
     isSelected: { true: {} },
     size: {
@@ -150,7 +155,16 @@ export const buttonRecipe = cva({
       css: {
         h: 'full',
         w: 'full',
+        boxShadow: 'unset',
+        borderColor: 'transparent',
       },
+    },
+  ],
+  staticCss: [
+    {
+      isFocusVisible: ['*'],
+      isSelected: ['*'],
+      isDisabled: ['*'],
     },
   ],
 });

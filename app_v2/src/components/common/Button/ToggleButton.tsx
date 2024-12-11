@@ -1,4 +1,6 @@
-import { cx, RecipeVariantProps } from '@styled-system/css';
+import { cx } from '@styled-system/css';
+import { ButtonVariantProps } from '@styled-system/recipes';
+import { button } from '@styled-system/recipes/button.mjs';
 import {
   composeRenderProps,
   ToggleButton as ToggleButtonPrimitive,
@@ -6,10 +8,9 @@ import {
 } from 'react-aria-components';
 
 import Tooltip from '../Tooltip';
-import { buttonRecipe } from './buttonRecipe';
 
 export type ToggleIconButtonProps = React.ComponentProps<typeof ToggleButtonPrimitive> &
-  RecipeVariantProps<typeof buttonRecipe> & {
+  ButtonVariantProps & {
     className?: string;
   } & {
     icon: React.ReactNode;
@@ -29,8 +30,8 @@ export function ToggleIconButton({
     <TooltipTrigger delay={800}>
       <ToggleButtonPrimitive
         className={composeRenderProps(className, (className, renderProps) => {
-          const [recipeProps] = buttonRecipe.splitVariantProps({ ...restProps, ...renderProps });
-          return cx(buttonRecipe({ ...recipeProps, variant: 'outline' }), className);
+          const [recipeProps] = button.splitVariantProps({ ...restProps, ...renderProps });
+          return cx(button({ ...recipeProps, variant: 'outline' }), className);
         })}
         {...restProps}
       >
@@ -44,7 +45,7 @@ export function ToggleIconButton({
 }
 
 export type ToggleButtonProps = React.ComponentProps<typeof ToggleButtonPrimitive> &
-  RecipeVariantProps<typeof buttonRecipe> & {
+  ButtonVariantProps & {
     className?: string;
   };
 
@@ -52,8 +53,8 @@ export function ToggleButton({ className, ...restProps }: ToggleButtonProps) {
   return (
     <ToggleButtonPrimitive
       className={composeRenderProps(className, (className, renderProps) => {
-        const [recipeProps] = buttonRecipe.splitVariantProps({ ...restProps, ...renderProps });
-        return cx(buttonRecipe({ ...recipeProps, variant: 'outline' }), className);
+        const [recipeProps] = button.splitVariantProps({ ...restProps, ...renderProps });
+        return cx(button({ ...recipeProps, variant: 'outline' }), className);
       })}
       {...restProps}
     />

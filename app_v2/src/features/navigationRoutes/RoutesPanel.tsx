@@ -67,7 +67,7 @@ function WorkFlowSteps({ mapView }: { mapView: __esri.MapView }) {
       },
       onCreateGraphic: (graphic) => {
         if (graphic) {
-          (graphic as RouteGraphic).attributes.route_name = 'Route';
+          (graphic as RouteGraphic).attributes.route_name = 'New Route';
         }
       },
     }),

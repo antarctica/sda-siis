@@ -3,7 +3,7 @@ import { css } from '@styled-system/css';
 import { Divider, Stack } from '@styled-system/jsx';
 import * as React from 'react';
 
-import { MapButton } from '@/components/common/Button';
+import { IconButton } from '@/components/common/Button';
 import SvgIcon from '@/components/common/SvgIcon';
 import { useCurrentMapView, useWatchState } from '@/features/arcgis/hooks';
 
@@ -20,37 +20,40 @@ function ZoomControl() {
         borderColor: 'bg.base.border',
         borderRadius: 'md',
         borderWidth: 'thin',
-        w: 'fit',
         bg: 'bg.base',
         boxShadow: 'md',
         pointerEvents: 'auto',
       })}
       gap={'0'}
     >
-      <MapButton
+      <IconButton
         className={css({
           borderBottomRadius: 'radii.none',
+          w: '12',
+          h: '12',
         })}
         icon={<SvgIcon name="icon-add" size={16} />}
         aria-label="Zoom In"
         disableTooltip
-        isDisabled={canZoomIn ? undefined : true}
+        isDisabled={canZoomIn ? false : true}
         onPress={() => widget.zoomIn()}
-        variant="surface"
-        isContainer={false}
+        variant="mapButton"
+        contained
       />
       <Divider thickness={'thin'} w="full" color="bg.base.border"></Divider>
-      <MapButton
+      <IconButton
         className={css({
           borderTopRadius: 'radii.none',
+          w: '12',
+          h: '12',
         })}
         icon={<SvgIcon name="icon-subtract" size={16} />}
         aria-label="Zoom Out"
         disableTooltip
         isDisabled={canZoomOut ? undefined : true}
         onPress={() => widget.zoomOut()}
-        variant="surface"
-        isContainer={false}
+        variant="mapButton"
+        contained
       />
     </Stack>
   );

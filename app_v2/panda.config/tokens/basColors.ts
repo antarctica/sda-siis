@@ -35,7 +35,7 @@ export const basColorTokens = defineTokens.colors({
   },
   bas_aircraftRed: {
     DEFAULT: { value: '#CC0033' },
-    lightest: { value: '#FFCCCA' },
+    lightest: { value: '#ffebea' },
     lighter: { value: '#EEA8BA' },
     light: { value: '#DD5476' },
     base: { value: '#CC0033' },
@@ -110,6 +110,7 @@ export const basColorTokens = defineTokens.colors({
   },
   bas_green: {
     DEFAULT: { value: '#379245' },
+    lightest: { value: '#c9e1cd' },
     lighter: { value: '#BBDAC0' },
     light: { value: '#79B682' },
     base: { value: '#379245' },

@@ -32,8 +32,9 @@ export function RouteActionsMenu({
         <DialogTrigger>
           <IconButton
             size="md"
-            variant="outline"
-            icon={<SvgIcon name="icon-more" size={16} />}
+            tooltipPlacement="bottom"
+            variant="surface"
+            icon={<SvgIcon name="icon-data-settings" size={16} />}
             aria-label={'Route Actions'}
           />
         </DialogTrigger>

@@ -46,9 +46,7 @@ function MeasureLine({
         <Title as="h3" bold size="body" margin={false}>
           Line Measurements
         </Title>
-        <Text className={css({ textStyle: 'description' })}>
-          Measure the length of a line drawn on the map.
-        </Text>
+        <Text textStyle="description">Measure the length of a line drawn on the map.</Text>
       </Box>
       <Flex gap="2" direction="column" w="full">
         <MeasurementList measurements={measurements} mapView={mapView} />

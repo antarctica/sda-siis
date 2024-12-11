@@ -69,8 +69,18 @@ const sidebarButtonRecipe = sva({
     active: {
       true: {
         root: {
+          position: 'relative',
           color: 'fg.accent',
           bg: 'bg.sidebar.active',
+          _before: {
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            bottom: '0',
+            width: '0.5',
+            bg: 'app.accent',
+            content: '""',
+          },
           _hover: {
             bg: 'bg.sidebar.active',
           },

@@ -1,6 +1,7 @@
 import { defineConfig } from '@pandacss/dev';
 
 import { keyframes } from './panda.config/animation/keyframes';
+import { buttonRecipe } from './panda.config/recipes/button.recipe';
 import { textTokens } from './panda.config/textStyles/textStyles';
 import { basColorTokens } from './panda.config/tokens/basColors';
 import { additionalBorderRadii } from './panda.config/tokens/borderRadii';
@@ -79,6 +80,9 @@ export default defineConfig({
   },
   theme: {
     extend: {
+      recipes: {
+        button: buttonRecipe,
+      },
       tokens: {
         fonts: {
           inter: {

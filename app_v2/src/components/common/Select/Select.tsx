@@ -38,7 +38,7 @@ const selectRecipe = sva({
       overflow: 'hidden',
     },
     popover: {
-      borderColor: 'bg.base.border',
+      borderColor: 'bg.accent',
       borderRadius: 'sm',
       borderWidth: 'thin',
       width: '[var(--trigger-width)]',

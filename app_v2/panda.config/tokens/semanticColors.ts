@@ -333,8 +333,8 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     },
     muted: {
       value: {
-        base: '{colors.app.grey.11}',
-        _dark: '{colors.app.grey.11}',
+        base: '{colors.app.grey.10}',
+        _dark: '{colors.app.grey.10}',
       },
     },
     accent: {
@@ -356,13 +356,13 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     fg: {
       value: {
         base: '{colors.bas_green.darker}',
-        _dark: '{colors.bas_green.lighter}',
+        _dark: '{colors.bas_green.lightest}',
       },
     },
     bg: {
       value: {
-        base: '{colors.bas_green.lighter}',
-        _dark: '{colors.bas_green.dark/70}',
+        base: '{colors.bas_green.lightest}',
+        _dark: '{colors.bas_green.dark/50}',
       },
     },
   },
@@ -376,7 +376,7 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     bg: {
       value: {
         base: '{colors.bas_aircraftRed.lightest}',
-        _dark: '{colors.bas_aircraftRed.dark/70}',
+        _dark: '{colors.bas_aircraftRed.dark/50}',
       },
     },
   },
@@ -390,7 +390,7 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     bg: {
       value: {
         base: '{colors.bas_orange.lightest}',
-        _dark: '{colors.bas_orange.dark/70}',
+        _dark: '{colors.bas_orange.dark/50}',
       },
     },
   },
@@ -405,7 +405,7 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     bg: {
       value: {
         base: '{colors.bas_blue.lightest}',
-        _dark: '{colors.bas_blue.base/70}',
+        _dark: '{colors.bas_blue.base/50}',
       },
     },
   },
@@ -455,20 +455,20 @@ export const semanticColorTokens = defineSemanticTokens.colors({
     sidebar: {
       DEFAULT: {
         value: {
-          base: '{colors.app.grey.3}',
+          base: '{colors.app.grey.1}',
           _dark: '{colors.app.grey.3}',
         },
       },
       hover: {
         value: {
-          base: '{colors.app.grey.2}',
-          _dark: '{colors.app.grey.2}',
+          base: '{colors.app.accent.a2}',
+          _dark: '{colors.app.accent.a2}',
         },
       },
       active: {
         value: {
-          base: '{colors.app.grey.1}',
-          _dark: '{colors.app.grey.1}',
+          base: '{colors.app.accent.a3}',
+          _dark: '{colors.app.accent.a3}',
         },
       },
     },

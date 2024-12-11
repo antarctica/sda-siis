@@ -2,7 +2,7 @@ import { css } from '@styled-system/css';
 import { Box } from '@styled-system/jsx';
 
 import { useSensorData } from '@/api/useShipSensorData';
-import { MapButton } from '@/components/common/Button';
+import { IconButton } from '@/components/common/Button';
 import { selectSensorInfoPanelOpen } from '@/store/features/shipSlice';
 import { setSensorInfoPanelOpen } from '@/store/features/shipSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -34,9 +34,9 @@ function SensorStatusDot() {
         position: 'absolute',
         top: '0',
         right: '0',
+        transform: 'translate(40%, -40%)',
       })}
-      radius={3}
-      weight={6}
+      size={16}
       variant={getVariant(sensorStatus)}
     />
   );
@@ -68,8 +68,10 @@ function SensorInfo() {
           },
         })}
       >
-        <MapButton
+        <IconButton
           className={css({
+            w: '12',
+            h: '12',
             ...(sensorInfoPanelOpen
               ? {
                   shadow: '[none]',
@@ -79,6 +81,7 @@ function SensorInfo() {
                 }
               : {}),
           })}
+          variant="mapButton"
           icon={<SvgIcon name="icon-ship" size={16} />}
           aria-label={sensorInfoPanelOpen ? 'Hide ship sensor info' : 'Show ship sensor info'}
           aria-expanded={sensorInfoPanelOpen}

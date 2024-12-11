@@ -121,7 +121,7 @@ function GlobalSettingsMenu() {
             <Title as="h3" size="lg">
               Application Settings
             </Title>
-            <Text textStyle="description" margin>
+            <Text textStyle="body" margin>
               Customize your application preferences. These settings will persist across browser
               sessions.
             </Text>
