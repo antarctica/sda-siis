@@ -231,10 +231,10 @@ export interface components {
       /** @description GeoServer layer style */
       style?: string;
       /**
-       * @description Describes the fundamental type of the layer and how it should be handled
+       * @description Describes the layer display type within the app
        * @enum {string}
        */
-      layer_type?: 'raster' | 'vector' | 'imagery_collection';
+      layer_display_type?: 'static' | 'imagery_collection';
       formats?: components['schemas']['format'][];
       srss?: components['schemas']['srs'][];
       types?: components['schemas']['type'][];

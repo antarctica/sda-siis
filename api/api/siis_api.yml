@@ -406,10 +406,10 @@ components:
           description: GeoServer layer style
 
         # Supported formats and types
-        layer_type:
+        layer_display_type:
           type: string
-          description: Describes the fundamental type of the layer and how it should be handled
-          enum: ['raster', 'vector', 'imagery_collection']
+          description: Describes the layer display type within the app
+          enum: ['static', 'imagery_collection']
         formats:
           type: array
           items:

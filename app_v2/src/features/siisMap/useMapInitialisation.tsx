@@ -162,6 +162,7 @@ export function useMapInitialization(crs: MapCRS) {
               layerConfig,
               layerConfig.granules,
               layerConfig.show_on_startup ?? false,
+              layerConfig.granule_footprint_color ?? '#000000',
             );
             addLayer(map, {
               layerData: {

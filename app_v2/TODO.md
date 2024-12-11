@@ -1,5 +1,6 @@
 # Todo:
  [ ] - maintain heading rotation when switch crs if applicable.
+ [ ] - fix styling on range time slide cap.
  [ ] - Refine styles for programmatic map layers
  [ ] - Health check of mobile app display and functionality
  [ ] - handle refreshing and resyncing layers regularly.

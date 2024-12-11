@@ -91,7 +91,7 @@ class Product(db.Model):
     style = db.Column(db.String())
 
     # Supported formats and types
-    layer_type = db.Column(db.String())
+    layer_display_type = db.Column(db.String())
     formats = db.Column(db.ARRAY(db.String()))
     srss = db.Column(db.ARRAY(db.Integer()))
     types = db.Column(db.ARRAY(db.String()))

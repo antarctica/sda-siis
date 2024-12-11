@@ -1,4 +1,5 @@
 import '@arcgis/core/assets/esri/themes/light/main.css?inline';
+import '@/utils/esriLogicOveride';
 
 import { Flex } from '@styled-system/jsx';
 

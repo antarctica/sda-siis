@@ -1,7 +1,7 @@
 import Color from '@arcgis/core/Color';
 import { property, subclass } from '@arcgis/core/core/accessorSupport/decorators';
 import Collection from '@arcgis/core/core/Collection.js';
-import { debounce } from '@arcgis/core/core/promiseUtils.js';
+import * as promiseUtils from '@arcgis/core/core/promiseUtils.js';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import { SpatialReference } from '@arcgis/core/geometry';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
@@ -205,7 +205,12 @@ export class ImageryFootprintLayer extends FeatureLayer {
     this.hoverHandler = reactiveUtils.on(
       () => view,
       'pointer-move',
-      (event) => this.hoverHitTest(event, view, layerView),
+      (event) =>
+        this.hoverHitTest(event, view, layerView).catch((error) => {
+          if (!promiseUtils.isAbortError(error)) {
+            console.error('Error during hover hit test:', error);
+          }
+        }),
     );
 
     // Set up off map handler
@@ -261,7 +266,7 @@ export class ImageryFootprintLayer extends FeatureLayer {
    * performs a hit test on the mapView object. The function is decorated with the throttle
    * function which limits the rate at which the function can be executed.
    */
-  private hoverHitTest = debounce(
+  private hoverHitTest = promiseUtils.debounce(
     async (
       event: __esri.MapViewScreenPoint | MouseEvent,
       mapView: __esri.MapView,

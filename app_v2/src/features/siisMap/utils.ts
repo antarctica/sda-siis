@@ -1,8 +1,10 @@
+import Color from '@arcgis/core/Color';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import Graphic from '@arcgis/core/Graphic';
 import WFSLayer from '@arcgis/core/layers/WFSLayer';
 import WMSLayer from '@arcgis/core/layers/WMSLayer';
 import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
+import { SimpleFillSymbol } from '@arcgis/core/symbols';
 import TimeExtent from '@arcgis/core/TimeExtent.js';
 
 import {
@@ -145,8 +147,14 @@ export function createImageryFootprintLayer(
   layer: MapProduct,
   granules: MapGranule[],
   visible: boolean,
+  color: string,
 ) {
   const footprints = createImageryFootprints(granules);
+
+  const outlineColor = new Color(color);
+  outlineColor.a = 0.5;
+  const fillColor = new Color(color);
+  fillColor.a = 0.2;
 
   return new ImageryFootprintLayer({
     title: layer.label,
@@ -155,6 +163,13 @@ export function createImageryFootprintLayer(
     wmsUrl: `${import.meta.env.VITE_SERVICE_API_OGC_ENDPOINT}/${layer.gs_wmsendpoint}`,
     visible,
     legendEnabled: true,
+    fillSymbol: new SimpleFillSymbol({
+      color: fillColor,
+      outline: {
+        color: outlineColor,
+        width: 1,
+      },
+    }),
   });
 }
 

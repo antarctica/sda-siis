@@ -88,8 +88,8 @@ hemi?: enum[N, n, S, s]
   gs_wmtsendpoint?: string
   // GeoServer layer style
   style?: string
-  // Describes the fundamental type of the layer and how it should be handled
-  layer_type?: enum[raster, vector, imagery_collection]
+  // Describes the layer display type within the app
+  layer_display_type?: enum[static, imagery_collection]
   // Array of WxS types available
   formats?: string[]
   // GeoServer delivery SRS
@@ -167,8 +167,8 @@ Read one product definition
   gs_wmtsendpoint?: string
   // GeoServer layer style
   style?: string
-  // Describes the fundamental type of the layer and how it should be handled
-  layer_type?: enum[raster, vector, imagery_collection]
+  // Describes the layer display type within the app
+  layer_display_type?: enum[static, imagery_collection]
   // Array of WxS types available
   formats?: string[]
   // GeoServer delivery SRS
@@ -662,8 +662,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   gs_wmtsendpoint?: string
   // GeoServer layer style
   style?: string
-  // Describes the fundamental type of the layer and how it should be handled
-  layer_type?: enum[raster, vector, imagery_collection]
+  // Describes the layer display type within the app
+  layer_display_type?: enum[static, imagery_collection]
   // Array of WxS types available
   formats?: string[]
   // GeoServer delivery SRS
@@ -796,8 +796,8 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   gs_wmtsendpoint?: string
   // GeoServer layer style
   style?: string
-  // Describes the fundamental type of the layer and how it should be handled
-  layer_type?: enum[raster, vector, imagery_collection]
+  // Describes the layer display type within the app
+  layer_display_type?: enum[static, imagery_collection]
   // Array of WxS types available
   formats?: string[]
   // GeoServer delivery SRS
