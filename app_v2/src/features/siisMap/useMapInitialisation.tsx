@@ -88,7 +88,7 @@ export function useMapInitialization(crs: MapCRS) {
                 mapLayer: newLayer,
                 params: {
                   style: layerConfig.style,
-                  status: 'static',
+                  status: 'n/a',
                   displayMode: 'Static',
                 },
               },

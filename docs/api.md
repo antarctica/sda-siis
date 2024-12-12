@@ -77,7 +77,7 @@ hemi?: enum[N, n, S, s]
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -156,7 +156,7 @@ Read one product definition
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -251,7 +251,7 @@ date_range?: string
   // Timestamp of granule
   timestamp?: string
   // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -325,7 +325,7 @@ date_range?: string
   // Timestamp of granule
   timestamp?: string
   // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -381,7 +381,7 @@ Read one granule record
   // Timestamp of granule
   timestamp?: string
   // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -651,7 +651,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -714,7 +714,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   // Timestamp of granule
   timestamp?: string
   // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local
@@ -785,7 +785,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   // Hemisphere of product ('N'/'S'/'')
   hemisphere?: string
   // Status of product feed, based on status of granules
-  status?: enum[offline, online, loading, static, outdated, error]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Geoserver layer name
   gs_layername?: string
   // Geoserver WMS endpoint - temporary for testing
@@ -848,7 +848,7 @@ content-type: enum[application/geo+json, application/rtz, application/rtzp]
   // Timestamp of granule
   timestamp?: string
   // Status of granule availability on vessel
-  status?: enum[offline, online, loading, static, outdated, error, hr_requested, hr_pending, hr_processing, hr_online]
+  status?: enum[offline, online, loading, outdated, error, n/a, hr_requested, hr_pending, hr_processing, hr_online]
   // Downloadable
   downloadable?: integer
   // Downloaded to local

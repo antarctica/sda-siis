@@ -219,7 +219,17 @@ export interface components {
        * @description Status of product feed, based on status of granules
        * @enum {string}
        */
-      status?: 'offline' | 'online' | 'loading' | 'static' | 'outdated' | 'error';
+      status?:
+        | 'offline'
+        | 'online'
+        | 'loading'
+        | 'outdated'
+        | 'error'
+        | 'n/a'
+        | 'hr_requested'
+        | 'hr_pending'
+        | 'hr_processing'
+        | 'hr_online';
       /** @description Geoserver layer name */
       gs_layername?: string;
       /** @description Geoserver WMS endpoint - temporary for testing */
@@ -302,9 +312,9 @@ export interface components {
         | 'offline'
         | 'online'
         | 'loading'
-        | 'static'
         | 'outdated'
         | 'error'
+        | 'n/a'
         | 'hr_requested'
         | 'hr_pending'
         | 'hr_processing'

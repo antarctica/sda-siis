@@ -386,7 +386,18 @@ components:
         status:
           type: string
           description: Status of product feed, based on status of granules
-          enum: ['offline', 'online', 'loading', 'static', 'outdated', 'error']
+          enum: [
+            'offline',
+            'online',
+            'loading',
+            'outdated',
+            'error',
+            'n/a',
+            'hr_requested',
+            'hr_pending',
+            'hr_processing',
+            'hr_online'
+          ]
 
         # GeoServer configuration
         gs_layername:
@@ -508,9 +519,9 @@ components:
             'offline',
             'online',
             'loading',
-            'static',
             'outdated',
             'error',
+            'n/a',
             'hr_requested',
             'hr_pending',
             'hr_processing',

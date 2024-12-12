@@ -68,7 +68,12 @@ const layerItemRecipe = sva({
       inGroup: true,
       css: {
         wrapper: {
-          bg: 'transparent',
+          _dark: {
+            bg: 'transparent',
+          },
+          _light: {
+            bg: 'transparent',
+          },
         },
       },
     },

@@ -1,30 +1,30 @@
 from datetime import datetime
 from config import db, ma
-from sqlalchemy import true
+from sqlalchemy import true, event, types
 from marshmallow import fields
 from enum import Enum
 
 
-class LayerStatus(str, Enum):
+class Status(str, Enum):
     offline = "offline"
     online = "online"
     loading = "loading"
-    static = "static"
-    outdated = "outdated"
+    outdated = "outdated"  # special case - calculated for the layer when the expected timeframe is exceeded.
     error = "error"
-
-
-class GranuleStatus(str, Enum):
-    offline = "offline"
-    online = "online"
-    loading = "loading"
-    static = "static"
-    outdated = "outdated"
-    error = "error"
+    not_available = "n/a"
     hr_requested = "hr_requested"
     hr_pending = "hr_pending"
     hr_processing = "hr_processing"
     hr_online = "hr_online"
+
+
+class StatusType(types.TypeDecorator):
+    impl = types.String
+
+    def process_result_value(self, value, dialect):
+        if value not in [status.value for status in Status]:
+            return Status.error.value
+        return value
 
 
 class Granule(db.Model):
@@ -42,7 +42,7 @@ class Granule(db.Model):
     ts_dlrequest = db.Column(db.DateTime())
     ts_downloaded = db.Column(db.DateTime())
     ts_gsingest = db.Column(db.DateTime())
-    status = db.Column(db.Enum(GranuleStatus))
+    status = db.Column(StatusType)
     geom_extent = db.Column(db.String())
     geojson_extent = db.Column(db.JSON())
 
@@ -81,7 +81,7 @@ class Product(db.Model):
     label = db.Column(db.String())
     attribution = db.Column(db.String())
     hemisphere = db.Column(db.String(1))
-    status = db.Column(db.Enum(LayerStatus))
+    status = db.Column(StatusType)
 
     # GeoServer configuration
     gs_layername = db.Column(db.String())
