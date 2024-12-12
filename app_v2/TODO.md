@@ -1,4 +1,5 @@
 # Todo:
+ [ ] - properly handle generatign links to the IWS viewer
  [ ] - Refine styles for programmatic map layers
  [ ] - Health check of mobile app display and functionality
  [ ] - handle refreshing and resyncing layers regularly.

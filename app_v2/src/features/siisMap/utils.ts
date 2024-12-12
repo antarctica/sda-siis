@@ -12,6 +12,7 @@ import {
   LayerTimeInfo,
 } from '@/features/layersManagement/components/LayerManager/machines/types';
 import { LayerDisplayMode, MapGranule, MapProduct, OGCType } from '@/types';
+import { extractDateParts } from '@/utils/dateUtils';
 
 import { Theme } from '../../contexts/Theme/useTheme';
 import {
@@ -119,7 +120,7 @@ export function createWFSLayer(layer: MapProduct, visible: boolean) {
 }
 
 export function createImageryFootprints(granules: MapGranule[]): ImageryFootprint[] {
-  const footprints = granules.map(({ geojson_extent, timestamp, id }) => {
+  const footprints = granules.map(({ geojson_extent, filename_dl, timestamp, id }) => {
     if (!geojson_extent || !geojson_extent.coordinates) return;
 
     // Create a Polygon from GeoJSON
@@ -129,7 +130,7 @@ export function createImageryFootprints(granules: MapGranule[]): ImageryFootprin
     });
 
     const attributes: ImageryFootprintAttributes = {
-      title: timestamp ?? '',
+      title: filename_dl ?? '',
       timestamp: timestamp ?? '',
       footprintId: id ?? '',
     };
@@ -200,4 +201,18 @@ export function getLayerDisplayMode(layer: MapProduct): LayerDisplayMode {
   if (layer.static) return 'Static';
   if (layer.render_exclusive) return 'SingleTimeSlice';
   return 'MultipleTimeSliceCollection';
+}
+
+export function generateIWSViewerURL(filename: string, datetime: string, template: string) {
+  const { year, month } = extractDateParts(datetime);
+
+  // If no dots in filename, use the whole filename
+  const filenameWithoutExtension = filename.includes('.') ? filename.split('.')[0]! : filename;
+
+  const url = template
+    .replace('{filename}', filenameWithoutExtension)
+    .replace('{year}', year)
+    .replace('{month}', month);
+
+  return url;
 }

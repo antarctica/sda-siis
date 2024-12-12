@@ -42,13 +42,13 @@ export function useLayerStatus(layerId: string) {
   return status;
 }
 
-export function useLayerIWSViewTemplate(layerId: string) {
-  const template = LayerManagerContext.useSelector(({ context }) => {
+export function useLayerIWSViewURL(layerId: string) {
+  const url = LayerManagerContext.useSelector(({ context }) => {
     const layer = context.layers.find((layer) => layer.layerActor.id === layerId);
-    return layer?.layerData?.params.iwsViewTemplate;
+    return layer?.layerData?.params.iwsViewerURL;
   });
 
-  return template;
+  return url;
 }
 
 export function useLayerDisplayMode(layerId: string) {

@@ -19,7 +19,7 @@ export type LayerData = {
     style?: string;
     status: LayerStatus;
     displayMode?: LayerDisplayMode;
-    iwsViewTemplate?: string;
+    iwsViewerURL?: string;
   };
 } | null;
 

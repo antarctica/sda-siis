@@ -16,7 +16,7 @@ const workFlowItemRecipe = sva({
       '--bullet-size': '1.5rem',
       '--workflow-item-spacing': '2rem',
       '--item-content-padding-start': '2rem',
-      '--line-width': '2px',
+      '--line-width': '3px',
     },
     titleContainer: {
       w: 'full',

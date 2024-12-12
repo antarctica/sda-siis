@@ -125,9 +125,9 @@ export function convertDaysToRange(daysBack: number): DateRange {
 export function extractDateParts(isoDateString: string) {
   const isoDate = safeParseUTC(isoDateString);
 
-  const year = isoDate?.year.toString();
-  const month = String(isoDate?.month.toString()).padStart(2, '0');
-  const day = String(isoDate?.day.toString()).padStart(2, '0');
+  const year = String(isoDate?.year);
+  const month = String(isoDate?.month).padStart(2, '0');
+  const day = String(isoDate?.day).padStart(2, '0');
 
   return { year, month, day };
 }

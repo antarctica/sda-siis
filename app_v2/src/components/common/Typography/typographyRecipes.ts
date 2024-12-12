@@ -68,6 +68,7 @@ export const sharedTypographyRecipe = cva({
     underline: {
       true: {
         textDecoration: 'underline',
+        textUnderlineOffset: '[2px]',
       },
     },
     listitem: {

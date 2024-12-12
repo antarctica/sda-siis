@@ -25,7 +25,7 @@ function LayerManager() {
       <ul
         className={css({
           display: 'flex',
-          gap: '2',
+          gap: '3',
           flexDirection: 'column',
         })}
       >

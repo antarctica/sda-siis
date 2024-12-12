@@ -14,6 +14,7 @@ import { LayerTimeInfo } from '@/features/layersManagement/components/LayerManag
 import {
   createImageryFootprintLayer,
   createOGCLayer,
+  generateIWSViewerURL,
   getLayerDisplayMode,
   ogcPriority,
 } from '@/features/siisMap/utils';
@@ -190,6 +191,15 @@ export function useMapInitialization(crs: MapCRS) {
                   timestamp: string;
                 };
 
+                let iwsViewerURL = '';
+                if (layerConfig.iws_viewer_template) {
+                  iwsViewerURL = generateIWSViewerURL(
+                    layer.title,
+                    timestamp,
+                    layerConfig.iws_viewer_template,
+                  );
+                }
+
                 const utcDate = safeParseUTC(timestamp);
                 if (!utcDate) return;
                 const layerName = dateFormatter.format(utcDate.toDate());
@@ -200,7 +210,7 @@ export function useMapInitialization(crs: MapCRS) {
                     params: {
                       style: layerConfig.style,
                       status: layerConfig.status,
-                      iwsViewTemplate: layerConfig.iws_viewer_template,
+                      iwsViewerURL,
                     },
                   },
                   layerId: id,

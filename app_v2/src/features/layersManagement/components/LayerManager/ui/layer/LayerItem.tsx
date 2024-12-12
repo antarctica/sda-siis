@@ -12,7 +12,7 @@ import SvgIcon from '@/components/common/SvgIcon';
 import { Text } from '@/components/common/Typography';
 
 import { LayerStatusBadge, LayerStatusCircle } from '../../../LayerStatus';
-import { useLayerIWSViewTemplate, useLayerStatus } from '../../hooks/selectors';
+import { useLayerIWSViewURL, useLayerStatus } from '../../hooks/selectors';
 import { isRangeTimeInfo, isSingleTimeInfo, LayerMachineActor } from '../../machines/types';
 import LayerDatePicker from './LayerDatePicker';
 import LayerDateRangePicker from './LayerDateRangePicker';
@@ -33,7 +33,13 @@ const layerItemRecipe = sva({
     isEnabled: {
       true: {
         wrapper: {
-          bg: 'bg.surface.accent',
+          _dark: {
+            bg: 'bg.surface.accent',
+          },
+          _light: {
+            // eslint-disable-next-line @pandacss/no-hardcoded-color
+            bg: '[bg.surface.accent/70]',
+          },
         },
       },
       false: {
@@ -45,7 +51,13 @@ const layerItemRecipe = sva({
     inGroup: {
       true: {
         wrapper: {
-          bg: 'bg.surface.accent',
+          _dark: {
+            bg: 'bg.surface.accent',
+          },
+          _light: {
+            // eslint-disable-next-line @pandacss/no-hardcoded-color
+            bg: '[bg.surface.accent/70]',
+          },
         },
       },
     },
@@ -81,7 +93,7 @@ export function LayerItem({
     timeInfo: context.timeInfo,
   }));
   const status = useLayerStatus(layerActor.id);
-  const iwsViewTemplate = useLayerIWSViewTemplate(layerActor.id);
+  const iwsViewURL = useLayerIWSViewURL(layerActor.id);
   const isEnabled = useSelector(layerActor, (state) => state.matches('enabled'));
 
   const { wrapper, layerToggle } = layerItemRecipe({ isEnabled, inGroup });
@@ -158,7 +170,7 @@ export function LayerItem({
         />
       )}
       {showProperties && (
-        <Stack flexDirection="column" w="full">
+        <Stack gap="0" w="full" mb="2">
           <Slider
             label="Opacity"
             minValue={0}
@@ -173,9 +185,9 @@ export function LayerItem({
               });
             }}
           />
-          {iwsViewTemplate && (
-            <LinkButton href={iwsViewTemplate} target="_blank">
-              View High Res Image
+          {iwsViewURL && (
+            <LinkButton variant="outline" size="md" href={iwsViewURL} target="_blank">
+              View High Res Image (External)
             </LinkButton>
           )}
         </Stack>
