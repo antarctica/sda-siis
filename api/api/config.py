@@ -22,8 +22,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["SERVICE_PG_CONN"]
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# Increasing the pool size from default 5 to 100 to prevent overrunning pool size limit
-app.config["SQLALCHEMY_POOL_SIZE"] = 100
+# Configure SQLAlchemy connection pool
+app.config["SQLALCHEMY_POOL_SIZE"] = 20  # Default is 5, recommended to keep it moderate
+app.config["SQLALCHEMY_POOL_TIMEOUT"] = 30  # Connection timeout in seconds
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 1800  # Recycle connections after 30 minutes
+app.config["SQLALCHEMY_MAX_OVERFLOW"] = 10  # Allow up to 10 connections over pool size
 
 # Create the SQLAlchemy db instance
 db = SQLAlchemy(app)
